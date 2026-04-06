@@ -1,0 +1,31 @@
+[
+  {
+    "id": "promo-001",
+    "title": "ฉลอง 21 ปี ASAKAN",
+    "titleEn": "ASAKAN 21st Anniversary",
+    "subtitle": "เปย์ไม่ยั้ง ปังไม่หยุด",
+    "description": "พิเศษสุดๆ ฉลองครบรอบ 21 ปี Wela Condo รามคำแหง 186 ราคาเริ่มต้นเพียง 1.21 ล้านบาท! สิทธิ์พิเศษมีจำนวนจำกัด รีบจองก่อนหมดโปร",
+    "descriptionEn": "Special 21st anniversary promotion for Wela Condo Ramkhamhaeng 186, starting at just 1.21 million baht! Limited slots available.",
+    "project": "Wela Ramkhamhaeng",
+    "discount": "ราคาพิเศษ เริ่มต้น 1.21 ล้าน",
+    "validUntil": "2025-12-31",
+    "ctaText": "จองด่วน ก่อนหมดโปร",
+    "ctaUrl": "/contact",
+    "isActive": true,
+    "image": "/images/promo-21.jpg",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "title": "โปรแรงแซงมหกรรม",
+    "subtitle": "มหกรรม ยังหยุดไม่อยู่",
+    "description": "พิเศษสุดๆกับทุกโครงการของ Asakan กับโปรสุดร้อนแรง",
+    "project": "",
+    "discount": "ราคาพิเศษเริ่ม 1.39 ล้าน",
+    "validUntil": "",
+    "ctaText": "จองด่วน ก่อนหมดโปร",
+    "ctaUrl": "/contact",
+    "isActive": true,
+    "id": "mnk3nns7zc3wb74v7ej",
+    "createdAt": "2026-04-04T08:57:50.119Z"
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "siteName": "ASAKAN",
+  "siteTagline": "Your happiness is our hope",
+  "siteDescription": "ASAKAN - ผู้พัฒนาอสังหาริมทรัพย์ชั้นนำ คอนโดมิเนียมคุณภาพราคาเข้าถึงได้ในกรุงเทพฯ กว่า 21 ปี",
+  "siteDescriptionEn": "ASAKAN - Leading real estate developer with quality condominiums at accessible prices in Bangkok for over 21 years.",
+  "phone": [
+    "082-526-5566",
+    "02-059-9655",
+    "099-198-2940"
+  ],
+  "email": "info@asakan.co.th",
+  "address": "191 ถนนรามคำแหง แขวงสะพานสูง เขตสะพานสูง กรุงเทพฯ 10240",
+  "addressEn": "191 Ramkhamhaeng Road, Saphan Sung District, Bangkok 10240",
+  "facebook": "https://www.facebook.com/Asakandevelopment",
+  "line": "@asakan",
+  "mapEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.9!2d100.6!3d13.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zAsakan!5e0!3m2!1sen!2sth!4v1",
+  "heroTitle": "Freedom of Life",
+  "heroSubtitle": "Your happiness is our hope",
+  "heroDescription": "20 ปีแห่งการพัฒนาองค์กรที่แข็งแกร่ง และส่งเสริมการพัฒนาชุมชนอย่างยั่งยืน เป็นแรงผลักดันที่ทำให้ธุรกิจ ASAKAN ยืนหยัดมากว่า 20 ปี",
+  "heroCTA": "ดูโครงการทั้งหมด",
+  "heroCTAUrl": "/projects",
+  "facebookPixelId": "1407584280814416",
+  "googleAnalyticsId": "",
+  "metaKeywords": "คอนโด, คอนโดมิเนียม, อสังหาริมทรัพย์, ASAKAN, รามคำแหง, พหลโยธิน, กรุงเทพ, ราคาถูก, ผ่อนน้อย",
+  "ogImage": "/images/og-image.jpg"
+}
