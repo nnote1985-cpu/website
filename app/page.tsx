@@ -259,32 +259,25 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* 9. FINAL CTA - ปิดท้ายความประทับใจ (แทนที่ด้วยดีไซน์ใหม่) */}
-        <section className="py-24 relative overflow-hidden bg-gradient-to-br from-[#e53935] via-[#d32f2f] to-[#b71c1c]">
-          
-          {/* แสง Flare ด้านหลัง */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] -mr-40 -mt-40 pointer-events-none" />
+        {/* 9. FINAL CTA - เน้นสีน้ำเงินและปุ่มแดง (10%) */}
+        <section className="py-24 relative overflow-hidden bg-[#1a2d6b]">
+          {/* Flare Effects (คงไว้ครบ) */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-[100px] -mr-40 -mt-40 pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-black/10 rounded-full blur-[80px] -ml-20 -mb-20 pointer-events-none" />
           
           <div className="max-w-4xl mx-auto px-6 text-center text-white relative z-10">
-            
-            <span className="text-white/80 uppercase tracking-[0.3em] text-xs md:text-sm font-semibold mb-4 block">
+            <span className="text-white/40 uppercase tracking-[0.3em] text-xs font-semibold mb-4 block">
               Start Your Journey
             </span>
-            
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight drop-shadow-sm">
-              Ready to Find Your Dream Home?
-            </h2>
-            
-            <p className="text-white/90 text-lg mb-12 font-light max-w-2xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Ready to Find Your Dream Home?</h2>
+            <p className="text-white/60 text-lg mb-12 font-light max-w-2xl mx-auto">
               ปรึกษาเรื่องกู้ ซื้อ หรือลงทุนคอนโดกับผู้เชี่ยวชาญจาก ASAKAN ได้ฟรี ไม่มีค่าใช้จ่าย พร้อมรับข้อเสนอสุดพิเศษวันนี้
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-              
               <Link 
                 href="/contact" 
-                className="w-full sm:w-auto bg-white text-[#e53935] font-bold px-10 py-4 rounded-full hover:bg-slate-900 hover:text-white transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.15)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] text-[15px] tracking-wide"
+                className="w-full sm:w-auto bg-[#e53935] text-white font-bold px-10 py-4 rounded-full hover:bg-white hover:text-[#e53935] transition-all duration-300 shadow-xl text-[15px] tracking-wide"
               >
                 ติดต่อโครงการ
               </Link>
@@ -293,14 +286,11 @@ export default function HomePage() {
                 href="https://line.me/ti/p/~@asakan" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="w-full sm:w-auto bg-[#00c300] text-white font-bold px-10 py-4 rounded-full hover:bg-[#00a000] transition-all duration-300 shadow-[0_8px_25px_rgba(0,195,0,0.4)] hover:shadow-[0_8px_30px_rgba(0,195,0,0.6)] text-[15px] flex items-center justify-center gap-3 tracking-wide"
+                className="w-full sm:w-auto border border-white/20 text-white font-bold px-10 py-4 rounded-full hover:bg-white/10 transition-all text-[15px] flex items-center justify-center gap-3 tracking-wide"
               >
-                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
-                  <path d="M8 0C3.582 0 0 3.13 0 6.993c0 3.492 3.1 6.407 7.286 6.926l-.288 1.073c-.049.183.118.35.3.3l3.3-1.07C13.2 13.2 16 10.3 16 6.993 16 3.13 12.418 0 8 0z" />
-                </svg>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.582 0 0 3.13 0 6.993c0 3.492 3.1 6.407 7.286 6.926l-.288 1.073c-.049.183.118.35.3.3l3.3-1.07C13.2 13.2 16 10.3 16 6.993 16 3.13 12.418 0 8 0z" /></svg>
                 ทัก LINE ปรึกษาฟรี
               </a>
-              
             </div>
           </div>
         </section>

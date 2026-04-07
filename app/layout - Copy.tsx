@@ -4,7 +4,6 @@ import './globals.css';
 import { readData } from '@/lib/db';
 import FacebookPixel from '@/components/FacebookPixel';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
-import ClientHeader from '@/components/ClientHeader'; //
 
 // 📍 2. ตั้งค่าฟอนต์ Prompt
 const promptFont = Prompt({
@@ -128,9 +127,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${promptFont.className} antialiased`}>
         {gaId && <GoogleAnalytics gaId={gaId} />}
         {pixelId && <FacebookPixel pixelId={pixelId} />}
-
-{/* 📍 [เพิ่มใหม่] วาง Navbar หลักตรงนี้ มันจะเช็คและซ่อนตัวเองในหน้าโปรเจกต์ */}
-        <ClientHeader />
         {children}
       </body>
     </html>

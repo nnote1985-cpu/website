@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProjectCard from '@/components/home/ProjectCard';
 import FloatingCTA from '@/components/FloatingCTA';
+import { MapPin, Phone, ArrowRight, Camera, Layout as LayoutIcon, PlayCircle, Layers, CheckCircle2, ChevronLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'โครงการทั้งหมด | ASAKAN คอนโดมิเนียมกรุงเทพฯ',

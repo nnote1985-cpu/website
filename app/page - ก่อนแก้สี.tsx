@@ -25,7 +25,7 @@ interface Settings {
   heroDescription: string;
   heroCTA: string;
   heroCTAUrl: string;
-	heroImages?: string[];
+  heroImages?: string[];
 }
 
 interface Project {
@@ -93,7 +93,7 @@ export default function HomePage() {
           description={settings.heroDescription}
           ctaText={settings.heroCTA}
           ctaUrl={settings.heroCTAUrl}
-	images={settings.heroImages}
+          images={settings.heroImages}
         />
 
         {/* 2. PROMOTION BANNER - แถบโปรโมชั่น */}
@@ -113,15 +113,17 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 text-center md:text-left gap-6">
               <div>
-                <p className="text-[#f4511e] font-bold tracking-widest text-xs uppercase mb-2">Our Projects</p>
-                <h2 className="text-4xl md:text-5xl font-black text-slate-900">โครงการคอนโดมิเนียม</h2>
+                {/* 📍 เปลี่ยนเป็นสีแดง */}
+                <p className="text-[#e53935] font-bold tracking-widest text-xs uppercase mb-2">Our Projects</p>
+                <h2 className="text-4xl md:text-5xl font-bold text-slate-900">โครงการคอนโดมิเนียม</h2>
                 <p className="text-slate-500 mt-3 max-w-xl text-sm">
                   เลือกที่อยู่อาศัยที่ตรงใจ ใกล้รถไฟฟ้า ราคาเข้าถึงได้ พร้อมสิ่งอำนวยความสะดวกครบครัน
                 </p>
               </div>
               <Link
                 href="/projects"
-                className="hidden md:flex items-center gap-2 text-slate-900 font-bold hover:text-[#f4511e] transition-colors"
+                // 📍 เปลี่ยน Hover เป็นสีแดง
+                className="hidden md:flex items-center gap-2 text-slate-900 font-bold hover:text-[#e53935] transition-colors"
               >
                 ดูโครงการทั้งหมด <ArrowRight size={20} />
               </Link>
@@ -151,16 +153,16 @@ export default function HomePage() {
               
               {/* ฝั่งซ้าย: หัวข้อและคำโปรย (Sticky on scroll) */}
               <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit">
-                <div className="w-12 h-1 bg-[#f4511e] mb-6" />
-                <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-[1.1] mb-6">
+                {/* 📍 เปลี่ยนขีดตกแต่งและไฮไลต์เป็นสีแดง */}
+                <div className="w-12 h-1 bg-[#e53935] mb-6" />
+                <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-[1.1] mb-6">
                   Why <br />
-                  <span className="text-[#f4511e]">ASAKAN?</span>
+                  <span className="text-[#e53935]">ASAKAN?</span>
                 </h2>
                 <p className="text-slate-500 text-lg leading-relaxed mb-8">
                   กว่า 21 ปีที่เราสร้างสรรค์ที่อยู่อาศัยบนมาตรฐานความคุ้มค่าและความมั่นคง 
                   เพื่อส่งมอบคุณภาพชีวิตที่ดีที่สุดให้กับคุณ
                 </p>
-                {/* ตกแต่งด้วยเส้นกราฟิกจางๆ */}
                 <div className="hidden lg:block w-full h-[1px] bg-slate-100" />
               </div>
 
@@ -173,17 +175,17 @@ export default function HomePage() {
                   { icon: <TrendingUp size={32} strokeWidth={1.5} />, title: 'Prime Location', desc: 'เน้นทำเลศักยภาพใกล้รถไฟฟ้า เพื่อการอยู่อาศัยและการลงทุน' },
                 ].map((item, index) => (
                   <div key={item.title} className="group relative p-8 rounded-3xl transition-all duration-500 hover:bg-slate-50 border border-transparent hover:border-slate-100 hover:shadow-xl hover:shadow-slate-200/50">
-                    {/* Index Number จางๆ ด้านหลัง */}
-                    <span className="absolute top-6 right-8 text-5xl font-black text-slate-100/50 group-hover:text-[#f4511e]/10 transition-colors duration-500">
+                    {/* Index Number จางๆ ด้านหลัง 📍 เปลี่ยน Hover เป็นสีแดง */}
+                    <span className="absolute top-6 right-8 text-5xl font-bold text-slate-100/50 group-hover:text-[#e53935]/10 transition-colors duration-500">
                       0{index + 1}
                     </span>
                     
-                    {/* Icon Box */}
-                    <div className="w-14 h-14 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#f4511e] group-hover:shadow-md transition-all duration-500 mb-6">
+                    {/* Icon Box 📍 เปลี่ยน Hover เป็นสีแดง */}
+                    <div className="w-14 h-14 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#e53935] group-hover:shadow-md transition-all duration-500 mb-6">
                       {item.icon}
                     </div>
 
-                    <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#f4511e] transition-colors">
+                    <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#e53935] transition-colors">
                       {item.title}
                     </h3>
                     
@@ -202,8 +204,9 @@ export default function HomePage() {
         <section className="py-24 bg-slate-900">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
-              <p className="text-orange-500 font-bold text-xs uppercase tracking-[0.3em] mb-3">Service & Care</p>
-              <h2 className="text-4xl font-black text-white">ครบจบในที่เดียว</h2>
+              {/* 📍 เปลี่ยนเป็นสีแดง */}
+              <p className="text-[#e53935] font-bold text-xs uppercase tracking-[0.3em] mb-3">Service & Care</p>
+              <h2 className="text-4xl font-bold text-white">ครบจบในที่เดียว</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
@@ -216,7 +219,8 @@ export default function HomePage() {
                   <p className="text-slate-400 text-sm leading-relaxed mb-8">{service.desc}</p>
                   <Link
                     href={service.href}
-                    className="inline-flex items-center gap-2 text-[#f4511e] font-bold text-sm group-hover:gap-4 transition-all uppercase tracking-widest"
+                    // 📍 เปลี่ยนเป็นสีแดง
+                    className="inline-flex items-center gap-2 text-[#e53935] font-bold text-sm group-hover:gap-4 transition-all uppercase tracking-widest"
                   >
                     {service.cta} <ArrowRight size={16} />
                   </Link>
@@ -237,10 +241,12 @@ export default function HomePage() {
             <div className="max-w-7xl mx-auto px-6">
               <div className="flex items-end justify-between mb-12">
                 <div>
-                  <p className="text-[#f4511e] font-bold tracking-widest text-xs uppercase mb-2">Insight</p>
-                  <h2 className="text-4xl font-black text-slate-900">บทความล่าสุด</h2>
+                  {/* 📍 เปลี่ยนเป็นสีแดง */}
+                  <p className="text-[#e53935] font-bold tracking-widest text-xs uppercase mb-2">Insight</p>
+                  <h2 className="text-4xl font-bold text-slate-900">บทความล่าสุด</h2>
                 </div>
-                <Link href="/news" className="text-slate-400 font-bold hover:text-[#f4511e] transition-colors flex items-center gap-2">
+                {/* 📍 เปลี่ยน Hover เป็นสีแดง */}
+                <Link href="/news" className="text-slate-400 font-bold hover:text-[#e53935] transition-colors flex items-center gap-2">
                   View All <ArrowRight size={18} />
                 </Link>
               </div>
@@ -253,23 +259,52 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* 9. FINAL CTA - ปิดท้ายความประทับใจ */}
-        <section className="py-24 bg-[#f4511e] relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32" />
+        {/* 9. FINAL CTA - ปิดท้ายความประทับใจ (แทนที่ด้วยดีไซน์ใหม่) */}
+        <section className="py-24 relative overflow-hidden bg-gradient-to-br from-[#e53935] via-[#d32f2f] to-[#b71c1c]">
+          
+          {/* แสง Flare ด้านหลัง */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] -mr-40 -mt-40 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-black/10 rounded-full blur-[80px] -ml-20 -mb-20 pointer-events-none" />
+          
           <div className="max-w-4xl mx-auto px-6 text-center text-white relative z-10">
-            <h2 className="text-4xl md:text-5xl font-black mb-6 italic tracking-tight">Ready to find your Dream Home?</h2>
-            <p className="text-white/80 text-lg mb-12">ปรึกษาเรื่องกู้ ซื้อ หรือลงทุนคอนโดกับผู้เชี่ยวชาญจาก ASAKAN ได้ทันที</p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link href="/contact" className="bg-white text-[#f4511e] font-bold px-12 py-5 rounded-2xl hover:bg-slate-900 hover:text-white transition-all shadow-xl text-lg">
+            
+            <span className="text-white/80 uppercase tracking-[0.3em] text-xs md:text-sm font-semibold mb-4 block">
+              Start Your Journey
+            </span>
+            
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight drop-shadow-sm">
+              Ready to Find Your Dream Home?
+            </h2>
+            
+            <p className="text-white/90 text-lg mb-12 font-light max-w-2xl mx-auto">
+              ปรึกษาเรื่องกู้ ซื้อ หรือลงทุนคอนโดกับผู้เชี่ยวชาญจาก ASAKAN ได้ฟรี ไม่มีค่าใช้จ่าย พร้อมรับข้อเสนอสุดพิเศษวันนี้
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+              
+              <Link 
+                href="/contact" 
+                className="w-full sm:w-auto bg-white text-[#e53935] font-bold px-10 py-4 rounded-full hover:bg-slate-900 hover:text-white transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.15)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] text-[15px] tracking-wide"
+              >
                 ติดต่อโครงการ
               </Link>
-              <a href="https://line.me/ti/p/~@asakan" target="_blank" rel="noopener noreferrer" className="bg-[#00c300] text-white font-bold px-12 py-5 rounded-2xl hover:scale-105 transition-all shadow-xl text-lg flex items-center justify-center gap-3">
-                <svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.582 0 0 3.13 0 6.993c0 3.492 3.1 6.407 7.286 6.926l-.288 1.073c-.049.183.118.35.3.3l3.3-1.07C13.2 13.2 16 10.3 16 6.993 16 3.13 12.418 0 8 0z" /></svg>
+              
+              <a 
+                href="https://line.me/ti/p/~@asakan" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-full sm:w-auto bg-[#00c300] text-white font-bold px-10 py-4 rounded-full hover:bg-[#00a000] transition-all duration-300 shadow-[0_8px_25px_rgba(0,195,0,0.4)] hover:shadow-[0_8px_30px_rgba(0,195,0,0.6)] text-[15px] flex items-center justify-center gap-3 tracking-wide"
+              >
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M8 0C3.582 0 0 3.13 0 6.993c0 3.492 3.1 6.407 7.286 6.926l-.288 1.073c-.049.183.118.35.3.3l3.3-1.07C13.2 13.2 16 10.3 16 6.993 16 3.13 12.418 0 8 0z" />
+                </svg>
                 ทัก LINE ปรึกษาฟรี
               </a>
+              
             </div>
           </div>
         </section>
+
       </main>
 
       <Footer />
