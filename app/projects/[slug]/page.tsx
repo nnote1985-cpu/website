@@ -8,14 +8,25 @@ import ProjectContent from '@/components/projects/ProjectContent';
 import dynamic from 'next/dynamic';
 
 interface Project {
+  id?: string;
   slug: string;
   name: string;
+  nameEn?: string;
   status: string;
-  concept: string;
-  description: string;
+  type: string;           // 📍 ตัวนี้แหละที่ Vercel ฟ้องว่าหายไป!
+  floors?: number;
+  units?: number;
   priceMin: number;
+  priceMax?: number;
   location: string;
   bts: string;
+  concept: string;
+  conceptArticle?: string; // 📍 รองรับบทความที่เราเพิ่งเพิ่ม
+  projectArea?: string;    // 📍 รองรับพื้นที่โครงการ
+  parking?: string;        // 📍 รองรับที่จอดรถ
+  description: string;
+  descriptionEn?: string;
+  features: string[];
   image: string;
   heroImage?: string;
   promoBanner?: string;
@@ -23,7 +34,8 @@ interface Project {
   floorPlans?: string[];
   roomPlans?: { type: string; image: string }[];
   googleMapUrl?: string;
-  features: string[];
+  isFeatured?: boolean;
+  isSoldOut?: boolean;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
