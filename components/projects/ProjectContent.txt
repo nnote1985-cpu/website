@@ -5,13 +5,13 @@ import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image
 
 export default function ProjectContent({ project }: { project: any }) {
   // ==========================================
-  // 📍 STATE สำหรับ GALLERY (รูปโครงการ)
+  // 📍 STATE สำหรับ GALLERY
   // ==========================================
   const [activeImg, setActiveImg] = useState(0);
   const [isGalleryFullscreen, setIsGalleryFullscreen] = useState(false);
 
   // ==========================================
-  // 📍 STATE สำหรับ PLANS (แบบแปลน)
+  // 📍 STATE สำหรับ PLANS
   // ==========================================
   const [activeTab, setActiveTab] = useState<'room' | 'floor'>(
     project.roomPlans?.length > 0 ? 'room' : 'floor'
@@ -20,7 +20,7 @@ export default function ProjectContent({ project }: { project: any }) {
   const [isPlanFullscreen, setIsPlanFullscreen] = useState(false);
 
   // ==========================================
-  // 📍 ระบบจัดการรูปพัง (Error Handling)
+  // 📍 ระบบจัดการรูปพัง
   // ==========================================
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
@@ -137,6 +137,8 @@ export default function ProjectContent({ project }: { project: any }) {
               key={`fs-${currentImage}`}
               src={currentImage} 
               onError={() => handleImageError(currentImage)}
+              loading="lazy"
+              decoding="async"
               className="w-auto max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl select-none animate-in fade-in zoom-in-95 duration-500" 
               alt="Fullscreen Gallery"
               onTouchStart={onTouchStart}
@@ -162,7 +164,7 @@ export default function ProjectContent({ project }: { project: any }) {
                   onClick={() => setActiveImg(i)} 
                   className={`w-16 h-12 md:w-24 md:h-16 shrink-0 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${safeActiveImg === i ? 'border-[#e53935] opacity-100 scale-105 shadow-[0_0_15px_rgba(229,57,53,0.5)]' : 'border-transparent opacity-40 hover:opacity-100'}`}
                 >
-                  <img src={img} className="w-full h-full object-cover" alt={`Thumb ${i}`} />
+                  <img src={img} loading="lazy" decoding="async" className="w-full h-full object-cover" alt={`Thumb ${i}`} />
                 </div>
               ))}
             </div>
@@ -196,6 +198,8 @@ export default function ProjectContent({ project }: { project: any }) {
             <img 
               key={`plan-fs-${activeTab}-${activePlanIndex}`}
               src={activeTab === 'room' ? project.roomPlans[activePlanIndex]?.image : project.floorPlans[activePlanIndex]} 
+              loading="lazy"
+              decoding="async"
               className="w-auto max-w-full max-h-[85vh] object-contain select-none animate-in fade-in zoom-in-95 duration-500" 
               alt="Fullscreen Plan"
               onTouchStart={onTouchStart}
@@ -221,13 +225,11 @@ export default function ProjectContent({ project }: { project: any }) {
 
 
       {/* =========================================
-          📍 PROJECT CONCEPT & INFO (ข้อมูลและแนวคิดโครงการ) - NEW!
+          📍 PROJECT CONCEPT & INFO
       ========================================= */}
       <section id="info" className="py-16 md:py-24 bg-[#f8f9fa] border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
-            {/* ฝั่งซ้าย: แนวคิดโครงการ (7 คอลัมน์) */}
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm mb-2">
                 <span className="w-2 h-2 rounded-full bg-[#e53935]"></span>
@@ -241,12 +243,10 @@ export default function ProjectContent({ project }: { project: any }) {
               <div className="w-20 h-1.5 bg-[#e53935] rounded-full"></div>
               
               <p className="text-slate-600 text-lg md:text-xl leading-relaxed whitespace-pre-line pt-2">
-                {/* ถ้ามีบทความให้ใช้บทความ ถ้าไม่มีก็ดึง description มาแทนชั่วคราว */}
                 {project.conceptArticle || project.description}
               </p>
             </div>
 
-            {/* ฝั่งขวา: Factsheet ข้อมูลโครงการ (5 คอลัมน์) */}
             <div className="lg:col-span-5 bg-white rounded-[2rem] p-8 md:p-10 shadow-xl border border-slate-100">
               <h3 className="text-2xl font-black text-[#1a2d6b] mb-6 border-b border-slate-100 pb-4">ข้อมูลโครงการ</h3>
               
@@ -296,7 +296,6 @@ export default function ProjectContent({ project }: { project: any }) {
                 )}
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -323,6 +322,8 @@ export default function ProjectContent({ project }: { project: any }) {
               key={`main-${currentImage}`}
               src={currentImage} 
               onError={() => handleImageError(currentImage)}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 animate-in fade-in zoom-in-[0.98] duration-500" 
               alt="Gallery Main" 
             />
@@ -344,6 +345,8 @@ export default function ProjectContent({ project }: { project: any }) {
                   <img 
                     src={img} 
                     onError={() => handleImageError(img)}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover" 
                     alt={`Thumb ${i}`} 
                   />
@@ -432,6 +435,8 @@ export default function ProjectContent({ project }: { project: any }) {
                     key={`room-img-${activePlanIndex}`}
                     src={project.roomPlans[activePlanIndex].image} 
                     alt={project.roomPlans[activePlanIndex].type}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply" 
                   />
                 )}
@@ -441,6 +446,8 @@ export default function ProjectContent({ project }: { project: any }) {
                     key={`floor-img-${activePlanIndex}`}
                     src={project.floorPlans[activePlanIndex]} 
                     alt={`Floor Plan ${activePlanIndex + 1}`}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply" 
                   />
                 )}
@@ -470,26 +477,45 @@ export default function ProjectContent({ project }: { project: any }) {
                   <MapPin size={32} />
                   <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight">Location</h2>
                 </div>
-                <p className="text-lg text-slate-500 max-w-2xl">{project.location} {project.bts ? `(${project.bts})` : ''}</p>
+                <p className="text-lg text-slate-500 max-w-2xl">
+                  {project.location} {project.bts ? `(${project.bts})` : ''}
+                </p>
               </div>
+              
+              {/* 📍 ปุ่มนี้กดแล้วเปิดหน้าต่างใหม่ (ใช้ URL ปกติได้) */}
               <a 
-                href={project.googleMapUrl} 
+                href={project.googleMapUrl.replace('/embed', '')} // พยายามแปลงกลับเป็น URL ปกติถ้าเป็น embed
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 bg-[#1a2d6b] text-white px-6 py-3 rounded-full font-bold hover:bg-[#e53935] transition-colors whitespace-nowrap"
+                className="inline-flex items-center gap-2 bg-[#1a2d6b] text-white px-6 py-3 rounded-full font-bold hover:bg-[#e53935] transition-colors whitespace-nowrap shadow-lg shadow-blue-900/20 active:scale-95"
               >
                 ดูแผนที่ Google Maps <ChevronRight size={18} />
               </a>
             </div>
 
-            <div className="w-full h-[400px] md:h-[600px] bg-slate-100 rounded-[2rem] overflow-hidden shadow-inner border border-slate-200 relative">
-               <iframe 
-                  src={project.googleMapUrl} 
-                  className="absolute inset-0 w-full h-full border-0" 
-                  loading="lazy" 
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Google Map Location"
-                />
+            {/* 📍 ส่วนของ Iframe (ต้องใช้ URL ที่เป็น /embed เท่านั้น) */}
+            <div className="w-full h-[400px] md:h-[600px] bg-slate-100 rounded-[2rem] overflow-hidden shadow-inner border border-slate-200 relative group">
+               {project.googleMapUrl.includes('embed') ? (
+                 <iframe 
+                    src={project.googleMapUrl} 
+                    className="absolute inset-0 w-full h-full border-0" 
+                    loading="lazy" 
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Google Map Location"
+                  />
+               ) : (
+                 <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-slate-50">
+                    <MapPin size={48} className="text-slate-300 mb-4" />
+                    <p className="text-slate-500 font-medium mb-4">กรุณาใช้ URL แบบ Embed ในไฟล์ JSON เพื่อแสดงแผนที่ตรงนี้</p>
+                    <a 
+                      href={project.googleMapUrl} 
+                      target="_blank" 
+                      className="text-[#e53935] font-bold underline"
+                    >
+                      คลิกเพื่อดูแผนที่บน Google Maps
+                    </a>
+                 </div>
+               )}
             </div>
           </div>
         </section>

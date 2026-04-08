@@ -42,13 +42,19 @@ export default function ElysiumCustom({ project }: { project: any }) {
         style={{ backgroundImage: `url('${heroImageUrl}')` }} 
       />
       
-      {/* 📍 Gradient Overlays (โชว์เฉพาะเวลาแสดง Hero ปกติ) */}
-      {!showPromo && (
-        <>
-          <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent opacity-60" />
-        </>
-      )}
+      {/* 📍 Gradient Overlays (ปรับให้ขาวนวลทั่วทั้งรูปมากขึ้น) */}
+{!showPromo && (
+  <>
+    {/* ชั้นที่ 1: ไล่จากซ้ายมาขวาแบบหนาแน่นขึ้น เพื่อให้ตัวหนังสืออ่านง่ายสุดๆ */}
+    <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/40" />
+    
+    {/* ชั้นที่ 2: ไล่จากล่างขึ้นบน เพื่อให้ฐานรูปดูละมุนเชื่อมกับ Section ถัดไป */}
+    <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent opacity-80" />
+    
+    {/* ชั้นที่ 3: (เพิ่มเติม) เพิ่มแผ่นสีขาวจางๆ ทับทั้งรูปเพื่อคุมโทนให้สว่างเท่ากัน */}
+    <div className="absolute inset-0 bg-white/30 backdrop-overlay" />
+  </>
+)}
 
       {/* --- 📍 Content Area --- */}
       <div className="container mx-auto px-6 md:px-12 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[calc(100vh-80px)]">

@@ -22,12 +22,20 @@
     "image": "/images/projects/elysium-phahol-59/main.jpg",
     "heroImage": "/images/projects/elysium-phahol-59/hero.jpg",
     "promoBanner": "/images/projects/elysium-phahol-59/promo.jpg",
-    "gallery": [
-      "/images/projects/elysium-phahol-59/gallery/1.jpg",
-      "/images/projects/elysium-phahol-59/gallery/2.jpg",
-      "/images/projects/elysium-phahol-59/gallery/3.jpg",
-      "/images/projects/elysium-phahol-59/gallery/4.jpg"
-    ],
+    "gallery": {
+  "perspective": [
+    "/images/projects/elysium-phahol-59/gallery/perspective/1.jpg",
+    "/images/projects/elysium-phahol-59/gallery/perspective/3.jpg"
+  ],
+  "facility": [
+    "/images/projects/elysium-phahol-59/gallery//facility/1.jpg",
+    "/images/projects/elysium-phahol-59/gallery/facility/2.jpg"
+  ],
+  "room": [
+    "/images/projects/elysium-phahol-59/gallery/room/1.jpg",
+    "/images/projects/elysium-phahol-59/gallery/room/3.jpg"
+  ]
+},
     "floorPlans": [
       "/images/projects/elysium-phahol-59/plans/master-plan.jpg",
       "/images/projects/elysium-phahol-59/plans/floor-2-14.jpg"
@@ -101,15 +109,24 @@
     "description": "คอนโดมิเนียม Low-Rise 6 ชั้น 79 ยูนิต บรรยากาศส่วนตัว เงียบสงบ ราคาเข้าถึงได้ เหมาะสำหรับการอยู่อาศัยและลงทุน",
     "descriptionEn": "6-story low-rise condominium with 79 units. Private atmosphere, peaceful, and affordable.",
     "features": ["สระว่ายน้ำ", "ฟิตเนส", "ที่จอดรถ", "CCTV 24 ชั่วโมง", "ล็อบบี้ส่วนกลาง", "สวนพักผ่อน"],
-    "image": "/images/projects/the-celine-bang-chan/main.jpg",
-    "heroImage": "/images/projects/the-celine-bang-chan/hero.jpg",
-    "promoBanner": "",
-    "gallery": [
-      "/images/projects/the-celine-bang-chan/gallery/1.jpg",
-      "/images/projects/the-celine-bang-chan/gallery/2.jpg",
-      "/images/projects/the-celine-bang-chan/gallery/3.jpg",
-      "/images/projects/the-celine-bang-chan/gallery/4.jpg"
-    ],
+    "image": "/images/projects/elysium-phahol-59/main.jpg",
+    "heroImage": "/images/projects/elysium-phahol-59/hero.jpg",
+    "promoBanner": "/images/projects/elysium-phahol-59/promo.jpg",
+    "gallery": {
+  "perspective": [
+    "/images/projects/the-celine-bang-chan/gallery/perspective/1.jpg",
+    "/images/projects/the-celine-bang-chan/gallery/perspective/3.jpg"
+  ],
+  "facility": [
+    "/images/projects/the-celine-bang-chan/gallery//facility/1.jpg",
+    "/images/projects/the-celine-bang-chan/gallery/facility/2.jpg"
+  ],
+  "room": [
+    "/images/projects/the-celine-bang-chan/gallery/room/1.jpg",
+    "/images/projects/the-celine-bang-chan/gallery/room/3.jpg"
+  ]
+},
+
     "floorPlans": [],
     "roomPlans": [
       {"type": "Studio (24–28 ตร.ม.)", "image": "/images/projects/the-celine-bang-chan/plans/room-studio.jpg"},
