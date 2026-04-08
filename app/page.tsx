@@ -112,7 +112,7 @@ export default async function HomePage() {
         {/* 3. Search Section: วางบนพื้นหลังสีเทาอ่อนบางๆ เพื่อแยกเลเยอร์ */}
         <section className="relative z-20 bg-slate-50 py-10 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-6">
-            <SearchSection projects={allProjects} />
+            <SearchSection projects={allProjects as any} />
           </div>
         </section>
 
