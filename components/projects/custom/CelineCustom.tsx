@@ -4,6 +4,8 @@ import { Phone, Sparkles, CheckCircle2 } from 'lucide-react';
 import RegisterFormDark from '@/components/projects/RegisterFormDark';
 
 export default function CelineCustom({ project }: { project: any }) {
+  const phone = project.phone || '0825265566';
+  const phoneTel = phone.replace(/-/g, '');
   // แยกคำเพื่อทำไฮไลท์สีทองที่คำสุดท้าย
   const nameWords = project.name ? project.name.split(' ') : [];
   const lastWord = nameWords.pop();
@@ -75,7 +77,7 @@ export default function CelineCustom({ project }: { project: any }) {
           </div>
           <div>
             <p className="text-[9px] md:text-[10px] font-bold text-white/30 uppercase tracking-widest">Sales Gallery</p>
-            <a href="tel:0825265566" className="text-base md:text-lg font-black text-white hover:text-[#cca464] transition-colors">082-526-5566</a>
+            <a href={`tel:${phoneTel}`} className="text-base md:text-lg font-black text-white hover:text-[#cca464] transition-colors">{phone}</a>
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard, Building2, Tag, Newspaper,
-  MessageSquare, Settings, LogOut, Home, Menu, X, Images
+  MessageSquare, Settings, LogOut, Home, Menu, X, Images, ImageIcon
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -14,7 +14,8 @@ const NAV = [
   { label: 'โปรโมชั่น', href: '/admin/promotions', icon: <Tag size={18} /> },
   { label: 'ข่าวสาร', href: '/admin/news', icon: <Newspaper size={18} /> },
   { label: 'ข้อความติดต่อ', href: '/admin/contacts', icon: <MessageSquare size={18} /> },
-    { label: 'รูปภาพหน้าแรก', href: '/admin/hero-images', icon: <Images size={18} /> }, // 📍 2. เพิ่มเมนูนี้เข้าไป
+    { label: 'รูปภาพหน้าแรก', href: '/admin/hero-images', icon: <Images size={18} /> },
+  { label: 'Hero แต่ละโครงการ', href: '/admin/project-heroes', icon: <ImageIcon size={18} /> },
   { label: 'ตั้งค่าเว็บไซต์', href: '/admin/settings', icon: <Settings size={18} /> },
 ];
 

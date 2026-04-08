@@ -4,6 +4,8 @@ import { Phone, Sparkles, CheckCircle2 } from 'lucide-react';
 import RegisterForm from '@/components/projects/RegisterForm';
 
 export default function WelaCustom({ project }: { project: any }) {
+  const phone = project.phone || '0825265566';
+  const phoneTel = phone.replace(/-/g, '');
   // แยกคำเพื่อทำไฮไลท์สีแดงที่คำสุดท้าย
   const nameWords = project.name ? project.name.split(' ') : [];
   const lastWord = nameWords.pop();
@@ -82,7 +84,7 @@ export default function WelaCustom({ project }: { project: any }) {
           </div>
           <div>
             <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sales Gallery</p>
-            <a href="tel:0825265566" className="text-base md:text-lg font-black text-[#1a2d6b] hover:text-[#e53935] transition-colors">082-526-5566</a>
+            <a href={`tel:${phoneTel}`} className="text-base md:text-lg font-black text-[#1a2d6b] hover:text-[#e53935] transition-colors">{phone}</a>
           </div>
         </div>
       </div>

@@ -27,6 +27,7 @@ body {
 }
 
 /* 📍 Scrollbar เปลี่ยนเป็นสีฟ้าเพื่อให้ดู Soft ลง */
+::-webkit-scrollbar { height: 2px; width: 2px; }
 ::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 3px; }
 
 /* 📍 Hero Gradient ปรับให้เน้นโทนฟ้า-ขาว หรือ ฟ้า-แดงจางๆ */

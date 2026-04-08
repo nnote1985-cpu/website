@@ -19,14 +19,16 @@ interface Project {
   description: string;
   image: string;
   isFeatured: boolean;
-  isSoldOut: boolean;
+  fbPixelId: string;
+  facebookUrl: string;
+  phone: string;
 }
 
 const EMPTY: Omit<Project, 'id'> = {
   slug: '', name: '', status: 'active', type: 'Low-Rise Condominium',
   floors: 8, units: 100, priceMin: 1200000, priceMax: 3000000,
   location: '', bts: '', concept: '', description: '', image: '',
-  isFeatured: true, isSoldOut: false,
+  isFeatured: true, fbPixelId: '', facebookUrl: '', phone: '',
 };
 
 const STATUS_OPTIONS = [
@@ -34,6 +36,30 @@ const STATUS_OPTIONS = [
   { value: 'coming-soon', label: 'เร็วๆ นี้' },
   { value: 'sold-out', label: 'ขายหมดแล้ว' },
 ];
+
+// แปลง snake_case จาก DB → camelCase สำหรับ form
+function mapProject(p: Record<string, unknown>): Project {
+  return {
+    id: p.id as string,
+    slug: p.slug as string,
+    name: p.name as string,
+    status: (p.status as string) || 'active',
+    type: (p.type as string) || '',
+    floors: (p.floors as number) || 0,
+    units: (p.units as number) || 0,
+    priceMin: (p.price_min as number) ?? (p.priceMin as number) ?? 0,
+    priceMax: (p.price_max as number) ?? (p.priceMax as number) ?? 0,
+    location: (p.location as string) || '',
+    bts: (p.bts as string) || '',
+    concept: (p.concept as string) || '',
+    description: (p.description as string) || '',
+    image: (p.image as string) || '',
+    isFeatured: (p.is_featured as boolean) ?? true,
+    fbPixelId: (p.fb_pixel_id as string) || '',
+    facebookUrl: (p.facebook_url as string) || '',
+    phone: (p.phone as string) || '',
+  };
+}
 
 export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -44,7 +70,12 @@ export default function AdminProjectsPage() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetch('/api/projects').then((r) => r.json()).then((d) => { setProjects(d); setLoading(false); });
+    fetch('/api/projects')
+      .then((r) => r.json())
+      .then((d: Record<string, unknown>[]) => {
+        setProjects(d.map(mapProject));
+        setLoading(false);
+      });
   }, []);
 
   function openNew() {
@@ -73,12 +104,17 @@ export default function AdminProjectsPage() {
       }
       const url = modal.isNew ? '/api/projects' : `/api/projects/${id}`;
       const method = modal.isNew ? 'POST' : 'PUT';
-      const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
       const data = await res.json();
+      const mapped = mapProject(data);
       if (modal.isNew) {
-        setProjects([...projects, data]);
+        setProjects([...projects, mapped]);
       } else {
-        setProjects(projects.map((p) => (p.id === id ? data : p)));
+        setProjects(projects.map((p) => (p.id === id ? mapped : p)));
       }
       closeModal();
     } finally {
@@ -148,7 +184,7 @@ export default function AdminProjectsPage() {
                     </span>
                   </td>
                   <td className="px-4 py-4 hidden lg:table-cell text-sm text-gray-600">
-                    {(project.priceMin / 1000000).toFixed(2)}M – {(project.priceMax / 1000000).toFixed(2)}M
+                    {project.priceMin ? `${(project.priceMin / 1000000).toFixed(2)}M` : '-'} – {project.priceMax ? `${(project.priceMax / 1000000).toFixed(2)}M` : '-'}
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
@@ -205,19 +241,19 @@ export default function AdminProjectsPage() {
                 </div>
                 <div>
                   <label className={labelClass}>จำนวนชั้น</label>
-                  <input type="number" value={modal.project.floors || ''} onChange={(e) => updateField('floors', +e.target.value)} className={inputClass} />
+                  <input type="number" value={modal.project.floors ?? ''} onChange={(e) => updateField('floors', +e.target.value)} className={inputClass} />
                 </div>
                 <div>
                   <label className={labelClass}>จำนวนยูนิต</label>
-                  <input type="number" value={modal.project.units || ''} onChange={(e) => updateField('units', +e.target.value)} className={inputClass} />
+                  <input type="number" value={modal.project.units ?? ''} onChange={(e) => updateField('units', +e.target.value)} className={inputClass} />
                 </div>
                 <div>
                   <label className={labelClass}>ราคาเริ่มต้น (บาท)</label>
-                  <input type="number" value={modal.project.priceMin || ''} onChange={(e) => updateField('priceMin', +e.target.value)} className={inputClass} />
+                  <input type="number" value={modal.project.priceMin ?? ''} onChange={(e) => updateField('priceMin', +e.target.value)} className={inputClass} />
                 </div>
                 <div>
                   <label className={labelClass}>ราคาสูงสุด (บาท)</label>
-                  <input type="number" value={modal.project.priceMax || ''} onChange={(e) => updateField('priceMax', +e.target.value)} className={inputClass} />
+                  <input type="number" value={modal.project.priceMax ?? ''} onChange={(e) => updateField('priceMax', +e.target.value)} className={inputClass} />
                 </div>
                 <div className="col-span-2">
                   <label className={labelClass}>ทำเลที่ตั้ง</label>
@@ -236,10 +272,48 @@ export default function AdminProjectsPage() {
                   <textarea rows={3} value={modal.project.description || ''} onChange={(e) => updateField('description', e.target.value)} className={inputClass + ' resize-none'} />
                 </div>
                 <div className="col-span-2">
-                  <label className={labelClass}>URL รูปภาพ</label>
+                  <label className={labelClass}>URL รูปภาพหลัก</label>
                   <input type="text" value={modal.project.image || ''} onChange={(e) => updateField('image', e.target.value)} className={inputClass} placeholder="/images/project.jpg" />
                 </div>
-                <div className="flex items-center gap-2">
+
+                {/* ── Social & Tracking ── */}
+                <div className="col-span-2 pt-2 border-t border-gray-100">
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Social & Tracking</p>
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>เบอร์โทรโครงการ</label>
+                  <input
+                    type="tel"
+                    value={modal.project.phone || ''}
+                    onChange={(e) => updateField('phone', e.target.value)}
+                    className={inputClass}
+                    placeholder="เช่น 082-526-5566"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">แสดงใน Call Now และฟอร์มลงทะเบียนของหน้าโครงการนี้</p>
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>Facebook Page URL</label>
+                  <input
+                    type="url"
+                    value={modal.project.facebookUrl || ''}
+                    onChange={(e) => updateField('facebookUrl', e.target.value)}
+                    className={inputClass}
+                    placeholder="https://www.facebook.com/..."
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>Facebook Pixel ID (เฉพาะโครงการนี้)</label>
+                  <input
+                    type="text"
+                    value={modal.project.fbPixelId || ''}
+                    onChange={(e) => updateField('fbPixelId', e.target.value)}
+                    className={inputClass}
+                    placeholder="เช่น 1234567890123456"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">ยิง Pixel นี้เพิ่มเติมจาก Global Pixel เมื่อผู้ใช้เปิดหน้าโครงการนี้</p>
+                </div>
+
+                <div className="flex items-center gap-2 col-span-2">
                   <input
                     type="checkbox"
                     id="isFeatured"

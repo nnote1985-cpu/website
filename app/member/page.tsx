@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const benefits = [
   {
     icon: <Gift size={28} />,
-    title: 'ของขวัญวันเกิด',
+    title: 'Birthday Gifts',
     desc: 'รับของขวัญพิเศษจาก ASAKAN ทุกปีในวันเกิดของคุณ',
   },
   {

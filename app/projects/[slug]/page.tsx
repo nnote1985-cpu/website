@@ -7,6 +7,8 @@ import ProjectNavbar from '@/components/projects/ProjectNavbar';
 import ProjectContent from '@/components/projects/ProjectContent';
 import dynamic from 'next/dynamic';
 import RegisterFormDark from '@/components/projects/RegisterFormDark';
+import ProjectPixel from '@/components/ProjectPixel';
+import ProjectPopup from '@/components/ProjectPopup';
 
 interface Project {
   id?: string;
@@ -31,6 +33,12 @@ interface Project {
   image: string;
   heroImage?: string;
   promoBanner?: string;
+  promoBannerMobile?: string;
+  fbPixelId?: string;
+  facebookUrl?: string;
+  phone?: string;
+  popupImage?: string;
+  popupUrl?: string;
   gallery?: string[];
   floorPlans?: string[];
   roomPlans?: { type: string; image: string }[];
@@ -60,6 +68,12 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     descriptionEn: data.description_en,
     heroImage: data.hero_image,
     promoBanner: data.promo_banner,
+    promoBannerMobile: data.promo_banner_mobile,
+    fbPixelId: data.fb_pixel_id || '',
+    facebookUrl: data.facebook_url || '',
+    phone: data.phone || '',
+    popupImage: data.popup_image || '',
+    popupUrl: data.popup_url || '',
     floorPlans: data.floor_plans,
     roomPlans: data.room_plans,
     googleMapUrl: data.google_map_url,
@@ -86,6 +100,12 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   return (
     <>
       <PixelViewContent name={project.name} value={project.priceMin} />
+      {project.fbPixelId && (
+        <ProjectPixel pixelId={project.fbPixelId} projectName={project.name} priceMin={project.priceMin} />
+      )}
+      {project.popupImage && (
+        <ProjectPopup image={project.popupImage} url={project.popupUrl} projectSlug={project.slug} />
+      )}
       <ProjectNavbar project={project} />
 
       <main className="bg-white pt-16 md:pt-20">

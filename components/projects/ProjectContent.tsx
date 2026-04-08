@@ -10,6 +10,7 @@ export default function ProjectContent({ project }: { project: any }) {
   const [activeGalleryTab, setActiveGalleryTab] = useState<'perspective' | 'facility' | 'room'>('perspective');
   const [activeImg, setActiveImg] = useState(0);
   const [isGalleryFullscreen, setIsGalleryFullscreen] = useState(false);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
 
   // ==========================================
   // 📍 STATE สำหรับ PLANS
@@ -65,11 +66,13 @@ export default function ProjectContent({ project }: { project: any }) {
   // ==========================================
   const handleGalleryNext = useCallback(() => {
     if (validGallery.length <= 1) return;
+    setSlideDirection('right');
     setActiveImg((prev) => (prev + 1) % validGallery.length);
   }, [validGallery.length]);
 
   const handleGalleryPrev = useCallback(() => {
     if (validGallery.length <= 1) return;
+    setSlideDirection('left');
     setActiveImg((prev) => (prev - 1 + validGallery.length) % validGallery.length);
   }, [validGallery.length]);
 
@@ -156,8 +159,8 @@ export default function ProjectContent({ project }: { project: any }) {
               </button>
             )}
 
-            <img 
-  key={`fs-${currentImage}`}
+            <img
+  key={`fs-${currentImage}-${safeActiveImg}`}
   src={
     currentImage && !failedImages.has(currentImage)
       ? currentImage
@@ -166,7 +169,9 @@ export default function ProjectContent({ project }: { project: any }) {
   onError={() => handleImageError(currentImage)}
   loading="lazy"
   decoding="async"
-  className="w-auto max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl select-none animate-in fade-in zoom-in-95 duration-500" 
+  className={`w-auto max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl select-none animate-in fade-in duration-300 ${
+    slideDirection === 'right' ? 'slide-in-from-right-24' : 'slide-in-from-left-24'
+  }`}
   alt="Fullscreen Gallery"
   onTouchStart={onTouchStart}
   onTouchMove={onTouchMove}
@@ -371,31 +376,67 @@ export default function ProjectContent({ project }: { project: any }) {
                 onClick={() => { setActiveGalleryTab('room'); setActiveImg(0); }}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
               >
-                <Home size={14} /> Room Interior
+                <Home size={14} /> Room
               </button>
             </div>
           )}
         </div>
         
         <div className="max-w-6xl mx-auto px-4">
-          <div 
-            onClick={() => setIsGalleryFullscreen(true)}
-            className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-slate-100 mb-6 shadow-xl border cursor-pointer group"
+          <div
+            className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-slate-100 mb-6 shadow-xl border group"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onGalleryTouchEnd}
           >
-            <img 
-  key={`main-${currentImage}`}
-  src={failedImages.has(currentImage) ? project.image : currentImage}
-  onError={() => handleImageError(currentImage)}
-  loading="lazy"
-  decoding="async"
-  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 animate-in fade-in zoom-in-[0.98] duration-500" 
-  alt="Gallery Main" 
-/>
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-              <div className="bg-black/50 text-white p-4 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-md transform group-hover:scale-110 shadow-xl">
-                <Maximize2 size={32} />
+            {/* Main image — click center to fullscreen */}
+            <img
+              key={`main-${currentImage}-${safeActiveImg}`}
+              src={failedImages.has(currentImage) ? project.image : currentImage}
+              onError={() => handleImageError(currentImage)}
+              loading="lazy"
+              decoding="async"
+              onClick={() => setIsGalleryFullscreen(true)}
+              className={`w-full h-full object-cover cursor-pointer animate-in fade-in duration-300 ${
+                slideDirection === 'right' ? 'slide-in-from-right-10' : 'slide-in-from-left-10'
+              }`}
+              alt="Gallery Main"
+            />
+
+            {/* Prev button */}
+            {validGallery.length > 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); handleGalleryPrev(); }}
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-[#e53935] text-white p-2.5 md:p-3 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 hover:scale-110 shadow-lg"
+              >
+                <ChevronLeft size={22} />
+              </button>
+            )}
+
+            {/* Next button */}
+            {validGallery.length > 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); handleGalleryNext(); }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-[#e53935] text-white p-2.5 md:p-3 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 hover:scale-110 shadow-lg"
+              >
+                <ChevronRight size={22} />
+              </button>
+            )}
+
+            {/* Image counter */}
+            {validGallery.length > 1 && (
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+                {safeActiveImg + 1} / {validGallery.length}
               </div>
-            </div>
+            )}
+
+            {/* Fullscreen button */}
+            <button
+              onClick={() => setIsGalleryFullscreen(true)}
+              className="absolute top-3 right-3 z-20 bg-black/40 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all"
+            >
+              <Maximize2 size={18} />
+            </button>
           </div>
 
           {hasGallery ? (
@@ -454,7 +495,7 @@ export default function ProjectContent({ project }: { project: any }) {
                     onClick={() => { setActiveTab('floor'); setActivePlanIndex(0); }}
                     className={`px-8 py-3 rounded-full text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'floor' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
                   >
-                    Floor & Master Plans
+                    Floor & Master 
                   </button>
                 )}
               </div>

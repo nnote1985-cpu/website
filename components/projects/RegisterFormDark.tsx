@@ -8,13 +8,23 @@ interface Props {
   accentColor?: string;
 }
 
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, '').slice(0, 10);
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
 export default function RegisterFormDark({ projectName, accentColor = '#e53935' }: Props) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [appointmentDate, setAppointmentDate] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+
+  const today = new Date().toISOString().split('T')[0];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +36,7 @@ export default function RegisterFormDark({ projectName, accentColor = '#e53935' 
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, phone, email, message: '', project: projectName }),
+      body: JSON.stringify({ name, phone, email, message: '', project: projectName, appointmentDate: appointmentDate || undefined }),
     });
 
     setLoading(false);
@@ -46,7 +56,7 @@ export default function RegisterFormDark({ projectName, accentColor = '#e53935' 
         <h3 className="text-xl font-bold text-white">ลงทะเบียนสำเร็จ!</h3>
         <p className="text-white/60 text-sm">ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง</p>
         <button
-          onClick={() => { setSuccess(false); setName(''); setPhone(''); setEmail(''); }}
+          onClick={() => { setSuccess(false); setName(''); setPhone(''); setEmail(''); setAppointmentDate(''); }}
           className="text-xs text-white/30 underline hover:text-white/60 transition-colors"
         >
           ลงทะเบียนอีกครั้ง
@@ -74,8 +84,9 @@ export default function RegisterFormDark({ projectName, accentColor = '#e53935' 
         <input
           type="tel"
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => setPhone(formatPhone(e.target.value))}
           placeholder="08X-XXX-XXXX"
+          maxLength={12}
           className="w-full bg-transparent p-1 outline-none text-white placeholder:text-white/20 text-base md:text-lg font-medium"
           required
         />
@@ -89,6 +100,19 @@ export default function RegisterFormDark({ projectName, accentColor = '#e53935' 
           onChange={(e) => setEmail(e.target.value)}
           placeholder="example@email.com"
           className="w-full bg-transparent p-1 outline-none text-white placeholder:text-white/20 text-base md:text-lg font-medium"
+        />
+      </div>
+
+      <div className="group relative border-b border-white/20 pb-2 focus-within:border-white/60 transition-all">
+        <label className="text-[9px] md:text-[10px] font-black uppercase text-white/30 ml-1 tracking-widest">
+          วันที่นัดหมายเข้าชม (Optional)
+        </label>
+        <input
+          type="date"
+          value={appointmentDate}
+          min={today}
+          onChange={(e) => setAppointmentDate(e.target.value)}
+          className="w-full bg-transparent p-1 outline-none text-white text-base md:text-lg font-medium [color-scheme:dark]"
         />
       </div>
 

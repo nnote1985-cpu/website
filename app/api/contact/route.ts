@@ -18,13 +18,13 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, phone, message, project } = body;
+    const { name, email, phone, message, project, appointmentDate } = body;
 
     if (!name || !phone) {
       return NextResponse.json({ error: 'Name and phone required' }, { status: 400 });
     }
 
-    const newContact = {
+    const newContact: Record<string, unknown> = {
       id: crypto.randomUUID(),
       name,
       email: email || '',
@@ -34,6 +34,8 @@ export async function POST(req: NextRequest) {
       is_read: false,
       created_at: new Date().toISOString(),
     };
+
+    if (appointmentDate) newContact.appointment_date = appointmentDate;
 
     const { error } = await supabaseAdmin.from('contacts').insert(newContact);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
