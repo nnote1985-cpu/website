@@ -51,34 +51,42 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
       <Header />
       <FloatingCTA />
       <main className="pt-20">
-        {/* Header */}
-        <div
-          className="relative py-20 text-white"
-          style={{ background: 'linear-gradient(135deg, #0f1e4a 0%, #1a2d6b 60%, #2a3d8b 100%)' }}
-        >
-          {item.image && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={item.image}
-              alt={item.title}
-              className="absolute inset-0 w-full h-full object-cover opacity-20"
-            />
-          )}
-          <div className="relative max-w-3xl mx-auto px-4 text-center">
-            <span className="inline-block bg-[#f4511e] text-white text-xs font-semibold px-3 py-1 rounded-full mb-4">
-              {item.category}
-            </span>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">{item.title}</h1>
-            <div className="flex items-center justify-center gap-4 text-gray-300 text-sm">
-              <span className="flex items-center gap-1.5">
-                <Calendar size={14} />
-                {formatDate(item.publishedAt)}
+        {/* Header - ปรับใหม่ให้รูปแสดงผลชัดเจน */}
+        <div className="bg-[#0f1e4a] text-white pt-28 pb-16 md:pt-36 md:pb-20">
+          <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
+            
+            {/* ฝั่งข้อความ */}
+            <div className="text-center md:text-left order-2 md:order-1">
+              <span className="inline-block bg-[#f4511e] text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-5 shadow-md">
+                {item.category}
               </span>
-              <span className="flex items-center gap-1.5">
-                <Tag size={14} />
-                {item.author}
-              </span>
+              <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight tracking-tight text-white">
+                {item.title}
+              </h1>
+              <div className="flex items-center justify-center md:justify-start gap-5 text-gray-300 text-sm border-t border-white/10 pt-5">
+                <span className="flex items-center gap-2">
+                  <Calendar size={16} className="text-[#f4511e]" />
+                  {formatDate(item.publishedAt)}
+                </span>
+                <span className="flex items-center gap-2">
+                  <Tag size={16} className="text-[#f4511e]" />
+                  {item.author}
+                </span>
+              </div>
             </div>
+
+            {/* ฝั่งรูปภาพ (ถ้ามีรูปจะโชว์ตรงนี้แบบเต็มๆ) */}
+            {item.image && (
+              <div className="order-1 md:order-2">
+                <div className="relative aspect-[16/10] w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

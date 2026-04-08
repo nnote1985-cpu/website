@@ -130,36 +130,10 @@ export default function AdminNewsPage() {
     setItems(items.map((n) => (n.id === item.id ? data : n)));
   }
 
- async function handleDelete(item: NewsItem) {
-    if (!confirm(`ยืนยันการลบบทความ: ${item.title}?`)) return;
-
-    try {
-      // 1. ลบรูปใน Storage (ใช้ API ตัวเดียวกับที่อัปโหลด)
-      if (item.image && item.image.includes('supabase.co')) {
-        await fetch('/api/upload', {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            url: item.image, 
-            bucket: 'news' 
-          })
-        });
-      }
-
-      // 2. ลบบทความใน Database
-      const res = await fetch(`/api/news/${item.id}`, { method: 'DELETE' });
-
-      if (res.ok) {
-        // 3. 🚩 จุดสำคัญ: สั่งให้หน้าจออัปเดตโดยการกรองตัวที่ลบออก
-        setItems(prev => prev.filter((n) => n.id !== item.id));
-        alert('ลบเรียบร้อยแล้ว');
-      } else {
-        alert('ลบจากฐานข้อมูลไม่สำเร็จ');
-      }
-    } catch (error) {
-      console.error('Delete error:', error);
-      alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
-    }
+  async function handleDelete(id: string) {
+    if (!confirm('ลบบทความนี้?')) return;
+    await fetch(`/api/news/${id}`, { method: 'DELETE' });
+    setItems(items.filter((n) => n.id !== id));
   }
 
   const inputClass = "w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#f4511e]";
@@ -228,7 +202,7 @@ export default function AdminNewsPage() {
                       <button onClick={() => openEdit(item)} className="p-2 text-gray-400 hover:text-[#f4511e] hover:bg-orange-50 rounded-lg">
                         <Edit size={16} />
                       </button>
-                      <button onClick={() => handleDelete(item)} className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg">
+                      <button onClick={() => handleDelete(item.id)} className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg">
                         <Trash2 size={16} />
                       </button>
                     </div>
