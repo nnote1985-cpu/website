@@ -1,6 +1,6 @@
 'use client';
 
-import { Phone } from 'lucide-react';
+import { Phone, Sparkles, CheckCircle2 } from 'lucide-react';
 import RegisterForm from '@/components/projects/RegisterForm';
 
 export default function WelaCustom({ project }: { project: any }) {

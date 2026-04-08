@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle2,Phone } from 'lucide-react';
+import { Phone, Sparkles, CheckCircle2 } from 'lucide-react';
 import RegisterFormDark from '@/components/projects/RegisterFormDark';
 
 export default function CelineCustom({ project }: { project: any }) {
