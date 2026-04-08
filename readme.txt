@@ -40,5 +40,5 @@ git push -u origin main
 Bash
 
 git add .
-git commit -m "Update project sections and galleries"
+git commit -m "Update data"
 git push
