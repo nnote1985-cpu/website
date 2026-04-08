@@ -81,7 +81,7 @@ export default async function HomePage() {
   ]);
 
   const settings: Settings = settingsRes.data?.data || {};
-  const allProjects: Project[] = (projectsRes.data || []).map((p) => ({ ...p, priceMin: p.price_min?, priceMax: p.price_max, isFeatured: true }));
+  const allProjects: Project[] = (projectsRes.data || []).map((p) => ({ ...p, priceMin: p.price_min, priceMax: p.price_max, isFeatured: true }));
   const promotions: Promotion[] = (promotionsRes.data || []).map((p) => ({ ...p, isActive: p.is_active, validUntil: p.valid_until, ctaText: p.cta_text, ctaUrl: p.cta_url }));
   const latestNews: NewsItem[] = (newsRes.data || []).map((n) => ({ ...n, isPublished: n.is_published, publishedAt: n.published_at }));
 
