@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { readData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import Footer from '@/components/Footer';
 import PixelViewContent from '@/components/PixelViewContent';
 import ProjectNavbar from '@/components/projects/ProjectNavbar';
 import ProjectContent from '@/components/projects/ProjectContent';
 import dynamic from 'next/dynamic';
+import RegisterFormDark from '@/components/projects/RegisterFormDark';
 
 interface Project {
   id?: string;
@@ -40,18 +41,31 @@ interface Project {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const projects = readData<Project[]>('projects.json');
-  const project = projects.find((p) => p.slug === slug);
-  if (!project) return { title: 'Not Found' };
-  return { title: `${project.name} | ASAKAN` };
+  const { data } = await supabaseAdmin.from('projects').select('name').eq('slug', slug).single();
+  if (!data) return { title: 'Not Found' };
+  return { title: `${data.name} | ASAKAN` };
 }
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const projects = readData<Project[]>('projects.json');
-  const project = projects.find((p) => p.slug === slug);
-
-  if (!project) notFound();
+  const { data } = await supabaseAdmin.from('projects').select('*').eq('slug', slug).single();
+  if (!data) notFound();
+  const project: Project = {
+    ...data,
+    nameEn: data.name_en,
+    priceMin: data.price_min,
+    priceMax: data.price_max,
+    conceptArticle: data.concept_article,
+    projectArea: data.project_area,
+    descriptionEn: data.description_en,
+    heroImage: data.hero_image,
+    promoBanner: data.promo_banner,
+    floorPlans: data.floor_plans,
+    roomPlans: data.room_plans,
+    googleMapUrl: data.google_map_url,
+    isFeatured: true,
+    isSoldOut: data.status === 'sold-out',
+  };
 
   // --- 📍 เลือกว่าจะใช้ Custom Hero ตัวไหน ---
   let HeroSection = null;
@@ -109,13 +123,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 <h3 className="text-3xl font-black italic uppercase mb-2">Register Now</h3>
                 <p className="text-white/60 text-xs tracking-widest uppercase">ลงทะเบียนรับสิทธิพิเศษ {project.name}</p>
               </div>
-              <form className="space-y-6">
-                <input type="text" placeholder="ชื่อ-นามสกุล" className="w-full bg-white/5 border border-white/20 p-4 rounded-xl outline-none focus:border-[#e53935] transition-all" required />
-                <input type="tel" placeholder="เบอร์โทรศัพท์" className="w-full bg-white/5 border border-white/20 p-4 rounded-xl outline-none focus:border-[#e53935] transition-all" required />
-                <button className="w-full bg-[#e53935] text-white font-black py-4 rounded-xl text-lg hover:bg-white hover:text-[#1a2d6b] transition-all shadow-lg active:scale-95">
-                  ลงทะเบียนรับข้อมูล
-                </button>
-              </form>
+              <RegisterFormDark projectName={project.name} />
             </div>
           </section>
         )}

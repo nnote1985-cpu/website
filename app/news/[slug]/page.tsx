@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { readData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { formatDate } from '@/lib/utils';
@@ -24,8 +24,7 @@ interface NewsItem {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const news = readData<NewsItem[]>('news.json');
-  const item = news.find((n) => n.slug === slug);
+  const { data: item } = await supabaseAdmin.from('news').select('*').eq('slug', slug).single();
   if (!item) return { title: 'Not Found' };
 
   return {
@@ -43,10 +42,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function NewsDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const news = readData<NewsItem[]>('news.json');
-  const item = news.find((n) => n.slug === slug && n.isPublished);
-
-  if (!item) notFound();
+  const { data } = await supabaseAdmin.from('news').select('*').eq('slug', slug).eq('is_published', true).single();
+  if (!data) notFound();
+  const item: NewsItem = { ...data, isPublished: data.is_published, publishedAt: data.published_at };
 
   return (
     <>

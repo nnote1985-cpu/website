@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { readData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 
 interface Project {
   slug: string;
@@ -11,16 +11,16 @@ interface NewsItem {
   isPublished: boolean;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.asakan.co.th';
 
-  let projects: Project[] = [];
-  let news: NewsItem[] = [];
+  const [projectsRes, newsRes] = await Promise.all([
+    supabaseAdmin.from('projects').select('slug'),
+    supabaseAdmin.from('news').select('slug, published_at').eq('is_published', true),
+  ]);
 
-  try {
-    projects = readData<Project[]>('projects.json');
-    news = readData<NewsItem[]>('news.json').filter((n) => n.isPublished);
-  } catch {}
+  const projects: Project[] = projectsRes.data || [];
+  const news: NewsItem[] = (newsRes.data || []).map((n) => ({ slug: n.slug, publishedAt: n.published_at, isPublished: true }));
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },

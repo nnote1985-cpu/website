@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { readData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/home/HeroSection';
@@ -11,6 +11,8 @@ import { ArrowRight, Shield, Star, Home, TrendingUp } from 'lucide-react';
 import FloatingCTA from '@/components/FloatingCTA';
 import SearchSection from '@/components/home/SearchSection';
 import PromoBanner from '@/components/home/PromoBanner';
+
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'ASAKAN | คอนโดมิเนียมคุณภาพ ราคาเข้าถึงได้ กรุงเทพฯ',
@@ -70,15 +72,21 @@ interface NewsItem {
   isPublished: boolean;
 }
 
-export default function HomePage() {
-  const settings = readData<Settings>('settings.json');
-  const allProjects = readData<Project[]>('projects.json');
-  const promotions = readData<Promotion[]>('promotions.json');
-  const allNews = readData<NewsItem[]>('news.json');
+export default async function HomePage() {
+  const [settingsRes, projectsRes, promotionsRes, newsRes] = await Promise.all([
+    supabaseAdmin.from('settings').select('data').eq('id', 1).single(),
+    supabaseAdmin.from('projects').select('*').eq('is_active', true).order('created_at', { ascending: false }),
+    supabaseAdmin.from('promotions').select('*').eq('is_active', true),
+    supabaseAdmin.from('news').select('*').eq('is_published', true).order('published_at', { ascending: false }).limit(3),
+  ]);
 
-  const featuredProjects = allProjects.filter((p) => p.isFeatured && p.status !== 'sold-out').slice(0, 4);
+  const settings: Settings = settingsRes.data?.data || {};
+  const allProjects: Project[] = (projectsRes.data || []).map((p) => ({ ...p, priceMin: p.price_min, priceMax: p.price_max, isFeatured: true }));
+  const promotions: Promotion[] = (promotionsRes.data || []).map((p) => ({ ...p, isActive: p.is_active, validUntil: p.valid_until, ctaText: p.cta_text, ctaUrl: p.cta_url }));
+  const latestNews: NewsItem[] = (newsRes.data || []).map((n) => ({ ...n, isPublished: n.is_published, publishedAt: n.published_at }));
+
+  const featuredProjects = allProjects.filter((p) => p.status !== 'sold-out').slice(0, 4);
   const activePromo = promotions.find((p) => p.isActive);
-  const latestNews = allNews.filter((n) => n.isPublished).slice(0, 3);
 
   return (
     <>
@@ -104,7 +112,7 @@ export default function HomePage() {
         {/* 3. Search Section: วางบนพื้นหลังสีเทาอ่อนบางๆ เพื่อแยกเลเยอร์ */}
         <section className="relative z-20 bg-slate-50 py-10 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-6">
-            <SearchSection />
+            <SearchSection projects={allProjects} />
           </div>
         </section>
 

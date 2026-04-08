@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
-import { readData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProjectCard from '@/components/home/ProjectCard';
 import FloatingCTA from '@/components/FloatingCTA';
-import { MapPin, Phone, ArrowRight, Camera, Layout as LayoutIcon, PlayCircle, Layers, CheckCircle2, ChevronLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'โครงการทั้งหมด | ASAKAN คอนโดมิเนียมกรุงเทพฯ',
@@ -30,8 +29,43 @@ interface Project {
   isSoldOut: boolean;
 }
 
-export default function ProjectsPage() {
-  const projects = readData<Project[]>('projects.json');
+const STATUS_LABELS: Record<string, string> = {
+  active: 'เปิดขายแล้ว',
+  'coming-soon': 'เร็วๆ นี้',
+  'sold-out': 'ขายหมดแล้ว',
+};
+
+export default async function ProjectsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; status?: string; location?: string; price?: string }>;
+}) {
+  const { q, status, location, price } = await searchParams;
+
+  const { data } = await supabaseAdmin.from('projects').select('*').order('created_at', { ascending: false });
+  let projects: Project[] = (data || []).map((p) => ({
+    ...p,
+    priceMin: p.price_min,
+    priceMax: p.price_max,
+    isFeatured: true,
+    isSoldOut: p.status === 'sold-out',
+  }));
+
+  // Filter
+  if (q) {
+    const lower = q.toLowerCase();
+    projects = projects.filter(
+      (p) => p.name.toLowerCase().includes(lower) || p.location.toLowerCase().includes(lower) || p.bts?.toLowerCase().includes(lower)
+    );
+  }
+  if (status) projects = projects.filter((p) => p.status === status);
+  if (location) projects = projects.filter((p) => p.location === location);
+  if (price) {
+    const [min, max] = price.split('-').map(Number);
+    projects = projects.filter((p) => p.priceMin >= min && p.priceMin <= max);
+  }
+
+  const isFiltered = !!(q || status || location || price);
   const active = projects.filter((p) => p.status !== 'sold-out');
   const soldOut = projects.filter((p) => p.status === 'sold-out');
 
@@ -55,25 +89,46 @@ export default function ProjectsPage() {
 
         <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4">
-            {active.length > 0 && (
-              <>
-                <h2 className="text-2xl font-bold text-[#1a2d6b] mb-8">โครงการเปิดขาย</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
-                  {active.map((project) => (
-                    <ProjectCard key={project.id} project={project} />
-                  ))}
-                </div>
-              </>
+
+            {/* แสดง filter ที่ active */}
+            {isFiltered && (
+              <div className="flex flex-wrap items-center gap-2 mb-8">
+                <span className="text-sm text-gray-500">ผลการค้นหา {projects.length} โครงการ</span>
+                {q && <span className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full">"{q}"</span>}
+                {status && <span className="bg-orange-100 text-orange-700 text-xs px-3 py-1 rounded-full">{STATUS_LABELS[status] || status}</span>}
+                {location && <span className="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full">{location}</span>}
+                <a href="/projects" className="text-xs text-red-500 underline">ล้างตัวกรอง</a>
+              </div>
             )}
 
-            {soldOut.length > 0 && (
+            {projects.length === 0 ? (
+              <div className="text-center py-20 text-gray-400">
+                <p className="text-lg">ไม่พบโครงการที่ตรงกับการค้นหา</p>
+                <a href="/projects" className="text-[#e53935] font-semibold mt-4 inline-block">ดูโครงการทั้งหมด</a>
+              </div>
+            ) : (
               <>
-                <h2 className="text-2xl font-bold text-gray-500 mb-8">โครงการที่ขายหมดแล้ว</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {soldOut.map((project) => (
-                    <ProjectCard key={project.id} project={project} />
-                  ))}
-                </div>
+                {(!isFiltered || active.length > 0) && active.length > 0 && (
+                  <>
+                    {!isFiltered && <h2 className="text-2xl font-bold text-[#1a2d6b] mb-8">โครงการเปิดขาย</h2>}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
+                      {active.map((project) => (
+                        <ProjectCard key={project.id} project={project} />
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {(!isFiltered || soldOut.length > 0) && soldOut.length > 0 && (
+                  <>
+                    {!isFiltered && <h2 className="text-2xl font-bold text-gray-500 mb-8">โครงการที่ขายหมดแล้ว</h2>}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                      {soldOut.map((project) => (
+                        <ProjectCard key={project.id} project={project} />
+                      ))}
+                    </div>
+                  </>
+                )}
               </>
             )}
           </div>

@@ -1,6 +1,7 @@
 'use client';
 
-import { Send, CheckCircle2, Phone } from 'lucide-react';
+import { Phone } from 'lucide-react';
+import RegisterFormDark from '@/components/projects/RegisterFormDark';
 
 export default function CelineCustom({ project }: { project: any }) {
   // แยกคำเพื่อทำไฮไลท์สีทองที่คำสุดท้าย
@@ -66,43 +67,7 @@ export default function CelineCustom({ project }: { project: any }) {
           </p>
         </div>
 
-        <form className="space-y-6 md:space-y-8">
-          <div className="group relative border-b border-white/20 pb-2 focus-within:border-[#cca464] transition-all">
-            <label className="text-[9px] md:text-[10px] font-black uppercase text-white/30 ml-1 tracking-widest">Full Name</label>
-            <input 
-              type="text" 
-              placeholder="กรุณากรอกชื่อ-นามสกุล" 
-              className="w-full bg-transparent p-1 outline-none text-white placeholder:text-white/10 text-base md:text-lg font-medium" 
-              required 
-            />
-          </div>
-
-          <div className="group relative border-b border-white/20 pb-2 focus-within:border-[#cca464] transition-all">
-            <label className="text-[9px] md:text-[10px] font-black uppercase text-white/30 ml-1 tracking-widest">Phone Number</label>
-            <input 
-              type="tel" 
-              placeholder="08X-XXX-XXXX" 
-              className="w-full bg-transparent p-1 outline-none text-white placeholder:text-white/10 text-base md:text-lg font-medium" 
-              required 
-            />
-          </div>
-
-          <div className="group relative border-b border-white/20 pb-2 focus-within:border-[#cca464] transition-all">
-            <label className="text-[9px] md:text-[10px] font-black uppercase text-white/30 ml-1 tracking-widest">Email (Optional)</label>
-            <input 
-              type="email" 
-              placeholder="example@email.com" 
-              className="w-full bg-transparent p-1 outline-none text-white placeholder:text-white/10 text-base md:text-lg font-medium" 
-            />
-          </div>
-
-          <div className="pt-2 md:pt-4">
-            <button className="group w-full bg-[#cca464] text-white font-black py-4 md:py-5 rounded-2xl text-lg hover:bg-white hover:text-black transition-all duration-500 shadow-[0_15px_30px_rgba(204,164,100,0.3)] flex items-center justify-center gap-4 active:scale-95">
-              REGISTER NOW 
-              <Send size={18} className="group-hover:translate-x-2 transition-transform" />
-            </button>
-          </div>
-        </form>
+        <RegisterFormDark projectName={project.name} accentColor="#cca464" />
 
         <div className="mt-8 md:mt-12 flex items-center justify-center lg:justify-start gap-4 pt-6 md:pt-8 border-t border-white/5">
           <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/5 flex items-center justify-center">

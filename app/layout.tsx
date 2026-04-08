@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Prompt } from 'next/font/google'; // 📍 1. เปลี่ยน Import เป็น Prompt
 import './globals.css';
-import { readData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import FacebookPixel from '@/components/FacebookPixel';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import ClientHeader from '@/components/ClientHeader'; //
@@ -24,24 +24,27 @@ interface SiteSettings {
   googleAnalyticsId: string;
 }
 
-function getSettings(): SiteSettings {
+const defaultSettings: SiteSettings = {
+  siteName: 'ASAKAN',
+  siteDescription: 'ASAKAN - ผู้พัฒนาอสังหาริมทรัพย์ชั้นนำ',
+  siteDescriptionEn: 'ASAKAN - Leading real estate developer in Bangkok',
+  metaKeywords: 'คอนโด, ASAKAN, กรุงเทพ',
+  ogImage: '/images/og-image.jpg',
+  facebookPixelId: '',
+  googleAnalyticsId: '',
+};
+
+async function getSettings(): Promise<SiteSettings> {
   try {
-    return readData<SiteSettings>('settings.json');
+    const { data } = await supabaseAdmin.from('settings').select('data').eq('id', 1).single();
+    return (data?.data as SiteSettings) || defaultSettings;
   } catch {
-    return {
-      siteName: 'ASAKAN',
-      siteDescription: 'ASAKAN - ผู้พัฒนาอสังหาริมทรัพย์ชั้นนำ',
-      siteDescriptionEn: 'ASAKAN - Leading real estate developer in Bangkok',
-      metaKeywords: 'คอนโด, ASAKAN, กรุงเทพ',
-      ogImage: '/images/og-image.jpg',
-      facebookPixelId: '',
-      googleAnalyticsId: '',
-    };
+    return defaultSettings;
   }
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = getSettings();
+  const settings = await getSettings();
 
   return {
     metadataBase: new URL('https://www.asakan.co.th'),
@@ -84,8 +87,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const settings = getSettings();
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSettings();
   const pixelId = settings.facebookPixelId || '';
   const gaId = settings.googleAnalyticsId || '';
 

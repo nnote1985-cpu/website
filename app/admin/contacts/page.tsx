@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Mail, Phone, MessageSquare, Calendar, CheckCheck, Trash2 } from 'lucide-react';
+import { Mail, Phone, MessageSquare, Calendar, CheckCheck, Trash2, Building2, Filter } from 'lucide-react';
 
 interface Contact {
   id: string;
@@ -9,14 +9,16 @@ interface Contact {
   email: string;
   phone: string;
   message: string;
-  createdAt: string;
-  isRead: boolean;
+  project: string;
+  created_at: string;
+  is_read: boolean;
 }
 
 export default function AdminContactsPage() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Contact | null>(null);
+  const [filterProject, setFilterProject] = useState('');
 
   useEffect(() => {
     fetch('/api/contact')
@@ -25,8 +27,12 @@ export default function AdminContactsPage() {
       .catch(() => setLoading(false));
   }, []);
 
+  const projects = [...new Set(contacts.map((c) => c.project).filter(Boolean))];
+  const filtered = filterProject ? contacts.filter((c) => c.project === filterProject) : contacts;
+  const unread = contacts.filter((c) => !c.is_read).length;
+
   async function markRead(contact: Contact) {
-    if (contact.isRead) return;
+    if (contact.is_read) return;
     const res = await fetch(`/api/contact/${contact.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -34,8 +40,8 @@ export default function AdminContactsPage() {
     });
     if (res.ok) {
       const updated = await res.json();
-      setContacts((prev) => prev.map((c) => (c.id === contact.id ? updated : c)));
-      setSelected(updated);
+      setContacts((prev) => prev.map((c) => (c.id === contact.id ? { ...c, is_read: true } : c)));
+      setSelected({ ...contact, is_read: true });
     }
   }
 
@@ -53,11 +59,9 @@ export default function AdminContactsPage() {
     markRead(contact);
   }
 
-  const unread = contacts.filter((c) => !c.isRead).length;
-
   return (
     <div className="p-6 lg:p-8">
-      <div className="mb-8 flex items-start justify-between">
+      <div className="mb-6 flex items-start justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">ข้อความติดต่อ</h1>
           <p className="text-gray-500 text-sm mt-1">
@@ -69,46 +73,60 @@ export default function AdminContactsPage() {
             {' '}· รวม {contacts.length} ข้อความ
           </p>
         </div>
-        {unread > 0 && (
-          <button
-            onClick={async () => {
-              const unreadContacts = contacts.filter((c) => !c.isRead);
-              await Promise.all(
-                unreadContacts.map((c) =>
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Filter โครงการ */}
+          {projects.length > 0 && (
+            <div className="relative">
+              <Filter size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <select
+                value={filterProject}
+                onChange={(e) => setFilterProject(e.target.value)}
+                className="pl-8 pr-4 py-1.5 text-xs border border-gray-200 rounded-lg outline-none text-gray-600 bg-white hover:border-[#f4511e] transition-colors"
+              >
+                <option value="">ทุกโครงการ</option>
+                {projects.map((p) => (
+                  <option key={p} value={p}>{p}</option>
+                ))}
+              </select>
+            </div>
+          )}
+          {unread > 0 && (
+            <button
+              onClick={async () => {
+                const unreadList = contacts.filter((c) => !c.is_read);
+                await Promise.all(unreadList.map((c) =>
                   fetch(`/api/contact/${c.id}`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ isRead: true }),
                   })
-                )
-              );
-              setContacts((prev) => prev.map((c) => ({ ...c, isRead: true })));
-            }}
-            className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#f4511e] border border-gray-200 px-3 py-1.5 rounded-lg hover:border-[#f4511e] transition-colors"
-          >
-            <CheckCheck size={14} />
-            อ่านทั้งหมด
-          </button>
-        )}
+                ));
+                setContacts((prev) => prev.map((c) => ({ ...c, is_read: true })));
+              }}
+              className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#f4511e] border border-gray-200 px-3 py-1.5 rounded-lg hover:border-[#f4511e] transition-colors"
+            >
+              <CheckCheck size={14} /> อ่านทั้งหมด
+            </button>
+          )}
+        </div>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center h-48 text-gray-400">กำลังโหลด...</div>
-      ) : contacts.length === 0 ? (
+      ) : filtered.length === 0 ? (
         <div className="bg-white rounded-2xl p-16 text-center shadow-sm">
           <MessageSquare size={48} className="text-gray-200 mx-auto mb-4" />
           <p className="text-gray-400">ยังไม่มีข้อความ</p>
-          <p className="text-gray-300 text-sm mt-1">เมื่อมีคนส่งข้อความจากเว็บไซต์ จะแสดงที่นี่</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* List */}
           <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm overflow-hidden">
             <div className="px-4 py-3 border-b border-gray-50 flex items-center justify-between">
-              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">กล่องข้อความ</span>
+              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">กล่องข้อความ ({filtered.length})</span>
             </div>
             <div className="divide-y divide-gray-50 max-h-[600px] overflow-y-auto">
-              {contacts.map((contact) => (
+              {filtered.map((contact) => (
                 <button
                   key={contact.id}
                   onClick={() => handleSelect(contact)}
@@ -118,26 +136,27 @@ export default function AdminContactsPage() {
                 >
                   <div className="flex items-start gap-3">
                     <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 ${
-                      contact.isRead ? 'bg-gray-100 text-gray-500' : 'bg-orange-100 text-[#f4511e]'
+                      contact.is_read ? 'bg-gray-100 text-gray-500' : 'bg-orange-100 text-[#f4511e]'
                     }`}>
                       {contact.name[0]?.toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className={`text-sm ${contact.isRead ? 'font-medium text-gray-700' : 'font-bold text-gray-900'}`}>
+                        <span className={`text-sm ${contact.is_read ? 'font-medium text-gray-700' : 'font-bold text-gray-900'}`}>
                           {contact.name}
                         </span>
-                        {!contact.isRead && (
-                          <span className="w-2 h-2 bg-[#f4511e] rounded-full flex-shrink-0" />
-                        )}
+                        {!contact.is_read && <span className="w-2 h-2 bg-[#f4511e] rounded-full flex-shrink-0" />}
                       </div>
                       <div className="text-xs text-gray-400">{contact.phone}</div>
-                      {contact.message && (
-                        <div className="text-xs text-gray-500 truncate mt-0.5">{contact.message}</div>
+                      {contact.project && (
+                        <div className="flex items-center gap-1 text-xs text-blue-500 mt-0.5">
+                          <Building2 size={10} />
+                          {contact.project}
+                        </div>
                       )}
                     </div>
                     <div className="text-xs text-gray-300 flex-shrink-0 whitespace-nowrap">
-                      {new Date(contact.createdAt).toLocaleDateString('th-TH', { month: 'short', day: 'numeric' })}
+                      {new Date(contact.created_at).toLocaleDateString('th-TH', { month: 'short', day: 'numeric' })}
                     </div>
                   </div>
                 </button>
@@ -152,20 +171,25 @@ export default function AdminContactsPage() {
                 <div className="flex items-start justify-between mb-5 pb-5 border-b border-gray-100">
                   <div>
                     <h2 className="text-xl font-bold text-gray-800">{selected.name}</h2>
-                    <div className="flex items-center gap-2 text-gray-400 text-xs mt-1">
+                    <div className="flex items-center gap-2 text-gray-400 text-xs mt-1 flex-wrap">
                       <Calendar size={12} />
-                      {new Date(selected.createdAt).toLocaleString('th-TH')}
-                      {selected.isRead && (
+                      {new Date(selected.created_at).toLocaleString('th-TH')}
+                      {selected.is_read && (
                         <span className="flex items-center gap-1 text-green-500">
                           <CheckCheck size={12} /> อ่านแล้ว
                         </span>
                       )}
                     </div>
+                    {selected.project && (
+                      <div className="flex items-center gap-1.5 mt-2 text-sm text-blue-600 bg-blue-50 px-3 py-1 rounded-full w-fit">
+                        <Building2 size={12} />
+                        {selected.project}
+                      </div>
+                    )}
                   </div>
                   <button
                     onClick={() => handleDelete(selected.id)}
                     className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                    title="ลบข้อความ"
                   >
                     <Trash2 size={16} />
                   </button>

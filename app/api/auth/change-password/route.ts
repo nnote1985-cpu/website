@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { readData, writeData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import { getSession } from '@/lib/auth';
-
-interface User {
-  id: string;
-  username: string;
-  password: string;
-  role: string;
-  name: string;
-}
 
 export async function POST(req: NextRequest) {
   const session = await getSession();
@@ -25,18 +17,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร' }, { status: 400 });
   }
 
-  const users = readData<User[]>('users.json');
   const userId = String(session.id);
-  const user = users.find((u) => u.id === userId);
+  const { data: user, error } = await supabaseAdmin
+    .from('users')
+    .select('*')
+    .eq('id', userId)
+    .single();
 
-  if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
+  if (error || !user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
 
   const valid = await bcrypt.compare(currentPassword, user.password);
   if (!valid) return NextResponse.json({ error: 'รหัสผ่านปัจจุบันไม่ถูกต้อง' }, { status: 400 });
 
   const hashed = await bcrypt.hash(newPassword, 12);
-  const updated = users.map((u) => (u.id === userId ? { ...u, password: hashed } : u));
-  writeData('users.json', updated);
+  const { error: updateError } = await supabaseAdmin
+    .from('users')
+    .update({ password: hashed })
+    .eq('id', userId);
 
+  if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 });
   return NextResponse.json({ success: true });
 }

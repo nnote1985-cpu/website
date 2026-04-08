@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readData, writeData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import { getSession } from '@/lib/auth';
 
 export async function GET() {
-  const settings = readData('settings.json');
-  return NextResponse.json(settings);
+  const { data, error } = await supabaseAdmin
+    .from('settings')
+    .select('data')
+    .eq('id', 1)
+    .single();
+
+  if (error || !data) return NextResponse.json({});
+  return NextResponse.json(data.data);
 }
 
 export async function PUT(req: NextRequest) {
@@ -12,8 +18,17 @@ export async function PUT(req: NextRequest) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await req.json();
-  const current = readData('settings.json') as Record<string, unknown>;
-  const updated = { ...current, ...body };
-  writeData('settings.json', updated);
-  return NextResponse.json(updated);
+
+  // ดึงค่าเดิมก่อน แล้ว merge
+  const { data: current } = await supabaseAdmin.from('settings').select('data').eq('id', 1).single();
+  const updated = { ...(current?.data || {}), ...body };
+
+  const { data, error } = await supabaseAdmin
+    .from('settings')
+    .upsert({ id: 1, data: updated })
+    .select('data')
+    .single();
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json(data.data);
 }

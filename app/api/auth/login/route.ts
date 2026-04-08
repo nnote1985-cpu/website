@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { readData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import { signToken } from '@/lib/auth';
-
-interface User {
-  id: string;
-  username: string;
-  password: string;
-  role: string;
-  name: string;
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -19,10 +11,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Username and password required' }, { status: 400 });
     }
 
-    const users = readData<User[]>('users.json');
-    const user = users.find((u) => u.username === username);
+    const { data: user, error } = await supabaseAdmin
+      .from('users')
+      .select('*')
+      .eq('username', username)
+      .single();
 
-    if (!user) {
+    if (error || !user) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
@@ -38,7 +33,7 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24, // 24 hours
+      maxAge: 60 * 60 * 24,
       path: '/',
     });
 

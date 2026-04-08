@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { readData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import NewsCard from '@/components/home/NewsCard';
@@ -21,9 +21,9 @@ interface NewsItem {
   isPublished: boolean;
 }
 
-export default function NewsPage() {
-  const allNews = readData<NewsItem[]>('news.json');
-  const published = allNews.filter((n) => n.isPublished);
+export default async function NewsPage() {
+  const { data } = await supabaseAdmin.from('news').select('*').eq('is_published', true).order('published_at', { ascending: false });
+  const published: NewsItem[] = (data || []).map((n) => ({ ...n, isPublished: n.is_published, publishedAt: n.published_at }));
   const categories = [...new Set(published.map((n) => n.category))];
 
   return (

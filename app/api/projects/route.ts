@@ -1,22 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readData, writeData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import { getSession } from '@/lib/auth';
 import { generateId } from '@/lib/utils';
 
-interface Project {
-  id: string;
-  slug: string;
-  name: string;
-  [key: string]: unknown;
-}
-
 export async function GET() {
-  try {
-    const projects = readData<Project[]>('projects.json');
-    return NextResponse.json(projects);
-  } catch {
-    return NextResponse.json([], { status: 200 });
-  }
+  const { data, error } = await supabaseAdmin
+    .from('projects')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) return NextResponse.json([]);
+  return NextResponse.json(data);
 }
 
 export async function POST(req: NextRequest) {
@@ -25,15 +19,40 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const projects = readData<Project[]>('projects.json');
-    const newProject: Project = {
-      ...body,
-      id: generateId(),
-      createdAt: new Date().toISOString(),
+    const newProject = {
+      id: body.id || generateId(),
+      slug: body.slug,
+      name: body.name,
+      name_en: body.nameEn || body.name_en,
+      status: body.status,
+      type: body.type,
+      floors: body.floors,
+      units: body.units,
+      price_min: body.priceMin || body.price_min,
+      price_max: body.priceMax || body.price_max,
+      location: body.location,
+      bts: body.bts,
+      concept: body.concept,
+      concept_article: body.conceptArticle || body.concept_article,
+      project_area: body.projectArea || body.project_area,
+      parking: body.parking,
+      description: body.description,
+      description_en: body.descriptionEn || body.description_en,
+      features: body.features || [],
+      image: body.image,
+      hero_image: body.heroImage || body.hero_image,
+      promo_banner: body.promoBanner || body.promo_banner,
+      gallery: body.gallery || {},
+      floor_plans: body.floorPlans || body.floor_plans || [],
+      room_plans: body.roomPlans || body.room_plans || [],
+      google_map_url: body.googleMapUrl || body.google_map_url,
+      is_active: body.isActive ?? body.is_active ?? true,
+      created_at: new Date().toISOString(),
     };
-    projects.push(newProject);
-    writeData('projects.json', projects);
-    return NextResponse.json(newProject, { status: 201 });
+
+    const { data, error } = await supabaseAdmin.from('projects').insert(newProject).select().single();
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(data, { status: 201 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });

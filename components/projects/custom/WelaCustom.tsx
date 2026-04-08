@@ -1,6 +1,7 @@
 'use client';
 
-import { Send, CheckCircle2, Phone } from 'lucide-react';
+import { Phone } from 'lucide-react';
+import RegisterForm from '@/components/projects/RegisterForm';
 
 export default function WelaCustom({ project }: { project: any }) {
   // แยกคำเพื่อทำไฮไลท์สีแดงที่คำสุดท้าย
@@ -73,45 +74,7 @@ export default function WelaCustom({ project }: { project: any }) {
           </p>
         </div>
 
-        <form className="space-y-6 md:space-y-8">
-          {/* ช่องกรอกข้อมูล */}
-          <div className="group relative border-b-2 border-slate-200 pb-2 focus-within:border-[#e53935] transition-all">
-            <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-400 ml-1 tracking-widest group-focus-within:text-[#e53935] transition-colors">Full Name</label>
-            <input 
-              type="text" 
-              placeholder="กรุณากรอกชื่อ-นามสกุล" 
-              className="w-full bg-transparent p-1 outline-none text-[#1a2d6b] placeholder:text-slate-300 text-base md:text-lg font-medium" 
-              required 
-            />
-          </div>
-
-          <div className="group relative border-b-2 border-slate-200 pb-2 focus-within:border-[#e53935] transition-all">
-            <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-400 ml-1 tracking-widest group-focus-within:text-[#e53935] transition-colors">Phone Number</label>
-            <input 
-              type="tel" 
-              placeholder="08X-XXX-XXXX" 
-              className="w-full bg-transparent p-1 outline-none text-[#1a2d6b] placeholder:text-slate-300 text-base md:text-lg font-medium" 
-              required 
-            />
-          </div>
-
-          <div className="group relative border-b-2 border-slate-200 pb-2 focus-within:border-[#e53935] transition-all">
-            <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-400 ml-1 tracking-widest group-focus-within:text-[#e53935] transition-colors">Email (Optional)</label>
-            <input 
-              type="email" 
-              placeholder="example@email.com" 
-              className="w-full bg-transparent p-1 outline-none text-[#1a2d6b] placeholder:text-slate-300 text-base md:text-lg font-medium" 
-            />
-          </div>
-
-          <div className="pt-2 md:pt-4">
-            {/* 🟥 10% สีแดง (Accent) สำหรับปุ่ม Call to Action */}
-            <button className="group w-full bg-[#e53935] text-white font-black py-4 md:py-5 rounded-2xl text-lg hover:bg-[#1a2d6b] transition-all duration-500 shadow-[0_15px_30px_rgba(229,57,53,0.25)] hover:shadow-[0_15px_30px_rgba(26,45,107,0.25)] flex items-center justify-center gap-4 active:scale-95 uppercase tracking-widest">
-              REGISTER NOW 
-              <Send size={18} className="group-hover:translate-x-2 transition-transform" />
-            </button>
-          </div>
-        </form>
+        <RegisterForm projectName={project.name} />
 
         <div className="mt-8 md:mt-12 flex items-center justify-center lg:justify-start gap-4 pt-6 md:pt-8 border-t border-slate-100">
           <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#e53935]/10 flex items-center justify-center">

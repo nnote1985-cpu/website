@@ -1,21 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readData, writeData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import { getSession } from '@/lib/auth';
 import { generateId, slugify } from '@/lib/utils';
 
-interface NewsItem {
-  id: string;
-  slug: string;
-  [key: string]: unknown;
-}
-
 export async function GET() {
-  try {
-    const news = readData<NewsItem[]>('news.json');
-    return NextResponse.json(news.filter((n) => n['isPublished']));
-  } catch {
-    return NextResponse.json([]);
-  }
+  const { data, error } = await supabaseAdmin
+    .from('news')
+    .select('*')
+    .eq('is_published', true)
+    .order('published_at', { ascending: false });
+
+  if (error) return NextResponse.json([]);
+  return NextResponse.json(data);
 }
 
 export async function POST(req: NextRequest) {
@@ -23,15 +19,23 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await req.json();
-  const news = readData<NewsItem[]>('news.json');
-  const newItem: NewsItem = {
-    ...body,
+  const now = new Date().toISOString();
+  const newItem = {
     id: generateId(),
     slug: body.slug || slugify(body.title || ''),
-    publishedAt: new Date().toISOString(),
-    createdAt: new Date().toISOString(),
+    title: body.title,
+    excerpt: body.excerpt,
+    content: body.content,
+    category: body.category,
+    image: body.image || '',
+    author: body.author || 'ASAKAN Team',
+    published_at: now,
+    is_published: body.isPublished ?? body.is_published ?? true,
+    tags: body.tags || [],
+    created_at: now,
   };
-  news.unshift(newItem);
-  writeData('news.json', news);
-  return NextResponse.json(newItem, { status: 201 });
+
+  const { data, error } = await supabaseAdmin.from('news').insert(newItem).select().single();
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json(data, { status: 201 });
 }

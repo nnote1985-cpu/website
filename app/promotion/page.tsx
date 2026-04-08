@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { readData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingCTA from '@/components/FloatingCTA';
@@ -26,8 +26,9 @@ interface Promotion {
   image: string;
 }
 
-export default function PromotionPage() {
-  const promotions = readData<Promotion[]>('promotions.json');
+export default async function PromotionPage() {
+  const { data } = await supabaseAdmin.from('promotions').select('*').order('created_at', { ascending: false });
+  const promotions: Promotion[] = (data || []).map((p) => ({ ...p, isActive: p.is_active, titleEn: p.title_en, validUntil: p.valid_until, ctaText: p.cta_text, ctaUrl: p.cta_url }));
   const active = promotions.filter((p) => p.isActive);
   const expired = promotions.filter((p) => !p.isActive);
 

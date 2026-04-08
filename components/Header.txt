@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // 1. เพิ่มการ Import usePathname
 import { Menu, X, Phone, ChevronDown } from 'lucide-react';
 
 const NAV_LINKS = [
@@ -26,24 +25,15 @@ const NAV_LINKS = [
 ];
 
 export default function Header() {
-  const pathname = usePathname(); // 2. สร้างตัวแปร pathname
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false); // เพิ่ม mounted เพื่อป้องกัน Hydration error
 
   useEffect(() => {
-    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  // 3. เงื่อนไขการซ่อน Navbar เมื่ออยู่หน้า Admin
-  // ต้องเช็ค mounted ด้วยเพื่อให้ค่า pathname ฝั่ง Client เสถียร
-  if (!mounted || pathname?.startsWith('/admin')) {
-    return null;
-  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-[100]">
@@ -207,6 +197,7 @@ export default function Header() {
                   onClick={() => setIsOpen(false)}
                   className="flex items-center gap-3 pl-4 py-3 text-[13px] font-medium text-slate-500 hover:text-[#e53935] transition-colors"
                 >
+                  {/* 📍 เปลี่ยนสี Dot ของเมนูย่อยเป็นสีแดง */}
                   <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] opacity-50" />
                   {child.label}
                 </Link>
@@ -214,6 +205,7 @@ export default function Header() {
             </div>
           ))}
           
+          {/* เพิ่มปุ่ม LINE ในเมนูมือถือด้วยเพื่อไม่ให้ตกหล่น */}
           <div className="pt-6">
             <a
               href="https://line.me/ti/p/~@asakan"

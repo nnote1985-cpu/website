@@ -1,12 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readData, writeData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import { getSession } from '@/lib/auth';
-
-interface Contact {
-  id: string;
-  isRead: boolean;
-  [key: string]: unknown;
-}
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
@@ -14,13 +8,14 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const { id } = await params;
   const body = await req.json();
-  const contacts = readData<Contact[]>('contacts.json');
-  const idx = contacts.findIndex((c) => c.id === id);
-  if (idx === -1) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-  contacts[idx] = { ...contacts[idx], ...body };
-  writeData('contacts.json', contacts);
-  return NextResponse.json(contacts[idx]);
+  const updateData: Record<string, unknown> = {};
+  if (body.isRead !== undefined) updateData.is_read = body.isRead;
+  if (body.is_read !== undefined) updateData.is_read = body.is_read;
+
+  const { data, error } = await supabaseAdmin.from('contacts').update(updateData).eq('id', id).select().single();
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json(data);
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -28,7 +23,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { id } = await params;
-  const contacts = readData<Contact[]>('contacts.json');
-  writeData('contacts.json', contacts.filter((c) => c.id !== id));
+  const { error } = await supabaseAdmin.from('contacts').delete().eq('id', id);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ success: true });
 }

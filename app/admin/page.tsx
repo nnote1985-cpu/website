@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
-import { readData } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabase';
 import Link from 'next/link';
 import { Building2, Tag, Newspaper, MessageSquare, ArrowRight, TrendingUp } from 'lucide-react';
 
@@ -14,20 +14,23 @@ export default async function AdminDashboard() {
   const session = await getSession();
   if (!session) redirect('/admin/login');
 
-  const projects = readData<unknown[]>('projects.json');
-  const promotions = readData<unknown[]>('promotions.json');
-  const news = readData<unknown[]>('news.json');
-  const contacts = readData<Contact[]>('contacts.json');
+  const [projectsRes, promotionsRes, newsRes, contactsRes] = await Promise.all([
+    supabaseAdmin.from('projects').select('id', { count: 'exact', head: true }),
+    supabaseAdmin.from('promotions').select('id', { count: 'exact', head: true }),
+    supabaseAdmin.from('news').select('id', { count: 'exact', head: true }),
+    supabaseAdmin.from('contacts').select('*').order('created_at', { ascending: false }),
+  ]);
+
+  const contacts: Contact[] = (contactsRes.data || []).map((c) => ({ ...c, isRead: c.is_read }));
   const unread = contacts.filter((c) => !c.isRead).length;
+  const recentContacts = contacts.slice(0, 5);
 
   const stats = [
-    { label: 'โครงการทั้งหมด', value: projects.length, icon: <Building2 size={22} />, href: '/admin/projects', color: 'bg-blue-500' },
-    { label: 'โปรโมชั่น', value: promotions.length, icon: <Tag size={22} />, href: '/admin/promotions', color: 'bg-orange-500' },
-    { label: 'บทความ', value: news.length, icon: <Newspaper size={22} />, href: '/admin/news', color: 'bg-green-500' },
+    { label: 'โครงการทั้งหมด', value: projectsRes.count || 0, icon: <Building2 size={22} />, href: '/admin/projects', color: 'bg-blue-500' },
+    { label: 'โปรโมชั่น', value: promotionsRes.count || 0, icon: <Tag size={22} />, href: '/admin/promotions', color: 'bg-orange-500' },
+    { label: 'บทความ', value: newsRes.count || 0, icon: <Newspaper size={22} />, href: '/admin/news', color: 'bg-green-500' },
     { label: 'ข้อความใหม่', value: unread, icon: <MessageSquare size={22} />, href: '/admin/contacts', color: 'bg-purple-500' },
   ];
-
-  const recentContacts = contacts.slice(0, 5);
 
   return (
     <div className="p-6 lg:p-8">

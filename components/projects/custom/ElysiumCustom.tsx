@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Send, CheckCircle2, Phone, Sparkles } from 'lucide-react';
+import { Phone, Sparkles, CheckCircle2 } from 'lucide-react';
+import RegisterForm from '@/components/projects/RegisterForm';
 
 export default function ElysiumCustom({ project }: { project: any }) {
   // เช็คเบื้องต้นก่อนว่าใน JSON มีการกรอก Path รูปมาหรือไม่
@@ -114,29 +115,7 @@ export default function ElysiumCustom({ project }: { project: any }) {
               </p>
             </div>
 
-            <form className="space-y-5 relative z-10">
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Full Name</label>
-                <input type="text" placeholder="กรุณากรอกชื่อ-นามสกุล" className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner" required />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Phone Number</label>
-                <input type="tel" placeholder="08X-XXX-XXXX" className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner" required />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Email Address (Optional)</label>
-                <input type="email" placeholder="example@email.com" className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner" />
-              </div>
-
-              <div className="pt-4">
-                <button className="group w-full bg-[#e53935] text-white font-black py-4 rounded-xl text-lg transition-all duration-300 hover:bg-[#b71c1c] shadow-[0_10px_20px_rgba(211,47,47,0.2)] flex items-center justify-center gap-3 active:scale-[0.98]">
-                  REGISTER NOW 
-                  <Send size={18} className="group-hover:translate-x-1.5 group-hover:-translate-y-1.5 transition-transform" />
-                </button>
-              </div>
-            </form>
+            <RegisterForm projectName={project.name} />
 
             <div className="mt-8 pt-6 border-t border-slate-200 flex items-center gap-4 relative z-10 hover:border-[#e53935] transition-colors">
               <div className="w-12 h-12 rounded-full bg-[#e53935]/10 border border-[#e53935]/20 flex items-center justify-center shadow-inner">
