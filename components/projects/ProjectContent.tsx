@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles } from 'lucide-react';
+import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, PlayCircle } from 'lucide-react';
 
 export default function ProjectContent({ project }: { project: any }) {
   // ==========================================
@@ -11,6 +11,7 @@ export default function ProjectContent({ project }: { project: any }) {
   const [activeImg, setActiveImg] = useState(0);
   const [isGalleryFullscreen, setIsGalleryFullscreen] = useState(false);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
+  const [infoTab, setInfoTab] = useState<'concept' | 'detail'>('concept');
 
   // ==========================================
   // 📍 STATE สำหรับ PLANS
@@ -270,78 +271,161 @@ export default function ProjectContent({ project }: { project: any }) {
       )}
 
       {/* =========================================
-          📍 PROJECT CONCEPT & INFO
+          📍 PROJECT CONCEPT & INFO (tabs)
       ========================================= */}
       <section id="info" className="py-16 md:py-24 bg-[#f8f9fa] border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm mb-2">
-                <span className="w-2 h-2 rounded-full bg-[#e53935]"></span>
-                <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-slate-500">Project Concept</span>
-              </div>
-              
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black italic text-[#1a2d6b] uppercase leading-[1.1]">
-                {project.concept}
-              </h2>
-              
-              <div className="w-20 h-1.5 bg-[#e53935] rounded-full"></div>
-              
-              <p className="text-slate-600 text-lg md:text-xl leading-relaxed whitespace-pre-line pt-2">
-                {project.conceptArticle || project.description}
-              </p>
-            </div>
 
-            <div className="lg:col-span-5 bg-white rounded-[2rem] p-8 md:p-10 shadow-xl border border-slate-100">
-              <h3 className="text-2xl font-black text-[#1a2d6b] mb-6 border-b border-slate-100 pb-4">ข้อมูลโครงการ</h3>
-              
-              <div className="space-y-4">
-                <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                  <span className="text-slate-500 font-medium">ลักษณะโครงการ</span>
-                  <span className="text-slate-900 font-bold text-right">{project.type} {project.floors ? `${project.floors} ชั้น` : ''}</span>
-                </div>
-                
-                {project.units && (
-                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                    <span className="text-slate-500 font-medium">จำนวนยูนิต</span>
-                    <span className="text-slate-900 font-bold text-right">{project.units} ยูนิต</span>
-                  </div>
-                )}
-                
-                {project.projectArea && (
-                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                    <span className="text-slate-500 font-medium">พื้นที่โครงการ</span>
-                    <span className="text-slate-900 font-bold text-right">{project.projectArea}</span>
-                  </div>
-                )}
-                
-                {project.parking && (
-                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                    <span className="text-slate-500 font-medium">ที่จอดรถ</span>
-                    <span className="text-slate-900 font-bold text-right">{project.parking}</span>
-                  </div>
-                )}
-                
-                <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                  <span className="text-slate-500 font-medium">ทำเลที่ตั้ง</span>
-                  <span className="text-slate-900 font-bold text-right max-w-[60%]">{project.location}</span>
-                </div>
-                
-                {project.features && project.features.length > 0 && (
-                  <div className="pt-4">
-                    <span className="text-slate-500 font-medium block mb-3">สิ่งอำนวยความสะดวก</span>
-                    <div className="flex flex-wrap gap-2">
-                      {project.features.map((feature: string, i: number) => (
-                        <span key={i} className="bg-slate-50 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-full border border-slate-200">
-                          {feature}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+          {/* Tab switcher */}
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex bg-white border border-slate-200 rounded-2xl p-1.5 shadow-sm">
+              <button
+                onClick={() => setInfoTab('concept')}
+                className={`px-7 py-3 rounded-xl text-sm font-black uppercase tracking-wider transition-all ${infoTab === 'concept' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
+              >
+                Project Concept
+              </button>
+              <button
+                onClick={() => setInfoTab('detail')}
+                className={`px-7 py-3 rounded-xl text-sm font-black uppercase tracking-wider transition-all ${infoTab === 'detail' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
+              >
+                Project Detail
+              </button>
             </div>
           </div>
+
+          {/* ── TAB: CONCEPT ── */}
+          {infoTab === 'concept' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+              <div className="lg:col-span-7 space-y-6">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm">
+                  <span className="w-2 h-2 rounded-full bg-[#e53935]"></span>
+                  <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-slate-500">Project Concept</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black italic text-[#1a2d6b] uppercase leading-[1.1]">
+                  {project.concept}
+                </h2>
+                <div className="w-20 h-1.5 bg-[#e53935] rounded-full"></div>
+                <p className="text-slate-600 text-lg md:text-xl leading-relaxed whitespace-pre-line pt-2">
+                  {project.conceptArticle || project.description}
+                </p>
+              </div>
+
+              <div className="lg:col-span-5 bg-white rounded-[2rem] p-8 md:p-10 shadow-xl border border-slate-100">
+                <h3 className="text-2xl font-black text-[#1a2d6b] mb-6 border-b border-slate-100 pb-4">ข้อมูลโครงการ</h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
+                    <span className="text-slate-500 font-medium">ลักษณะโครงการ</span>
+                    <span className="text-slate-900 font-bold text-right">{project.type} {project.floors ? `${project.floors} ชั้น` : ''}</span>
+                  </div>
+                  {project.units && (
+                    <div className="flex justify-between items-center py-2 border-b border-slate-50">
+                      <span className="text-slate-500 font-medium">จำนวนยูนิต</span>
+                      <span className="text-slate-900 font-bold">{project.units} ยูนิต</span>
+                    </div>
+                  )}
+                  {project.projectArea && (
+                    <div className="flex justify-between items-center py-2 border-b border-slate-50">
+                      <span className="text-slate-500 font-medium">พื้นที่โครงการ</span>
+                      <span className="text-slate-900 font-bold text-right">{project.projectArea}</span>
+                    </div>
+                  )}
+                  {project.parking && (
+                    <div className="flex justify-between items-center py-2 border-b border-slate-50">
+                      <span className="text-slate-500 font-medium">ที่จอดรถ</span>
+                      <span className="text-slate-900 font-bold text-right">{project.parking}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
+                    <span className="text-slate-500 font-medium">ทำเลที่ตั้ง</span>
+                    <span className="text-slate-900 font-bold text-right max-w-[60%]">{project.location}</span>
+                  </div>
+                  {project.features?.length > 0 && (
+                    <div className="pt-4">
+                      <span className="text-slate-500 font-medium block mb-3">สิ่งอำนวยความสะดวก</span>
+                      <div className="flex flex-wrap gap-2">
+                        {project.features.map((f: string, i: number) => (
+                          <span key={i} className="bg-slate-50 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-full border border-slate-200">{f}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── TAB: DETAIL ── */}
+          {infoTab === 'detail' && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+              {/* ── ข้อมูลหลัก ── */}
+              <div className="lg:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-4 mb-2">
+                {[
+                  { label: 'PROJECT NAME', value: project.name },
+                  { label: 'PROJECT TYPE', value: `${project.type}${project.floors ? ` ${project.floors} ชั้น` : ''}` },
+                  { label: 'LOCATION', value: `${project.location}${project.bts ? ` ${project.bts}` : ''}` },
+                  ...(project.units ? [{ label: 'UNIT', value: `${project.units} ยูนิต` }] : []),
+                  ...(project.parking ? [{ label: 'PARKING', value: project.parking }] : []),
+                  ...(project.priceMin ? [{ label: 'PRICE', value: `${(project.priceMin / 1000000).toFixed(2)} ลบ.*` }] : []),
+                  ...(project.projectArea ? [{ label: 'พื้นที่โครงการ', value: project.projectArea }] : []),
+                ].map((item) => (
+                  <div key={item.label} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-[#e53935]" />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-[#e53935]">{item.label}</span>
+                    </div>
+                    <div className="text-[#1a2d6b] font-black text-base leading-snug">{item.value}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* ── Room Plans (ดึงจาก roomPlans) ── */}
+              {project.roomPlans?.length > 0 && (
+                <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                  <h3 className="text-base font-black text-[#1a2d6b] mb-4 pb-3 border-b border-slate-100">ประเภทห้อง</h3>
+                  <table className="w-full text-sm">
+                    <tbody className="divide-y divide-slate-50">
+                      {project.roomPlans.map((plan: { type: string; image: string }, i: number) => {
+                        const match = plan.type.match(/(\d+)\s*ตร/);
+                        return (
+                          <tr key={i}>
+                            <td className="py-2.5 text-slate-600 font-medium">– {plan.type.split(' ')[0]} {plan.type.split(' ')[1] || ''}</td>
+                            <td className="py-2.5 text-right font-bold text-[#1a2d6b]">{match ? `${match[1]} ตร.ม.` : ''}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* ── Features / สิ่งอำนวยความสะดวก ── */}
+              {project.features?.length > 0 && (
+                <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                  <h3 className="text-base font-black text-[#1a2d6b] mb-4 pb-3 border-b border-slate-100">สิ่งอำนวยความสะดวก</h3>
+                  <ul className="space-y-2">
+                    {project.features.map((f: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#e53935] shrink-0" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* ── Description ── */}
+              {project.description && (
+                <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                  <h3 className="text-base font-black text-[#1a2d6b] mb-4 pb-3 border-b border-slate-100">รายละเอียดโครงการ</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">{project.description}</p>
+                </div>
+              )}
+
+            </div>
+          )}
+
         </div>
       </section>
 
@@ -570,7 +654,33 @@ export default function ProjectContent({ project }: { project: any }) {
       )}
 
       {/* =========================================
-          📍 3. LOCATION & MAP SECTION
+          📍 3. VIDEO SECTION
+      ========================================= */}
+      {project.videoUrl && (
+        <section id="video" className="py-16 md:py-24 bg-[#0f1e4a]">
+          <div className="max-w-5xl mx-auto px-4">
+            <div className="text-center mb-10">
+              <div className="flex items-center justify-center gap-3 mb-4 text-white">
+                <PlayCircle size={32} />
+                <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tight">Video</h2>
+              </div>
+              <div className="w-16 h-1 bg-[#e53935] mx-auto rounded-full" />
+            </div>
+            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl" style={{ paddingTop: '56.25%' }}>
+              <iframe
+                src={project.videoUrl}
+                className="absolute inset-0 w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title={`${project.name} Video`}
+              />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* =========================================
+          📍 4. LOCATION & MAP SECTION
       ========================================= */}
       {project.googleMapUrl && (
         <section id="location" className="py-16 md:py-24 bg-white">

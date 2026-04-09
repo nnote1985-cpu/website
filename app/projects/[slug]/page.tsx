@@ -39,6 +39,7 @@ interface Project {
   phone?: string;
   popupImage?: string;
   popupUrl?: string;
+  videoUrl?: string;
   gallery?: string[];
   floorPlans?: string[];
   roomPlans?: { type: string; image: string }[];
@@ -74,6 +75,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     phone: data.phone || '',
     popupImage: data.popup_image || '',
     popupUrl: data.popup_url || '',
+    videoUrl: data.video_url || '',
     floorPlans: data.floor_plans,
     roomPlans: data.room_plans,
     googleMapUrl: data.google_map_url,

@@ -54,6 +54,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     room_plans: body.roomPlans || body.room_plans,
     google_map_url: body.googleMapUrl || body.google_map_url,
     is_active: body.isActive ?? body.is_active,
+    video_url: body.videoUrl ?? body.video_url,
+    sheet_webhook_url: body.sheetWebhookUrl ?? body.sheet_webhook_url,
   };
   Object.keys(updateData).forEach((k) => updateData[k] === undefined && delete updateData[k]);
 

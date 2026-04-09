@@ -63,6 +63,7 @@ export default function Footer() {
               { label: 'สมาชิก ASAKAN', href: '/member' },
               { label: 'AssetCare+', href: '/assetcare' },
               { label: 'ข่าวสาร', href: '/news' },
+              { label: 'FAQ', href: '/faq' },
               { label: 'ติดต่อเรา', href: '/contact' },
             ].map((link) => (
               <li key={link.href}>

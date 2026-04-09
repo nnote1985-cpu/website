@@ -22,13 +22,15 @@ interface Project {
   fbPixelId: string;
   facebookUrl: string;
   phone: string;
+  videoUrl: string;
+  sheetWebhookUrl: string;
 }
 
 const EMPTY: Omit<Project, 'id'> = {
   slug: '', name: '', status: 'active', type: 'Low-Rise Condominium',
   floors: 8, units: 100, priceMin: 1200000, priceMax: 3000000,
   location: '', bts: '', concept: '', description: '', image: '',
-  isFeatured: true, fbPixelId: '', facebookUrl: '', phone: '',
+  isFeatured: true, fbPixelId: '', facebookUrl: '', phone: '', videoUrl: '', sheetWebhookUrl: '',
 };
 
 const STATUS_OPTIONS = [
@@ -58,6 +60,8 @@ function mapProject(p: Record<string, unknown>): Project {
     fbPixelId: (p.fb_pixel_id as string) || '',
     facebookUrl: (p.facebook_url as string) || '',
     phone: (p.phone as string) || '',
+    videoUrl: (p.video_url as string) || '',
+    sheetWebhookUrl: (p.sheet_webhook_url as string) || '',
   };
 }
 
@@ -94,6 +98,12 @@ export default function AdminProjectsPage() {
     setModal((m) => ({ ...m, project: { ...m.project, [key]: value } }));
   }
 
+  async function reloadProjects() {
+    const r = await fetch('/api/projects');
+    const d: Record<string, unknown>[] = await r.json();
+    setProjects(d.map(mapProject));
+  }
+
   async function handleSave() {
     if (!modal.project) return;
     setSaving(true);
@@ -109,13 +119,12 @@ export default function AdminProjectsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      const data = await res.json();
-      const mapped = mapProject(data);
-      if (modal.isNew) {
-        setProjects([...projects, mapped]);
-      } else {
-        setProjects(projects.map((p) => (p.id === id ? mapped : p)));
+      if (!res.ok) {
+        const err = await res.json();
+        alert(`บันทึกไม่สำเร็จ: ${err.error || res.status}`);
+        return;
       }
+      await reloadProjects();
       closeModal();
     } finally {
       setSaving(false);
@@ -274,6 +283,38 @@ export default function AdminProjectsPage() {
                 <div className="col-span-2">
                   <label className={labelClass}>URL รูปภาพหลัก</label>
                   <input type="text" value={modal.project.image || ''} onChange={(e) => updateField('image', e.target.value)} className={inputClass} placeholder="/images/project.jpg" />
+                </div>
+
+                {/* ── Google Sheet ── */}
+                <div className="col-span-2 pt-2 border-t border-gray-100">
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Google Sheet</p>
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>Apps Script Webhook URL</label>
+                  <input
+                    type="url"
+                    value={modal.project.sheetWebhookUrl || ''}
+                    onChange={(e) => updateField('sheetWebhookUrl', e.target.value)}
+                    className={inputClass}
+                    placeholder="https://script.google.com/macros/s/..."
+                  />
+                  <p className="text-xs text-gray-400 mt-1">ข้อมูลลงทะเบียนจะถูกส่งไป Google Sheet โครงการนี้อัตโนมัติ</p>
+                </div>
+
+                {/* ── Video ── */}
+                <div className="col-span-2 pt-2 border-t border-gray-100">
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">วีดีโอโครงการ</p>
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>YouTube / Vimeo Embed URL</label>
+                  <input
+                    type="url"
+                    value={modal.project.videoUrl || ''}
+                    onChange={(e) => updateField('videoUrl', e.target.value)}
+                    className={inputClass}
+                    placeholder="https://www.youtube.com/embed/XXXXXXXXX"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">ใช้ลิงค์แบบ embed เช่น youtube.com/embed/... ถ้าไม่ใส่จะไม่แสดง section นี้</p>
                 </div>
 
                 {/* ── Social & Tracking ── */}

@@ -42,3 +42,31 @@ Bash
 git add .
 git commit -m "Update data"
 git push
+
+<iframe 
+  src="https://asakancrm.pages.dev/embed/birthday-form" 
+  style="width: 100%; height: 750px; border: none; background: transparent;"
+  scrolling="no">
+</iframe>
+
+เสร็จแล้ว สรุปสิ่งที่ทำ:
+
+/sitemap.xml (auto-generate โดย Next.js)
+
+Static 13 หน้า รวม member sub-pages และ /faq ที่เพิ่งสร้าง
+Dynamic project pages ดึง slug จาก Supabase (เฉพาะ is_active = true)
+Dynamic news pages ดึง slug (เฉพาะ is_published = true) พร้อม lastModified จาก updated_at
+Priority ตั้งตามความสำคัญ: หน้าแรก 1.0 → โครงการ 0.9 → promotion/about/news 0.8 → ฯลฯ
+/robots.txt (auto-generate โดย Next.js)
+
+Allow ทุก bot ยกเว้น /admin/ และ /api/
+Block AI training bots (GPTBot, CCBot, anthropic-ai, Claude-Web, Google-Extended)
+วิธีส่ง Google Search Console:
+
+Deploy ขึ้น Vercel ก่อน
+เข้า Google Search Console → เลือก property asakan.co.th
+ไปที่ Sitemaps → ใส่ sitemap.xml → กด Submit
+
+https://www.youtube.com/embed/uqsTTN9jU-M?si=ONfNv-uqNT_Q3vdb
+
+test sheet https://script.google.com/macros/s/AKfycbwmRD4acJhYYqbegvlpWzVh1sBq8A_6lMrM46QbBZ-2bQjFD9a0y2gxE1kb5zlp26vV/exec

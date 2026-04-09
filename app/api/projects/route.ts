@@ -53,6 +53,8 @@ export async function POST(req: NextRequest) {
       room_plans: body.roomPlans || body.room_plans || [],
       google_map_url: body.googleMapUrl || body.google_map_url,
       is_active: body.isActive ?? body.is_active ?? true,
+      video_url: body.videoUrl || body.video_url || '',
+      sheet_webhook_url: body.sheetWebhookUrl || body.sheet_webhook_url || '',
       created_at: new Date().toISOString(),
     };
 

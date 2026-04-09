@@ -22,6 +22,7 @@ const NAV_LINKS = [
     ],
   },
   { label: 'News', href: '/news' },
+  { label: 'FAQ', href: '/faq' },
   { label: 'Contact', href: '/contact' },
 ];
 

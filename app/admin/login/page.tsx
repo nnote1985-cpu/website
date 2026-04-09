@@ -1,11 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Lock, User, AlertCircle } from 'lucide-react';
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [form, setForm] = useState({ username: '', password: '' });
   const [showPw, setShowPw] = useState(false);
   const [error, setError] = useState('');
@@ -22,8 +20,7 @@ export default function AdminLoginPage() {
         body: JSON.stringify(form),
       });
       if (res.ok) {
-        router.push('/admin');
-        router.refresh();
+        window.location.href = '/admin';
       } else {
         const data = await res.json();
         setError(data.error || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');

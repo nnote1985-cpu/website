@@ -40,6 +40,23 @@ export async function POST(req: NextRequest) {
     const { error } = await supabaseAdmin.from('contacts').insert(newContact);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
+    // ส่งไป Google Sheet webhook ของโครงการนั้น (ถ้ามี)
+    if (project) {
+      const { data: projectData } = await supabaseAdmin
+        .from('projects')
+        .select('sheet_webhook_url')
+        .or(`name.eq.${project},slug.eq.${project}`)
+        .single();
+
+      if (projectData?.sheet_webhook_url) {
+        fetch(projectData.sheet_webhook_url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, message, project, appointmentDate }),
+        }).catch(() => {}); // ไม่ block response ถ้า sheet error
+      }
+    }
+
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
     console.error(error);

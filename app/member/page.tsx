@@ -15,31 +15,43 @@ const benefits = [
     icon: <Gift size={28} />,
     title: 'Birthday Gifts',
     desc: 'รับของขวัญพิเศษจาก ASAKAN ทุกปีในวันเกิดของคุณ',
+    href: '/member/birthday',
+    color: 'bg-purple-100 text-purple-600',
   },
   {
     icon: <Shield size={28} />,
     title: 'ประกันอุบัติเหตุ',
     desc: 'คุ้มครองอุบัติเหตุสูงสุด 500,000 บาทต่อปี สำหรับสมาชิกและครอบครัว',
+    href: '/member/insurance',
+    color: 'bg-blue-100 text-blue-600',
   },
   {
     icon: <Percent size={28} />,
     title: 'ส่วนลดซื้อห้องถัดไป',
     desc: 'ส่วนลดพิเศษ 50,000 บาท เมื่อซื้อห้องโครงการ ASAKAN ครั้งต่อไป',
+    href: '/member/discount',
+    color: 'bg-red-100 text-[#e53935]',
   },
   {
     icon: <Users size={28} />,
-    title: 'รางวัลแนะนำเพื่อน',
+    title: 'Friends Get Friends',
     desc: 'รับรางวัลมากกว่า 100,000 บาท เมื่อแนะนำเพื่อนให้ซื้อห้อง ASAKAN',
+    href: '/member/fgf',
+    color: 'bg-green-100 text-green-600',
   },
   {
     icon: <Star size={28} />,
     title: 'สิทธิพิเศษ VIP',
     desc: 'เข้าร่วมกิจกรรมพิเศษ ทริปท่องเที่ยว และอีเวนต์เอ็กซ์คลูซีฟ',
+    href: undefined,
+    color: 'bg-yellow-100 text-yellow-600',
   },
   {
     icon: <ArrowRight size={28} />,
     title: 'บริการพิเศษ',
     desc: 'ช่องทางติดต่อ VIP ตอบสนองรวดเร็ว และบริการดูแลหลังการขาย',
+    href: undefined,
+    color: 'bg-orange-100 text-[#f4511e]',
   },
 ];
 
@@ -76,15 +88,32 @@ export default function MemberPage() {
               <h2 className="section-title">สิทธิพิเศษของคุณ</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {benefits.map((b) => (
-                <div key={b.title} className="bg-gray-50 rounded-2xl p-7 card-hover border border-gray-100">
-                  <div className="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center text-[#f4511e] mb-5">
-                    {b.icon}
+              {benefits.map((b) =>
+                b.href ? (
+                  <Link
+                    key={b.title}
+                    href={b.href}
+                    className="group bg-gray-50 rounded-2xl p-7 border border-gray-100 hover:border-[#e53935] hover:shadow-md transition-all duration-300"
+                  >
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 ${b.color}`}>
+                      {b.icon}
+                    </div>
+                    <h3 className="font-bold text-[#1a2d6b] text-lg mb-2 group-hover:text-[#e53935] transition-colors">{b.title}</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed mb-4">{b.desc}</p>
+                    <span className="inline-flex items-center gap-1 text-xs font-bold text-[#e53935] opacity-0 group-hover:opacity-100 transition-opacity">
+                      ดูรายละเอียด <ArrowRight size={12} />
+                    </span>
+                  </Link>
+                ) : (
+                  <div key={b.title} className="bg-gray-50 rounded-2xl p-7 border border-gray-100">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 ${b.color}`}>
+                      {b.icon}
+                    </div>
+                    <h3 className="font-bold text-[#1a2d6b] text-lg mb-2">{b.title}</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">{b.desc}</p>
                   </div>
-                  <h3 className="font-bold text-[#1a2d6b] text-lg mb-2">{b.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">{b.desc}</p>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </div>
         </section>
