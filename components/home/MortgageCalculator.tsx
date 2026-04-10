@@ -37,7 +37,7 @@ export default function MortgageCalculator() {
   const maxLoan = calcMaxLoan(monthlyIncome, maxInterest, maxYears);
 
   return (
-    <section className="bg-[#1a2d6b] py-16">
+    <section className="bg-zinc-900 py-16">
       <div className="max-w-3xl mx-auto px-4">
         <div className="text-center mb-10">
           <p className="section-subtitle text-orange-400 mb-2">เครื่องมือคำนวณ</p>
@@ -107,7 +107,7 @@ export default function MortgageCalculator() {
                   <select
                     value={years}
                     onChange={(e) => setYears(+e.target.value)}
-                    className="w-full bg-[#1a2d6b] border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#f4511e]"
+                    className="w-full bg-zinc-900 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#f4511e]"
                   >
                     {[10, 15, 20, 25, 30].map((y) => (
                       <option key={y} value={y}>{y} ปี</option>
@@ -164,7 +164,7 @@ export default function MortgageCalculator() {
                   <select
                     value={maxYears}
                     onChange={(e) => setMaxYears(+e.target.value)}
-                    className="w-full bg-[#1a2d6b] border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#f4511e]"
+                    className="w-full bg-zinc-900 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#f4511e]"
                   >
                     {[10, 15, 20, 25, 30].map((y) => (
                       <option key={y} value={y}>{y} ปี</option>
