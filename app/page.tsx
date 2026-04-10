@@ -11,6 +11,7 @@ import { ArrowRight, Shield, Star, Home, TrendingUp } from 'lucide-react';
 import FloatingCTA from '@/components/FloatingCTA';
 import SearchSection from '@/components/home/SearchSection';
 import PromoBanner from '@/components/home/PromoBanner';
+import CollapsibleSection from '@/components/home/CollapsibleSection';
 
 export const revalidate = 0;
 
@@ -154,89 +155,88 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* 5. TRUST SECTION - Redesign ให้ดูแพงและมีลูกเล่น */}
-        <section className="py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-              
-              {/* ฝั่งซ้าย: หัวข้อและคำโปรย (Sticky on scroll) */}
-              <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit">
-                {/* 📍 เปลี่ยนขีดตกแต่งและไฮไลต์เป็นสีแดง */}
-                <div className="w-12 h-1 bg-[#e53935] mb-6" />
-                <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-[1.1] mb-6">
-                  Why <br />
-                  <span className="text-[#e53935]">ASAKAN?</span>
-                </h2>
-                <p className="text-slate-500 text-lg leading-relaxed mb-8">
-                  กว่า 21 ปีที่เราสร้างสรรค์ที่อยู่อาศัยบนมาตรฐานความคุ้มค่าและความมั่นคง 
-                  เพื่อส่งมอบคุณภาพชีวิตที่ดีที่สุดให้กับคุณ
-                </p>
-                <div className="hidden lg:block w-full h-[1px] bg-slate-100" />
-              </div>
+        {/* 5. TRUST SECTION - Why ASAKAN */}
+        <CollapsibleSection label="Why ASAKAN?">
+          <section className="py-24 bg-white border-t border-slate-100">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
 
-              {/* ฝั่งขวา: รายการจุดเด่นในรูปแบบ Modern Grid */}
-              <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
-                {[
-                  { icon: <Home size={32} strokeWidth={1.5} />, title: '2,500+ Units Delivered', desc: 'ความไว้วางใจจากครอบครัวอาซากันที่ส่งมอบแล้วทั่วกรุงเทพฯ' },
-                  { icon: <Star size={32} strokeWidth={1.5} />, title: 'Premium Quality', desc: 'คัดสรรวัสดุมาตรฐานสากล พร้อมทีมงานตรวจรับมอบมืออาชีพ' },
-                  { icon: <Shield size={32} strokeWidth={1.5} />, title: '21 Years Heritage', desc: 'รากฐานที่แข็งแกร่งและประสบการณ์ที่สั่งสมมายาวนานอย่างยั่งยืน' },
-                  { icon: <TrendingUp size={32} strokeWidth={1.5} />, title: 'Prime Location', desc: 'เน้นทำเลศักยภาพใกล้รถไฟฟ้า เพื่อการอยู่อาศัยและการลงทุน' },
-                ].map((item, index) => (
-                  <div key={item.title} className="group relative p-8 rounded-3xl transition-all duration-500 hover:bg-slate-50 border border-transparent hover:border-slate-100 hover:shadow-xl hover:shadow-slate-200/50">
-                    {/* Index Number จางๆ ด้านหลัง 📍 เปลี่ยน Hover เป็นสีแดง */}
-                    <span className="absolute top-6 right-8 text-5xl font-bold text-slate-100/50 group-hover:text-[#e53935]/10 transition-colors duration-500">
-                      0{index + 1}
-                    </span>
-                    
-                    {/* Icon Box 📍 เปลี่ยน Hover เป็นสีแดง */}
-                    <div className="w-14 h-14 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#e53935] group-hover:shadow-md transition-all duration-500 mb-6">
-                      {item.icon}
+                {/* ฝั่งซ้าย: หัวข้อและคำโปรย */}
+                <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit">
+                  <div className="w-12 h-1 bg-[#e53935] mb-6" />
+                  <h2 className="text-4xl md:text-5xl font-bold text-[#1a2d6b] leading-[1.1] mb-6">
+                    Why <br />
+                    <span className="text-[#e53935]">ASAKAN?</span>
+                  </h2>
+                  <p className="text-slate-500 text-lg leading-relaxed mb-8">
+                    กว่า 21 ปีที่เราสร้างสรรค์ที่อยู่อาศัยบนมาตรฐานความคุ้มค่าและความมั่นคง
+                    เพื่อส่งมอบคุณภาพชีวิตที่ดีที่สุดให้กับคุณ
+                  </p>
+                  <div className="hidden lg:block w-full h-[1px] bg-slate-100" />
+                </div>
+
+                {/* ฝั่งขวา: รายการจุดเด่น */}
+                <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
+                  {[
+                    { icon: <Home size={32} strokeWidth={1.5} />, title: '2,500+ Units Delivered', desc: 'ความไว้วางใจจากครอบครัวอาซากันที่ส่งมอบแล้วทั่วกรุงเทพฯ' },
+                    { icon: <Star size={32} strokeWidth={1.5} />, title: 'Premium Quality', desc: 'คัดสรรวัสดุมาตรฐานสากล พร้อมทีมงานตรวจรับมอบมืออาชีพ' },
+                    { icon: <Shield size={32} strokeWidth={1.5} />, title: '21 Years Heritage', desc: 'รากฐานที่แข็งแกร่งและประสบการณ์ที่สั่งสมมายาวนานอย่างยั่งยืน' },
+                    { icon: <TrendingUp size={32} strokeWidth={1.5} />, title: 'Prime Location', desc: 'เน้นทำเลศักยภาพใกล้รถไฟฟ้า เพื่อการอยู่อาศัยและการลงทุน' },
+                  ].map((item, index) => (
+                    <div key={item.title} className="group relative p-8 rounded-3xl transition-all duration-500 hover:bg-[#f0f4ff] border border-transparent hover:border-[#1a2d6b]/10 hover:shadow-xl hover:shadow-[#1a2d6b]/5">
+                      <span className="absolute top-6 right-8 text-5xl font-bold text-slate-100 group-hover:text-[#1a2d6b]/10 transition-colors duration-500">
+                        0{index + 1}
+                      </span>
+
+                      <div className="w-14 h-14 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#e53935] group-hover:shadow-md transition-all duration-500 mb-6">
+                        {item.icon}
+                      </div>
+
+                      <h3 className="text-xl font-bold text-[#1a2d6b] mb-3 group-hover:text-[#e53935] transition-colors">
+                        {item.title}
+                      </h3>
+
+                      <p className="text-slate-500 text-sm leading-relaxed pr-4">
+                        {item.desc}
+                      </p>
                     </div>
+                  ))}
+                </div>
 
-                    <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#e53935] transition-colors">
-                      {item.title}
-                    </h3>
-                    
-                    <p className="text-slate-500 text-sm leading-relaxed pr-4">
-                      {item.desc}
-                    </p>
+              </div>
+            </div>
+          </section>
+        </CollapsibleSection>
+
+        {/* 6. SERVICES - บริการเสริม */}
+        <CollapsibleSection label="Service & Care ครบจบในที่เดียว">
+          <section className="py-24 bg-white border-t border-slate-100">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="text-center mb-16">
+                <p className="text-[#e53935] font-bold text-xs uppercase tracking-[0.3em] mb-3">Service & Care</p>
+                <h2 className="text-4xl font-bold text-[#1a2d6b]">ครบจบในที่เดียว</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                  { title: 'ซื้อคอนโดมิเนียม', desc: 'โครงการคุณภาพในทำเลศักยภาพ ราคาเริ่มต้น 1.21 ล้านบาท พร้อมส่วนกลางครบครัน', href: '/projects', cta: 'ดูโครงการ' },
+                  { title: 'ASAKAN AssetCare+', desc: 'บริการบริหารการปล่อยเช่าแบบครบวงจร ให้คุณมีรายได้ Passive Income โดยไม่ต้องกังวล', href: '/assetcare', cta: 'เรียนรู้เพิ่มเติม' },
+                  { title: 'สมาชิก ASAKAN', desc: 'สิทธิพิเศษสำหรับเจ้าของห้อง ประกันอุบัติเหตุ ส่วนลดซื้อห้องถัดไป และรางวัลแนะนำเพื่อน', href: '/member', cta: 'สมัครสมาชิก' },
+                ].map((service) => (
+                  <div key={service.title} className="bg-[#f0f4ff] border border-[#1a2d6b]/10 rounded-[2rem] p-8 hover:bg-[#e8eeff] hover:shadow-lg hover:shadow-[#1a2d6b]/10 transition-all group">
+                    <h3 className="font-bold text-[#1a2d6b] text-2xl mb-4">{service.title}</h3>
+                    <p className="text-slate-500 text-sm leading-relaxed mb-8">{service.desc}</p>
+                    <Link
+                      href={service.href}
+                      className="inline-flex items-center gap-2 text-[#e53935] font-bold text-sm group-hover:gap-4 transition-all uppercase tracking-widest"
+                    >
+                      {service.cta} <ArrowRight size={16} />
+                    </Link>
                   </div>
                 ))}
               </div>
-
             </div>
-          </div>
-        </section>
-
-        {/* 6. SERVICES - บริการเสริม */}
-        <section className="py-24 bg-slate-900">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-16">
-              {/* 📍 เปลี่ยนเป็นสีแดง */}
-              <p className="text-[#e53935] font-bold text-xs uppercase tracking-[0.3em] mb-3">Service & Care</p>
-              <h2 className="text-4xl font-bold text-white">ครบจบในที่เดียว</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { title: 'ซื้อคอนโดมิเนียม', desc: 'โครงการคุณภาพในทำเลศักยภาพ ราคาเริ่มต้น 1.21 ล้านบาท พร้อมส่วนกลางครบครัน', href: '/projects', cta: 'ดูโครงการ' },
-                { title: 'ASAKAN AssetCare+', desc: 'บริการบริหารการปล่อยเช่าแบบครบวงจร ให้คุณมีรายได้ Passive Income โดยไม่ต้องกังวล', href: '/assetcare', cta: 'เรียนรู้เพิ่มเติม' },
-                { title: 'สมาชิก ASAKAN', desc: 'สิทธิพิเศษสำหรับเจ้าของห้อง ประกันอุบัติเหตุ ส่วนลดซื้อห้องถัดไป และรางวัลแนะนำเพื่อน', href: '/member', cta: 'สมัครสมาชิก' },
-              ].map((service) => (
-                <div key={service.title} className="bg-white/5 border border-white/10 rounded-[2rem] p-8 hover:bg-white/10 transition-all group">
-                  <h3 className="font-bold text-white text-2xl mb-4">{service.title}</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed mb-8">{service.desc}</p>
-                  <Link
-                    href={service.href}
-                    // 📍 เปลี่ยนเป็นสีแดง
-                    className="inline-flex items-center gap-2 text-[#e53935] font-bold text-sm group-hover:gap-4 transition-all uppercase tracking-widest"
-                  >
-                    {service.cta} <ArrowRight size={16} />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+          </section>
+        </CollapsibleSection>
 
         {/* 7. OTHER TOOLS */}
         <div className="bg-slate-50 py-12">
@@ -267,39 +267,68 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* 9. FINAL CTA - เน้นสีน้ำเงินและปุ่มแดง (10%) */}
-        <section className="py-24 relative overflow-hidden bg-[#1a2d6b]">
-          {/* Flare Effects (คงไว้ครบ) */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-[100px] -mr-40 -mt-40 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-black/10 rounded-full blur-[80px] -ml-20 -mb-20 pointer-events-none" />
-          
-          <div className="max-w-4xl mx-auto px-6 text-center text-white relative z-10">
-            <span className="text-white/40 uppercase tracking-[0.3em] text-xs font-semibold mb-4 block">
-              Start Your Journey
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Ready to Find Your Dream Home?</h2>
-            <p className="text-white/60 text-lg mb-12 font-light max-w-2xl mx-auto">
-              ปรึกษาเรื่องกู้ ซื้อ หรือลงทุนคอนโดกับผู้เชี่ยวชาญจาก ASAKAN ได้ฟรี ไม่มีค่าใช้จ่าย พร้อมรับข้อเสนอสุดพิเศษวันนี้
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-              <Link 
-                href="/contact" 
-                className="w-full sm:w-auto bg-[#e53935] text-white font-bold px-10 py-4 rounded-full hover:bg-white hover:text-[#e53935] transition-all duration-300 shadow-xl text-[15px] tracking-wide"
-              >
-                ติดต่อโครงการ
-              </Link>
-              
-              <a 
-                href="https://line.me/ti/p/~@asakan" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-full sm:w-auto border border-white/20 text-white font-bold px-10 py-4 rounded-full hover:bg-white/10 transition-all text-[15px] flex items-center justify-center gap-3 tracking-wide"
-              >
-                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.582 0 0 3.13 0 6.993c0 3.492 3.1 6.407 7.286 6.926l-.288 1.073c-.049.183.118.35.3.3l3.3-1.07C13.2 13.2 16 10.3 16 6.993 16 3.13 12.418 0 8 0z" /></svg>
-                ทัก LINE ปรึกษาฟรี
-              </a>
+        {/* 9. FINAL CTA */}
+        <section className="py-14 bg-white border-t border-slate-100">
+          <div className="max-w-5xl mx-auto px-6">
+
+            {/* Heading */}
+            <div className="text-center mb-10">
+              <p className="text-[#e53935] font-bold text-xs uppercase tracking-[0.3em] mb-3">Start Your Journey</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1a2d6b] mb-3">Ready to Find Your Dream Home?</h2>
+              <p className="text-slate-400 text-sm max-w-xl mx-auto">
+                ปรึกษาเรื่องกู้ ซื้อ หรือลงทุนคอนโดกับผู้เชี่ยวชาญจาก ASAKAN ได้ฟรี ไม่มีค่าใช้จ่าย
+              </p>
             </div>
+
+            {/* Contact Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {/* โทรศัพท์ */}
+              <a
+                href="tel:0825265566"
+                className="group flex items-center gap-4 bg-white border border-slate-200 rounded-2xl px-5 py-4 hover:border-[#1a2d6b] hover:shadow-md transition-all"
+              >
+                <div className="w-10 h-10 rounded-xl bg-[#f0f4ff] flex items-center justify-center shrink-0 group-hover:bg-[#1a2d6b] transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#1a2d6b] group-hover:text-white transition-colors"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.89 12a19.79 19.79 0 0 1-3-8.59A2 2 0 0 1 3.89 1.5h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-0.5">โทรหาเรา</p>
+                  <p className="text-[#1a2d6b] font-bold text-sm">082-526-5566</p>
+                </div>
+              </a>
+
+              {/* LINE */}
+              <a
+                href="https://line.me/ti/p/~@asakan"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 bg-white border border-slate-200 rounded-2xl px-5 py-4 hover:border-[#00c300] hover:shadow-md transition-all"
+              >
+                <div className="w-10 h-10 rounded-xl bg-[#f0fff0] flex items-center justify-center shrink-0 group-hover:bg-[#00c300] transition-colors">
+                  <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" className="text-[#00c300] group-hover:text-white transition-colors">
+                    <path d="M8 0C3.582 0 0 3.13 0 6.993c0 3.492 3.1 6.407 7.286 6.926l-.288 1.073c-.049.183.118.35.3.3l3.3-1.07C13.2 13.2 16 10.3 16 6.993 16 3.13 12.418 0 8 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-0.5">LINE Official</p>
+                  <p className="text-[#1a2d6b] font-bold text-sm">@asakan</p>
+                </div>
+              </a>
+
+              {/* ติดต่อออนไลน์ */}
+              <Link
+                href="/contact"
+                className="group flex items-center gap-4 bg-[#e53935] rounded-2xl px-5 py-4 hover:bg-[#c62828] transition-all shadow-sm"
+              >
+                <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div>
+                  <p className="text-white/70 text-[10px] uppercase tracking-wider mb-0.5">ส่งข้อความ</p>
+                  <p className="text-white font-bold text-sm">ติดต่อโครงการ</p>
+                </div>
+              </Link>
+            </div>
+
           </div>
         </section>
 

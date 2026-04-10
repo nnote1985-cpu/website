@@ -42,18 +42,48 @@ export async function POST(req: NextRequest) {
 
     // ส่งไป Google Sheet webhook ของโครงการนั้น (ถ้ามี)
     if (project) {
-      const { data: projectData } = await supabaseAdmin
-        .from('projects')
-        .select('sheet_webhook_url')
-        .or(`name.eq.${project},slug.eq.${project}`)
-        .single();
+      console.log('[webhook] looking up project:', project);
 
-      if (projectData?.sheet_webhook_url) {
-        fetch(projectData.sheet_webhook_url, {
+      // ดึงทุก project แล้ว filter ใน JS เพื่อหลีกเลี่ยงปัญหา PostgREST escaping
+      const { data: allProjects, error: projErr } = await supabaseAdmin
+        .from('projects')
+        .select('name, slug, sheet_webhook_url');
+
+      if (projErr) console.error('[webhook] supabase error:', projErr.message);
+
+      const matched = (allProjects || []).find(
+        (p) =>
+          p.name === project ||
+          p.slug === project ||
+          p.name?.toLowerCase() === project?.toLowerCase()
+      );
+
+      console.log('[webhook] matched project:', matched?.name, '| url:', matched?.sheet_webhook_url);
+
+      const webhookUrl = matched?.sheet_webhook_url;
+
+      if (webhookUrl) {
+        const payload = JSON.stringify({
+          name: name || '',
+          phone: phone || '',
+          email: email || '',
+          project: project || '',
+          message: message || '',
+          appointmentDate: appointmentDate || '',
+        });
+
+        console.log('[webhook] sending to:', webhookUrl);
+
+        fetch(webhookUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, phone, message, project, appointmentDate }),
-        }).catch(() => {}); // ไม่ block response ถ้า sheet error
+          headers: { 'Content-Type': 'text/plain' },
+          body: payload,
+          redirect: 'follow',
+        })
+          .then((r) => console.log('[webhook] response status:', r.status))
+          .catch((e) => console.error('[webhook] fetch error:', e));
+      } else {
+        console.log('[webhook] no webhook URL found for project:', project);
       }
     }
 
