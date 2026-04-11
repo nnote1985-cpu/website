@@ -58,6 +58,8 @@ export async function POST(req: NextRequest) {
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
     // ส่งไป Google Sheet webhook ของโครงการนั้น (ถ้ามี)
+    let matched: { name: string; slug: string; sheet_webhook_url?: string; fb_pixel_id?: string; fb_capi_token?: string } | undefined;
+
     if (project) {
       console.log('[webhook] looking up project:', project);
 
@@ -68,7 +70,7 @@ export async function POST(req: NextRequest) {
 
       if (projErr) console.error('[webhook] supabase error:', projErr.message);
 
-      const matched = (allProjects || []).find(
+      matched = (allProjects || []).find(
         (p) =>
           p.name === project ||
           p.slug === project ||
