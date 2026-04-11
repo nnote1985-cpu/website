@@ -2,6 +2,19 @@
 
 import { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
+import Script from 'next/script';
+
+declare global {
+  interface Window {
+    fbq: (...args: unknown[]) => void;
+    grecaptcha: {
+      ready: (cb: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    };
+  }
+}
+
+const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
 
 interface Props {
   projectName: string;
@@ -25,6 +38,15 @@ export default function RegisterForm({ projectName }: Props) {
 
   const today = new Date().toISOString().split('T')[0];
 
+  const handleFirstInteraction = () => {
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'ViewContent', {
+        content_name: projectName,
+        content_type: 'product',
+      });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !phone) return;
@@ -32,16 +54,45 @@ export default function RegisterForm({ projectName }: Props) {
     setLoading(true);
     setError('');
 
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, phone, email, message: '', project: projectName, appointmentDate: appointmentDate || undefined }),
-    });
+    try {
+      let recaptchaToken = '';
+      if (SITE_KEY && typeof window.grecaptcha !== 'undefined') {
+        recaptchaToken = await new Promise<string>((resolve) => {
+          window.grecaptcha.ready(async () => {
+            const token = await window.grecaptcha.execute(SITE_KEY, { action: 'register' });
+            resolve(token);
+          });
+        });
+      }
 
-    setLoading(false);
-    if (res.ok) {
-      setSuccess(true);
-    } else {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, phone, email,
+          message: '',
+          project: projectName,
+          appointmentDate: appointmentDate || undefined,
+          recaptchaToken,
+        }),
+      });
+
+      setLoading(false);
+
+      if (res.ok) {
+        setSuccess(true);
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', 'Lead', {
+            content_name: projectName,
+            content_type: 'product',
+          });
+        }
+      } else {
+        const data = await res.json();
+        setError(data.error || 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+      }
+    } catch {
+      setLoading(false);
       setError('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
     }
   };
@@ -65,68 +116,80 @@ export default function RegisterForm({ projectName }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
-      <div className="space-y-1.5">
-        <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Full Name</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="กรุณากรอกชื่อ-นามสกุล"
-          className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
-          required
+    <>
+      {SITE_KEY && (
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`}
+          strategy="lazyOnload"
         />
-      </div>
+      )}
+      <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Full Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onFocus={handleFirstInteraction}
+            placeholder="กรุณากรอกชื่อ-นามสกุล"
+            className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
+            required
+          />
+        </div>
 
-      <div className="space-y-1.5">
-        <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Phone Number</label>
-        <input
-          type="tel"
-          value={phone}
-          onChange={(e) => setPhone(formatPhone(e.target.value))}
-          placeholder="08X-XXX-XXXX"
-          maxLength={12}
-          className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
-          required
-        />
-      </div>
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Phone Number</label>
+          <input
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(formatPhone(e.target.value))}
+            placeholder="08X-XXX-XXXX"
+            maxLength={12}
+            className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
+            required
+          />
+        </div>
 
-      <div className="space-y-1.5">
-        <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Email Address (Optional)</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="example@email.com"
-          className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
-        />
-      </div>
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Email Address (Optional)</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="example@email.com"
+            className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
+          />
+        </div>
 
-      <div className="space-y-1.5">
-        <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">
-          วันที่นัดหมายเข้าชม <span className="normal-case font-normal text-slate-400">(Optional)</span>
-        </label>
-        <input
-          type="date"
-          value={appointmentDate}
-          min={today}
-          onChange={(e) => setAppointmentDate(e.target.value)}
-          className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
-        />
-      </div>
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">
+            วันที่นัดหมายเข้าชม <span className="normal-case font-normal text-slate-400">(Optional)</span>
+          </label>
+          <input
+            type="date"
+            value={appointmentDate}
+            min={today}
+            onChange={(e) => setAppointmentDate(e.target.value)}
+            className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
+          />
+        </div>
 
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && <p className="text-red-500 text-sm">{error}</p>}
 
-      <div className="pt-4">
-        <button
-          type="submit"
-          disabled={loading}
-          className="group w-full bg-[#e53935] text-white font-black py-4 rounded-xl text-lg transition-all duration-300 hover:bg-[#b71c1c] shadow-[0_10px_20px_rgba(211,47,47,0.2)] flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-60"
-        >
-          {loading ? 'กำลังส่ง...' : 'REGISTER NOW'}
-          {!loading && <Send size={18} className="group-hover:translate-x-1.5 group-hover:-translate-y-1.5 transition-transform" />}
-        </button>
-      </div>
-    </form>
+        <div className="pt-4">
+          <button
+            type="submit"
+            disabled={loading}
+            className="group w-full bg-[#e53935] text-white font-black py-4 rounded-xl text-lg transition-all duration-300 hover:bg-[#b71c1c] shadow-[0_10px_20px_rgba(211,47,47,0.2)] flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-60"
+          >
+            {loading ? 'กำลังส่ง...' : 'REGISTER NOW'}
+            {!loading && <Send size={18} className="group-hover:translate-x-1.5 group-hover:-translate-y-1.5 transition-transform" />}
+          </button>
+          {SITE_KEY && (
+            <p className="text-slate-400 text-[10px] text-center mt-2">Protected by reCAPTCHA</p>
+          )}
+        </div>
+      </form>
+    </>
   );
 }

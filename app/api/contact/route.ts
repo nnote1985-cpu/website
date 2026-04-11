@@ -18,10 +18,26 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, phone, message, project, appointmentDate } = body;
+    const { name, email, phone, message, project, appointmentDate, recaptchaToken } = body;
 
     if (!name || !phone) {
       return NextResponse.json({ error: 'Name and phone required' }, { status: 400 });
+    }
+
+    // Verify reCAPTCHA (ถ้ามี secret key ตั้งค่าไว้)
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+    if (secretKey && recaptchaToken) {
+      const verifyRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `secret=${secretKey}&response=${recaptchaToken}`,
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyData.success || verifyData.score < 0.5) {
+        return NextResponse.json({ error: 'กรุณาลองใหม่อีกครั้ง' }, { status: 400 });
+      }
+    } else if (secretKey && !recaptchaToken) {
+      return NextResponse.json({ error: 'กรุณาลองใหม่อีกครั้ง' }, { status: 400 });
     }
 
     const newContact: Record<string, unknown> = {
