@@ -88,7 +88,7 @@ export async function renderProjectPage(slug: string) {
         <ProjectPopup image={project.popupImage} url={project.popupUrl} projectSlug={project.slug} />
       )}
       <ProjectNavbar project={project} />
-      <FloatingProjectCTA phone={project.phone} lineUrl={project.lineUrl} facebookUrl={project.facebookUrl} />
+      <FloatingProjectCTA phone={project.phone} lineUrl={project.lineUrl} />
 
       <main className="bg-white pt-16 md:pt-20">
         {HeroSection ? (
