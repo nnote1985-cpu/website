@@ -136,8 +136,11 @@ export default function AdminProjectsPage() {
         body: JSON.stringify(body),
       });
       if (!res.ok) {
-        const err = await res.json();
-        alert(`บันทึกไม่สำเร็จ: ${err.error || res.status}`);
+        const text = await res.text();
+        let msg = `HTTP ${res.status}`;
+        try { msg = JSON.parse(text).error || msg; } catch { msg = text || msg; }
+        alert(`บันทึกไม่สำเร็จ: ${msg}`);
+        console.error('[save]', res.status, text);
         return;
       }
       await reloadProjects();
