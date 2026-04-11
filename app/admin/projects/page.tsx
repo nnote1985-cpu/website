@@ -24,6 +24,9 @@ interface Project {
   phone: string;
   videoUrl: string;
   sheetWebhookUrl: string;
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string;
 }
 
 const EMPTY: Omit<Project, 'id'> = {
@@ -31,6 +34,7 @@ const EMPTY: Omit<Project, 'id'> = {
   floors: 8, units: 100, priceMin: 1200000, priceMax: 3000000,
   location: '', bts: '', concept: '', description: '', image: '',
   isFeatured: true, fbPixelId: '', facebookUrl: '', phone: '', videoUrl: '', sheetWebhookUrl: '',
+  metaTitle: '', metaDescription: '', metaKeywords: '',
 };
 
 const STATUS_OPTIONS = [
@@ -62,6 +66,9 @@ function mapProject(p: Record<string, unknown>): Project {
     phone: (p.phone as string) || '',
     videoUrl: (p.video_url as string) || '',
     sheetWebhookUrl: (p.sheet_webhook_url as string) || '',
+    metaTitle: (p.meta_title as string) || '',
+    metaDescription: (p.meta_description as string) || '',
+    metaKeywords: (p.meta_keywords as string) || '',
   };
 }
 
@@ -315,6 +322,44 @@ export default function AdminProjectsPage() {
                     placeholder="https://www.youtube.com/embed/XXXXXXXXX"
                   />
                   <p className="text-xs text-gray-400 mt-1">ใช้ลิงค์แบบ embed เช่น youtube.com/embed/... ถ้าไม่ใส่จะไม่แสดง section นี้</p>
+                </div>
+
+                {/* ── SEO ── */}
+                <div className="col-span-2 pt-2 border-t border-gray-100">
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">SEO Meta Tags</p>
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>Meta Title</label>
+                  <input
+                    type="text"
+                    value={modal.project.metaTitle || ''}
+                    onChange={(e) => updateField('metaTitle', e.target.value)}
+                    className={inputClass}
+                    placeholder="เช่น Asakan Elysium Phahol-59 | คอนโดใกล้ BTS สะพานควาย"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">ถ้าไม่ใส่จะใช้ชื่อโครงการอัตโนมัติ (แนะนำ 50-60 ตัวอักษร)</p>
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>Meta Description</label>
+                  <textarea
+                    rows={3}
+                    value={modal.project.metaDescription || ''}
+                    onChange={(e) => updateField('metaDescription', e.target.value)}
+                    className={inputClass + ' resize-none'}
+                    placeholder="คำอธิบายสั้นๆ สำหรับ Google Search ถ้าไม่ใส่จะใช้คำอธิบายโครงการอัตโนมัติ"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">แนะนำ 120-160 ตัวอักษร</p>
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>Meta Keywords</label>
+                  <input
+                    type="text"
+                    value={modal.project.metaKeywords || ''}
+                    onChange={(e) => updateField('metaKeywords', e.target.value)}
+                    className={inputClass}
+                    placeholder="เช่น คอนโด พหลโยธิน, ใกล้ BTS, ASAKAN"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">คั่นด้วยจุลภาค (,)</p>
                 </div>
 
                 {/* ── Social & Tracking ── */}

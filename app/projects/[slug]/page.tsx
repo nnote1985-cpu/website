@@ -50,9 +50,37 @@ interface Project {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const { data } = await supabaseAdmin.from('projects').select('name').eq('slug', slug).single();
+  const { data } = await supabaseAdmin
+    .from('projects')
+    .select('name, description, price_min, location, meta_title, meta_description, meta_keywords, image')
+    .eq('slug', slug)
+    .single();
   if (!data) return { title: 'Not Found' };
-  return { title: `${data.name} | ASAKAN` };
+
+  const title = data.meta_title || `${data.name} | คอนโดมิเนียม ASAKAN`;
+  const description = data.meta_description ||
+    (data.description
+      ? data.description.slice(0, 160)
+      : `${data.name} คอนโดมิเนียมคุณภาพจาก ASAKAN ย่าน${data.location || ''} ราคาเริ่มต้น ${data.price_min ? (data.price_min / 1000000).toFixed(2) + ' ล้านบาท' : ''}`);
+  const keywords = data.meta_keywords || `${data.name}, ASAKAN, คอนโด, คอนโดมิเนียม, ${data.location || ''}, อสังหาริมทรัพย์`;
+
+  return {
+    title,
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      images: data.image ? [{ url: data.image }] : [],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: data.image ? [data.image] : [],
+    },
+  };
 }
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {

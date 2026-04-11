@@ -55,6 +55,9 @@ export async function POST(req: NextRequest) {
       is_active: body.isActive ?? body.is_active ?? true,
       video_url: body.videoUrl || body.video_url || '',
       sheet_webhook_url: body.sheetWebhookUrl || body.sheet_webhook_url || '',
+      meta_title: body.metaTitle || body.meta_title || '',
+      meta_description: body.metaDescription || body.meta_description || '',
+      meta_keywords: body.metaKeywords || body.meta_keywords || '',
       created_at: new Date().toISOString(),
     };
 
