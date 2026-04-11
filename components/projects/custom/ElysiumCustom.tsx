@@ -59,7 +59,7 @@ export default function ElysiumCustom({ project }: { project: any }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={mobilePromoUrl} alt="โปรโมชั่น" className="w-full h-auto block" />
           </div>
-          <div className="px-6 py-10 bg-white">
+          <div id="register" className="scroll-mt-20 px-6 py-10 bg-white">
             <h3 className="text-2xl font-black italic mb-1 text-slate-950 uppercase tracking-tight">Register Now</h3>
             <p className="text-[#e53935] text-[11px] font-bold uppercase tracking-[0.15em] mb-6">
               ลงทะเบียนรับสิทธิพิเศษ {project.name}
@@ -136,7 +136,7 @@ export default function ElysiumCustom({ project }: { project: any }) {
           </div>
 
           {/* ขวา: ฟอร์ม */}
-          <div id="register" className="lg:col-span-4 p-0 lg:p-10 flex flex-col justify-center">
+          <div id="register" className="scroll-mt-20 lg:col-span-4 p-0 lg:p-10 flex flex-col justify-center">
             <div className="animate-in slide-in-from-bottom-12 fade-in duration-1000 delay-300 fill-mode-both">
               {FormCard}
             </div>

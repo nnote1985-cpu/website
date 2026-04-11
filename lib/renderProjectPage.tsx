@@ -110,7 +110,7 @@ export async function renderProjectPage(slug: string) {
                 </div>
               </div>
             )}
-            <div id="register" className="w-full lg:w-1/3 bg-[#1a2d6b] p-8 md:p-12 lg:p-16 flex flex-col justify-center text-white border-l border-white/10">
+            <div id="register" className="scroll-mt-20 w-full lg:w-1/3 bg-[#1a2d6b] p-8 md:p-12 lg:p-16 flex flex-col justify-center text-white border-l border-white/10">
               <div className="mb-8">
                 <h3 className="text-3xl font-black italic uppercase mb-2">Register Now</h3>
                 <p className="text-white/60 text-xs tracking-widest uppercase">ลงทะเบียนรับสิทธิพิเศษ {project.name}</p>
