@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 };
 
 const projects = [
-  { name: 'Asakan Elysium Phahol-59', href: '/projects/elysium-phahol-59' },
+  { name: 'Asakan Elysium Phahol-59', href: '/elysium59' },
   { name: 'Asakan Elysium Ram Interchange', href: '/projects/elysium-ram-interchange' },
-  { name: 'The Celine Bang Chan Station', href: '/projects/the-celine-bang-chan' },
+  { name: 'The Celine Bang Chan Station', href: '/theceline' },
   { name: 'Wela Ramkhamhaeng', href: '/projects/wela-ramkhamhaeng' },
 ];
 

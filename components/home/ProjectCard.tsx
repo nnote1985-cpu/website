@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { MapPin, Building2, Layers, ArrowRight } from 'lucide-react';
 import { getStatusLabel, getStatusColor } from '@/lib/utils';
+import { projectUrl } from '@/lib/projectUrl';
 
 interface Project {
   id: string;
@@ -107,7 +108,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           
           {/* Elegant Arrow CTA (ย่อขนาดลงนิดนึง) */}
           <Link
-            href={`/projects/${project.slug}`}
+            href={projectUrl(project.slug)}
             className="flex items-center justify-center w-10 h-10 rounded-full border border-slate-200 text-slate-400 group-hover:bg-[#f4511e] group-hover:border-[#f4511e] group-hover:text-white transition-all duration-300"
             aria-label={`ดูรายละเอียดโครงการ ${project.name}`}
           >

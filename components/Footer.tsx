@@ -88,9 +88,9 @@ export default function Footer() {
         <FooterSection title="โครงการของเรา">
           <ul className="space-y-2 text-sm text-gray-400">
             {[
-              { label: 'Asakan Elysium Phahol-59', href: '/projects/elysium-phahol-59' },
+              { label: 'Asakan Elysium Phahol-59', href: '/elysium59' },
               { label: 'Asakan Elysium Ram Interchange', href: '/projects/elysium-ram-interchange' },
-              { label: 'The Celine Bang Chan Station', href: '/projects/the-celine-bang-chan' },
+              { label: 'The Celine Bang Chan Station', href: '/theceline' },
               { label: 'Wela Ramkhamhaeng', href: '/projects/wela-ramkhamhaeng' },
             ].map((link) => (
               <li key={link.href}>
