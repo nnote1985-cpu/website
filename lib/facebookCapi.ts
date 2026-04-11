@@ -5,7 +5,6 @@ function hash(value: string): string {
 }
 
 function hashPhone(phone: string): string {
-  // normalize: ลบ - และช่องว่าง แล้ว hash
   const normalized = phone.replace(/[-\s]/g, '');
   return crypto.createHash('sha256').update(normalized).digest('hex');
 }
@@ -14,6 +13,7 @@ interface CAPIEventData {
   pixelId: string;
   accessToken: string;
   eventName: 'Lead' | 'PageView' | 'ViewContent';
+  eventId?: string;       // ใช้ deduplicate กับ browser pixel
   eventTime?: number;
   email?: string;
   phone?: string;
@@ -38,15 +38,19 @@ export async function sendCAPIEvent(data: CAPIEventData) {
 
   const eventTime = data.eventTime || Math.floor(Date.now() / 1000);
 
-  // build user_data — hash PII
+  // สร้าง event_id ถ้าไม่มีส่งมา — ใช้ dedup กับ browser pixel
+  const eventId = data.eventId || crypto.randomUUID();
+
+  // build user_data — SHA256 hash PII ตาม Meta requirement
   const userData: Record<string, string> = {};
   if (email) userData.em = hash(email);
   if (phone) userData.ph = hashPhone(phone);
   if (name) {
-    const parts = name.trim().split(' ');
+    const parts = name.trim().split(/\s+/);
     userData.fn = hash(parts[0] || '');
     if (parts.length > 1) userData.ln = hash(parts.slice(1).join(' '));
   }
+  // client_ip และ user_agent ไม่ hash — ส่งค่าดิบ
   if (clientIp) userData.client_ip_address = clientIp;
   if (clientUserAgent) userData.client_user_agent = clientUserAgent;
 
@@ -55,6 +59,7 @@ export async function sendCAPIEvent(data: CAPIEventData) {
       {
         event_name: eventName,
         event_time: eventTime,
+        event_id: eventId,        // ← deduplication key
         action_source: 'website',
         event_source_url: sourceUrl || 'https://asakan.co.th',
         user_data: userData,
@@ -82,7 +87,9 @@ export async function sendCAPIEvent(data: CAPIEventData) {
   if (!res.ok) {
     console.error('[CAPI] error:', JSON.stringify(result));
   } else {
-    console.log('[CAPI] sent:', eventName, '| events_received:', result.events_received);
+    console.log('[CAPI] sent:', eventName, '| event_id:', eventId, '| events_received:', result.events_received);
   }
-  return result;
+
+  // return eventId ด้วยเพื่อให้ caller ส่งกลับไปให้ browser pixel ใช้ dedup
+  return { ...result, eventId };
 }

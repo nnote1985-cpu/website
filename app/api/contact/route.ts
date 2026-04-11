@@ -107,26 +107,34 @@ export async function POST(req: NextRequest) {
     // ยิง Facebook CAPI Lead event (server-side)
     const capiToken = process.env.FB_CAPI_ACCESS_TOKEN;
     const capiPixelId = process.env.FB_CAPI_PIXEL_ID;
+    let capiEventId: string | undefined;
+
     if (capiToken && capiPixelId) {
       const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || '';
       const clientUserAgent = req.headers.get('user-agent') || '';
       const referer = req.headers.get('referer') || 'https://asakan.co.th';
 
-      sendCAPIEvent({
-        pixelId: capiPixelId,
-        accessToken: capiToken,
-        eventName: 'Lead',
-        email: email || undefined,
-        phone: phone || undefined,
-        name: name || undefined,
-        contentName: project || undefined,
-        sourceUrl: referer,
-        clientIp,
-        clientUserAgent,
-      }).catch((e) => console.error('[CAPI] failed:', e));
+      try {
+        const capiResult = await sendCAPIEvent({
+          pixelId: capiPixelId,
+          accessToken: capiToken,
+          eventName: 'Lead',
+          email: email || undefined,
+          phone: phone || undefined,
+          name: name || undefined,
+          contentName: project || undefined,
+          sourceUrl: referer,
+          clientIp,
+          clientUserAgent,
+        });
+        capiEventId = capiResult.eventId;
+      } catch (e) {
+        console.error('[CAPI] failed:', e);
+      }
     }
 
-    return NextResponse.json({ success: true }, { status: 201 });
+    // ส่ง event_id กลับไปให้ browser pixel ใช้ dedup
+    return NextResponse.json({ success: true, eventId: capiEventId }, { status: 201 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });

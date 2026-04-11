@@ -80,11 +80,14 @@ export default function RegisterForm({ projectName }: Props) {
       setLoading(false);
 
       if (res.ok) {
+        const resData = await res.json();
         setSuccess(true);
         if (typeof window.fbq === 'function') {
           window.fbq('track', 'Lead', {
             content_name: projectName,
             content_type: 'product',
+          }, {
+            eventID: resData.eventId,
           });
         }
       } else {

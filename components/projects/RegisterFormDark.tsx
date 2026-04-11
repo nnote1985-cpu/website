@@ -83,12 +83,15 @@ export default function RegisterFormDark({ projectName, accentColor = '#e53935' 
       setLoading(false);
 
       if (res.ok) {
+        const resData = await res.json();
         setSuccess(true);
-        // ยิง Lead event เมื่อลงทะเบียนสำเร็จ
+        // ยิง Lead event พร้อม event_id เดียวกับ CAPI เพื่อ dedup
         if (typeof window.fbq === 'function') {
           window.fbq('track', 'Lead', {
             content_name: projectName,
             content_type: 'product',
+          }, {
+            eventID: resData.eventId,
           });
         }
       } else {
