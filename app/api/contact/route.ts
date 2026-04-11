@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
       // ดึงทุก project แล้ว filter ใน JS เพื่อหลีกเลี่ยงปัญหา PostgREST escaping
       const { data: allProjects, error: projErr } = await supabaseAdmin
         .from('projects')
-        .select('name, slug, sheet_webhook_url');
+        .select('name, slug, sheet_webhook_url, fb_pixel_id, fb_capi_token');
 
       if (projErr) console.error('[webhook] supabase error:', projErr.message);
 
@@ -105,38 +105,55 @@ export async function POST(req: NextRequest) {
     }
 
     // ยิง Facebook CAPI Lead event (server-side)
-    const capiToken = process.env.FB_CAPI_ACCESS_TOKEN;
-    const capiPixelId = process.env.FB_CAPI_PIXEL_ID;
+    const globalCapiToken = process.env.FB_CAPI_ACCESS_TOKEN;
+    const globalCapiPixelId = process.env.FB_CAPI_PIXEL_ID;
     let capiEventId: string | undefined;
 
-    if (capiToken && capiPixelId) {
-      const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || '';
-      const clientUserAgent = req.headers.get('user-agent') || '';
-      const referer = req.headers.get('referer') || 'https://asakan.co.th';
+    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || '';
+    const clientUserAgent = req.headers.get('user-agent') || '';
+    const referer = req.headers.get('referer') || 'https://asakan.co.th';
+    const cookieHeader = req.headers.get('cookie') || '';
+    const fbp = cookieHeader.match(/(?:^|;\s*)_fbp=([^;]+)/)?.[1] || undefined;
+    const fbc = cookieHeader.match(/(?:^|;\s*)_fbc=([^;]+)/)?.[1] || undefined;
 
-      // อ่าน fbp/fbc จาก cookie header
-      const cookieHeader = req.headers.get('cookie') || '';
-      const fbp = cookieHeader.match(/(?:^|;\s*)_fbp=([^;]+)/)?.[1] || undefined;
-      const fbc = cookieHeader.match(/(?:^|;\s*)_fbc=([^;]+)/)?.[1] || undefined;
+    const capiBase = {
+      eventName: 'Lead' as const,
+      email: email || undefined,
+      phone: phone || undefined,
+      name: name || undefined,
+      contentName: project || undefined,
+      sourceUrl: referer,
+      clientIp,
+      clientUserAgent,
+      fbp,
+      fbc,
+    };
 
+    // 1) Global CAPI (Master Pixel)
+    if (globalCapiToken && globalCapiPixelId) {
       try {
         const capiResult = await sendCAPIEvent({
-          pixelId: capiPixelId,
-          accessToken: capiToken,
-          eventName: 'Lead',
-          email: email || undefined,
-          phone: phone || undefined,
-          name: name || undefined,
-          contentName: project || undefined,
-          sourceUrl: referer,
-          clientIp,
-          clientUserAgent,
-          fbp,
-          fbc,
+          ...capiBase,
+          pixelId: globalCapiPixelId,
+          accessToken: globalCapiToken,
         });
         capiEventId = capiResult.eventId;
       } catch (e) {
-        console.error('[CAPI] failed:', e);
+        console.error('[CAPI Global] failed:', e);
+      }
+    }
+
+    // 2) Per-project CAPI (ถ้าโครงการมี pixel + token ของตัวเอง)
+    if (matched?.fb_pixel_id && matched?.fb_capi_token) {
+      try {
+        await sendCAPIEvent({
+          ...capiBase,
+          pixelId: matched.fb_pixel_id,
+          accessToken: matched.fb_capi_token,
+          eventId: capiEventId, // ใช้ event_id เดียวกันเพื่อ dedup
+        });
+      } catch (e) {
+        console.error('[CAPI Project] failed:', e);
       }
     }
 

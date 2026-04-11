@@ -59,6 +59,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     meta_title: body.metaTitle ?? body.meta_title,
     meta_description: body.metaDescription ?? body.meta_description,
     meta_keywords: body.metaKeywords ?? body.meta_keywords,
+    fb_capi_token: body.fbCapiToken ?? body.fb_capi_token,
   };
   Object.keys(updateData).forEach((k) => updateData[k] === undefined && delete updateData[k]);
 

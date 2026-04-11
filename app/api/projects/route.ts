@@ -58,6 +58,7 @@ export async function POST(req: NextRequest) {
       meta_title: body.metaTitle || body.meta_title || '',
       meta_description: body.metaDescription || body.meta_description || '',
       meta_keywords: body.metaKeywords || body.meta_keywords || '',
+      fb_capi_token: body.fbCapiToken || body.fb_capi_token || '',
       created_at: new Date().toISOString(),
     };
 

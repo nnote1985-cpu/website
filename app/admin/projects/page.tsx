@@ -20,6 +20,7 @@ interface Project {
   image: string;
   isFeatured: boolean;
   fbPixelId: string;
+  fbCapiToken: string;
   facebookUrl: string;
   phone: string;
   videoUrl: string;
@@ -33,7 +34,7 @@ const EMPTY: Omit<Project, 'id'> = {
   slug: '', name: '', status: 'active', type: 'Low-Rise Condominium',
   floors: 8, units: 100, priceMin: 1200000, priceMax: 3000000,
   location: '', bts: '', concept: '', description: '', image: '',
-  isFeatured: true, fbPixelId: '', facebookUrl: '', phone: '', videoUrl: '', sheetWebhookUrl: '',
+  isFeatured: true, fbPixelId: '', fbCapiToken: '', facebookUrl: '', phone: '', videoUrl: '', sheetWebhookUrl: '',
   metaTitle: '', metaDescription: '', metaKeywords: '',
 };
 
@@ -62,6 +63,7 @@ function mapProject(p: Record<string, unknown>): Project {
     image: (p.image as string) || '',
     isFeatured: (p.is_featured as boolean) ?? true,
     fbPixelId: (p.fb_pixel_id as string) || '',
+    fbCapiToken: (p.fb_capi_token as string) || '',
     facebookUrl: (p.facebook_url as string) || '',
     phone: (p.phone as string) || '',
     videoUrl: (p.video_url as string) || '',
@@ -397,6 +399,17 @@ export default function AdminProjectsPage() {
                     placeholder="เช่น 1234567890123456"
                   />
                   <p className="text-xs text-gray-400 mt-1">ยิง Pixel นี้เพิ่มเติมจาก Global Pixel เมื่อผู้ใช้เปิดหน้าโครงการนี้</p>
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>Facebook CAPI Access Token (เฉพาะโครงการนี้)</label>
+                  <input
+                    type="password"
+                    value={modal.project.fbCapiToken || ''}
+                    onChange={(e) => updateField('fbCapiToken', e.target.value)}
+                    className={inputClass}
+                    placeholder="EAAxxxxx..."
+                  />
+                  <p className="text-xs text-gray-400 mt-1">ใช้คู่กับ Pixel ID ด้านบน — สร้างได้ที่ Facebook Events Manager → Settings → Conversions API</p>
                 </div>
 
                 <div className="flex items-center gap-2 col-span-2">
