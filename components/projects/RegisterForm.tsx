@@ -32,6 +32,7 @@ export default function RegisterForm({ projectName }: Props) {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [appointmentDate, setAppointmentDate] = useState('');
+  const [consented, setConsented] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -49,7 +50,7 @@ export default function RegisterForm({ projectName }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone) return;
+    if (!name || !phone || !consented) return;
 
     setLoading(true);
     setError('');
@@ -179,11 +180,34 @@ export default function RegisterForm({ projectName }: Props) {
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
+        {/* Consent */}
+        <label className="flex items-start gap-3 cursor-pointer group">
+          <input
+            type="checkbox"
+            checked={consented}
+            onChange={(e) => setConsented(e.target.checked)}
+            className="mt-1 w-4 h-4 flex-shrink-0 accent-[#e53935] cursor-pointer"
+            required
+          />
+          <span className="text-slate-500 text-xs leading-relaxed group-hover:text-slate-700 transition-colors">
+            ยืนยันและยอมรับเงื่อนไขในการลงทะเบียน{' '}
+            <a
+              href="/policy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-[#1a2d6b] hover:text-[#e53935] transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
+              ดูนโยบายความเป็นส่วนตัว
+            </a>
+          </span>
+        </label>
+
         <div className="pt-4">
           <button
             type="submit"
-            disabled={loading}
-            className="group w-full bg-[#e53935] text-white font-black py-4 rounded-xl text-lg transition-all duration-300 hover:bg-[#b71c1c] shadow-[0_10px_20px_rgba(211,47,47,0.2)] flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-60"
+            disabled={loading || !consented}
+            className="group w-full bg-[#e53935] text-white font-black py-4 rounded-xl text-lg transition-all duration-300 hover:bg-[#b71c1c] shadow-[0_10px_20px_rgba(211,47,47,0.2)] flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-50"
           >
             {loading ? 'กำลังส่ง...' : 'REGISTER NOW'}
             {!loading && <Send size={18} className="group-hover:translate-x-1.5 group-hover:-translate-y-1.5 transition-transform" />}

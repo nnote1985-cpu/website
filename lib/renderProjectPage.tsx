@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import RegisterFormDark from '@/components/projects/RegisterFormDark';
 import ProjectPixel from '@/components/ProjectPixel';
 import ProjectPopup from '@/components/ProjectPopup';
+import FloatingProjectCTA from '@/components/projects/FloatingProjectCTA';
 import type { Metadata } from 'next';
 
 export async function getProjectMetadata(slug: string): Promise<Metadata> {
@@ -53,6 +54,7 @@ export async function renderProjectPage(slug: string) {
     promoBannerMobile: data.promo_banner_mobile,
     fbPixelId: data.fb_pixel_id || '',
     facebookUrl: data.facebook_url || '',
+    lineUrl: data.line_url || '',
     phone: data.phone || '',
     popupImage: data.popup_image || '',
     popupUrl: data.popup_url || '',
@@ -86,6 +88,7 @@ export async function renderProjectPage(slug: string) {
         <ProjectPopup image={project.popupImage} url={project.popupUrl} projectSlug={project.slug} />
       )}
       <ProjectNavbar project={project} />
+      <FloatingProjectCTA phone={project.phone} lineUrl={project.lineUrl} facebookUrl={project.facebookUrl} />
 
       <main className="bg-white pt-16 md:pt-20">
         {HeroSection ? (

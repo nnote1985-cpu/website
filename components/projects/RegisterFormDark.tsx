@@ -33,6 +33,7 @@ export default function RegisterFormDark({ projectName, accentColor = '#e53935' 
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [appointmentDate, setAppointmentDate] = useState('');
+  const [consented, setConsented] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -51,7 +52,7 @@ export default function RegisterFormDark({ projectName, accentColor = '#e53935' 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone) return;
+    if (!name || !phone || !consented) return;
 
     setLoading(true);
     setError('');
@@ -183,12 +184,35 @@ export default function RegisterFormDark({ projectName, accentColor = '#e53935' 
 
         {error && <p className="text-red-400 text-sm">{error}</p>}
 
+        {/* Consent */}
+        <label className="flex items-start gap-3 cursor-pointer group">
+          <input
+            type="checkbox"
+            checked={consented}
+            onChange={(e) => setConsented(e.target.checked)}
+            className="mt-1 w-4 h-4 flex-shrink-0 accent-white cursor-pointer"
+            required
+          />
+          <span className="text-white/50 text-xs leading-relaxed group-hover:text-white/70 transition-colors">
+            ยืนยันและยอมรับเงื่อนไขในการลงทะเบียน{' '}
+            <a
+              href="/policy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-white/70 hover:text-white transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
+              ดูนโยบายความเป็นส่วนตัว
+            </a>
+          </span>
+        </label>
+
         <div className="pt-2 md:pt-4">
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !consented}
             style={{ backgroundColor: accentColor }}
-            className="group w-full text-white font-black py-4 md:py-5 rounded-2xl text-lg hover:opacity-90 transition-all duration-500 flex items-center justify-center gap-4 active:scale-95 disabled:opacity-60"
+            className="group w-full text-white font-black py-4 md:py-5 rounded-2xl text-lg hover:opacity-90 transition-all duration-500 flex items-center justify-center gap-4 active:scale-95 disabled:opacity-50"
           >
             {loading ? 'กำลังส่ง...' : 'REGISTER NOW'}
             {!loading && <Send size={18} className="group-hover:translate-x-2 transition-transform" />}
