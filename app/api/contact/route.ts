@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getSession } from '@/lib/auth';
+import { sendCAPIEvent } from '@/lib/facebookCapi';
 
 export async function GET() {
   const session = await getSession();
@@ -101,6 +102,28 @@ export async function POST(req: NextRequest) {
       } else {
         console.log('[webhook] no webhook URL found for project:', project);
       }
+    }
+
+    // ยิง Facebook CAPI Lead event (server-side)
+    const capiToken = process.env.FB_CAPI_ACCESS_TOKEN;
+    const capiPixelId = process.env.FB_CAPI_PIXEL_ID;
+    if (capiToken && capiPixelId) {
+      const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || '';
+      const clientUserAgent = req.headers.get('user-agent') || '';
+      const referer = req.headers.get('referer') || 'https://asakan.co.th';
+
+      sendCAPIEvent({
+        pixelId: capiPixelId,
+        accessToken: capiToken,
+        eventName: 'Lead',
+        email: email || undefined,
+        phone: phone || undefined,
+        name: name || undefined,
+        contentName: project || undefined,
+        sourceUrl: referer,
+        clientIp,
+        clientUserAgent,
+      }).catch((e) => console.error('[CAPI] failed:', e));
     }
 
     return NextResponse.json({ success: true }, { status: 201 });
