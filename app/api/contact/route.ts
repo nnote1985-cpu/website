@@ -114,6 +114,11 @@ export async function POST(req: NextRequest) {
       const clientUserAgent = req.headers.get('user-agent') || '';
       const referer = req.headers.get('referer') || 'https://asakan.co.th';
 
+      // อ่าน fbp/fbc จาก cookie header
+      const cookieHeader = req.headers.get('cookie') || '';
+      const fbp = cookieHeader.match(/(?:^|;\s*)_fbp=([^;]+)/)?.[1] || undefined;
+      const fbc = cookieHeader.match(/(?:^|;\s*)_fbc=([^;]+)/)?.[1] || undefined;
+
       try {
         const capiResult = await sendCAPIEvent({
           pixelId: capiPixelId,
@@ -126,6 +131,8 @@ export async function POST(req: NextRequest) {
           sourceUrl: referer,
           clientIp,
           clientUserAgent,
+          fbp,
+          fbc,
         });
         capiEventId = capiResult.eventId;
       } catch (e) {
