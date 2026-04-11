@@ -18,6 +18,9 @@ interface Project {
   concept: string;
   description: string;
   image: string;
+  heroImage: string;
+  promoBanner: string;
+  promoBannerMobile: string;
   isFeatured: boolean;
   fbPixelId: string;
   fbCapiToken: string;
@@ -33,7 +36,8 @@ interface Project {
 const EMPTY: Omit<Project, 'id'> = {
   slug: '', name: '', status: 'active', type: 'Low-Rise Condominium',
   floors: 8, units: 100, priceMin: 1200000, priceMax: 3000000,
-  location: '', bts: '', concept: '', description: '', image: '',
+  location: '', bts: '', concept: '', description: '',
+  image: '', heroImage: '', promoBanner: '', promoBannerMobile: '',
   isFeatured: true, fbPixelId: '', fbCapiToken: '', facebookUrl: '', phone: '', videoUrl: '', sheetWebhookUrl: '',
   metaTitle: '', metaDescription: '', metaKeywords: '',
 };
@@ -61,6 +65,9 @@ function mapProject(p: Record<string, unknown>): Project {
     concept: (p.concept as string) || '',
     description: (p.description as string) || '',
     image: (p.image as string) || '',
+    heroImage: (p.hero_image as string) || '',
+    promoBanner: (p.promo_banner as string) || '',
+    promoBannerMobile: (p.promo_banner_mobile as string) || '',
     isFeatured: (p.is_featured as boolean) ?? true,
     fbPixelId: (p.fb_pixel_id as string) || '',
     fbCapiToken: (p.fb_capi_token as string) || '',
@@ -290,8 +297,22 @@ export default function AdminProjectsPage() {
                   <textarea rows={3} value={modal.project.description || ''} onChange={(e) => updateField('description', e.target.value)} className={inputClass + ' resize-none'} />
                 </div>
                 <div className="col-span-2">
-                  <label className={labelClass}>URL รูปภาพหลัก</label>
-                  <input type="text" value={modal.project.image || ''} onChange={(e) => updateField('image', e.target.value)} className={inputClass} placeholder="/images/project.jpg" />
+                  <label className={labelClass}>URL รูปภาพหลัก (Thumbnail)</label>
+                  <input type="text" value={modal.project.image || ''} onChange={(e) => updateField('image', e.target.value)} className={inputClass} placeholder="https://..." />
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>Hero Image URL</label>
+                  <input type="text" value={modal.project.heroImage || ''} onChange={(e) => updateField('heroImage', e.target.value)} className={inputClass} placeholder="https://..." />
+                  <p className="text-xs text-gray-400 mt-1">รูปหลักในหน้าโครงการ (ถ้าไม่มีจะใช้รูป Thumbnail)</p>
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>Promo Banner URL (Desktop)</label>
+                  <input type="text" value={modal.project.promoBanner || ''} onChange={(e) => updateField('promoBanner', e.target.value)} className={inputClass} placeholder="https://..." />
+                  <p className="text-xs text-gray-400 mt-1">ถ้าใส่จะแสดงแบนเนอร์โปรโมชันแทน Hero Image</p>
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>Promo Banner URL (Mobile)</label>
+                  <input type="text" value={modal.project.promoBannerMobile || ''} onChange={(e) => updateField('promoBannerMobile', e.target.value)} className={inputClass} placeholder="https://..." />
                 </div>
 
                 {/* ── Google Sheet ── */}
