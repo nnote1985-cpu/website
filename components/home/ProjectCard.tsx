@@ -27,9 +27,9 @@ export default function ProjectCard({ project }: { project: Project }) {
 
   return (
     <article className="group flex flex-col bg-white rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.08)] transition-all duration-500 border border-slate-100">
-      
+
       {/* --- 1. Image & Top Section (ลดความสูงลง) --- */}
-      <div className="relative h-48 md:h-52 w-full bg-slate-100 overflow-hidden">
+      <Link href={projectUrl(project.slug)} className="relative h-48 md:h-52 w-full bg-slate-100 overflow-hidden block">
         {/* Placeholder Icon */}
         <div className="absolute inset-0 flex items-center justify-center text-slate-300">
           <Building2 size={28} strokeWidth={1} />
@@ -66,16 +66,18 @@ export default function ProjectCard({ project }: { project: Project }) {
             {project.concept || 'ASAKAN RESIDENCES'}
           </p>
         </div>
-      </div>
+      </Link>
 
       {/* --- 2. Content Section (กระชับพื้นที่) --- */}
       <div className="flex flex-col flex-1 p-5">
         
         {/* Project Name */}
         <div className="mb-3">
-          <h3 className="font-black text-slate-900 text-lg leading-tight group-hover:text-[#f4511e] transition-colors line-clamp-1">
-            {project.name}
-          </h3>
+          <Link href={projectUrl(project.slug)}>
+            <h3 className="font-black text-slate-900 text-lg leading-tight group-hover:text-[#f4511e] transition-colors line-clamp-1">
+              {project.name}
+            </h3>
+          </Link>
         </div>
 
         {/* Key Stats (ทำเป็นแถวเดียวเพื่อให้เตี้ยลง) */}

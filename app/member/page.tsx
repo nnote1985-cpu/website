@@ -130,7 +130,7 @@ export default function MemberPage() {
             </p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/member-card.jpg"
+              src="/member-card.png"
               alt="บัตรสมาชิก ASAKAN Privilege"
               className="max-w-sm mx-auto w-full rounded-3xl shadow-2xl"
             />

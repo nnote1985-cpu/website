@@ -75,14 +75,14 @@ export default function SearchSection({ projects }: Props) {
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="w-full h-full bg-transparent pl-4 pr-10 text-[14px] font-medium text-slate-700 outline-none appearance-none cursor-pointer relative z-10"
+              className="w-full h-full bg-transparent pl-3 pr-7 text-[13px] md:text-[14px] font-medium text-slate-700 outline-none appearance-none cursor-pointer relative z-10"
             >
-              <option value="">สถานะทั้งหมด</option>
+              <option value="">สถานะ</option>
               {STATUS_OPTIONS.map((o) => (
                 <option key={o.value} value={o.value}>{o.label}</option>
               ))}
             </select>
-            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-[#e53935] transition-colors pointer-events-none z-0" size={16} />
+            <ChevronDown className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-[#e53935] transition-colors pointer-events-none z-0" size={14} />
           </div>
 
           {/* ทำเล */}
@@ -90,14 +90,14 @@ export default function SearchSection({ projects }: Props) {
             <select
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="w-full h-full bg-transparent pl-4 pr-10 text-[14px] font-medium text-slate-700 outline-none appearance-none cursor-pointer relative z-10"
+              className="w-full h-full bg-transparent pl-3 pr-7 text-[13px] md:text-[14px] font-medium text-slate-700 outline-none appearance-none cursor-pointer relative z-10"
             >
-              <option value="">ทำเลทั้งหมด</option>
+              <option value="">ทำเล</option>
               {locations.map((loc) => (
                 <option key={loc} value={loc}>{loc}</option>
               ))}
             </select>
-            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-[#e53935] transition-colors pointer-events-none z-0" size={16} />
+            <ChevronDown className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-[#e53935] transition-colors pointer-events-none z-0" size={14} />
           </div>
 
           {/* ช่วงราคา */}
@@ -105,14 +105,14 @@ export default function SearchSection({ projects }: Props) {
             <select
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="w-full h-full bg-transparent pl-4 pr-10 text-[14px] font-medium text-slate-700 outline-none appearance-none cursor-pointer relative z-10"
+              className="w-full h-full bg-transparent pl-3 pr-7 text-[13px] md:text-[14px] font-medium text-slate-700 outline-none appearance-none cursor-pointer relative z-10"
             >
-              <option value="">ช่วงราคาทั้งหมด</option>
+              <option value="">ช่วงราคา</option>
               {PRICE_OPTIONS.map((o) => (
                 <option key={o.value} value={o.value}>{o.label}</option>
               ))}
             </select>
-            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-[#e53935] transition-colors pointer-events-none z-0" size={16} />
+            <ChevronDown className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-[#e53935] transition-colors pointer-events-none z-0" size={14} />
           </div>
         </div>
 
