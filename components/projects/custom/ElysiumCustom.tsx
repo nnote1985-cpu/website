@@ -116,10 +116,10 @@ export default function ElysiumCustom({ project }: { project: any }) {
                   </span>
                 </div>
                 <div className="space-y-4">
-                  <h2 className="text-5xl md:text-7xl lg:text-8xl font-black italic text-slate-900 leading-[0.95] uppercase">
+                  <h1 className="text-5xl md:text-7xl lg:text-8xl font-black italic text-slate-900 leading-[0.95] uppercase">
                     {firstPart} <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d32f2f] to-[#ff5252] pr-2">{lastWord}</span>
-                  </h2>
+                  </h1>
                   <p className="text-xl md:text-2xl font-medium text-slate-500 uppercase tracking-[0.2em]">{project.concept}</p>
                 </div>
                 <div className="h-1.5 w-24 bg-gradient-to-r from-[#d32f2f] to-transparent rounded-full" />

@@ -10,13 +10,13 @@ export default function MortgageCalculator() {
 
   // Monthly payment mode
   const [loanAmount, setLoanAmount] = useState(2000000);
-  const [interest, setInterest] = useState(6.5);
-  const [years, setYears] = useState(30);
+  const [interest, setInterest] = useState(3);
+  const [years, setYears] = useState(40);
 
   // Max loan mode
   const [monthlyIncome, setMonthlyIncome] = useState(30000);
-  const [maxInterest, setMaxInterest] = useState(6.5);
-  const [maxYears, setMaxYears] = useState(30);
+  const [maxInterest, setMaxInterest] = useState(3);
+  const [maxYears, setMaxYears] = useState(40);
 
   function calcMonthly(loan: number, rate: number, yr: number) {
     const r = rate / 100 / 12;
@@ -109,7 +109,7 @@ export default function MortgageCalculator() {
                     onChange={(e) => setYears(+e.target.value)}
                     className="w-full bg-zinc-900 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#f4511e]"
                   >
-                    {[10, 15, 20, 25, 30].map((y) => (
+                    {[10, 15, 20, 25, 30, 35, 40].map((y) => (
                       <option key={y} value={y}>{y} ปี</option>
                     ))}
                   </select>
@@ -166,7 +166,7 @@ export default function MortgageCalculator() {
                     onChange={(e) => setMaxYears(+e.target.value)}
                     className="w-full bg-zinc-900 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#f4511e]"
                   >
-                    {[10, 15, 20, 25, 30].map((y) => (
+                    {[10, 15, 20, 25, 30, 35, 40].map((y) => (
                       <option key={y} value={y}>{y} ปี</option>
                     ))}
                   </select>

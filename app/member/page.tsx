@@ -105,12 +105,15 @@ export default function MemberPage() {
                     </span>
                   </Link>
                 ) : (
-                  <div key={b.title} className="bg-gray-50 rounded-2xl p-7 border border-gray-100">
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 ${b.color}`}>
+                  <div key={b.title} className="bg-gray-100 rounded-2xl p-7 border border-gray-200 opacity-60 cursor-not-allowed select-none">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 ${b.color} grayscale`}>
                       {b.icon}
                     </div>
-                    <h3 className="font-bold text-[#1a2d6b] text-lg mb-2">{b.title}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">{b.desc}</p>
+                    <h3 className="font-bold text-gray-400 text-lg mb-2 flex items-center gap-2">
+                      {b.title}
+                      <span className="text-[10px] font-bold uppercase tracking-widest bg-gray-300 text-gray-500 px-2 py-0.5 rounded-full">Coming Soon</span>
+                    </h3>
+                    <p className="text-gray-400 text-sm leading-relaxed">{b.desc}</p>
                   </div>
                 )
               )}
@@ -125,38 +128,24 @@ export default function MemberPage() {
             <p className="text-gray-500 text-sm mb-10">
               บัตรมีอายุถึงวันที่ 31 ธันวาคม 2570 (2027)
             </p>
-            <div
-              className="max-w-sm mx-auto rounded-3xl p-8 text-white aspect-video flex flex-col justify-between relative overflow-hidden shadow-2xl"
-              style={{ background: 'linear-gradient(135deg, #0f1e4a 0%, #1a2d6b 50%, #2a3d8b 100%)' }}
-            >
-              <div className="absolute top-0 right-0 w-48 h-48 bg-[#f4511e] rounded-full -translate-y-24 translate-x-24 opacity-30" />
-              <div className="relative">
-                <div className="text-sm text-gray-400 mb-1">ASAKAN</div>
-                <div className="text-xl font-bold">Privilege Member</div>
-              </div>
-              <div className="relative">
-                <div className="text-xs text-gray-400 mb-1">ชื่อสมาชิก</div>
-                <div className="font-semibold">ชื่อ-นามสกุล ของท่าน</div>
-                <div className="flex items-center gap-2 mt-3">
-                  <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                  <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                  <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                  <span className="text-xs text-gray-400 ml-1">Platinum Member</span>
-                </div>
-              </div>
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/member-card.jpg"
+              alt="บัตรสมาชิก ASAKAN Privilege"
+              className="max-w-sm mx-auto w-full rounded-3xl shadow-2xl"
+            />
           </div>
         </section>
 
         {/* CTA */}
-        <section className="py-16 bg-[#f4511e]">
+        <section className="py-16 bg-slate-800">
           <div className="max-w-3xl mx-auto px-4 text-center text-white">
             <h2 className="text-3xl font-bold mb-4">เป็นเจ้าของห้อง ASAKAN แล้วหรือยัง?</h2>
             <p className="text-white/90 mb-8">ซื้อห้องกับเรา และรับสิทธิ์สมาชิก Privilege ทันที!</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/projects"
-                className="bg-white text-[#f4511e] font-bold px-8 py-4 rounded-xl hover:bg-orange-50"
+                className="bg-white text-slate-800 font-bold px-8 py-4 rounded-xl hover:bg-gray-100"
               >
                 ดูโครงการ
               </Link>

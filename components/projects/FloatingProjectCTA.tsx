@@ -10,8 +10,8 @@ interface Props {
 
 function MiniCalculator() {
   const [loan, setLoan] = useState(2000000);
-  const [rate, setRate] = useState(6.5);
-  const [years, setYears] = useState(30);
+  const [rate, setRate] = useState(3);
+  const [years, setYears] = useState(40);
 
   const r = rate / 100 / 12;
   const n = years * 12;
@@ -50,7 +50,7 @@ function MiniCalculator() {
               value={years} onChange={(e) => setYears(+e.target.value)}
               className="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-sm font-bold text-[#1a2d6b] focus:outline-none focus:border-[#e53935]"
             >
-              {[10, 15, 20, 25, 30].map((y) => <option key={y} value={y}>{y} ปี</option>)}
+              {[10, 15, 20, 25, 30, 35, 40].map((y) => <option key={y} value={y}>{y} ปี</option>)}
             </select>
           </div>
         </div>

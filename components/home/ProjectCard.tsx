@@ -98,10 +98,10 @@ export default function ProjectCard({ project }: { project: Project }) {
             </span>
             <div className="flex items-baseline gap-1 text-[#f4511e]">
               <span className="font-black text-xl leading-none">
-                 {project.priceMin}
+                {Number(project.priceMin).toLocaleString('th-TH')}
               </span>
               <span className="text-xs font-bold">
-                 ล้านบาท*
+                บาท*
               </span>
             </div>
           </div>

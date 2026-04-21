@@ -15,10 +15,11 @@ const NAV_LINKS = [
     label: 'Projects',
     href: '/projects',
     children: [
-      { label: 'Asakan Elysium Phahol-59', href: '/elysium59' },
-      { label: 'Asakan Elysium Ram Interchange', href: '/projects/elysium-ram-interchange' },
-      { label: 'The Celine Bang Chan Station', href: '/theceline' },
-      { label: 'Wela Ramkhamhaeng', href: '/projects/wela-ramkhamhaeng' },
+      { label: 'Asakan Elysium Phahol-59', href: '/elysium59', group: 'current' },
+      { label: 'Asakan Elysium Ram Interchange', href: '/projects/elysium-ram-interchange', group: 'current' },
+      { label: 'The Celine Bang Chan Station', href: '/theceline', group: 'current' },
+      { label: 'Wela Ramkhamhaeng', href: '/projects/wela-ramkhamhaeng', group: 'current' },
+      { label: 'Past Projects', href: '/projects', group: 'past' },
     ],
   },
   { label: 'News', href: '/news' },
@@ -62,7 +63,7 @@ export default function Header() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e53935] opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e53935]" />
             </span>
-            <span className="uppercase text-slate-500 font-medium">ผู้พัฒนาอสังหาริมทรัพย์คุณภาพ กว่า 21 ปี</span>
+            <span className="uppercase text-slate-500 font-medium">ผู้พัฒนาอสังหาริมทรัพย์คุณภาพ กว่า 25 ปี</span>
           </span>
 
           <div className="flex items-center gap-6 text-slate-500">
@@ -92,9 +93,8 @@ export default function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
               {/* 📍 เปลี่ยนโลโก้บล็อกเป็นสี Slate-900 หรูๆ Hover แล้วเป็นสีแดง */}
-              <div className="w-10 h-10 bg-slate-900 text-white rounded-lg flex items-center justify-center group-hover:bg-[#e53935] transition-colors duration-500 shadow-sm">
-                <span className="font-black text-xl leading-none">A</span>
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.png" alt="ASAKAN" className="h-10 w-auto" />
               <div className="flex flex-col justify-center">
                 <div className="font-black text-xl text-slate-900 leading-none tracking-tight">ASAKAN</div>
                 <div className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-0.5">Co.Ltd</div>
@@ -127,13 +127,31 @@ export default function Header() {
                       }`}
                     >
                       <div className="w-72 bg-white/95 backdrop-blur-2xl shadow-[0_20px_40px_rgba(0,0,0,0.08)] rounded-2xl border border-slate-100 p-2.5 overflow-hidden">
-                        {link.children.map((child) => (
+                        <div className="px-4 pt-2 pb-1">
+                          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Current Projects</span>
+                        </div>
+                        {link.children.filter(c => c.group === 'current').map((child) => (
                           <Link
                             key={child.href}
                             href={child.href}
                             className="group/item relative block px-4 py-3 rounded-xl hover:bg-slate-50 transition-all duration-300"
                           >
-                            {/* 📍 เพิ่มขีดสีแดงเล็กๆ ดึงดูดสายตาตอน Hover */}
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-[#e53935] rounded-r-full transition-all duration-300 group-hover/item:h-1/2 opacity-0 group-hover/item:opacity-100" />
+                            <span className="text-[13px] font-semibold text-slate-600 group-hover/item:text-[#e53935] group-hover/item:pl-1 transition-all duration-300 block">
+                              {child.label}
+                            </span>
+                          </Link>
+                        ))}
+                        <div className="mx-4 my-2 border-t border-slate-100" />
+                        <div className="px-4 pb-1">
+                          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Past Projects</span>
+                        </div>
+                        {link.children.filter(c => c.group === 'past').map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className="group/item relative block px-4 py-3 rounded-xl hover:bg-slate-50 transition-all duration-300"
+                          >
                             <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-[#e53935] rounded-r-full transition-all duration-300 group-hover/item:h-1/2 opacity-0 group-hover/item:opacity-100" />
                             <span className="text-[13px] font-semibold text-slate-600 group-hover/item:text-[#e53935] group-hover/item:pl-1 transition-all duration-300 block">
                               {child.label}
@@ -201,17 +219,41 @@ export default function Header() {
               >
                 {link.label}
               </Link>
-              {link.children?.map((child) => (
-                <Link
-                  key={child.href}
-                  href={child.href}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 pl-4 py-3 text-[13px] font-medium text-slate-500 hover:text-[#e53935] transition-colors"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] opacity-50" />
-                  {child.label}
-                </Link>
-              ))}
+              {link.children && (
+                <>
+                  {link.children.some(c => c.group) && (
+                    <span className="block pl-4 pt-1 pb-0.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Current Projects</span>
+                  )}
+                  {link.children.filter(c => !c.group || c.group === 'current').map((child) => (
+                    <Link
+                      key={child.href}
+                      href={child.href}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 pl-4 py-3 text-[13px] font-medium text-slate-500 hover:text-[#e53935] transition-colors"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] opacity-50" />
+                      {child.label}
+                    </Link>
+                  ))}
+                  {link.children.some(c => c.group === 'past') && (
+                    <>
+                      <div className="mx-4 my-1 border-t border-slate-100" />
+                      <span className="block pl-4 pt-0.5 pb-0.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Past Projects</span>
+                      {link.children.filter(c => c.group === 'past').map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center gap-3 pl-4 py-3 text-[13px] font-medium text-slate-500 hover:text-[#e53935] transition-colors"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
+                          {child.label}
+                        </Link>
+                      ))}
+                    </>
+                  )}
+                </>
+              )}
             </div>
           ))}
           

@@ -6,7 +6,7 @@ import { Target, Eye, Heart } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'เกี่ยวกับเรา | ASAKAN บริษัท อัสสกาญจน์',
-  description: 'ASAKAN บริษัท อัสสกาญจน์ จำกัด ผู้พัฒนาอสังหาริมทรัพย์ชั้นนำในกรุงเทพฯ กว่า 21 ปี ด้วยปรัชญา Freedom of Life',
+  description: 'ASAKAN บริษัท อัสสกาญจน์ จำกัด ผู้พัฒนาอสังหาริมทรัพย์ชั้นนำในกรุงเทพฯ กว่า 25 ปี ด้วยปรัชญา Beyond Expectation',
 };
 
 export default function AboutPage() {
@@ -71,12 +71,12 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto px-4">
             <div className="text-center mb-12">
               <p className="section-subtitle mb-2">ประวัติของเรา</p>
-              <h2 className="section-title">21 ปีแห่งความไว้วางใจ</h2>
+              <h2 className="section-title">25 ปีแห่งความไว้วางใจ</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
               <div className="bg-gradient-to-br from-[#1a2d6b] to-[#f4511e] rounded-2xl aspect-video flex items-center justify-center">
                 <div className="text-white text-center">
-                  <div className="text-6xl font-bold mb-2">21+</div>
+                  <div className="text-6xl font-bold mb-2">25+</div>
                   <div className="text-xl">ปีประสบการณ์</div>
                 </div>
               </div>
@@ -85,7 +85,7 @@ export default function AboutPage() {
                   บริษัท อัสสกาญจน์ จำกัด ก่อตั้งขึ้นด้วยความมุ่งมั่นในการพัฒนาที่อยู่อาศัยคุณภาพสูงในราคาที่เข้าถึงได้ สำหรับคนกรุงเทพฯ ทุกระดับ
                 </p>
                 <p>
-                  ตลอดระยะเวลากว่า 21 ปี เราได้พัฒนาโครงการคอนโดมิเนียมมากกว่า 10 โครงการ ส่งมอบห้องพักกว่า 2,500 ยูนิต ให้กับผู้ซื้อที่ไว้วางใจเรา
+                  ตลอดระยะเวลากว่า 25 ปี เราได้พัฒนาโครงการคอนโดมิเนียมมากกว่า 10 โครงการ ส่งมอบห้องพักกว่า 2,500 ยูนิต ให้กับผู้ซื้อที่ไว้วางใจเรา
                 </p>
                 <p>
                   ASAKAN เชื่อว่าทุกคนมีสิทธิ์มีที่อยู่อาศัยที่ดี นั่นคือเหตุผลที่เราพัฒนาโครงการในทำเลศักยภาพ ใกล้รถไฟฟ้า ด้วยราคาที่ยุติธรรม
@@ -94,7 +94,7 @@ export default function AboutPage() {
                   {[
                     { value: '10+', label: 'โครงการ' },
                     { value: '2,500+', label: 'ยูนิต' },
-                    { value: '21+', label: 'ปีประสบการณ์' },
+                    { value: '25+', label: 'ปีประสบการณ์' },
                     { value: '100%', label: 'ความพึงพอใจ' },
                   ].map((stat) => (
                     <div key={stat.label} className="bg-white rounded-xl p-4 text-center shadow-sm">
@@ -115,9 +115,9 @@ export default function AboutPage() {
             <div className="bg-gray-50 rounded-2xl p-8 space-y-4">
               {[
                 { label: 'ชื่อบริษัท', value: 'บริษัท อัสสกาญจน์ จำกัด (ASAKAN CO., LTD)' },
-                { label: 'ที่ตั้ง', value: '191 ถนนรามคำแหง แขวงสะพานสูง เขตสะพานสูง กรุงเทพมหานคร 10240' },
+                { label: 'ที่ตั้ง', value: '191 อาคาร อัสสกาญจน์ ถนนรามคำแหง แขวงสะพานสูง เขตสะพานสูง กรุงเทพมหานคร 10240' },
                 { label: 'โทรศัพท์', value: '082-526-5566 / 02-059-9655 / 099-198-2940' },
-                { label: 'อีเมล', value: 'info@asakan.co.th' },
+                { label: 'อีเมล', value: 'asakanmkt@gmail.com' },
               ].map((item) => (
                 <div key={item.label} className="flex flex-col sm:flex-row sm:gap-4 pb-4 border-b border-gray-200 last:border-0">
                   <span className="text-sm font-semibold text-[#1a2d6b] sm:w-32 flex-shrink-0">{item.label}</span>

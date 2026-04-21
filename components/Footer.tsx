@@ -32,10 +32,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 py-10 md:py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-10">
         {/* Brand — ไม่ collapsible */}
         <div className="pb-4 border-b border-white/10 md:border-none md:pb-0">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-[#f4511e] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">A</span>
-            </div>
+          <div className="flex items-center gap-3 mb-4">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="ASAKAN" className="h-10 w-auto" />
             <div>
               <div className="font-bold text-xl leading-none">ASAKAN</div>
               <div className="text-xs text-gray-400 leading-none">อัสสกาญจน์</div>
