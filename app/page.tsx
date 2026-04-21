@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/home/HeroSection';
+import MarqueeBanner from '@/components/home/MarqueeBanner';
 import ProjectCard from '@/components/home/ProjectCard';
 import NewsCard from '@/components/home/NewsCard';
 import MortgageCalculator from '@/components/home/MortgageCalculator';
@@ -105,7 +106,10 @@ export default async function HomePage() {
           images={settings.heroImages}
         />
 
-        {/* 2. PROMOTION BANNER - แถบโปรโมชั่น */}
+        {/* 2. MARQUEE TICKER */}
+        <MarqueeBanner />
+
+        {/* 3. PROMOTION BANNER - แถบโปรโมชั่น */}
         {promotions.filter((p) => p.isActive).length > 0 && (
           <PromoBanner promos={promotions.filter((p) => p.isActive)} />
         )}

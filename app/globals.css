@@ -97,3 +97,12 @@ body {
 
 /* ซ่อน reCAPTCHA badge (ยังคงป้องกัน spam ได้ปกติ) */
 .grecaptcha-badge { visibility: hidden !important; }
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  will-change: transform;
+}
