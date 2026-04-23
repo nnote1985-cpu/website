@@ -78,8 +78,43 @@ export async function renderProjectPage(slug: string) {
     HeroSection = <WelaCustom project={project} />;
   }
 
+  const residenceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Residence',
+    name: project.name,
+    description: project.description || '',
+    url: `https://www.asakan.co.th/projects/${project.slug}`,
+    image: project.heroImage || project.image || '',
+    numberOfRooms: project.units || undefined,
+    numberOfFloors: project.floors || undefined,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: project.location || 'กรุงเทพมหานคร',
+      addressCountry: 'TH',
+    },
+    offers: project.priceMin ? {
+      '@type': 'Offer',
+      price: project.priceMin,
+      priceCurrency: 'THB',
+      availability: project.isSoldOut ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
+    } : undefined,
+    amenityFeature: project.features?.map((f: string) => ({ '@type': 'LocationFeatureSpecification', name: f, value: true })),
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: 'https://www.asakan.co.th' },
+      { '@type': 'ListItem', position: 2, name: 'โครงการ', item: 'https://www.asakan.co.th/projects' },
+      { '@type': 'ListItem', position: 3, name: project.name, item: `https://www.asakan.co.th/projects/${project.slug}` },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(residenceSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <PixelViewContent name={project.name} value={project.priceMin} />
       {project.fbPixelId && (
         <ProjectPixel pixelId={project.fbPixelId} projectName={project.name} priceMin={project.priceMin} />
