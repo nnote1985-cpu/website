@@ -85,8 +85,9 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
       {/* ===== MOBILE: promo บน + ฟอร์มล่าง (< 1024px และมีโปรโมชั่น) ===== */}
       {showPromo && (
         <div className="xl:hidden flex flex-col bg-white">
-          <div className="relative w-full aspect-[4/5] bg-slate-100">
-            <Image src={mobilePromoUrl || heroImageUrl || '/logo.png'} alt="โปรโมชั่น" fill sizes="100vw" className="object-cover" priority />
+          <div className="w-full bg-slate-100">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={mobilePromoUrl || heroImageUrl || '/logo.png'} alt="โปรโมชั่น" className="w-full h-auto block" />
           </div>
           <div id="register-mobile" data-register-form="true" className="scroll-mt-24 px-6 py-10 bg-white">
             <h3 className="text-2xl font-black italic mb-1 text-slate-950 uppercase tracking-tight">Register Now</h3>

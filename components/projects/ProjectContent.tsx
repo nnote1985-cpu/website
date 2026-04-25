@@ -447,13 +447,13 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
             <div>
               <span className="text-[11px] font-black tracking-[0.35em] uppercase text-[#e53935]">
-                Project Information
+                ข้อมูลโครงการ
               </span>
               <h2 className="mt-3 text-3xl md:text-5xl font-black text-[#1a2d6b] tracking-tight">
-                ข้อมูลโครงการ
+                Project information & Concept
               </h2>
               <p className="mt-3 max-w-2xl text-sm md:text-base text-slate-500 leading-relaxed">
-                สรุปภาพรวมโครงการให้อ่านง่าย แยกเป็นแนวคิด รายละเอียดสำคัญ และสิ่งอำนวยความสะดวก
+                สรุปภาพรวมโครงการ ทั้ง Concept Information และ Facilities
               </p>
             </div>
 
@@ -697,7 +697,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   // 📍 แก้ไข Key ที่ Thumbnail: บังคับ Re-render เมื่อสลับหมวด
                   key={`${activeGalleryTab}-${img}`}
                   onClick={() => setActiveImg(i)} 
-                  className={`w-28 md:w-40 aspect-video shrink-0 rounded-xl overflow-hidden cursor-pointer border-[3px] transition-all duration-300 snap-center ${safeActiveImg === i ? 'border-[#e53935] scale-100 opacity-100 shadow-md' : 'border-transparent scale-95 opacity-60 hover:opacity-100 hover:scale-100'}`}
+                  className={`relative w-28 md:w-40 aspect-video shrink-0 rounded-xl overflow-hidden cursor-pointer border-[3px] transition-all duration-300 snap-center ${safeActiveImg === i ? 'border-[#e53935] scale-100 opacity-100 shadow-md' : 'border-transparent scale-95 opacity-60 hover:opacity-100 hover:scale-100'}`}
                 >
                   <NextImage
   src={failedImages.has(img) ? fallbackImage : img}
