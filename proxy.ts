@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 
-// ย้ายออกมาประกาศข้างนอกเพื่อประหยัด Memory และเช็คค่าว่างป้องกัน Build Error
-const secret = process.env.JWT_SECRET || 'asakan-secret-key-2024-change-in-production';
-const JWT_SECRET = new TextEncoder().encode(secret);
+const JWT_SECRET_VALUE = process.env.JWT_SECRET;
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // 1. ถ้าไม่ใช่หน้า admin หรือเป็นหน้า login ให้ผ่านไปได้เลยทันที (Early Return)
@@ -21,10 +19,15 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/admin/login', req.url));
   }
 
+  if (!JWT_SECRET_VALUE) {
+    return NextResponse.redirect(new URL('/admin/login', req.url));
+  }
+
   try {
+    const JWT_SECRET = new TextEncoder().encode(JWT_SECRET_VALUE);
     await jwtVerify(token, JWT_SECRET);
     return NextResponse.next();
-  } catch (error) {
+  } catch {
     // ถ้า Token ปลอมหรือหมดอายุ ให้เด้งไป Login และล้าง Cookie
     const response = NextResponse.redirect(new URL('/admin/login', req.url));
     response.cookies.delete('admin-token');

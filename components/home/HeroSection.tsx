@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 
 interface HeroProps {
@@ -37,10 +38,13 @@ export default function HeroSection({ title, subtitle, description, ctaText, cta
       {/* 1. Cinematic Background with Crossfade & Slow Zoom */}
       <div className="absolute inset-0 z-0 bg-[#050B14]">
         {displayImages.map((src, index) => (
-          <img 
+          <Image
             key={src}
             src={src} 
             alt={`Asakan Residence View ${index + 1}`}
+            fill
+            sizes="100vw"
+            priority={index === 0}
             // 📍 ปรับ Animation ให้ซูมเข้าช้าๆ (scale-110) ตลอด 6 วินาที โดยไม่ต้องพึ่ง config ภายนอก
             className={`absolute inset-0 w-full h-full object-cover transition-all duration-[6000ms] ease-out ${
               index === currentImageIndex ? 'opacity-100 scale-110 z-10' : 'opacity-0 scale-100 z-0'

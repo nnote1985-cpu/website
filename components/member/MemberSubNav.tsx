@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Gift, Shield, Percent, Users } from 'lucide-react';
 
 const tabs = [
@@ -12,8 +11,6 @@ const tabs = [
 ];
 
 export default function MemberSubNav({ active }: { active: string }) {
-  const pathname = usePathname();
-
   return (
     <>
       {/* Desktop + Mobile — bottom bar */}

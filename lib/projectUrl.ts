@@ -8,3 +8,7 @@ const SHORT_URLS: Record<string, string> = {
 export function projectUrl(slug: string): string {
   return SHORT_URLS[slug] ?? `/projects/${slug}`;
 }
+
+export function absoluteProjectUrl(slug: string): string {
+  return `https://www.asakan.co.th${projectUrl(slug)}`;
+}

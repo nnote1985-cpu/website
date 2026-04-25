@@ -4,7 +4,6 @@ import './globals.css';
 import { supabaseAdmin } from '@/lib/supabase';
 import FacebookPixel from '@/components/FacebookPixel';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
-import ClientHeader from '@/components/ClientHeader'; //
 
 // 📍 2. ตั้งค่าฟอนต์ Prompt
 const promptFont = Prompt({
@@ -94,7 +93,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     // 📍 3. เปลี่ยนตัวแปรฟอนต์ที่ html และ body
-    <html lang="th" className={promptFont.variable}>
+    <html lang="th" className={promptFont.variable} data-scroll-behavior="smooth">
       <head>
         <meta name="theme-color" content="#f4511e" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -131,9 +130,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={`${promptFont.className} antialiased`}>
         {gaId && <GoogleAnalytics gaId={gaId} />}
         {pixelId && <FacebookPixel pixelId={pixelId} />}
-
-{/* 📍 [เพิ่มใหม่] วาง Navbar หลักตรงนี้ มันจะเช็คและซ่อนตัวเองในหน้าโปรเจกต์ */}
-        <ClientHeader />
         {children}
       </body>
     </html>

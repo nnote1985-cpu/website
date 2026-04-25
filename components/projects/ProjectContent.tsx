@@ -1,23 +1,170 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, PlayCircle } from 'lucide-react';
+import NextImage from 'next/image';
+import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, PlayCircle, ChevronDown, HelpCircle } from 'lucide-react';
+import CollapsibleSection from '@/components/home/CollapsibleSection';
 
-export default function ProjectContent({ project }: { project: any }) {
+interface RoomPlan {
+  type: string;
+  image: string;
+}
+
+interface FacilityItem {
+  name: string;
+  icon?: string;
+}
+
+type GalleryTab = 'perspective' | 'facility' | 'room';
+type GalleryData = string[] | Partial<Record<GalleryTab, string[]>>;
+
+interface ProjectContentData {
+  name: string;
+  image?: string;
+  gallery?: GalleryData;
+  bts?: string;
+  concept?: string;
+  conceptArticle?: string;
+  conceptImage?: string;
+  description?: string;
+  features?: string[];
+  facilities?: FacilityItem[];
+  floors?: number | string;
+  googleMapUrl?: string;
+  location?: string;
+  parking?: string;
+  priceMin?: number;
+  projectArea?: string;
+  roomPlans?: RoomPlan[];
+  floorPlans?: string[];
+  type?: string;
+  units?: number | string;
+  videoUrl?: string;
+}
+
+function buildFaqs(project: ProjectContentData) {
+  const faqs: { q: string; a: string }[] = [];
+  const name = project.name || 'โครงการนี้';
+  const price = project.priceMin ? `${(project.priceMin / 1000000).toFixed(2)} ล้านบาท` : null;
+
+  if (project.bts || project.location) {
+    faqs.push({
+      q: `${name} ตั้งอยู่ในทำเลที่เดินทางสะดวกและใกล้แหล่งไลฟ์สไตล์หรือไม่?`,
+      a: `${name} ตั้งอยู่${project.location ? `ย่าน${project.location}` : ''} ${project.bts ? `ใกล้${project.bts}` : ''} เชื่อมต่อการเดินทางด้วยระบบรถไฟฟ้าได้อย่างสะดวก ใกล้ห้างสรรพสินค้า ร้านอาหาร และสิ่งอำนวยความสะดวกครบครัน`,
+    });
+  }
+
+  const facilityNames = project.facilities?.map((f: { name: string }) => f.name).filter(Boolean).slice(0, 4).join(', ');
+  const featureNames = project.features?.slice(0, 4).join(', ');
+  const amenities = facilityNames || featureNames;
+  if (amenities) {
+    faqs.push({
+      q: `สิ่งอำนวยความสะดวกส่วนกลางมีไฮไลต์อะไรบ้างที่แตกต่างจากที่อื่น?`,
+      a: `${name} มีสิ่งอำนวยความสะดวกส่วนกลางที่โดดเด่น ได้แก่ ${amenities} และอื่นๆ อีกมากมาย ออกแบบมาเพื่อรองรับทุกไลฟ์สไตล์ของผู้อยู่อาศัย`,
+    });
+  }
+
+  faqs.push({
+    q: `อะไรคือเหตุผลสำคัญที่ควรเลือก ${name} เมื่อเทียบกับคอนโดอื่นๆในย่าน?`,
+    a: `${name} โดย ASAKAN ผู้พัฒนาอสังหาริมทรัพย์กว่า 25 ปี มีจุดเด่นทั้งทำเลศักยภาพ คุณภาพการก่อสร้าง ราคาที่เข้าถึงได้ และบริการหลังการขายที่ดูแลระยะยาว`,
+  });
+
+  faqs.push({
+    q: `ASAKAN มีระบบดูแลหลังการขายและระบบความปลอดภัยให้ลูกบ้านอย่างไร?`,
+    a: `ASAKAN มีทีม AssetCare+ ดูแลหลังการโอนกรรมสิทธิ์ครบวงจร พร้อมระบบรักษาความปลอดภัย 24 ชั่วโมง กล้อง CCTV และ Key Card Access ทุกจุด`,
+  });
+
+  if (price) {
+    faqs.push({
+      q: `ศักยภาพการปล่อยเช่าและโอกาสในการเพิ่มมูลค่าของ${name}เป็นอย่างไร?`,
+      a: `ด้วยทำเลใกล้รถไฟฟ้าและสิ่งอำนวยความสะดวกครบครัน ${name} มีศักยภาพในการปล่อยเช่าสูง ราคาเริ่มต้น${price} ถือเป็นการลงทุนที่คุ้มค่าในระยะยาว`,
+    });
+  }
+
+  return faqs;
+}
+
+function ProjectFAQ({ project }: { project: ProjectContentData }) {
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const faqs = buildFaqs(project);
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+
+  return (
+    <section id="faq" className="bg-white border-t border-slate-100">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <CollapsibleSection label="คำถามที่พบบ่อย (FAQ)" alwaysCollapsible>
+        <div className="py-16 md:py-20 max-w-7xl mx-auto px-4 md:px-8">
+          <div className="flex flex-col lg:flex-row gap-12">
+            {/* หัวข้อ */}
+            <div className="lg:w-1/3 shrink-0">
+              <div className="flex items-center gap-3 mb-3">
+                <HelpCircle size={28} className="text-[#e53935]" />
+                <span className="text-[11px] font-black tracking-[0.3em] uppercase text-[#e53935]">FAQ</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black text-[#1a2d6b] leading-tight">
+                คำถามที่พบบ่อย
+              </h2>
+              <p className="mt-3 text-sm text-slate-500 leading-relaxed">
+                รวมคำถามที่ลูกค้าถามบ่อยเกี่ยวกับ {project.name}
+              </p>
+            </div>
+
+            {/* Accordion */}
+            <div className="flex-1 space-y-3">
+              {faqs.map((faq, i) => (
+                <div key={i} className="rounded-2xl border border-slate-100 bg-[#f6f7fb] overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setOpenIdx(openIdx === i ? null : i)}
+                    className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer"
+                  >
+                    <span className="text-sm md:text-[15px] font-bold text-slate-700 pr-4 leading-snug">
+                      <span className="text-[#e53935] mr-2">Q :</span>{faq.q}
+                    </span>
+                    <ChevronDown
+                      size={18}
+                      className={`shrink-0 transition-transform duration-300 ${openIdx === i ? 'rotate-180 text-[#e53935]' : 'text-slate-400'}`}
+                    />
+                  </button>
+                  {openIdx === i && (
+                    <div className="px-6 pb-5 text-sm text-slate-600 leading-7 border-t border-slate-200 pt-4">
+                      <span className="text-[#1a2d6b] font-bold mr-2">A :</span>{faq.a}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </CollapsibleSection>
+    </section>
+  );
+}
+
+export default function ProjectContent({ project }: { project: ProjectContentData }) {
   // ==========================================
   // 📍 STATE สำหรับ GALLERY (เพิ่ม Tab หมวดหมู่)
   // ==========================================
-  const [activeGalleryTab, setActiveGalleryTab] = useState<'perspective' | 'facility' | 'room'>('perspective');
+  const [activeGalleryTab, setActiveGalleryTab] = useState<GalleryTab>('perspective');
   const [activeImg, setActiveImg] = useState(0);
   const [isGalleryFullscreen, setIsGalleryFullscreen] = useState(false);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
-  const [infoTab, setInfoTab] = useState<'concept' | 'detail'>('concept');
+  const [infoTab, setInfoTab] = useState<'concept' | 'factsheet' | 'facilities'>('concept');
 
   // ==========================================
   // 📍 STATE สำหรับ PLANS
   // ==========================================
   const [activeTab, setActiveTab] = useState<'room' | 'floor'>(
-    project.roomPlans?.length > 0 ? 'room' : 'floor'
+    (project.roomPlans?.length ?? 0) > 0 ? 'room' : 'floor'
   );
   const [activePlanIndex, setActivePlanIndex] = useState(0);
   const [isPlanFullscreen, setIsPlanFullscreen] = useState(false);
@@ -50,7 +197,7 @@ export default function ProjectContent({ project }: { project: any }) {
     return Array.isArray(project.gallery) ? project.gallery : [];
   }, [project.gallery, activeGalleryTab]);
 
-  const currentRawGallery = getRawGallery();
+  const currentRawGallery: string[] = getRawGallery();
   
   // ปรับ Logic การกรอง: ให้รองรับรูปภาพที่กำลังโหลดได้ดีขึ้น
   const validGallery = currentRawGallery.filter(
@@ -58,9 +205,31 @@ export default function ProjectContent({ project }: { project: any }) {
 );
   const hasGallery = validGallery.length > 0;
   const safeActiveImg = activeImg >= validGallery.length ? 0 : activeImg;
+  const fallbackImage = project.image || '/logo.png';
   
   // ถ้าไม่มีรูปในหมวดนั้นเลย ให้เอารูปหน้าปก (project.image) มาแสดงแก้ขัด
-  const currentImage = hasGallery ? validGallery[safeActiveImg] : project.image;
+  const currentImage = hasGallery ? validGallery[safeActiveImg] : fallbackImage;
+
+  const priceLabel = project.priceMin
+    ? `เริ่มต้น ${(project.priceMin / 1000000).toFixed(2)} ล้านบาท*`
+    : undefined;
+
+  const projectFacts = [
+    { label: 'ชื่อโครงการ', value: project.name },
+    { label: 'ลักษณะโครงการ', value: [project.type, project.floors ? `${project.floors} ชั้น` : undefined].filter(Boolean).join(' ') },
+    { label: 'ทำเลที่ตั้ง', value: project.location },
+    { label: 'รถไฟฟ้าใกล้เคียง', value: project.bts },
+    { label: 'จำนวนยูนิต', value: project.units ? `${project.units} ยูนิต` : undefined },
+    { label: 'พื้นที่โครงการ', value: project.projectArea },
+    { label: 'ที่จอดรถ', value: project.parking },
+    { label: 'ราคา', value: priceLabel },
+  ].filter((item) => item.value && String(item.value).trim() !== '');
+
+  const facilityItems: FacilityItem[] = project.facilities?.length
+    ? project.facilities.filter((facility) => facility.name?.trim())
+    : (project.features || [])
+      .filter((feature) => feature.trim() !== '')
+      .map((name) => ({ name }));
 
   // ==========================================
   // 📍 ฟังก์ชันควบคุม
@@ -160,16 +329,16 @@ export default function ProjectContent({ project }: { project: any }) {
               </button>
             )}
 
-            <img
+            <NextImage
   key={`fs-${currentImage}-${safeActiveImg}`}
   src={
     currentImage && !failedImages.has(currentImage)
       ? currentImage
-      : project.image
+      : fallbackImage
   }
+  width={1600}
+  height={1000}
   onError={() => handleImageError(currentImage)}
-  loading="lazy"
-  decoding="async"
   className={`w-auto max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl select-none animate-in fade-in duration-300 ${
     slideDirection === 'right' ? 'slide-in-from-right-24' : 'slide-in-from-left-24'
   }`}
@@ -201,15 +370,15 @@ export default function ProjectContent({ project }: { project: any }) {
         : 'border-transparent opacity-40 hover:opacity-100'
     }`}
   >
-    <img 
+    <NextImage
       src={
         img && !failedImages.has(img)
           ? img
-          : project.image
+          : fallbackImage
       }
+      width={160}
+      height={96}
       onError={() => handleImageError(img)}
-      loading="lazy"
-      decoding="async"
       className="w-full h-full object-cover"
       alt={`Thumb ${i}`}
     />
@@ -233,7 +402,7 @@ export default function ProjectContent({ project }: { project: any }) {
           </button>
           
           <div className="relative w-full max-w-7xl flex-1 flex items-center justify-center min-h-0 mb-6 group">
-            {((activeTab === 'room' && project.roomPlans?.length > 1) || (activeTab === 'floor' && project.floorPlans?.length > 1)) && (
+            {((activeTab === 'room' && (project.roomPlans?.length ?? 0) > 1) || (activeTab === 'floor' && (project.floorPlans?.length ?? 0) > 1)) && (
               <button 
                 onClick={(e) => { e.stopPropagation(); handlePlanPrev(); }}
                 className="absolute left-2 md:left-8 z-50 text-slate-700 bg-white shadow-lg border border-slate-200 hover:bg-[#e53935] hover:text-white hover:border-[#e53935] p-3 md:p-4 rounded-full transition-all opacity-0 group-hover:opacity-100"
@@ -242,11 +411,11 @@ export default function ProjectContent({ project }: { project: any }) {
               </button>
             )}
 
-            <img 
+            <NextImage
               key={`plan-fs-${activeTab}-${activePlanIndex}`}
-              src={activeTab === 'room' ? project.roomPlans[activePlanIndex]?.image : project.floorPlans[activePlanIndex]} 
-              loading="lazy"
-              decoding="async"
+              src={(activeTab === 'room' ? project.roomPlans?.[activePlanIndex]?.image : project.floorPlans?.[activePlanIndex]) || fallbackImage}
+              width={1600}
+              height={1000}
               className="w-auto max-w-full max-h-[85vh] object-contain select-none animate-in fade-in zoom-in-95 duration-500" 
               alt="Fullscreen Plan"
               onTouchStart={onTouchStart}
@@ -254,7 +423,7 @@ export default function ProjectContent({ project }: { project: any }) {
               onTouchEnd={onPlanTouchEnd}
             />
 
-            {((activeTab === 'room' && project.roomPlans?.length > 1) || (activeTab === 'floor' && project.floorPlans?.length > 1)) && (
+            {((activeTab === 'room' && (project.roomPlans?.length ?? 0) > 1) || (activeTab === 'floor' && (project.floorPlans?.length ?? 0) > 1)) && (
               <button 
                 onClick={(e) => { e.stopPropagation(); handlePlanNext(); }}
                 className="absolute right-2 md:right-8 z-50 text-slate-700 bg-white shadow-lg border border-slate-200 hover:bg-[#e53935] hover:text-white hover:border-[#e53935] p-3 md:p-4 rounded-full transition-all opacity-0 group-hover:opacity-100"
@@ -265,167 +434,165 @@ export default function ProjectContent({ project }: { project: any }) {
           </div>
 
           <div className="absolute bottom-6 md:bottom-10 bg-white/80 shadow-lg border border-slate-200 text-slate-800 px-6 py-3 rounded-full font-bold tracking-widest uppercase text-sm backdrop-blur-md">
-            {activeTab === 'room' ? project.roomPlans[activePlanIndex]?.type : `Floor Plan ${activePlanIndex + 1}`}
+            {activeTab === 'room' ? project.roomPlans?.[activePlanIndex]?.type : `Floor Plan ${activePlanIndex + 1}`}
           </div>
         </div>
       )}
 
       {/* =========================================
-          📍 PROJECT CONCEPT & INFO (tabs)
+          PROJECT INFO
       ========================================= */}
-      <section id="info" className="py-16 md:py-24 bg-[#f8f9fa] border-b border-slate-200">
+      <section id="info" className="py-16 md:py-24 bg-[#f6f7fb] border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+            <div>
+              <span className="text-[11px] font-black tracking-[0.35em] uppercase text-[#e53935]">
+                Project Information
+              </span>
+              <h2 className="mt-3 text-3xl md:text-5xl font-black text-[#1a2d6b] tracking-tight">
+                ข้อมูลโครงการ
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm md:text-base text-slate-500 leading-relaxed">
+                สรุปภาพรวมโครงการให้อ่านง่าย แยกเป็นแนวคิด รายละเอียดสำคัญ และสิ่งอำนวยความสะดวก
+              </p>
+            </div>
 
-          {/* Tab switcher */}
-          <div className="flex justify-center mb-12">
-            <div className="inline-flex bg-white border border-slate-200 rounded-2xl p-1.5 shadow-sm">
-              <button
-                onClick={() => setInfoTab('concept')}
-                className={`px-7 py-3 rounded-xl text-sm font-black uppercase tracking-wider transition-all ${infoTab === 'concept' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
-              >
-                Project Concept
-              </button>
-              <button
-                onClick={() => setInfoTab('detail')}
-                className={`px-7 py-3 rounded-xl text-sm font-black uppercase tracking-wider transition-all ${infoTab === 'detail' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
-              >
-                Project Detail
-              </button>
+            <div className="flex w-full gap-2 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-1.5 shadow-sm lg:w-auto">
+              {[
+                { key: 'concept', label: 'แนวคิดโครงการ' },
+                { key: 'factsheet', label: 'Factsheet' },
+                { key: 'facilities', label: 'Facilities' },
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setInfoTab(tab.key as 'concept' | 'factsheet' | 'facilities')}
+                  className={`min-w-fit rounded-xl px-5 py-3 text-xs md:text-sm font-black transition-all ${
+                    infoTab === tab.key
+                      ? 'bg-[#1a2d6b] text-white shadow-md'
+                      : 'text-slate-500 hover:bg-slate-50 hover:text-[#1a2d6b]'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* ── TAB: CONCEPT ── */}
           {infoTab === 'concept' && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-              <div className="lg:col-span-7 space-y-6">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm">
-                  <span className="w-2 h-2 rounded-full bg-[#e53935]"></span>
-                  <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-slate-500">Project Concept</span>
+            <div className="overflow-hidden rounded-2xl bg-[#a7785d] text-white shadow-sm">
+              <div className="flex flex-col lg:flex-row min-h-0">
+                {/* รูป — ซ้าย */}
+                <div className="relative w-full lg:w-1/2 aspect-[4/3] lg:aspect-auto lg:min-h-[420px] bg-[#8f654e] shrink-0">
+                  {project.conceptImage ? (
+                    <NextImage
+                      src={project.conceptImage}
+                      alt={`${project.name} concept`}
+                      fill
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-sm font-bold tracking-[0.2em] text-white/50">
+                      CONCEPT IMAGE
+                    </div>
+                  )}
                 </div>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black italic text-[#1a2d6b] uppercase leading-[1.1]">
-                  {project.concept}
-                </h2>
-                <div className="w-20 h-1.5 bg-[#e53935] rounded-full"></div>
-                <p className="text-slate-600 text-lg md:text-xl leading-relaxed whitespace-pre-line pt-2">
-                  {project.conceptArticle || project.description}
+
+                {/* ข้อความ — ขวา */}
+                <div className="flex flex-col justify-center px-8 py-10 lg:px-12 lg:py-14 lg:w-1/2">
+                  <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-white/25 px-4 py-2">
+                    <Sparkles size={15} className="text-white" />
+                    <span className="text-[11px] font-black uppercase tracking-[0.25em] text-white/80">Concept</span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-black leading-tight text-white">
+                    {project.concept || project.name}
+                  </h3>
+                  <p className="mt-5 text-sm md:text-base leading-8 text-white/80 whitespace-pre-line">
+                    {project.conceptArticle || project.description || 'รายละเอียดแนวคิดโครงการจะถูกแสดงจากข้อมูลที่ตั้งค่าในระบบ Admin'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {infoTab === 'factsheet' && (
+            <div className="space-y-4">
+              {/* Facts grid */}
+              <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y divide-slate-100">
+                  {projectFacts.map((item) => (
+                    <div key={item.label} className="group p-5 hover:bg-slate-50 transition-colors">
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 block mb-2">
+                        {item.label}
+                      </span>
+                      <div className="text-base md:text-lg font-black text-[#1a2d6b] leading-snug">{item.value}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* ประเภทห้อง */}
+              {(project.roomPlans?.length ?? 0) > 0 && (
+                <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Home size={17} className="text-[#e53935]" />
+                    <h3 className="text-base font-black text-[#1a2d6b]">ประเภทห้อง</h3>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {project.roomPlans?.map((plan: RoomPlan, i: number) => (
+                      <div key={i} className="flex items-center justify-between bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
+                        <span className="text-sm font-bold text-slate-700">{plan.type}</span>
+                        <span className="text-xs text-slate-400">→ Plans</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {infoTab === 'facilities' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-4 bg-[#1a2d6b] text-white rounded-2xl p-7 md:p-8 shadow-sm">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 mb-6">
+                  <Building2 size={24} />
+                </div>
+                <h3 className="text-2xl md:text-3xl font-black leading-tight">Facilities</h3>
+                <p className="mt-4 text-sm leading-7 text-white/70">
+                  พื้นที่ส่วนกลางและบริการประจำโครงการ ออกแบบให้รองรับการพักผ่อน การดูแลสุขภาพ และชีวิตประจำวันได้ครบในที่เดียว
                 </p>
               </div>
 
-              <div className="lg:col-span-5 bg-white rounded-[2rem] p-8 md:p-10 shadow-xl border border-slate-100">
-                <h3 className="text-2xl font-black text-[#1a2d6b] mb-6 border-b border-slate-100 pb-4">ข้อมูลโครงการ</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                    <span className="text-slate-500 font-medium">ลักษณะโครงการ</span>
-                    <span className="text-slate-900 font-bold text-right">{project.type} {project.floors ? `${project.floors} ชั้น` : ''}</span>
-                  </div>
-                  {project.units && (
-                    <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                      <span className="text-slate-500 font-medium">จำนวนยูนิต</span>
-                      <span className="text-slate-900 font-bold">{project.units} ยูนิต</span>
-                    </div>
-                  )}
-                  {project.projectArea && (
-                    <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                      <span className="text-slate-500 font-medium">พื้นที่โครงการ</span>
-                      <span className="text-slate-900 font-bold text-right">{project.projectArea}</span>
-                    </div>
-                  )}
-                  {project.parking && (
-                    <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                      <span className="text-slate-500 font-medium">ที่จอดรถ</span>
-                      <span className="text-slate-900 font-bold text-right">{project.parking}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                    <span className="text-slate-500 font-medium">ทำเลที่ตั้ง</span>
-                    <span className="text-slate-900 font-bold text-right max-w-[60%]">{project.location}</span>
-                  </div>
-                  {project.features?.length > 0 && (
-                    <div className="pt-4">
-                      <span className="text-slate-500 font-medium block mb-3">สิ่งอำนวยความสะดวก</span>
-                      <div className="flex flex-wrap gap-2">
-                        {project.features.map((f: string, i: number) => (
-                          <span key={i} className="bg-slate-50 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-full border border-slate-200">{f}</span>
-                        ))}
+              <div className="lg:col-span-8">
+                {facilityItems.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {facilityItems.map((facility, i) => (
+                      <div key={`${facility.name}-${i}`} className="flex items-center gap-4 bg-white border border-slate-100 rounded-2xl p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#e53935]/10">
+                          {facility.icon ? (
+                            <NextImage
+                              src={facility.icon}
+                              alt=""
+                              width={32}
+                              height={32}
+                              className="h-8 w-8 object-contain"
+                            />
+                          ) : (
+                            <Building2 size={22} className="text-[#e53935]" />
+                          )}
+                        </div>
+                        <div className="text-base font-black text-slate-700 leading-7">{facility.name}</div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ── TAB: DETAIL ── */}
-          {infoTab === 'detail' && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-              {/* ── ข้อมูลหลัก ── */}
-              <div className="lg:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-4 mb-2">
-                {[
-                  { label: 'PROJECT NAME', value: project.name },
-                  { label: 'PROJECT TYPE', value: `${project.type}${project.floors ? ` ${project.floors} ชั้น` : ''}` },
-                  { label: 'LOCATION', value: `${project.location}${project.bts ? ` ${project.bts}` : ''}` },
-                  ...(project.units ? [{ label: 'UNIT', value: `${project.units} ยูนิต` }] : []),
-                  ...(project.parking ? [{ label: 'PARKING', value: project.parking }] : []),
-                  ...(project.priceMin ? [{ label: 'PRICE', value: `${(project.priceMin / 1000000).toFixed(2)} ลบ.*` }] : []),
-                  ...(project.projectArea ? [{ label: 'พื้นที่โครงการ', value: project.projectArea }] : []),
-                ].map((item) => (
-                  <div key={item.label} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-[#e53935]" />
-                      <span className="text-[10px] font-black uppercase tracking-widest text-[#e53935]">{item.label}</span>
-                    </div>
-                    <div className="text-[#1a2d6b] font-black text-base leading-snug">{item.value}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* ── Room Plans (ดึงจาก roomPlans) ── */}
-              {project.roomPlans?.length > 0 && (
-                <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-                  <h3 className="text-base font-black text-[#1a2d6b] mb-4 pb-3 border-b border-slate-100">ประเภทห้อง</h3>
-                  <table className="w-full text-sm">
-                    <tbody className="divide-y divide-slate-50">
-                      {project.roomPlans.map((plan: { type: string; image: string }, i: number) => {
-                        const match = plan.type.match(/(\d+)\s*ตร/);
-                        return (
-                          <tr key={i}>
-                            <td className="py-2.5 text-slate-600 font-medium">– {plan.type.split(' ')[0]} {plan.type.split(' ')[1] || ''}</td>
-                            <td className="py-2.5 text-right font-bold text-[#1a2d6b]">{match ? `${match[1]} ตร.ม.` : ''}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-
-              {/* ── Features / สิ่งอำนวยความสะดวก ── */}
-              {project.features?.length > 0 && (
-                <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-                  <h3 className="text-base font-black text-[#1a2d6b] mb-4 pb-3 border-b border-slate-100">สิ่งอำนวยความสะดวก</h3>
-                  <ul className="space-y-2">
-                    {project.features.map((f: string, i: number) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#e53935] shrink-0" />
-                        {f}
-                      </li>
                     ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* ── Description ── */}
-              {project.description && (
-                <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-                  <h3 className="text-base font-black text-[#1a2d6b] mb-4 pb-3 border-b border-slate-100">รายละเอียดโครงการ</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">{project.description}</p>
-                </div>
-              )}
-
+                  </div>
+                ) : (
+                  <div className="bg-white border border-dashed border-slate-200 rounded-2xl p-10 text-center text-slate-500">
+                    กำลังเตรียมข้อมูลสิ่งอำนวยความสะดวกเพิ่มเติม
+                  </div>
+                )}
+              </div>
             </div>
           )}
-
         </div>
       </section>
 
@@ -474,12 +641,12 @@ export default function ProjectContent({ project }: { project: any }) {
             onTouchEnd={onGalleryTouchEnd}
           >
             {/* Main image — click center to fullscreen */}
-            <img
+            <NextImage
               key={`main-${currentImage}-${safeActiveImg}`}
-              src={failedImages.has(currentImage) ? project.image : currentImage}
+              src={failedImages.has(currentImage) ? fallbackImage : currentImage}
+              fill
+              sizes="(min-width: 1024px) 960px, 100vw"
               onError={() => handleImageError(currentImage)}
-              loading="lazy"
-              decoding="async"
               onClick={() => setIsGalleryFullscreen(true)}
               className={`w-full h-full object-cover cursor-pointer animate-in fade-in duration-300 ${
                 slideDirection === 'right' ? 'slide-in-from-right-10' : 'slide-in-from-left-10'
@@ -532,11 +699,11 @@ export default function ProjectContent({ project }: { project: any }) {
                   onClick={() => setActiveImg(i)} 
                   className={`w-28 md:w-40 aspect-video shrink-0 rounded-xl overflow-hidden cursor-pointer border-[3px] transition-all duration-300 snap-center ${safeActiveImg === i ? 'border-[#e53935] scale-100 opacity-100 shadow-md' : 'border-transparent scale-95 opacity-60 hover:opacity-100 hover:scale-100'}`}
                 >
-                  <img 
-  src={failedImages.has(img) ? project.image : img}
+                  <NextImage
+  src={failedImages.has(img) ? fallbackImage : img}
+  fill
+  sizes="160px"
   onError={() => handleImageError(img)}
-  loading="lazy"
-  decoding="async"
   className="w-full h-full object-cover" 
   alt={`Thumb ${i}`} 
 />
@@ -555,7 +722,7 @@ export default function ProjectContent({ project }: { project: any }) {
       {/* =========================================
           📍 PLANS SECTION
       ========================================= */}
-      {(project.floorPlans?.length > 0 || project.roomPlans?.length > 0) && (
+      {((project.floorPlans?.length ?? 0) > 0 || (project.roomPlans?.length ?? 0) > 0) && (
         <section id="plans" className="py-16 md:py-24 bg-slate-50 border-b border-slate-100">
           <div className="container mx-auto px-4 md:px-8">
             <div className="text-center mb-12">
@@ -566,7 +733,7 @@ export default function ProjectContent({ project }: { project: any }) {
               <p className="text-slate-500 mb-10 text-lg">สัมผัสการออกแบบพื้นที่ใช้สอยที่ตอบโจทย์ชีวิตคนเมือง</p>
               
               <div className="inline-flex bg-white p-1.5 rounded-full shadow-sm border overflow-x-auto max-w-full hide-scrollbar">
-                {project.roomPlans?.length > 0 && (
+                {(project.roomPlans?.length ?? 0) > 0 && (
                   <button 
                     onClick={() => { setActiveTab('room'); setActivePlanIndex(0); }}
                     className={`px-8 py-3 rounded-full text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
@@ -574,7 +741,7 @@ export default function ProjectContent({ project }: { project: any }) {
                     Room Plans
                   </button>
                 )}
-                {project.floorPlans?.length > 0 && (
+                {(project.floorPlans?.length ?? 0) > 0 && (
                   <button 
                     onClick={() => { setActiveTab('floor'); setActivePlanIndex(0); }}
                     className={`px-8 py-3 rounded-full text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'floor' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
@@ -587,7 +754,7 @@ export default function ProjectContent({ project }: { project: any }) {
 
             <div className="max-w-6xl mx-auto">
               <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10 md:mb-12">
-                {activeTab === 'room' && project.roomPlans.map((plan: any, idx: number) => (
+                {activeTab === 'room' && project.roomPlans?.map((plan: RoomPlan, idx: number) => (
                   <button
                     key={`room-btn-${idx}`}
                     onClick={() => setActivePlanIndex(idx)}
@@ -601,7 +768,7 @@ export default function ProjectContent({ project }: { project: any }) {
                   </button>
                 ))}
 
-                {activeTab === 'floor' && project.floorPlans.map((_: any, idx: number) => (
+                {activeTab === 'floor' && project.floorPlans?.map((_, idx: number) => (
                   <button
                     key={`floor-btn-${idx}`}
                     onClick={() => setActivePlanIndex(idx)}
@@ -621,23 +788,23 @@ export default function ProjectContent({ project }: { project: any }) {
                 onClick={() => setIsPlanFullscreen(true)}
               >
                 {activeTab === 'room' && project.roomPlans?.[activePlanIndex] && (
-                  <img 
+                  <NextImage
                     key={`room-img-${activePlanIndex}`}
                     src={project.roomPlans[activePlanIndex].image} 
                     alt={project.roomPlans[activePlanIndex].type}
-                    loading="lazy"
-                    decoding="async"
+                    width={1400}
+                    height={1000}
                     className="w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply" 
                   />
                 )}
 
                 {activeTab === 'floor' && project.floorPlans?.[activePlanIndex] && (
-                  <img 
+                  <NextImage
                     key={`floor-img-${activePlanIndex}`}
                     src={project.floorPlans[activePlanIndex]} 
                     alt={`Floor Plan ${activePlanIndex + 1}`}
-                    loading="lazy"
-                    decoding="async"
+                    width={1400}
+                    height={1000}
                     className="w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply" 
                   />
                 )}
@@ -678,6 +845,11 @@ export default function ProjectContent({ project }: { project: any }) {
           </div>
         </section>
       )}
+
+      {/* =========================================
+          📍 FAQ SECTION
+      ========================================= */}
+      <ProjectFAQ project={project} />
 
       {/* =========================================
           📍 4. LOCATION & MAP SECTION

@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { MapPin, Building2, Layers, ArrowRight } from 'lucide-react';
-import { getStatusLabel, getStatusColor } from '@/lib/utils';
+import { getStatusLabel } from '@/lib/utils';
 import { projectUrl } from '@/lib/projectUrl';
 
 interface Project {
@@ -37,13 +38,12 @@ export default function ProjectCard({ project }: { project: Project }) {
         
         {/* Actual Image */}
         {project.image && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={project.image}
             alt={project.name}
+            fill
+            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
-            loading="lazy"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
           />
         )}
         

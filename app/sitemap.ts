@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next';
 import { supabaseAdmin } from '@/lib/supabase';
+import { projectUrl } from '@/lib/projectUrl';
 
-const BASE = 'https://asakan.co.th';
+const BASE = 'https://www.asakan.co.th';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -34,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .eq('is_active', true);
 
   const projectPages: MetadataRoute.Sitemap = (projects ?? []).map((p) => ({
-    url: `${BASE}/projects/${p.slug}`,
+    url: `${BASE}${projectUrl(p.slug)}`,
     lastModified: p.created_at ? new Date(p.created_at) : new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.9,

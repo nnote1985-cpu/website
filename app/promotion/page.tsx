@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingCTA from '@/components/FloatingCTA';
-import { ArrowRight, Clock, Tag, ChevronRight } from 'lucide-react';
+import { Clock, ChevronRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'โปรโมชั่น | ASAKAN ข้อเสนอพิเศษ',

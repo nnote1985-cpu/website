@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-function PixelPageView({ pixelId }: { pixelId: string }) {
+function PixelPageView() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -49,6 +49,7 @@ export default function FacebookPixel({ pixelId }: { pixelId: string }) {
         }}
       />
       <noscript>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           height="1"
           width="1"
@@ -58,7 +59,7 @@ export default function FacebookPixel({ pixelId }: { pixelId: string }) {
         />
       </noscript>
       <Suspense fallback={null}>
-        <PixelPageView pixelId={pixelId} />
+        <PixelPageView />
       </Suspense>
     </>
   );

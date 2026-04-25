@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { formatDate } from '@/lib/utils';
 import FloatingCTA from '@/components/FloatingCTA';
 import { Calendar, Tag, ArrowLeft } from 'lucide-react';
+import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
 
 interface NewsItem {
   id: string;
@@ -30,12 +32,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${item.title} | ASAKAN`,
     description: item.excerpt,
+    alternates: { canonical: `${SITE_URL}/news/${item.slug}` },
     openGraph: {
       title: item.title,
       description: item.excerpt,
+      url: `${SITE_URL}/news/${item.slug}`,
       images: item.image ? [{ url: item.image }] : [],
       type: 'article',
-      publishedTime: item.publishedAt,
+      publishedTime: item.published_at,
     },
   };
 }
@@ -45,9 +49,31 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
   const { data } = await supabaseAdmin.from('news').select('*').eq('slug', slug).eq('is_published', true).single();
   if (!data) notFound();
   const item: NewsItem = { ...data, isPublished: data.is_published, publishedAt: data.published_at };
+  const articleUrl = `${SITE_URL}/news/${item.slug}`;
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: item.title,
+    description: item.excerpt,
+    image: item.image ? [item.image] : undefined,
+    datePublished: item.publishedAt,
+    author: { '@type': 'Organization', name: item.author || 'ASAKAN' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'ASAKAN',
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+  };
 
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([
+        { name: 'หน้าแรก', path: '' },
+        { name: 'ข่าวสาร', path: '/news' },
+        { name: item.title, path: `/news/${item.slug}` },
+      ])} />
+      <JsonLd data={articleJsonLd} />
       <Header />
       <FloatingCTA />
       <main className="pt-20">
@@ -79,9 +105,11 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
             {item.image && (
               <div className="order-1 md:order-2">
                 <div className="relative aspect-[16/10] w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10">
-                  <img
+                  <Image
                     src={item.image}
                     alt={item.title}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
                     className="w-full h-full object-cover"
                   />
                 </div>

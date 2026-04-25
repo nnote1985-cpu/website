@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import NewsCard from '@/components/home/NewsCard';
 import FloatingCTA from '@/components/FloatingCTA';
+import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'ข่าวสาร & บทความ | ASAKAN อสังหาริมทรัพย์',
@@ -25,9 +26,25 @@ export default async function NewsPage() {
   const { data } = await supabaseAdmin.from('news').select('*').eq('is_published', true).order('published_at', { ascending: false });
   const published: NewsItem[] = (data || []).map((n) => ({ ...n, isPublished: n.is_published, publishedAt: n.published_at }));
   const categories = [...new Set(published.map((n) => n.category))];
+  const itemListJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'ข่าวสารและบทความ ASAKAN',
+    itemListElement: published.map((news, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `${SITE_URL}/news/${news.slug}`,
+      name: news.title,
+    })),
+  };
 
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([
+        { name: 'หน้าแรก', path: '' },
+        { name: 'ข่าวสาร', path: '/news' },
+      ])} />
+      <JsonLd data={itemListJsonLd} />
       <Header />
       <FloatingCTA />
       <main className="pt-20">

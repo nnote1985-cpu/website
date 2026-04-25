@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar, Tag } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
@@ -19,13 +20,12 @@ export default function NewsCard({ news }: { news: NewsItem }) {
     <article className="bg-white rounded-2xl overflow-hidden shadow-sm card-hover group border border-gray-100">
       <div className="relative h-44 bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden">
         {news.image && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={news.image}
             alt={news.title}
+            fill
+            sizes="(min-width: 768px) 33vw, 100vw"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            loading="lazy"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
           />
         )}
         <span className="absolute top-3 left-3 bg-[#f4511e] text-white text-xs font-semibold px-3 py-1 rounded-full">

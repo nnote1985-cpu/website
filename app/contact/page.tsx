@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import ContactForm from '@/components/ContactForm';
 import FloatingCTA from '@/components/FloatingCTA';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'ติดต่อเรา | ASAKAN สอบถามโครงการคอนโด',
@@ -36,8 +37,53 @@ const CONTACT_INFO = [
 ];
 
 export default function ContactPage() {
+  const contactPageJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    name: 'ติดต่อ ASAKAN',
+    url: `${SITE_URL}/contact`,
+    mainEntity: {
+      '@type': 'RealEstateAgent',
+      name: 'ASAKAN',
+      url: SITE_URL,
+      telephone: ['+66-82-526-5566', '+66-2-059-9655', '+66-99-198-2940'],
+      email: 'info@asakan.co.th',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '191 ถนนรามคำแหง',
+        addressLocality: 'สะพานสูง',
+        addressRegion: 'กรุงเทพมหานคร',
+        postalCode: '10240',
+        addressCountry: 'TH',
+      },
+      sameAs: [
+        'https://www.facebook.com/Asakandevelopment',
+        'https://line.me/ti/p/~@asakan',
+      ],
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          opens: '08:30',
+          closes: '17:30',
+        },
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Saturday', 'Sunday'],
+          opens: '09:00',
+          closes: '17:00',
+        },
+      ],
+    },
+  };
+
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([
+        { name: 'หน้าแรก', path: '' },
+        { name: 'ติดต่อเรา', path: '/contact' },
+      ])} />
+      <JsonLd data={contactPageJsonLd} />
       <Header />
       <FloatingCTA />
       <main className="pt-20">

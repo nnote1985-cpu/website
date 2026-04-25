@@ -32,10 +32,8 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false); // เพิ่ม mounted เพื่อป้องกัน Hydration error
 
   useEffect(() => {
-    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -43,7 +41,7 @@ export default function Header() {
 
   // 3. เงื่อนไขการซ่อน Navbar เมื่ออยู่หน้า Admin
   // ต้องเช็ค mounted ด้วยเพื่อให้ค่า pathname ฝั่ง Client เสถียร
-  if (!mounted || pathname?.startsWith('/admin')) {
+  if (pathname?.startsWith('/admin')) {
     return null;
   }
 

@@ -1,9 +1,20 @@
 'use client';
 
-import { Phone, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Phone, CheckCircle2 } from 'lucide-react';
 import RegisterForm from '@/components/projects/RegisterForm';
 
-export default function WelaCustom({ project }: { project: any }) {
+interface CustomProject {
+  name: string;
+  phone?: string;
+  heroImage?: string;
+  image?: string;
+  type?: string;
+  concept?: string;
+  description?: string;
+  features?: string[];
+}
+
+export default function WelaCustom({ project }: { project: CustomProject }) {
   const phone = project.phone || '0825265566';
   const phoneTel = phone.replace(/-/g, '');
   // แยกคำเพื่อทำไฮไลท์สีแดงที่คำสุดท้าย
@@ -51,7 +62,7 @@ export default function WelaCustom({ project }: { project: any }) {
           <div className="h-1 w-16 md:w-20 bg-[#e53935]" />
 
           <p className="text-base md:text-xl leading-relaxed text-white/90 drop-shadow-md font-light">
-            "{project.description}"
+            &quot;{project.description}&quot;
           </p>
 
           <div className="flex flex-wrap gap-4 md:gap-6 pt-2 md:pt-6">
@@ -66,7 +77,7 @@ export default function WelaCustom({ project }: { project: any }) {
       </div>
 
       {/* --- 📍 ฝั่งขวา: FORM โทนสีขาว-น้ำเงิน (⬜ 30% โซนสีขาว) --- */}
-      <div id="register" className="w-full lg:w-1/3 bg-white p-8 md:p-12 lg:p-16 flex flex-col justify-center relative z-10 shadow-2xl border-l border-slate-200">
+      <div id="register" data-register-form="true" className="scroll-mt-24 w-full lg:w-1/3 bg-white p-8 md:p-12 lg:p-16 flex flex-col justify-center relative z-10 shadow-2xl border-l border-slate-200">
         <div className="mb-8 md:mb-10 text-center lg:text-left">
           <h3 className="text-3xl md:text-4xl text-[#1a2d6b] tracking-tight font-black uppercase italic">
             Register Now

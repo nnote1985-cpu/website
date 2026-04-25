@@ -15,7 +15,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/',
       },
     ],
-    sitemap: 'https://asakan.co.th/sitemap.xml',
-    host: 'https://asakan.co.th',
+    sitemap: 'https://www.asakan.co.th/sitemap.xml',
+    host: 'https://www.asakan.co.th',
   };
 }

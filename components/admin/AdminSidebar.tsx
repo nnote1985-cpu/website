@@ -19,19 +19,17 @@ const NAV = [
   { label: 'ตั้งค่าเว็บไซต์', href: '/admin/settings', icon: <Settings size={18} /> },
 ];
 
-export default function AdminSidebar() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [open, setOpen] = useState(false);
-
-  async function handleLogout() {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    router.push('/admin/login');
-  }
-
-  const SidebarContent = () => (
+function SidebarContent({
+  pathname,
+  onNavigate,
+  onLogout,
+}: {
+  pathname: string;
+  onNavigate: () => void;
+  onLogout: () => void;
+}) {
+  return (
     <div className="flex flex-col h-full">
-      {/* Logo */}
       <div className="px-6 py-5 border-b border-white/10">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 bg-[#f4511e] rounded-lg flex items-center justify-center">
@@ -44,7 +42,6 @@ export default function AdminSidebar() {
         </div>
       </div>
 
-      {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         {NAV.map((item) => {
           const active = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
@@ -52,7 +49,7 @@ export default function AdminSidebar() {
             <Link
               key={item.href}
               href={item.href}
-              onClick={() => setOpen(false)}
+              onClick={onNavigate}
               className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 active
                   ? 'bg-[#f4511e] text-white shadow-md shadow-orange-900/30'
@@ -66,7 +63,6 @@ export default function AdminSidebar() {
         })}
       </nav>
 
-      {/* Bottom */}
       <div className="px-3 py-4 border-t border-white/10 space-y-1">
         <Link
           href="/"
@@ -77,7 +73,7 @@ export default function AdminSidebar() {
           ดูเว็บไซต์
         </Link>
         <button
-          onClick={handleLogout}
+          onClick={onLogout}
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm text-gray-400 hover:bg-red-500/10 hover:text-red-400 transition-all"
         >
           <LogOut size={18} />
@@ -86,6 +82,17 @@ export default function AdminSidebar() {
       </div>
     </div>
   );
+}
+
+export default function AdminSidebar() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  async function handleLogout() {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.push('/admin/login');
+  }
 
   return (
     <>
@@ -111,7 +118,7 @@ export default function AdminSidebar() {
           open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        <SidebarContent />
+        <SidebarContent pathname={pathname} onNavigate={() => setOpen(false)} onLogout={handleLogout} />
       </aside>
     </>
   );

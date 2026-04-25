@@ -18,6 +18,7 @@ const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
 
 interface Props {
   projectName: string;
+  projectSlug?: string;
 }
 
 function formatPhone(value: string): string {
@@ -27,7 +28,7 @@ function formatPhone(value: string): string {
   return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
 }
 
-export default function RegisterForm({ projectName }: Props) {
+export default function RegisterForm({ projectName, projectSlug }: Props) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -72,7 +73,7 @@ export default function RegisterForm({ projectName }: Props) {
         body: JSON.stringify({
           name, phone, email,
           message: '',
-          project: projectName,
+          project: projectSlug || projectName,
           appointmentDate: appointmentDate || undefined,
           recaptchaToken,
         }),

@@ -1,9 +1,20 @@
 'use client';
 
-import { Phone, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Phone, CheckCircle2 } from 'lucide-react';
 import RegisterFormDark from '@/components/projects/RegisterFormDark';
 
-export default function CelineCustom({ project }: { project: any }) {
+interface CustomProject {
+  name: string;
+  phone?: string;
+  heroImage?: string;
+  image?: string;
+  type?: string;
+  concept?: string;
+  description?: string;
+  features?: string[];
+}
+
+export default function CelineCustom({ project }: { project: CustomProject }) {
   const phone = project.phone || '0825265566';
   const phoneTel = phone.replace(/-/g, '');
   // แยกคำเพื่อทำไฮไลท์สีทองที่คำสุดท้าย
@@ -45,7 +56,7 @@ export default function CelineCustom({ project }: { project: any }) {
           <div className="h-px w-20 bg-[#cca464]" />
 
           <p className="text-base md:text-xl leading-relaxed text-white/80 drop-shadow-md font-normal max-w-xl">
-            "{project.description}"
+            &quot;{project.description}&quot;
           </p>
 
           <div className="flex flex-wrap gap-4 md:gap-6 pt-2 md:pt-6">
@@ -59,7 +70,7 @@ export default function CelineCustom({ project }: { project: any }) {
       </div>
 
       {/* --- 📍 ฝั่งขวา: FORM โทนสีทอง-ดำ --- */}
-      <div id="register" className="w-full lg:w-1/3 bg-[#1c1b1a]/80 backdrop-blur-xl p-8 md:p-12 lg:p-16 flex flex-col justify-center relative z-10 border-l border-white/5 shadow-2xl">
+      <div id="register" data-register-form="true" className="scroll-mt-24 w-full lg:w-1/3 bg-[#1c1b1a]/80 backdrop-blur-xl p-8 md:p-12 lg:p-16 flex flex-col justify-center relative z-10 border-l border-white/5 shadow-2xl">
         <div className="mb-8 md:mb-10 text-center lg:text-left">
           <h3 className="text-3xl md:text-4xl text-white tracking-tight font-serif font-bold">
             Register Now

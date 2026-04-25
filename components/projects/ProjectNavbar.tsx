@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Phone, ChevronLeft, Menu, X } from 'lucide-react';
+import Link from 'next/link';
 
 const FbIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -9,13 +10,29 @@ const FbIcon = () => (
   </svg>
 );
 
-export default function ProjectNavbar({ project }: { project: any }) {
+interface ProjectNavbarData {
+  name: string;
+  phone?: string;
+  facebookUrl?: string;
+  facebook_url?: string;
+}
+
+export default function ProjectNavbar({ project }: { project: ProjectNavbarData }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
   const phone = project.phone || '0825265566';
   const phoneTel = phone.replace(/-/g, '');
   const facebookUrl = project.facebookUrl || project.facebook_url || '';
+
+  const scrollToRegister = () => {
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-register-form="true"]'));
+    const visibleTarget = targets.find((el) => el.offsetParent !== null || el.getClientRects().length > 0);
+    const target = visibleTarget || document.getElementById('register');
+
+    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setIsMobileMenuOpen(false);
+  };
 
   useEffect(() => {
     const sections = ['gallery', 'plans', 'location'];
@@ -59,13 +76,13 @@ export default function ProjectNavbar({ project }: { project: any }) {
 
         {/* Desktop left */}
         <div className="hidden md:flex items-center gap-5">
-          <a
+          <Link
             href="/"
             className="group flex items-center gap-1.5 bg-slate-100 hover:bg-[#1a2d6b] text-slate-600 hover:text-white px-4 py-2 rounded-full transition-all duration-300 shadow-sm border border-slate-200 hover:border-[#1a2d6b] hover:-translate-y-[1px]"
           >
             <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
             <span className="text-xs font-black tracking-widest uppercase">Home</span>
-          </a>
+          </Link>
           <div className="h-6 w-px bg-slate-300" />
           <span className="font-black text-[#1a2d6b] text-lg tracking-tight uppercase truncate">
             {project.name}
@@ -118,21 +135,22 @@ export default function ProjectNavbar({ project }: { project: any }) {
           )}
 
           {/* Register — เด่นสุด */}
-          <a
-            href="#register"
+          <button
+            type="button"
+            onClick={scrollToRegister}
             className="bg-[#e53935] text-white px-5 md:px-7 py-2 md:py-2.5 rounded-full text-[10px] md:text-xs font-black tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-500/30 active:scale-95 hover:-translate-y-[1px]"
           >
             REGISTER
-          </a>
+          </button>
         </div>
       </div>
 
       {/* Mobile menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-16 left-0 right-0 bg-white border-b border-slate-200 shadow-2xl py-4 px-6 flex flex-col gap-4">
-          <a href="/" className="flex items-center gap-2 text-sm font-black text-slate-600 uppercase hover:text-[#e53935] pb-3 border-b">
+          <Link href="/" className="flex items-center gap-2 text-sm font-black text-slate-600 uppercase hover:text-[#e53935] pb-3 border-b">
             <ChevronLeft size={16} /> Home
-          </a>
+          </Link>
           {[
             { id: 'gallery', label: 'Gallery' },
             { id: 'plans', label: 'Plans' },

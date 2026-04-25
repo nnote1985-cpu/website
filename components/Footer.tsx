@@ -42,7 +42,7 @@ export default function Footer() {
           </div>
           <p className="text-gray-400 text-sm leading-relaxed mb-4">
             ผู้พัฒนาอสังหาริมทรัพย์คุณภาพ กว่า 21 ปี <br />
-            <em className="text-orange-400">"Your happiness is our hope"</em>
+            <em className="text-orange-400">&quot;Your happiness is our hope&quot;</em>
           </p>
           <div className="flex gap-3">
             <a href="https://www.facebook.com/Asakandevelopment" target="_blank" rel="noopener noreferrer"

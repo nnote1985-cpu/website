@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Plus, Edit, Trash2, X, Save, Newspaper, Eye, EyeOff, Upload, Loader2 } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
@@ -201,8 +202,12 @@ export default function AdminNewsPage() {
                 <tr key={item.id} className="hover:bg-gray-50/50 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center text-[#f4511e] overflow-hidden">
-                        {item.image ? <img src={item.image} className="w-full h-full object-cover" alt="" /> : <Newspaper size={18} />}
+                      <div className="relative w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center text-[#f4511e] overflow-hidden">
+                        {item.image ? (
+                          <Image src={item.image} fill sizes="40px" className="object-cover" alt="" />
+                        ) : (
+                          <Newspaper size={18} />
+                        )}
                       </div>
                       <div>
                         <div className="font-medium text-gray-800 text-sm line-clamp-1">{item.title}</div>
@@ -271,7 +276,7 @@ export default function AdminNewsPage() {
                 <div className="space-y-3">
                   {modal.item.image && (
                     <div className="relative aspect-video w-full rounded-xl overflow-hidden border bg-gray-50 group">
-                      <img src={modal.item.image} className="w-full h-full object-cover" alt="Preview" />
+                      <Image src={modal.item.image} fill sizes="(min-width: 768px) 672px, 100vw" className="object-cover" alt="Preview" />
                       <button 
                         onClick={() => updateField('image', '')}
                         className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"

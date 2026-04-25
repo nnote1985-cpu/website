@@ -88,8 +88,6 @@ export default async function HomePage() {
   const latestNews: NewsItem[] = (newsRes.data || []).map((n) => ({ ...n, isPublished: n.is_published, publishedAt: n.published_at }));
 
   const featuredProjects = allProjects.filter((p) => p.status !== 'sold-out').slice(0, 4);
-  const activePromo = promotions.find((p) => p.isActive);
-
   return (
     <>
       <Header />
@@ -117,7 +115,7 @@ export default async function HomePage() {
         {/* 3. Search Section: วางบนพื้นหลังสีเทาอ่อนบางๆ เพื่อแยกเลเยอร์ */}
         <section className="relative z-20 bg-slate-50 py-10 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-6">
-            <SearchSection projects={allProjects as any} />
+            <SearchSection projects={allProjects} />
           </div>
         </section>
 
@@ -271,7 +269,40 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* 9. FINAL CTA */}
+        {/* 9. AEO QUICK ANSWERS */}
+        <CollapsibleSection label="คำถามที่ถามบ่อย" alwaysCollapsible>
+          <section className="py-12 bg-slate-50 border-t border-slate-100">
+            <div className="max-w-5xl mx-auto px-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  {
+                    q: 'ASAKAN คือใคร?',
+                    a: 'ASAKAN คือผู้พัฒนาอสังหาริมทรัพย์ในกรุงเทพฯ ที่พัฒนาโครงการคอนโดมิเนียมและที่อยู่อาศัยมากกว่า 25 ปี',
+                  },
+                  {
+                    q: 'โครงการ ASAKAN อยู่ที่ไหนบ้าง?',
+                    a: 'โครงการของ ASAKAN อยู่ในทำเลรามคำแหง พหลโยธิน บางชัน และทำเลศักยภาพใกล้รถไฟฟ้าในกรุงเทพฯ',
+                  },
+                  {
+                    q: 'คอนโด ASAKAN ราคาเริ่มต้นเท่าไหร่?',
+                    a: 'ราคาเริ่มต้นอยู่ประมาณ 1.21 ล้านบาท โดยราคาและขนาดห้องขึ้นอยู่กับแต่ละโครงการและโปรโมชั่นในช่วงเวลานั้น',
+                  },
+                  {
+                    q: 'ติดต่อฝ่ายขาย ASAKAN ได้อย่างไร?',
+                    a: 'ติดต่อฝ่ายขายได้ที่เบอร์ 082-526-5566, LINE Official @asakan หรือส่งข้อความผ่านแบบฟอร์มติดต่อบนเว็บไซต์',
+                  },
+                ].map((item) => (
+                  <article key={item.q} className="bg-white border border-slate-200 rounded-lg p-5">
+                    <h2 className="text-base font-bold text-[#1a2d6b] mb-2">{item.q}</h2>
+                    <p className="text-sm leading-relaxed text-slate-600">{item.a}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        </CollapsibleSection>
+
+        {/* 10. FINAL CTA */}
         <section className="py-14 bg-white border-t border-slate-100">
           <div className="max-w-5xl mx-auto px-6">
 

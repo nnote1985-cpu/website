@@ -5,7 +5,6 @@ import { Search, ChevronDown } from 'lucide-react';
 
 interface Project {
   location: string;
-  price_min: number;
   status: string;
 }
 

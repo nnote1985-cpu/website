@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import { supabaseAdmin } from '@/lib/supabase';
 import Footer from '@/components/Footer';
 import PixelViewContent from '@/components/PixelViewContent';
@@ -10,6 +11,7 @@ import ProjectPixel from '@/components/ProjectPixel';
 import ProjectPopup from '@/components/ProjectPopup';
 import FloatingProjectCTA from '@/components/projects/FloatingProjectCTA';
 import type { Metadata } from 'next';
+import { absoluteProjectUrl } from '@/lib/projectUrl';
 
 export async function getProjectMetadata(slug: string): Promise<Metadata> {
   const { data } = await supabaseAdmin
@@ -27,12 +29,14 @@ export async function getProjectMetadata(slug: string): Promise<Metadata> {
       : `${data.name} คอนโดมิเนียมคุณภาพจาก ASAKAN ย่าน${data.location || ''} ราคาเริ่มต้น ${data.price_min ? (data.price_min / 1000000).toFixed(2) + ' ล้านบาท' : ''}`);
   const keywords =
     data.meta_keywords || `${data.name}, ASAKAN, คอนโด, คอนโดมิเนียม, ${data.location || ''}, อสังหาริมทรัพย์`;
+  const canonicalUrl = absoluteProjectUrl(slug);
 
   return {
     title,
     description,
     keywords,
-    openGraph: { title, description, images: data.image ? [{ url: data.image }] : [], type: 'website' },
+    alternates: { canonical: canonicalUrl },
+    openGraph: { title, description, url: canonicalUrl, images: data.image ? [{ url: data.image }] : [], type: 'website' },
     twitter: { card: 'summary_large_image', title, description, images: data.image ? [data.image] : [] },
   };
 }
@@ -47,6 +51,7 @@ export async function renderProjectPage(slug: string) {
     priceMin: data.price_min,
     priceMax: data.price_max,
     conceptArticle: data.concept_article,
+    conceptImage: data.concept_image,
     projectArea: data.project_area,
     descriptionEn: data.description_en,
     heroImage: data.hero_image,
@@ -59,6 +64,7 @@ export async function renderProjectPage(slug: string) {
     popupImage: data.popup_image || '',
     popupUrl: data.popup_url || '',
     videoUrl: data.video_url || '',
+    facilities: data.facilities || [],
     floorPlans: data.floor_plans,
     roomPlans: data.room_plans,
     googleMapUrl: data.google_map_url,
@@ -83,7 +89,7 @@ export async function renderProjectPage(slug: string) {
     '@type': 'Residence',
     name: project.name,
     description: project.description || '',
-    url: `https://www.asakan.co.th/projects/${project.slug}`,
+    url: absoluteProjectUrl(project.slug),
     image: project.heroImage || project.image || '',
     numberOfRooms: project.units || undefined,
     numberOfFloors: project.floors || undefined,
@@ -107,7 +113,7 @@ export async function renderProjectPage(slug: string) {
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: 'https://www.asakan.co.th' },
       { '@type': 'ListItem', position: 2, name: 'โครงการ', item: 'https://www.asakan.co.th/projects' },
-      { '@type': 'ListItem', position: 3, name: project.name, item: `https://www.asakan.co.th/projects/${project.slug}` },
+      { '@type': 'ListItem', position: 3, name: project.name, item: absoluteProjectUrl(project.slug) },
     ],
   };
 
@@ -132,11 +138,23 @@ export async function renderProjectPage(slug: string) {
           <section className="relative min-h-[90vh] flex flex-col lg:flex-row bg-[#1a2d6b]">
             {project.promoBanner ? (
               <div className="relative w-full lg:w-2/3 h-[50vh] lg:h-auto bg-[#0d1838] flex items-center justify-center p-4">
-                <img src={project.promoBanner} className="w-full h-full object-contain md:object-cover rounded-xl shadow-2xl" alt={`Promotion for ${project.name}`} />
+                <Image
+                  src={project.promoBanner}
+                  fill
+                  sizes="(min-width: 1024px) 66vw, 100vw"
+                  className="object-contain md:object-cover rounded-xl shadow-2xl p-4"
+                  alt={`Promotion for ${project.name}`}
+                />
               </div>
             ) : (
               <div className="relative w-full lg:w-2/3 h-[50vh] lg:h-auto overflow-hidden bg-black">
-                <img src={project.heroImage || project.image} className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity" alt={project.name} />
+                <Image
+                  src={project.heroImage || project.image}
+                  fill
+                  sizes="(min-width: 1024px) 66vw, 100vw"
+                  className="object-cover opacity-60 mix-blend-luminosity"
+                  alt={project.name}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a2d6b] via-transparent to-transparent" />
                 <div className="absolute bottom-10 left-8 md:left-12 text-white z-10 max-w-xl">
                   <p className="text-[#e53935] font-black tracking-widest text-sm mb-2 uppercase">{project.type}</p>
@@ -145,7 +163,7 @@ export async function renderProjectPage(slug: string) {
                 </div>
               </div>
             )}
-            <div id="register" className="scroll-mt-20 w-full lg:w-1/3 bg-[#1a2d6b] p-8 md:p-12 lg:p-16 flex flex-col justify-center text-white border-l border-white/10">
+            <div id="register" data-register-form="true" className="scroll-mt-24 w-full lg:w-1/3 bg-[#1a2d6b] p-8 md:p-12 lg:p-16 flex flex-col justify-center text-white border-l border-white/10">
               <div className="mb-8">
                 <h3 className="text-3xl font-black italic uppercase mb-2">Register Now</h3>
                 <p className="text-white/60 text-xs tracking-widest uppercase">ลงทะเบียนรับสิทธิพิเศษ {project.name}</p>

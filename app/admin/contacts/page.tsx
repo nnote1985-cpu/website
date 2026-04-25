@@ -39,7 +39,6 @@ export default function AdminContactsPage() {
       body: JSON.stringify({ isRead: true }),
     });
     if (res.ok) {
-      const updated = await res.json();
       setContacts((prev) => prev.map((c) => (c.id === contact.id ? { ...c, is_read: true } : c)));
       setSelected({ ...contact, is_read: true });
     }

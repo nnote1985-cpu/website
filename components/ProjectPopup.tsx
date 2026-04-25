@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { X } from 'lucide-react';
 
 interface Props {
@@ -40,11 +41,13 @@ export default function ProjectPopup({ image, url, projectSlug }: Props) {
           <X size={18} />
         </button>
         {url ? (
-          <a href={url} target="_blank" rel="noopener noreferrer" onClick={close}>
-            <img src={image} alt="promotion" className="w-full shadow-2xl cursor-pointer" />
+          <a href={url} target="_blank" rel="noopener noreferrer" onClick={close} className="relative block aspect-[4/5] md:aspect-[16/9]">
+            <Image src={image} alt="promotion" fill sizes="(min-width: 1024px) 60vw, 92vw" className="object-contain shadow-2xl cursor-pointer" />
           </a>
         ) : (
-          <img src={image} alt="promotion" className="w-full shadow-2xl" />
+          <div className="relative aspect-[4/5] md:aspect-[16/9]">
+            <Image src={image} alt="promotion" fill sizes="(min-width: 1024px) 60vw, 92vw" className="object-contain shadow-2xl" />
+          </div>
         )}
       </div>
     </div>

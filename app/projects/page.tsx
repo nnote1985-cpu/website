@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProjectCard from '@/components/home/ProjectCard';
 import FloatingCTA from '@/components/FloatingCTA';
+import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
+import { projectUrl } from '@/lib/projectUrl';
 
 export const metadata: Metadata = {
   title: 'โครงการทั้งหมด | ASAKAN คอนโดมิเนียมกรุงเทพฯ',
@@ -68,9 +71,25 @@ export default async function ProjectsPage({
   const isFiltered = !!(q || status || location || price);
   const active = projects.filter((p) => p.status !== 'sold-out');
   const soldOut = projects.filter((p) => p.status === 'sold-out');
+  const itemListJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'โครงการ ASAKAN',
+    itemListElement: projects.map((project, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `${SITE_URL}${projectUrl(project.slug)}`,
+      name: project.name,
+    })),
+  };
 
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([
+        { name: 'หน้าแรก', path: '' },
+        { name: 'โครงการ', path: '/projects' },
+      ])} />
+      <JsonLd data={itemListJsonLd} />
       <Header />
       <FloatingCTA />
       <main className="pt-20">
@@ -94,17 +113,17 @@ export default async function ProjectsPage({
             {isFiltered && (
               <div className="flex flex-wrap items-center gap-2 mb-8">
                 <span className="text-sm text-gray-500">ผลการค้นหา {projects.length} โครงการ</span>
-                {q && <span className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full">"{q}"</span>}
+                {q && <span className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full">&quot;{q}&quot;</span>}
                 {status && <span className="bg-orange-100 text-orange-700 text-xs px-3 py-1 rounded-full">{STATUS_LABELS[status] || status}</span>}
                 {location && <span className="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full">{location}</span>}
-                <a href="/projects" className="text-xs text-red-500 underline">ล้างตัวกรอง</a>
+                <Link href="/projects" className="text-xs text-red-500 underline">ล้างตัวกรอง</Link>
               </div>
             )}
 
             {projects.length === 0 ? (
               <div className="text-center py-20 text-gray-400">
                 <p className="text-lg">ไม่พบโครงการที่ตรงกับการค้นหา</p>
-                <a href="/projects" className="text-[#e53935] font-semibold mt-4 inline-block">ดูโครงการทั้งหมด</a>
+                <Link href="/projects" className="text-[#e53935] font-semibold mt-4 inline-block">ดูโครงการทั้งหมด</Link>
               </div>
             ) : (
               <>

@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'นโยบายความเป็นส่วนตัว | ASAKAN',
@@ -7,8 +9,10 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className="bg-white min-h-screen pt-24 pb-20">
-      <div className="max-w-3xl mx-auto px-6 md:px-8">
+    <>
+      <Header />
+      <main className="bg-white min-h-screen pt-24 pb-20">
+        <div className="max-w-3xl mx-auto px-6 md:px-8">
         {/* Header */}
         <div className="mb-10 border-b border-slate-200 pb-8">
           <p className="text-xs font-bold uppercase tracking-widest text-[#e53935] mb-2">Legal</p>
@@ -22,7 +26,7 @@ export default function PrivacyPolicyPage() {
 
         {/* Intro */}
         <p className="text-slate-700 leading-relaxed mb-10">
-          บริษัท อัสสกาญจน์ จำกัด และบริษัทในเครือ ("บริษัท") ตระหนักถึงความสำคัญของการคุ้มครองข้อมูลส่วนบุคคลของคุณ
+          บริษัท อัสสกาญจน์ จำกัด และบริษัทในเครือ (&quot;บริษัท&quot;) ตระหนักถึงความสำคัญของการคุ้มครองข้อมูลส่วนบุคคลของคุณ
           เราจึงได้จัดทำนโยบายความเป็นส่วนตัวฉบับนี้ขึ้น เพื่อชี้แจงรายละเอียดเกี่ยวกับการเก็บรวบรวม ใช้
           และเปิดเผยข้อมูลส่วนบุคคล ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA)
         </p>
@@ -158,7 +162,9 @@ export default function PrivacyPolicyPage() {
             </div>
           </section>
         </div>
-      </div>
-    </main>
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }

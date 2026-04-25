@@ -1,7 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Plus, Edit, Trash2, X, Save, Building2 } from 'lucide-react';
+
+interface FacilityItem {
+  name: string;
+  icon: string;
+}
 
 interface Project {
   id: string;
@@ -16,7 +22,11 @@ interface Project {
   location: string;
   bts: string;
   concept: string;
+  conceptArticle: string;
+  conceptImage: string;
   description: string;
+  features: string[];
+  facilities: FacilityItem[];
   image: string;
   heroImage: string;
   promoBanner: string;
@@ -36,7 +46,8 @@ interface Project {
 const EMPTY: Omit<Project, 'id'> = {
   slug: '', name: '', status: 'active', type: 'Low-Rise Condominium',
   floors: 8, units: 100, priceMin: 1200000, priceMax: 3000000,
-  location: '', bts: '', concept: '', description: '',
+  location: '', bts: '', concept: '', conceptArticle: '', conceptImage: '', description: '',
+  features: [], facilities: [],
   image: '', heroImage: '', promoBanner: '', promoBannerMobile: '',
   isFeatured: true, fbPixelId: '', fbCapiToken: '', facebookUrl: '', phone: '', videoUrl: '', sheetWebhookUrl: '',
   metaTitle: '', metaDescription: '', metaKeywords: '',
@@ -63,7 +74,13 @@ function mapProject(p: Record<string, unknown>): Project {
     location: (p.location as string) || '',
     bts: (p.bts as string) || '',
     concept: (p.concept as string) || '',
+    conceptArticle: (p.concept_article as string) || '',
+    conceptImage: (p.concept_image as string) || '',
     description: (p.description as string) || '',
+    features: Array.isArray(p.features) ? p.features as string[] : [],
+    facilities: Array.isArray(p.facilities)
+      ? p.facilities as FacilityItem[]
+      : (Array.isArray(p.features) ? (p.features as string[]).map((name) => ({ name, icon: '' })) : []),
     image: (p.image as string) || '',
     heroImage: (p.hero_image as string) || '',
     promoBanner: (p.promo_banner as string) || '',
@@ -114,6 +131,34 @@ export default function AdminProjectsPage() {
     setModal((m) => ({ ...m, project: { ...m.project, [key]: value } }));
   }
 
+  async function uploadProjectAsset(file: File, onDone: (url: string) => void) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('bucket', 'hero-images');
+
+    const res = await fetch('/api/upload', { method: 'POST', body: formData });
+    const data = await res.json();
+    if (!res.ok) {
+      alert(data.error || 'Upload failed');
+      return;
+    }
+    onDone(data.url);
+  }
+
+  function updateFacility(index: number, patch: Partial<FacilityItem>) {
+    const current = modal.project?.facilities || [];
+    const next = current.map((item, i) => (i === index ? { ...item, ...patch } : item));
+    updateField('facilities', next);
+  }
+
+  function addFacility() {
+    updateField('facilities', [...(modal.project?.facilities || []), { name: '', icon: '' }]);
+  }
+
+  function removeFacility(index: number) {
+    updateField('facilities', (modal.project?.facilities || []).filter((_, i) => i !== index));
+  }
+
   async function reloadProjects() {
     const r = await fetch('/api/projects');
     const d: Record<string, unknown>[] = await r.json();
@@ -128,6 +173,8 @@ export default function AdminProjectsPage() {
       if (!body.slug && body.name) {
         body.slug = body.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
       }
+      body.facilities = (body.facilities || []).filter((item) => item.name?.trim());
+      body.features = body.facilities.map((item) => item.name);
       const url = modal.isNew ? '/api/projects' : `/api/projects/${id}`;
       const method = modal.isNew ? 'POST' : 'PUT';
       const res = await fetch(url, {
@@ -292,8 +339,36 @@ export default function AdminProjectsPage() {
                   <input type="text" value={modal.project.bts || ''} onChange={(e) => updateField('bts', e.target.value)} className={inputClass} />
                 </div>
                 <div className="col-span-2">
-                  <label className={labelClass}>Concept</label>
+                  <label className={labelClass}>แนวคิดโครงการ - หัวข้อบน</label>
                   <input type="text" value={modal.project.concept || ''} onChange={(e) => updateField('concept', e.target.value)} className={inputClass} />
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>แนวคิดโครงการ - เนื้อหา</label>
+                  <textarea
+                    rows={5}
+                    value={modal.project.conceptArticle || ''}
+                    onChange={(e) => updateField('conceptArticle', e.target.value)}
+                    className={inputClass + ' resize-none'}
+                    placeholder="ข้อความยาวในส่วนแนวคิดโครงการ"
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className={labelClass}>รูปแนวคิดโครงการ</label>
+                  <div className="flex flex-col gap-3">
+                    <input type="text" value={modal.project.conceptImage || ''} onChange={(e) => updateField('conceptImage', e.target.value)} className={inputClass} placeholder="https://..." />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) uploadProjectAsset(file, (url) => updateField('conceptImage', url));
+                      }}
+                      className="text-sm text-gray-500"
+                    />
+                    {modal.project.conceptImage && (
+                      <Image src={modal.project.conceptImage} alt="Concept preview" width={720} height={180} className="h-32 w-full rounded-xl object-cover border border-gray-200" />
+                    )}
+                  </div>
                 </div>
                 <div className="col-span-2">
                   <label className={labelClass}>คำอธิบาย</label>
@@ -316,6 +391,60 @@ export default function AdminProjectsPage() {
                 <div className="col-span-2">
                   <label className={labelClass}>Promo Banner URL (Mobile)</label>
                   <input type="text" value={modal.project.promoBannerMobile || ''} onChange={(e) => updateField('promoBannerMobile', e.target.value)} className={inputClass} placeholder="https://..." />
+                </div>
+
+                <div className="col-span-2 pt-2 border-t border-gray-100">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Facilities</p>
+                    <button type="button" onClick={addFacility} className="text-xs font-bold text-[#f4511e] hover:underline">
+                      + เพิ่ม Facility
+                    </button>
+                  </div>
+                  <div className="space-y-3">
+                    {(modal.project.facilities || []).map((facility, index) => (
+                      <div key={index} className="grid grid-cols-1 md:grid-cols-[1fr_160px_auto] gap-3 rounded-xl border border-gray-200 p-3">
+                        <div>
+                          <label className={labelClass}>ชื่อ Facility</label>
+                          <input
+                            type="text"
+                            value={facility.name}
+                            onChange={(e) => updateFacility(index, { name: e.target.value })}
+                            className={inputClass}
+                            placeholder="เช่น Fitness Center"
+                          />
+                        </div>
+                        <div>
+                          <label className={labelClass}>Icon</label>
+                          <div className="flex items-center gap-2">
+                            {facility.icon && (
+                              <Image src={facility.icon} alt="" width={40} height={40} className="h-10 w-10 rounded-lg border border-gray-200 object-contain p-1" />
+                            )}
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) uploadProjectAsset(file, (url) => updateFacility(index, { icon: url }));
+                              }}
+                              className="w-full text-xs text-gray-500"
+                            />
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => removeFacility(index)}
+                          className="self-end rounded-xl border border-red-100 px-3 py-2 text-xs font-bold text-red-500 hover:bg-red-50"
+                        >
+                          ลบ
+                        </button>
+                      </div>
+                    ))}
+                    {(modal.project.facilities || []).length === 0 && (
+                      <div className="rounded-xl border border-dashed border-gray-200 p-4 text-center text-sm text-gray-400">
+                        ยังไม่มี Facilities กดเพิ่มเพื่อใส่ชื่อและอัปโหลด icon
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* ── Google Sheet ── */}

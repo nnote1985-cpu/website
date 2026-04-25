@@ -216,7 +216,7 @@ export default function AdminSettingsPage() {
               <p className="text-xs text-gray-400 mt-1">ตัวอย่าง: คอนโด, ASAKAN, รามคำแหง, กรุงเทพ</p>
             </div>
             <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-700">
-              <strong>SEO Tips:</strong> ใช้ keywords ที่ลูกค้าค้นหา เช่น "คอนโดราคาถูกกรุงเทพ" หรือ "คอนโดใกล้ BTS พหลโยธิน"
+              <strong>SEO Tips:</strong> ใช้ keywords ที่ลูกค้าค้นหา เช่น &quot;คอนโดราคาถูกกรุงเทพ&quot; หรือ &quot;คอนโดใกล้ BTS พหลโยธิน&quot;
             </div>
           </>
         )}
