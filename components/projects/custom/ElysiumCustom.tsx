@@ -2,8 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Phone, MapPin, TrainFront, Building2, Home, Sparkles } from 'lucide-react';
+import { Phone, MapPin, TrainFront, Building2, Home } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Montserrat } from 'next/font/google';
 import RegisterForm from '@/components/projects/RegisterForm';
+
+const mont = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
 
 interface CustomProject {
   slug?: string;
@@ -23,6 +27,9 @@ interface CustomProject {
   floors?: number;
   units?: number;
 }
+
+const fadeUp = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0 } };
+const fadeIn = { hidden: { opacity: 0 }, show: { opacity: 1 } };
 
 export default function ElysiumCustom({ project }: { project: CustomProject }) {
   const promoBanner = project.promoBanner?.trim();
@@ -52,63 +59,93 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
     : 'สอบถามราคา';
 
   const facts = [
-    { icon: <Home size={16} />, label: 'ราคาเริ่มต้น', value: startingPrice },
-    { icon: <MapPin size={16} />, label: 'ทำเล', value: project.location || 'กรุงเทพฯ' },
-    { icon: <TrainFront size={16} />, label: 'ใกล้รถไฟฟ้า', value: project.bts || 'ทำเลศักยภาพ' },
-    { icon: <Building2 size={16} />, label: 'โครงการ', value: project.units ? `${project.units} ยูนิต` : project.floors ? `${project.floors} ชั้น` : project.type || 'Condominium' },
+    { icon: <Home size={15} />, label: 'ราคาเริ่มต้น', value: startingPrice },
+    { icon: <MapPin size={15} />, label: 'ทำเล', value: project.location || 'กรุงเทพฯ' },
+    { icon: <TrainFront size={15} />, label: 'ใกล้รถไฟฟ้า', value: project.bts || 'ทำเลศักยภาพ' },
+    { icon: <Building2 size={15} />, label: 'โครงการ', value: project.units ? `${project.units} ยูนิต` : project.floors ? `${project.floors} ชั้น` : project.type || 'Condominium' },
   ];
 
   const FormCard = (
-    <div className="bg-white/92 backdrop-blur-2xl p-6 md:p-7 rounded-2xl border border-white/70 shadow-[0_24px_70px_rgba(0,0,0,0.22)] relative overflow-hidden">
-      <div className="mb-8 relative z-10">
-        <p className="text-[#e53935] text-[10px] font-black uppercase tracking-[0.24em] mb-2">Private Appointment</p>
-        <h3 className="text-2xl md:text-3xl font-black mb-2 text-[#1a2d6b] tracking-tight">Register Now</h3>
-        <p className="text-slate-500 text-sm leading-relaxed">
-          ลงทะเบียนรับข้อมูล ราคา และโปรโมชันล่าสุดของ {project.name}
-        </p>
-      </div>
-      <RegisterForm projectName={project.name} projectSlug={project.slug} />
-      <div className="mt-7 pt-5 border-t border-slate-200 flex items-center gap-4 relative z-10">
-        <div className="w-11 h-11 rounded-xl bg-[#e53935]/10 border border-[#e53935]/20 flex items-center justify-center">
-          <Phone size={18} className="text-[#e53935]" />
+    <motion.div
+      variants={fadeUp}
+      initial="hidden"
+      animate="show"
+      transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
+      className="bg-white rounded-2xl overflow-hidden shadow-[0_24px_70px_rgba(0,0,0,0.18)]"
+    >
+      <div className="h-[3px] w-full bg-gradient-to-r from-[#e53935] via-[#e53935] to-[#e53935]" />
+      <div className="p-6 md:p-7">
+        <div className="mb-7">
+          <p className={`${mont.className} text-[#e53935] text-[9px] font-semibold uppercase tracking-[0.35em] mb-3`}>
+            Private Appointment
+          </p>
+          <h3 className={`${mont.className} text-2xl md:text-3xl font-bold mb-2 text-[#1a2d6b]`}>
+            Register Now
+          </h3>
+          <p className="text-slate-400 text-sm leading-relaxed">
+            ลงทะเบียนรับข้อมูล ราคา และโปรโมชันล่าสุดของ {project.name}
+          </p>
         </div>
-        <div>
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.16em] mb-0.5">Sales Gallery</p>
-          <a href={`tel:${phoneTel}`} className="text-lg md:text-xl font-black text-slate-950 hover:text-[#e53935] transition-colors">{phone}</a>
+        <RegisterForm projectName={project.name} projectSlug={project.slug} />
+        <div className="mt-6 pt-5 border-t border-[#e53935]/20 flex items-center gap-4">
+          <div className="w-11 h-11 rounded-xl bg-[#e53935]/10 border border-[#e53935]/30 flex items-center justify-center shrink-0">
+            <Phone size={17} className="text-[#e53935]" />
+          </div>
+          <div>
+            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.16em] mb-0.5">Sales Gallery</p>
+            <a href={`tel:${phoneTel}`} className="text-lg md:text-xl font-black text-slate-900 hover:text-[#e53935] transition-colors">
+              {phone}
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 
   return (
     <>
-      {/* ===== MOBILE: promo บน + ฟอร์มล่าง (< 1024px และมีโปรโมชั่น) ===== */}
+      {/* ===== MOBILE: promo บน + ฟอร์มล่าง ===== */}
       {showPromo && (
-        <div className="xl:hidden flex flex-col bg-white">
-          <div className="w-full bg-slate-100">
+        <div className="xl:hidden flex flex-col bg-[#faf8f5]">
+          <motion.div
+            variants={fadeIn}
+            initial="hidden"
+            animate="show"
+            transition={{ duration: 0.6 }}
+            className="w-full"
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={mobilePromoUrl || heroImageUrl || '/logo.png'} alt="โปรโมชั่น" className="w-full h-auto block" />
-          </div>
-          <div id="register-mobile" data-register-form="true" className="scroll-mt-24 px-6 py-10 bg-white">
-            <h3 className="text-2xl font-black italic mb-1 text-slate-950 uppercase tracking-tight">Register Now</h3>
-            <p className="text-[#e53935] text-[11px] font-bold uppercase tracking-[0.15em] mb-6">
-              ลงทะเบียนรับสิทธิพิเศษ {project.name}
-            </p>
+          </motion.div>
+
+          <div id="register-mobile" data-register-form="true" className="scroll-mt-24 px-6 py-10 bg-[#faf8f5]">
+            <div className="mb-1">
+              <div className="w-8 h-[2px] bg-[#e53935] mb-3" />
+              <p className={`${mont.className} text-[#e53935] text-[9px] font-semibold uppercase tracking-[0.3em] mb-2`}>
+                Private Appointment
+              </p>
+              <h3 className={`${mont.className} text-2xl font-bold text-slate-900 uppercase tracking-tight`}>
+                Register Now
+              </h3>
+            </div>
+            <p className="text-slate-400 text-[11px] mb-6 mt-1">ลงทะเบียนรับสิทธิพิเศษ {project.name}</p>
             <RegisterForm projectName={project.name} projectSlug={project.slug} />
-            <div className="mt-8 pt-6 border-t border-slate-200 flex items-center gap-4">
-              <div className="w-11 h-11 rounded-full bg-[#e53935]/10 border border-[#e53935]/20 flex items-center justify-center">
+            <div className="mt-8 pt-6 border-t border-[#e53935]/20 flex items-center gap-4">
+              <div className="w-11 h-11 rounded-xl bg-[#e53935]/10 border border-[#e53935]/25 flex items-center justify-center">
                 <Phone size={17} className="text-[#e53935]" />
               </div>
               <div>
-                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.1em] mb-0.5">Sales Gallery</p>
-                <a href={`tel:${phoneTel}`} className="text-lg font-black text-slate-950 hover:text-[#e53935] transition-colors">{phone}</a>
+                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-0.5">Sales Gallery</p>
+                <a href={`tel:${phoneTel}`} className="text-lg font-black text-slate-900 hover:text-[#e53935] transition-colors">
+                  {phone}
+                </a>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* ===== DESKTOP: background เต็มจอ + ฟอร์ม float ขวา (≥ 1024px หรือ mobile ไม่มีโปรโมชั่น) ===== */}
+      {/* ===== DESKTOP: background เต็มจอ + ฟอร์ม float ขวา ===== */}
       <section className={`relative min-h-[calc(100vh-80px)] overflow-hidden bg-[#06112f] font-sans ${showPromo ? 'hidden xl:flex' : 'flex'} items-stretch`}>
         <Image
           src={heroImageUrl || '/logo.png'}
@@ -121,55 +158,87 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
 
         {!showPromo && (
           <>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#06112f]/92 via-[#06112f]/50 to-[#06112f]/12" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#06112f]/88 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#06112f]/90 via-[#06112f]/45 to-[#06112f]/10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#06112f]/80 via-transparent to-transparent" />
           </>
         )}
 
         <div className="relative z-10 grid w-full grid-cols-1 xl:grid-cols-[minmax(0,1fr)_430px] gap-8 px-6 py-8 md:px-10 lg:px-14 xl:py-10 items-center">
+          {/* Left: text content */}
           <div className="flex min-h-[44vh] flex-col justify-end xl:min-h-[calc(100vh-160px)]">
             {!showPromo && (
-              <div className="max-w-4xl text-white">
-                <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-md">
-                  <Sparkles size={14} className="text-[#ff6b57]" />
-                  <span className="text-[10px] md:text-xs font-black tracking-[0.25em] uppercase">
-                    {project.type || 'Exclusive Project'}
-                  </span>
-                </div>
-                <div className="mt-6 space-y-4">
-                  <h1 className="text-4xl md:text-6xl xl:text-7xl font-black leading-[0.98] tracking-tight uppercase">
-                    {firstPart} <br />
-                    <span className="text-[#ff6b57]">{lastWord}</span>
-                  </h1>
-                  {project.concept && (
-                    <p className="text-lg md:text-2xl font-medium text-white/78 uppercase tracking-[0.16em]">
-                      {project.concept}
-                    </p>
-                  )}
-                  {project.description && (
-                    <p className="max-w-2xl text-sm md:text-base leading-relaxed text-white/72">
-                      {project.description}
-                    </p>
-                  )}
-                </div>
+              <motion.div
+                className="max-w-4xl text-white"
+                initial="hidden"
+                animate="show"
+                variants={{ show: { transition: { staggerChildren: 0.12 } } }}
+              >
+                {/* Badge */}
+                <motion.div variants={fadeUp} transition={{ duration: 0.6 }}>
+                  <div className="inline-flex items-center gap-3 rounded-full border border-[#e53935]/40 bg-[#e53935]/10 px-5 py-2 backdrop-blur-md mb-6">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] animate-pulse" />
+                    <span className={`${mont.className} text-[10px] font-semibold tracking-[0.3em] uppercase text-[#e53935]`}>
+                      {project.type || 'Exclusive Residence'}
+                    </span>
+                  </div>
+                </motion.div>
 
-                <div className="mt-7 grid grid-cols-2 gap-2 md:grid-cols-4">
+                {/* Title */}
+                <motion.div variants={fadeUp} transition={{ duration: 0.65 }}>
+                  <h1 className={`${mont.className} text-4xl md:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight uppercase`}>
+                    {firstPart} <br />
+                    <span className="text-[#e53935]">{lastWord}</span>
+                  </h1>
+                </motion.div>
+
+                {/* Concept */}
+                {project.concept && (
+                  <motion.p
+                    variants={fadeUp}
+                    transition={{ duration: 0.6 }}
+                    className="mt-4 text-base md:text-xl font-light text-white/70 uppercase tracking-[0.2em]"
+                  >
+                    {project.concept}
+                  </motion.p>
+                )}
+
+                {/* Description */}
+                {project.description && (
+                  <motion.p
+                    variants={fadeUp}
+                    transition={{ duration: 0.6 }}
+                    className="mt-4 max-w-xl text-sm md:text-base leading-relaxed text-white/60 border-l-2 border-[#e53935]/50 pl-4"
+                  >
+                    {project.description}
+                  </motion.p>
+                )}
+
+                {/* Facts */}
+                <motion.div
+                  variants={fadeUp}
+                  transition={{ duration: 0.6 }}
+                  className="mt-8 grid grid-cols-2 gap-2 md:grid-cols-4"
+                >
                   {facts.map((fact) => (
-                    <div key={fact.label} className="rounded-xl border border-white/12 bg-white/10 px-4 py-3 backdrop-blur-md">
-                      <div className="mb-1 flex items-center gap-1.5 text-white/50">
+                    <div
+                      key={fact.label}
+                      className="rounded-xl border border-[#e53935]/25 bg-white/8 px-4 py-3 backdrop-blur-md"
+                    >
+                      <div className="mb-1.5 flex items-center gap-1.5 text-[#e53935]">
                         {fact.icon}
-                        <span className="text-[9px] font-black uppercase tracking-[0.16em]">{fact.label}</span>
+                        <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/50">{fact.label}</span>
                       </div>
-                      <div className="text-sm font-bold text-white line-clamp-1">{fact.value}</div>
+                      <div className={`text-sm font-semibold text-white line-clamp-1`}>{fact.value}</div>
                     </div>
                   ))}
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             )}
           </div>
 
+          {/* Right: form */}
           <div id="register" data-register-form="true" className="scroll-mt-24 flex items-center justify-center xl:justify-end">
-            <div className="w-full max-w-[430px] animate-in slide-in-from-bottom-12 fade-in duration-700 fill-mode-both">
+            <div className="w-full max-w-[430px]">
               {FormCard}
             </div>
           </div>

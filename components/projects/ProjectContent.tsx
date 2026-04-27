@@ -3,7 +3,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import NextImage from 'next/image';
 import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, PlayCircle, ChevronDown, HelpCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Montserrat } from 'next/font/google';
 import CollapsibleSection from '@/components/home/CollapsibleSection';
+
+const mont = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
+const fadeUp = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } };
 
 interface RoomPlan {
   type: string;
@@ -99,21 +104,22 @@ function ProjectFAQ({ project }: { project: ProjectContentData }) {
   };
 
   return (
-    <section id="faq" className="bg-white border-t border-slate-100">
+    <section id="faq" className="bg-[#faf8f5] border-t border-[#e53935]/15">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <CollapsibleSection label="คำถามที่พบบ่อย (FAQ)" alwaysCollapsible>
         <div className="py-16 md:py-20 max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex flex-col lg:flex-row gap-12">
             {/* หัวข้อ */}
             <div className="lg:w-1/3 shrink-0">
-              <div className="flex items-center gap-3 mb-3">
-                <HelpCircle size={28} className="text-[#e53935]" />
-                <span className="text-[11px] font-black tracking-[0.3em] uppercase text-[#e53935]">FAQ</span>
+              <div className="flex items-center gap-2 mb-3">
+                <HelpCircle size={20} className="text-[#e53935]" />
+                <span className={`${mont.className} text-[10px] font-semibold tracking-[0.3em] uppercase text-[#e53935]`}>FAQ</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-black text-[#1a2d6b] leading-tight">
+              <h2 className={`text-3xl md:text-4xl font-bold text-[#1a2d6b] leading-tight`}>
                 คำถามที่พบบ่อย
               </h2>
-              <p className="mt-3 text-sm text-slate-500 leading-relaxed">
+              <div className="w-8 h-[2px] bg-[#e53935] mt-4 mb-4" />
+              <p className="text-sm text-slate-500 leading-relaxed">
                 รวมคำถามที่ลูกค้าถามบ่อยเกี่ยวกับ {project.name}
               </p>
             </div>
@@ -121,22 +127,22 @@ function ProjectFAQ({ project }: { project: ProjectContentData }) {
             {/* Accordion */}
             <div className="flex-1 space-y-3">
               {faqs.map((faq, i) => (
-                <div key={i} className="rounded-2xl border border-slate-100 bg-[#f6f7fb] overflow-hidden">
+                <div key={i} className="rounded-2xl border border-[#e53935]/15 bg-white overflow-hidden shadow-sm">
                   <button
                     type="button"
                     onClick={() => setOpenIdx(openIdx === i ? null : i)}
-                    className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer"
+                    className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer hover:bg-[#faf8f5] transition-colors"
                   >
                     <span className="text-sm md:text-[15px] font-bold text-slate-700 pr-4 leading-snug">
-                      <span className="text-[#e53935] mr-2">Q :</span>{faq.q}
+                      <span className="text-[#e53935] mr-2 font-black">Q :</span>{faq.q}
                     </span>
                     <ChevronDown
                       size={18}
-                      className={`shrink-0 transition-transform duration-300 ${openIdx === i ? 'rotate-180 text-[#e53935]' : 'text-slate-400'}`}
+                      className={`shrink-0 transition-transform duration-300 ${openIdx === i ? 'rotate-180 text-[#e53935]' : 'text-slate-300'}`}
                     />
                   </button>
                   {openIdx === i && (
-                    <div className="px-6 pb-5 text-sm text-slate-600 leading-7 border-t border-slate-200 pt-4">
+                    <div className="px-6 pb-5 text-sm text-slate-600 leading-7 border-t border-[#e53935]/15 pt-4">
                       <span className="text-[#1a2d6b] font-bold mr-2">A :</span>{faq.a}
                     </div>
                   )}
@@ -442,22 +448,29 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       {/* =========================================
           PROJECT INFO
       ========================================= */}
-      <section id="info" className="py-16 md:py-24 bg-[#f6f7fb] border-b border-slate-200">
+      <section id="info" className="py-16 md:py-24 bg-[#faf8f5] border-b border-[#e53935]/15">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
-            <div>
-              <span className="text-[11px] font-black tracking-[0.35em] uppercase text-[#e53935]">
+          <motion.div
+            variants={{ show: { transition: { staggerChildren: 0.1 } } }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-60px' }}
+            className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10"
+          >
+            <motion.div variants={fadeUp}>
+              <span className={`text-[10px] font-semibold tracking-[0.35em] uppercase text-[#e53935]`}>
                 ข้อมูลโครงการ
               </span>
-              <h2 className="mt-3 text-3xl md:text-5xl font-black text-[#1a2d6b] tracking-tight">
-                Project information & Concept
+              <div className="w-8 h-[2px] bg-[#e53935] mt-2 mb-3" />
+              <h2 className={`${mont.className} text-3xl md:text-5xl font-bold text-[#1a2d6b] tracking-tight`}>
+                Project Information
               </h2>
               <p className="mt-3 max-w-2xl text-sm md:text-base text-slate-500 leading-relaxed">
                 สรุปภาพรวมโครงการ ทั้ง Concept Information และ Facilities
               </p>
-            </div>
+            </motion.div>
 
-            <div className="flex w-full gap-2 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-1.5 shadow-sm lg:w-auto">
+            <motion.div variants={fadeUp} className="flex w-full gap-2 overflow-x-auto rounded-2xl border border-[#e53935]/20 bg-white p-1.5 shadow-sm lg:w-auto">
               {[
                 { key: 'concept', label: 'แนวคิดโครงการ' },
                 { key: 'factsheet', label: 'Factsheet' },
@@ -469,60 +482,65 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   className={`min-w-fit rounded-xl px-5 py-3 text-xs md:text-sm font-black transition-all ${
                     infoTab === tab.key
                       ? 'bg-[#1a2d6b] text-white shadow-md'
-                      : 'text-slate-500 hover:bg-slate-50 hover:text-[#1a2d6b]'
+                      : 'text-slate-500 hover:bg-[#faf8f5] hover:text-[#1a2d6b]'
                   }`}
                 >
                   {tab.label}
                 </button>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {infoTab === 'concept' && (
-            <div className="overflow-hidden rounded-2xl bg-[#a7785d] text-white shadow-sm">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              className="overflow-hidden rounded-2xl bg-[#1a2d6b] text-white shadow-lg"
+            >
               <div className="flex flex-col lg:flex-row min-h-0">
                 {/* รูป — ซ้าย */}
-                <div className="relative w-full lg:w-1/2 aspect-[4/3] lg:aspect-auto lg:min-h-[420px] bg-[#8f654e] shrink-0">
+                <div className="relative w-full lg:w-1/2 aspect-[4/3] lg:aspect-auto lg:min-h-[420px] bg-[#0f1e4a] shrink-0">
                   {project.conceptImage ? (
                     <NextImage
                       src={project.conceptImage}
                       alt={`${project.name} concept`}
                       fill
                       sizes="(min-width: 1024px) 50vw, 100vw"
-                      className="object-cover"
+                      className="object-cover opacity-90"
                     />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-sm font-bold tracking-[0.2em] text-white/50">
+                    <div className="flex h-full items-center justify-center text-sm font-bold tracking-[0.2em] text-white/30">
                       CONCEPT IMAGE
                     </div>
                   )}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#1a2d6b]/20" />
                 </div>
 
                 {/* ข้อความ — ขวา */}
                 <div className="flex flex-col justify-center px-8 py-10 lg:px-12 lg:py-14 lg:w-1/2">
-                  <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-white/25 px-4 py-2">
-                    <Sparkles size={15} className="text-white" />
-                    <span className="text-[11px] font-black uppercase tracking-[0.25em] text-white/80">Concept</span>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-black leading-tight text-white">
+                  <div className="mb-5 w-10 h-[2px] bg-[#e53935]" />
+                  <p className={`${mont.className} text-[10px] font-semibold uppercase tracking-[0.3em] text-[#e53935] mb-3`}>
+                    Concept
+                  </p>
+                  <h3 className={`text-2xl md:text-3xl font-bold leading-tight text-white`}>
                     {project.concept || project.name}
                   </h3>
-                  <p className="mt-5 text-sm md:text-base leading-8 text-white/80 whitespace-pre-line">
+                  <p className="mt-5 text-sm md:text-base leading-8 text-white/70 whitespace-pre-line">
                     {project.conceptArticle || project.description || 'รายละเอียดแนวคิดโครงการจะถูกแสดงจากข้อมูลที่ตั้งค่าในระบบ Admin'}
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {infoTab === 'factsheet' && (
-            <div className="space-y-4">
-              {/* Facts grid */}
-              <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y divide-slate-100">
+            <motion.div variants={fadeUp} initial="hidden" animate="show" className="space-y-4">
+              <div className="overflow-hidden rounded-2xl border border-[#e53935]/15 bg-white shadow-sm">
+                <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y divide-[#e53935]/10">
                   {projectFacts.map((item) => (
-                    <div key={item.label} className="group p-5 hover:bg-slate-50 transition-colors">
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 block mb-2">
+                    <div key={item.label} className="group p-5 hover:bg-[#faf8f5] transition-colors">
+                      <span className={`text-[9px] font-semibold uppercase tracking-[0.2em] text-[#e53935] block mb-2`}>
                         {item.label}
                       </span>
                       <div className="text-base md:text-lg font-black text-[#1a2d6b] leading-snug">{item.value}</div>
@@ -531,67 +549,61 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 </div>
               </div>
 
-              {/* ประเภทห้อง */}
               {(project.roomPlans?.length ?? 0) > 0 && (
-                <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+                <div className="bg-white border border-[#e53935]/15 rounded-2xl p-5 shadow-sm">
                   <div className="flex items-center gap-2 mb-4">
                     <Home size={17} className="text-[#e53935]" />
-                    <h3 className="text-base font-black text-[#1a2d6b]">ประเภทห้อง</h3>
+                    <h3 className={`${mont.className} text-base font-semibold text-[#1a2d6b]`}>Room Types</h3>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {project.roomPlans?.map((plan: RoomPlan, i: number) => (
-                      <div key={i} className="flex items-center justify-between bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
+                      <div key={i} className="flex items-center justify-between bg-[#faf8f5] rounded-xl px-4 py-3 border border-[#e53935]/15">
                         <span className="text-sm font-bold text-slate-700">{plan.type}</span>
-                        <span className="text-xs text-slate-400">→ Plans</span>
+                        <span className="text-xs text-[#e53935] font-semibold">→ Plans</span>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
-            </div>
+            </motion.div>
           )}
 
           {infoTab === 'facilities' && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              <div className="lg:col-span-4 bg-[#1a2d6b] text-white rounded-2xl p-7 md:p-8 shadow-sm">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 mb-6">
-                  <Building2 size={24} />
+            <motion.div variants={fadeUp} initial="hidden" animate="show" className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-4 bg-[#1a2d6b] text-white rounded-2xl p-7 md:p-8 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#e53935] via-[#e8c98a] to-[#e53935]" />
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#e53935]/15 border border-[#e53935]/25 mb-6">
+                  <Building2 size={24} className="text-[#e53935]" />
                 </div>
-                <h3 className="text-2xl md:text-3xl font-black leading-tight">Facilities</h3>
-                <p className="mt-4 text-sm leading-7 text-white/70">
+                <h3 className={`${mont.className} text-2xl md:text-3xl font-bold leading-tight`}>Facilities</h3>
+                <p className="mt-4 text-sm leading-7 text-white/60">
                   พื้นที่ส่วนกลางและบริการประจำโครงการ ออกแบบให้รองรับการพักผ่อน การดูแลสุขภาพ และชีวิตประจำวันได้ครบในที่เดียว
                 </p>
               </div>
 
               <div className="lg:col-span-8">
                 {facilityItems.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {facilityItems.map((facility, i) => (
-                      <div key={`${facility.name}-${i}`} className="flex items-center gap-4 bg-white border border-slate-100 rounded-2xl p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#e53935]/10">
+                      <div key={`${facility.name}-${i}`} className="flex items-center gap-4 bg-white border border-[#e53935]/15 rounded-2xl p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:border-[#e53935]/30">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e53935]/10 border border-[#e53935]/20">
                           {facility.icon ? (
-                            <NextImage
-                              src={facility.icon}
-                              alt=""
-                              width={32}
-                              height={32}
-                              className="h-8 w-8 object-contain"
-                            />
+                            <NextImage src={facility.icon} alt="" width={28} height={28} className="h-7 w-7 object-contain" />
                           ) : (
-                            <Building2 size={22} className="text-[#e53935]" />
+                            <Sparkles size={18} className="text-[#e53935]" />
                           )}
                         </div>
-                        <div className="text-base font-black text-slate-700 leading-7">{facility.name}</div>
+                        <div className="text-sm font-bold text-slate-700">{facility.name}</div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="bg-white border border-dashed border-slate-200 rounded-2xl p-10 text-center text-slate-500">
+                  <div className="bg-white border border-dashed border-[#e53935]/20 rounded-2xl p-10 text-center text-slate-400">
                     กำลังเตรียมข้อมูลสิ่งอำนวยความสะดวกเพิ่มเติม
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
       </section>
@@ -599,31 +611,39 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       {/* =========================================
           📍 GALLERY SECTION (แยกหมวดหมู่)
       ========================================= */}
-      <section id="gallery" className="py-24 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 text-center mb-10">
+      <section id="gallery" className="py-24 bg-white border-b border-[#e53935]/10">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
+          className="max-w-7xl mx-auto px-4 text-center mb-10"
+        >
+          <p className={`text-[10px] font-semibold tracking-[0.35em] uppercase text-[#e53935] mb-3`}>
+            Photo Gallery
+          </p>
           <div className="flex items-center justify-center gap-3 mb-4 text-[#1a2d6b]">
-            <ImageIcon size={36} />
-            <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tight">Gallery</h2>
+            <h2 className={`${mont.className} text-4xl md:text-5xl font-bold uppercase tracking-tight`}>Gallery</h2>
           </div>
-          <div className="w-16 h-1 bg-[#e53935] mx-auto rounded-full mb-8"></div>
+          <div className="w-12 h-[2px] bg-[#e53935] mx-auto mb-8" />
 
           {/* 📍 แถบเลือกหมวดหมู่ Perspective / Facility / Room */}
           {/* แก้ไข Logic การแสดงผล Tab: ตรวจสอบข้อมูล gallery ให้ถูกต้องสำหรับทุกโครงการ */}
           {project.gallery && !Array.isArray(project.gallery) && typeof project.gallery === 'object' && (
-            <div className="inline-flex bg-slate-100 p-1.5 rounded-2xl border border-slate-200 overflow-x-auto max-w-full no-scrollbar">
-              <button 
+            <div className="inline-flex bg-[#faf8f5] p-1.5 rounded-2xl border border-[#e53935]/20 overflow-x-auto max-w-full no-scrollbar">
+              <button
                 onClick={() => { setActiveGalleryTab('perspective'); setActiveImg(0); }}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'perspective' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 <Sparkles size={14} /> Perspective
               </button>
-              <button 
+              <button
                 onClick={() => { setActiveGalleryTab('facility'); setActiveImg(0); }}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'facility' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 <Building2 size={14} /> Facility
               </button>
-              <button 
+              <button
                 onClick={() => { setActiveGalleryTab('room'); setActiveImg(0); }}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
               >
@@ -631,7 +651,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               </button>
             </div>
           )}
-        </div>
+        </motion.div>
         
         <div className="max-w-6xl mx-auto px-4">
           <div
@@ -829,7 +849,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             <div className="text-center mb-10">
               <div className="flex items-center justify-center gap-3 mb-4 text-white">
                 <PlayCircle size={32} />
-                <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tight">Video</h2>
+                <h2 className={`${mont.className} text-4xl md:text-5xl font-black uppercase tracking-tight`}>Video</h2>
               </div>
               <div className="w-16 h-1 bg-[#e53935] mx-auto rounded-full" />
             </div>
@@ -861,7 +881,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <MapPin size={32} />
-                  <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight">Location</h2>
+                  <h2 className={`${mont.className} text-3xl md:text-4xl font-black uppercase tracking-tight`}>Location</h2>
                 </div>
                 <p className="text-lg text-slate-500 max-w-2xl">
                   {project.location} {project.bts ? `(${project.bts})` : ''}

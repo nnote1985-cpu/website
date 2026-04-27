@@ -95,7 +95,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     // 📍 3. เปลี่ยนตัวแปรฟอนต์ที่ html และ body
     <html lang="th" className={promptFont.variable} data-scroll-behavior="smooth">
       <head>
-        <meta name="theme-color" content="#f4511e" />
+        <meta name="theme-color" content="#1a2d6b" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"

@@ -21,14 +21,14 @@ function MiniCalculator() {
 
       <div className="space-y-2.5">
         <div>
-          <div className="flex justify-between mb-1">
+          <div className="flex justify-between items-baseline mb-2">
             <span className="text-[11px] text-slate-400">วงเงินกู้</span>
-            <span className="text-[11px] font-bold text-[#1a2d6b]">{(loan / 1000000).toFixed(1)}M</span>
+            <span className="text-base font-black text-[#e53935] leading-none">{(loan / 1000000).toFixed(1)} <span className="text-xs font-bold text-slate-500">ล้านบาท</span></span>
           </div>
           <input
             type="range" min={500000} max={10000000} step={100000} value={loan}
             onChange={(e) => setLoan(+e.target.value)}
-            className="w-full h-1.5 accent-[#e53935]"
+            className="w-full h-3 accent-[#e53935] cursor-pointer rounded-full"
           />
         </div>
 
