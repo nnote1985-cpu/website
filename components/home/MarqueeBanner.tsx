@@ -11,10 +11,10 @@ export default function MarqueeBanner() {
   const repeated = [...ITEMS, ...ITEMS, ...ITEMS, ...ITEMS];
 
   return (
-    <div className="bg-[#1a2d3a] overflow-hidden py-3.5 select-none">
+    <div className="bg-[#1a2d6b] overflow-hidden py-3.5 select-none">
       <div className="flex animate-marquee whitespace-nowrap">
         {repeated.map((item, i) => (
-          <span key={i} className="inline-flex items-center gap-4 mx-4">
+          <span key={i} className="inline-flex items-center gap-6 mx-8">
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/80">
               {item}
             </span>

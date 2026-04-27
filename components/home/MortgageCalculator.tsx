@@ -1,10 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
+import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { Calculator } from 'lucide-react';
+import { ArrowRight, Calculator, Phone } from 'lucide-react';
+import { projectUrl } from '@/lib/projectUrl';
 
 type Mode = 'monthly' | 'maxloan';
+
+type CalculatorProject = {
+  id: string;
+  slug: string;
+  name: string;
+  status: string;
+  priceMin: number;
+  priceMax?: number;
+  location?: string;
+  bts?: string;
+};
+
+type MortgageCalculatorProps = {
+  projects?: CalculatorProject[];
+};
 
 function getSliderStyle(pct: number): CSSProperties {
   const clampedPct = Math.min(100, Math.max(0, pct));
@@ -14,8 +31,13 @@ function getSliderStyle(pct: number): CSSProperties {
   } as CSSProperties;
 }
 
-export default function MortgageCalculator() {
+function formatBaht(value: number) {
+  return value.toLocaleString('th-TH', { maximumFractionDigits: 0 });
+}
+
+export default function MortgageCalculator({ projects = [] }: MortgageCalculatorProps) {
   const [mode, setMode] = useState<Mode>('monthly');
+  const [showRecommendations, setShowRecommendations] = useState(false);
 
   const [loanAmount, setLoanAmount] = useState(2000000);
   const [interest, setInterest] = useState(3);
@@ -42,12 +64,29 @@ export default function MortgageCalculator() {
 
   const monthly = calcMonthly(loanAmount, interest, years);
   const maxLoan = calcMaxLoan(monthlyIncome, maxInterest, maxYears);
+  const targetBudget = mode === 'monthly' ? loanAmount : maxLoan;
+
+  const recommendedProjects = useMemo(() => {
+    const availableProjects = projects.filter((project) => (
+      project.status !== 'sold-out' && Number(project.priceMin) > 0
+    ));
+
+    const inBudget = availableProjects
+      .filter((project) => Number(project.priceMin) <= targetBudget)
+      .sort((a, b) => (targetBudget - Number(a.priceMin)) - (targetBudget - Number(b.priceMin)));
+
+    const fallback = availableProjects
+      .filter((project) => Number(project.priceMin) > targetBudget)
+      .sort((a, b) => Number(a.priceMin) - Number(b.priceMin));
+
+    return [...inBudget, ...fallback].slice(0, 3);
+  }, [projects, targetBudget]);
 
   const loanPct = ((loanAmount - 500000) / 9500000) * 100;
   const incomePct = ((monthlyIncome - 10000) / 190000) * 100;
 
-  const inputCls = "w-full bg-white/8 border border-white/12 rounded-xl px-4 py-3 text-white font-semibold focus:outline-none focus:border-[#f4511e]/60 focus:bg-white/12 transition-all placeholder-white/30";
-  const selectCls = "w-full bg-zinc-800 border border-white/12 rounded-xl px-4 py-3 text-white font-semibold focus:outline-none focus:border-[#f4511e]/60 transition-all appearance-none cursor-pointer";
+  const inputCls = "w-full bg-white/8 border border-white/12 rounded-xl px-4 py-3 text-white font-semibold focus:outline-none focus:border-[#e53935]/60 focus:bg-white/12 transition-all placeholder-white/30";
+  const selectCls = "w-full bg-zinc-800 border border-white/12 rounded-xl px-4 py-3 text-white font-semibold focus:outline-none focus:border-[#e53935]/60 transition-all appearance-none cursor-pointer";
   const labelCls = "block text-xs font-semibold text-white/50 uppercase tracking-widest mb-2";
 
   function sliderStyle(pct: number) {
@@ -58,26 +97,31 @@ export default function MortgageCalculator() {
     <section className="bg-zinc-900 py-16">
       <div className="max-w-3xl mx-auto px-4">
         <div className="text-center mb-10">
-          <p className="text-[#f4511e] text-xs font-bold uppercase tracking-[0.3em] mb-2">เครื่องมือคำนวณ</p>
+          <p className="text-[#e53935] text-xs font-bold uppercase tracking-[0.3em] mb-2">เครื่องมือคำนวณ</p>
           <h2 className="text-3xl font-bold text-white mb-2">คำนวณสินเชื่อบ้าน</h2>
           <p className="text-white/40 text-sm">วางแผนการเงินก่อนตัดสินใจซื้อ</p>
         </div>
 
-        {/* Tabs */}
         <div className="flex bg-white/6 rounded-2xl p-1 mb-8 border border-white/8">
           <button
-            onClick={() => setMode('monthly')}
+            onClick={() => {
+              setMode('monthly');
+              setShowRecommendations(false);
+            }}
             className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${
-              mode === 'monthly' ? 'bg-[#f4511e] text-white shadow-lg' : 'text-white/40 hover:text-white/70'
+              mode === 'monthly' ? 'bg-[#e53935] text-white shadow-lg' : 'text-white/40 hover:text-white/70'
             }`}
           >
             <Calculator size={14} className="inline mr-1.5 -mt-0.5" />
             คำนวณผ่อนต่อเดือน
           </button>
           <button
-            onClick={() => setMode('maxloan')}
+            onClick={() => {
+              setMode('maxloan');
+              setShowRecommendations(false);
+            }}
             className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${
-              mode === 'maxloan' ? 'bg-[#f4511e] text-white shadow-lg' : 'text-white/40 hover:text-white/70'
+              mode === 'maxloan' ? 'bg-[#e53935] text-white shadow-lg' : 'text-white/40 hover:text-white/70'
             }`}
           >
             กู้ได้สูงสุดเท่าไหร่?
@@ -90,14 +134,28 @@ export default function MortgageCalculator() {
               <div>
                 <label className={labelCls}>วงเงินกู้ (บาท)</label>
                 <input
-                  type="number" value={loanAmount}
-                  onChange={(e) => setLoanAmount(+e.target.value)}
+                  type="number"
+                  value={loanAmount}
+                  onChange={(e) => {
+                    setLoanAmount(+e.target.value);
+                    setShowRecommendations(false);
+                  }}
                   className={inputCls}
                 />
                 <input
-                  type="range" min={500000} max={10000000} step={100000} value={loanAmount}
-                  onInput={(e) => setLoanAmount(+(e.target as HTMLInputElement).value)}
-                  onChange={(e) => setLoanAmount(+e.target.value)}
+                  type="range"
+                  min={500000}
+                  max={10000000}
+                  step={100000}
+                  value={loanAmount}
+                  onInput={(e) => {
+                    setLoanAmount(+(e.target as HTMLInputElement).value);
+                    setShowRecommendations(false);
+                  }}
+                  onChange={(e) => {
+                    setLoanAmount(+e.target.value);
+                    setShowRecommendations(false);
+                  }}
                   className="range-slider mt-2"
                   style={sliderStyle(loanPct)}
                 />
@@ -127,26 +185,36 @@ export default function MortgageCalculator() {
                 </div>
               </div>
 
-              <div className="bg-[#f4511e]/15 border border-[#f4511e]/25 rounded-2xl p-5 text-center">
-                <p className="text-white/50 text-xs uppercase tracking-widest mb-2">ผ่อนต่อเดือน (โดยประมาณ)</p>
-                <p className="text-5xl font-black text-white tracking-tight">
-                  {monthly.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
-                </p>
-                <p className="text-[#f4511e] font-bold text-base mt-1">บาท/เดือน</p>
-                <p className="text-white/30 text-xs mt-3">
-                  ยอดรวมตลอดสัญญา: {(monthly * years * 12).toLocaleString('th-TH', { maximumFractionDigits: 0 })} บาท
-                </p>
-              </div>
+              <ResultSummary
+                label="ผ่อนต่อเดือน (โดยประมาณ)"
+                value={monthly}
+                unit="บาท/เดือน"
+                detail={`ยอดรวมตลอดสัญญา: ${formatBaht(monthly * years * 12)} บาท`}
+                onShowProjects={() => setShowRecommendations(true)}
+              />
             </>
           ) : (
             <>
               <div>
                 <label className={labelCls}>รายได้ต่อเดือน (บาท)</label>
                 <input type="number" value={monthlyIncome}
-                  onChange={(e) => setMonthlyIncome(+e.target.value)}
+                  onChange={(e) => {
+                    setMonthlyIncome(+e.target.value);
+                    setShowRecommendations(false);
+                  }}
                   className={inputCls}
                 />
-                <CustomSlider value={monthlyIncome} min={10000} max={200000} step={5000} pct={incomePct} onChange={setMonthlyIncome} />
+                <CustomSlider
+                  value={monthlyIncome}
+                  min={10000}
+                  max={200000}
+                  step={5000}
+                  pct={incomePct}
+                  onChange={(value) => {
+                    setMonthlyIncome(value);
+                    setShowRecommendations(false);
+                  }}
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -170,17 +238,18 @@ export default function MortgageCalculator() {
                 </div>
               </div>
 
-              <div className="bg-[#f4511e]/15 border border-[#f4511e]/25 rounded-2xl p-5 text-center">
-                <p className="text-white/50 text-xs uppercase tracking-widest mb-2">วงเงินกู้สูงสุด (โดยประมาณ)</p>
-                <p className="text-5xl font-black text-white tracking-tight">
-                  {maxLoan.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
-                </p>
-                <p className="text-[#f4511e] font-bold text-base mt-1">บาท</p>
-                <p className="text-white/30 text-xs mt-3">
-                  คำนวณจาก 40% ของรายได้ = {(monthlyIncome * 0.4).toLocaleString('th-TH', { maximumFractionDigits: 0 })} บาท/เดือน
-                </p>
-              </div>
+              <ResultSummary
+                label="วงเงินกู้สูงสุด (โดยประมาณ)"
+                value={maxLoan}
+                unit="บาท"
+                detail={`คำนวณจาก 40% ของรายได้ = ${formatBaht(monthlyIncome * 0.4)} บาท/เดือน`}
+                onShowProjects={() => setShowRecommendations(true)}
+              />
             </>
+          )}
+
+          {showRecommendations && (
+            <RecommendedProjects projects={recommendedProjects} targetBudget={targetBudget} />
           )}
 
           <p className="text-white/25 text-xs text-center pt-1">
@@ -189,6 +258,97 @@ export default function MortgageCalculator() {
         </div>
       </div>
     </section>
+  );
+}
+
+function ResultSummary({
+  label,
+  value,
+  unit,
+  detail,
+  onShowProjects,
+}: {
+  label: string;
+  value: number;
+  unit: string;
+  detail: string;
+  onShowProjects: () => void;
+}) {
+  return (
+    <div className="bg-[#e53935]/15 border border-[#e53935]/25 rounded-2xl p-5 text-center">
+      <p className="text-white/50 text-xs uppercase tracking-widest mb-2">{label}</p>
+      <p className="text-5xl font-black text-white tracking-tight">
+        {formatBaht(value)}
+      </p>
+      <p className="text-[#e53935] font-bold text-base mt-1">{unit}</p>
+      <p className="text-white/30 text-xs mt-3">{detail}</p>
+
+      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <Link
+          href="/contact"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#e53935] px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-[#c62828]"
+        >
+          <Phone size={16} />
+          ติดต่อฝ่ายขาย
+        </Link>
+        <button
+          type="button"
+          onClick={onShowProjects}
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/8 px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-white/12 cursor-pointer"
+        >
+          ดูโครงการตามงบ
+          <ArrowRight size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function RecommendedProjects({ projects, targetBudget }: { projects: CalculatorProject[]; targetBudget: number }) {
+  if (projects.length === 0) {
+    return (
+      <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-center">
+        <p className="text-sm font-bold text-white">ยังไม่มีโครงการที่ตรงกับงบนี้</p>
+        <p className="mt-1 text-xs text-white/40">ฝ่ายขายช่วยแนะนำตัวเลือกที่เหมาะกับคุณได้</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+      <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#e53935]">Recommended</p>
+          <h3 className="text-lg font-bold text-white">โครงการแนะนำตามงบ {formatBaht(targetBudget)} บาท</h3>
+        </div>
+        <Link href="/projects" className="text-xs font-bold text-white/45 transition-colors hover:text-white">
+          ดูทั้งหมด
+        </Link>
+      </div>
+
+      <div className="grid gap-3">
+        {projects.map((project) => (
+          <Link
+            key={project.id}
+            href={projectUrl(project.slug)}
+            className="group flex items-center justify-between gap-4 rounded-xl border border-white/8 bg-white/6 px-4 py-3 transition-colors hover:border-[#e53935]/40 hover:bg-white/10"
+          >
+            <div className="min-w-0">
+              <p className="truncate text-sm font-bold text-white group-hover:text-[#e53935] transition-colors">
+                {project.name}
+              </p>
+              <p className="mt-1 truncate text-xs text-white/40">
+                {project.bts || project.location || 'ASAKAN Residence'}
+              </p>
+            </div>
+            <div className="shrink-0 text-right">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">เริ่มต้น</p>
+              <p className="text-sm font-black text-[#e53935]">{formatBaht(Number(project.priceMin))}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }
 

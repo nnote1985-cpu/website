@@ -9,7 +9,7 @@ export default function NotFound() {
       <Header />
       <main className="pt-20 min-h-screen flex items-center justify-center bg-gray-50">
         <div className="max-w-lg mx-auto px-4 text-center py-20">
-          <div className="text-8xl font-bold text-[#f4511e] mb-4 leading-none">404</div>
+          <div className="text-8xl font-bold text-[#e53935] mb-4 leading-none">404</div>
           <h1 className="text-2xl font-bold text-[#1a2d6b] mb-3">ไม่พบหน้าที่ต้องการ</h1>
           <p className="text-gray-500 mb-8 leading-relaxed">
             หน้าที่คุณกำลังมองหาอาจถูกลบ เปลี่ยนชื่อ หรือไม่มีอยู่ในระบบ
@@ -17,7 +17,7 @@ export default function NotFound() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/"
-              className="flex items-center justify-center gap-2 bg-[#f4511e] text-white font-bold px-7 py-3.5 rounded-xl hover:bg-[#d43e0e]"
+              className="flex items-center justify-center gap-2 bg-[#e53935] text-white font-bold px-7 py-3.5 rounded-xl hover:bg-[#c62828]"
             >
               <Home size={18} />
               กลับหน้าแรก
@@ -43,7 +43,7 @@ export default function NotFound() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-xs bg-white border border-gray-200 text-gray-600 px-3 py-1.5 rounded-full hover:border-[#f4511e] hover:text-[#f4511e] transition-colors"
+                  className="text-xs bg-white border border-gray-200 text-gray-600 px-3 py-1.5 rounded-full hover:border-[#e53935] hover:text-[#e53935] transition-colors"
                 >
                   {link.label}
                 </Link>

@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Header from '@/components/Header';
 import FloatingCTA from '@/components/FloatingCTA';
 import Footer from '@/components/Footer';
+import AboutHeroMotion from '@/components/about/AboutHeroMotion';
 import { Target, Eye, Heart } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -15,21 +17,7 @@ export default function AboutPage() {
       <Header />
       <FloatingCTA />
       <main className="pt-20">
-        {/* Hero */}
-        <section
-          className="py-24 text-white relative"
-          style={{ background: 'linear-gradient(135deg, #0f1e4a 0%, #1a2d6b 60%, #2a3d8b 100%)' }}
-        >
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <p className="text-orange-400 font-semibold text-sm uppercase tracking-widest mb-3">เกี่ยวกับเรา</p>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              บริษัท อัสสกาญจน์ จำกัด
-            </h1>
-            <p className="text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto">
-              ผู้พัฒนาอสังหาริมทรัพย์ที่มีความมุ่งมั่นพัฒนาโครงการคุณภาพ ในราคาเข้าถึงได้ เพื่อยกระดับคุณภาพชีวิตของชุมชน
-            </p>
-          </div>
-        </section>
+        <AboutHeroMotion />
 
         {/* Mission, Vision, Values */}
         <section className="py-20 bg-white">
@@ -109,21 +97,52 @@ export default function AboutPage() {
         </section>
 
         {/* Company Info */}
-        <section className="py-16 bg-white">
-          <div className="max-w-3xl mx-auto px-4">
-            <h2 className="text-2xl font-bold text-[#1a2d6b] mb-6 text-center">ข้อมูลบริษัท</h2>
-            <div className="bg-gray-50 rounded-2xl p-8 space-y-4">
-              {[
-                { label: 'ชื่อบริษัท', value: 'บริษัท อัสสกาญจน์ จำกัด (ASAKAN CO., LTD)' },
-                { label: 'ที่ตั้ง', value: '191 อาคาร อัสสกาญจน์ ถนนรามคำแหง แขวงสะพานสูง เขตสะพานสูง กรุงเทพมหานคร 10240' },
-                { label: 'โทรศัพท์', value: '082-526-5566 / 02-059-9655 / 099-198-2940' },
-                { label: 'อีเมล', value: 'asakanmkt@gmail.com' },
-              ].map((item) => (
-                <div key={item.label} className="flex flex-col sm:flex-row sm:gap-4 pb-4 border-b border-gray-200 last:border-0">
-                  <span className="text-sm font-semibold text-[#1a2d6b] sm:w-32 flex-shrink-0">{item.label}</span>
-                  <span className="text-sm text-gray-600">{item.value}</span>
+        <section className="bg-white py-16 md:py-20">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="mb-8 text-center">
+              <p className="mb-2 text-sm font-bold uppercase tracking-[0.18em] text-[#e53935]">Company Profile</p>
+              <h2 className="text-2xl font-bold text-[#1a2d6b] md:text-3xl">ข้อมูลบริษัท</h2>
+            </div>
+
+            <div className="grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_18px_45px_rgba(15,30,74,0.08)] lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="relative min-h-[260px] bg-slate-100 md:min-h-[360px]">
+                <Image
+                  src="/images/aboutinfo.webp"
+                  alt="อาคารและโครงการของ ASAKAN"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0f1e4a]/65 via-transparent to-transparent" />
+                <div className="absolute bottom-5 left-5 right-5">
+                  <div className="inline-flex rounded-full bg-white/95 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#1a2d6b] shadow-sm">
+                    ASAKAN CO., LTD
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              <div className="bg-[#f8fafc] p-6 sm:p-8 lg:p-10">
+                <div className="mb-6 max-w-xl">
+                  <h3 className="text-xl font-bold text-[#081735]">ผู้พัฒนาอสังหาริมทรัพย์คุณภาพในกรุงเทพฯ</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">
+                    ข้อมูลติดต่อหลักของบริษัท สำหรับลูกค้าและพาร์ทเนอร์ที่ต้องการติดต่อ ASAKAN โดยตรง
+                  </p>
+                </div>
+
+                <div className="space-y-0 rounded-2xl bg-white px-5 shadow-sm ring-1 ring-slate-200/80">
+                  {[
+                    { label: 'ชื่อบริษัท', value: 'บริษัท อัสสกาญจน์ จำกัด (ASAKAN CO., LTD)' },
+                    { label: 'ที่ตั้ง', value: '191 อาคาร อัสสกาญจน์ ถนนรามคำแหง แขวงสะพานสูง เขตสะพานสูง กรุงเทพมหานคร 10240' },
+                    { label: 'โทรศัพท์', value: '082-526-5566 / 02-059-9655 / 099-198-2940' },
+                    { label: 'อีเมล', value: 'asakanmkt@gmail.com' },
+                  ].map((item) => (
+                    <div key={item.label} className="grid gap-2 border-b border-slate-200 py-5 last:border-0 sm:grid-cols-[120px_1fr] sm:gap-6">
+                      <span className="text-sm font-bold text-[#1a2d6b]">{item.label}</span>
+                      <span className="text-sm leading-7 text-slate-600">{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>

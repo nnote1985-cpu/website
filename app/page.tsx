@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
@@ -140,7 +141,7 @@ export default async function HomePage() {
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-8">
               {featuredProjects.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
@@ -161,44 +162,47 @@ export default async function HomePage() {
         <CollapsibleSection label="Why ASAKAN?">
           <section className="py-24 bg-white border-t border-slate-100">
             <div className="max-w-7xl mx-auto px-6">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
                 {/* ฝั่งซ้าย: หัวข้อและคำโปรย */}
                 <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit">
-                  <div className="w-12 h-1 bg-[#e53935] mb-6" />
-                  <h2 className="text-4xl md:text-5xl font-bold text-[#1a2d6b] leading-[1.1] mb-6">
+                  <p className="text-[#e53935] font-black text-xs uppercase tracking-[0.3em] mb-4">Brand Proof</p>
+                  <h2 className="text-4xl md:text-6xl font-black text-[#1a2d6b] leading-[0.98] tracking-tight mb-6">
                     Why <br />
                     <span className="text-[#e53935]">ASAKAN?</span>
                   </h2>
-                  <p className="text-slate-500 text-lg leading-relaxed mb-8">
+                  <p className="text-slate-500 text-base md:text-lg leading-relaxed mb-8">
                     กว่า 25 ปีที่เราสร้างสรรค์ที่อยู่อาศัยบนมาตรฐานความคุ้มค่าและความมั่นคง
                     เพื่อส่งมอบคุณภาพชีวิตที่ดีที่สุดให้กับคุณ
                   </p>
-                  <div className="hidden lg:block w-full h-[1px] bg-slate-100" />
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
+                    <p className="text-sm font-semibold text-[#1a2d6b] leading-relaxed">Your happiness is our hope.</p>
+                    <p className="mt-1 text-xs text-slate-500">A home should feel confident, worthwhile, and easy to live in.</p>
+                  </div>
                 </div>
 
                 {/* ฝั่งขวา: รายการจุดเด่น */}
-                <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
+                <div className="lg:col-span-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200">
                   {[
                     { icon: <Home size={32} strokeWidth={1.5} />, title: '2,500+ Units Delivered', desc: 'ความไว้วางใจจากครอบครัวอัสสกาญจน์ที่ส่งมอบแล้วทั่วกรุงเทพฯ' },
                     { icon: <Star size={32} strokeWidth={1.5} />, title: 'Premium Quality', desc: 'คัดสรรวัสดุมาตรฐานสากล พร้อมทีมงานตรวจรับมอบมืออาชีพ' },
                     { icon: <Shield size={32} strokeWidth={1.5} />, title: '25 Years Heritage', desc: 'รากฐานที่แข็งแกร่งและประสบการณ์ที่สั่งสมมายาวนานอย่างยั่งยืน' },
                     { icon: <TrendingUp size={32} strokeWidth={1.5} />, title: 'Prime Location', desc: 'เน้นทำเลศักยภาพใกล้รถไฟฟ้า เพื่อการอยู่อาศัยและการลงทุน' },
                   ].map((item, index) => (
-                    <div key={item.title} className="group relative p-8 rounded-3xl transition-all duration-500 hover:bg-[#f0f4ff] border border-transparent hover:border-[#1a2d6b]/10 hover:shadow-xl hover:shadow-[#1a2d6b]/5">
-                      <span className="absolute top-6 right-8 text-5xl font-bold text-slate-100 group-hover:text-[#1a2d6b]/10 transition-colors duration-500">
+                    <div key={item.title} className="group relative bg-white p-5 md:p-8 transition-colors duration-300 hover:bg-slate-50">
+                      <span className="absolute top-5 right-5 text-4xl md:text-5xl font-black text-slate-100 group-hover:text-[#e53935]/10 transition-colors duration-300">
                         0{index + 1}
                       </span>
 
-                      <div className="w-14 h-14 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#e53935] group-hover:shadow-md transition-all duration-500 mb-6">
+                      <div className="mb-7 flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full border border-slate-200 text-[#e53935]">
                         {item.icon}
                       </div>
 
-                      <h3 className="text-xl font-bold text-[#1a2d6b] mb-3 group-hover:text-[#e53935] transition-colors">
+                      <h3 className="text-lg md:text-2xl font-black text-[#1a2d6b] mb-3 leading-tight">
                         {item.title}
                       </h3>
 
-                      <p className="text-slate-500 text-sm leading-relaxed pr-4">
+                      <p className="text-slate-500 text-xs md:text-sm leading-relaxed md:pr-4">
                         {item.desc}
                       </p>
                     </div>
@@ -214,19 +218,23 @@ export default async function HomePage() {
         <CollapsibleSection label="Service & Care ครบจบในที่เดียว">
           <section className="py-24 bg-white border-t border-slate-100">
             <div className="max-w-7xl mx-auto px-6">
-              <div className="text-center mb-16">
+              <div className="max-w-3xl mb-14">
                 <p className="text-[#e53935] font-bold text-xs uppercase tracking-[0.3em] mb-3">Service & Care</p>
-                <h2 className="text-4xl font-bold text-[#1a2d6b]">ครบจบในที่เดียว</h2>
+                <h2 className="text-4xl md:text-5xl font-black text-[#1a2d6b] tracking-tight">ครบจบในที่เดียว</h2>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 bg-white">
                 {[
                   { title: 'ซื้อคอนโดมิเนียม', desc: 'โครงการคุณภาพในทำเลศักยภาพ ราคาเริ่มต้น 1.21 ล้านบาท พร้อมส่วนกลางครบครัน', href: '/projects', cta: 'ดูโครงการ' },
                   { title: 'ASAKAN AssetCare+', desc: 'บริการบริหารการปล่อยเช่าแบบครบวงจร ให้คุณมีรายได้ Passive Income โดยไม่ต้องกังวล', href: '/assetcare', cta: 'เรียนรู้เพิ่มเติม' },
                   { title: 'สมาชิก ASAKAN', desc: 'สิทธิพิเศษสำหรับเจ้าของห้อง ประกันอุบัติเหตุ ส่วนลดซื้อห้องถัดไป และรางวัลแนะนำเพื่อน', href: '/member', cta: 'สมัครสมาชิก' },
-                ].map((service) => (
-                  <div key={service.title} className="bg-[#f0f4ff] border border-[#1a2d6b]/10 rounded-[2rem] p-8 hover:bg-[#e8eeff] hover:shadow-lg hover:shadow-[#1a2d6b]/10 transition-all group">
-                    <h3 className="font-bold text-[#1a2d6b] text-2xl mb-4">{service.title}</h3>
-                    <p className="text-slate-500 text-sm leading-relaxed mb-8">{service.desc}</p>
+                ].map((service, index) => (
+                  <div key={service.title} className="group bg-white p-7 md:p-8 hover:bg-slate-50 transition-colors">
+                    <div className="mb-6 flex items-center justify-between">
+                      <span className="text-xs font-black uppercase tracking-[0.24em] text-[#e53935]">0{index + 1}</span>
+                      <span className="h-px flex-1 bg-slate-200 ml-4" />
+                    </div>
+                    <h3 className="font-black text-[#1a2d6b] text-2xl mb-4 leading-tight">{service.title}</h3>
+                    <p className="text-slate-500 text-sm leading-relaxed mb-8 min-h-[5.25rem]">{service.desc}</p>
                     <Link
                       href={service.href}
                       className="inline-flex items-center gap-2 text-[#e53935] font-bold text-sm group-hover:gap-4 transition-all uppercase tracking-widest"
@@ -242,7 +250,7 @@ export default async function HomePage() {
 
         {/* 7. OTHER TOOLS */}
         <div className="bg-slate-50 py-12">
-          <MortgageCalculator />
+          <MortgageCalculator projects={allProjects} />
         </div>
 
         {/* 8. NEWS SECTION */}
@@ -260,7 +268,7 @@ export default async function HomePage() {
                   View All <ArrowRight size={18} />
                 </Link>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 bg-white">
                 {latestNews.map((news) => (
                   <NewsCard key={news.id} news={news} />
                 ))}
@@ -309,7 +317,7 @@ export default async function HomePage() {
             {/* Heading */}
             <div className="text-center mb-10">
               <p className="text-[#e53935] font-bold text-xs uppercase tracking-[0.3em] mb-3">Start Your Journey</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#1a2d6b] mb-3">Ready to Find Your Dream Home?</h2>
+              <h2 className="text-3xl md:text-4xl md:text-5xl font-black text-[#1a2d6b] tracking-tight mb-3">Ready to Find Your Dream Home?</h2>
               <p className="text-slate-400 text-sm max-w-xl mx-auto">
                 ปรึกษาเรื่องกู้ ซื้อ หรือลงทุนคอนโดกับผู้เชี่ยวชาญจาก ASAKAN ได้ฟรี ไม่มีค่าใช้จ่าย
               </p>
@@ -352,18 +360,44 @@ export default async function HomePage() {
               {/* ติดต่อออนไลน์ */}
               <Link
                 href="/contact"
-                className="group flex items-center gap-4 bg-[#e53935] rounded-2xl px-5 py-4 hover:bg-[#c62828] transition-all shadow-sm"
+                className="group flex items-center gap-4 bg-white border border-slate-200 rounded-2xl px-5 py-4 hover:border-[#e53935] hover:shadow-md transition-all"
               >
-                <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center shrink-0 group-hover:bg-[#e53935] transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#e53935] group-hover:text-white transition-colors"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 </div>
                 <div>
-                  <p className="text-white/70 text-[10px] uppercase tracking-wider mb-0.5">ส่งข้อความ</p>
-                  <p className="text-white font-bold text-sm">ติดต่อโครงการ</p>
+                  <p className="text-slate-400 text-[10px] uppercase tracking-wider mb-0.5">ส่งข้อความ</p>
+                  <p className="text-[#1a2d6b] font-bold text-sm">ติดต่อโครงการ</p>
                 </div>
               </Link>
             </div>
 
+          </div>
+        </section>
+
+        {/* 11. EMOTIONAL BRAND SECTION */}
+        <section className="relative overflow-hidden bg-white">
+          <div className="relative min-h-[335px] md:min-h-[430px] xl:min-h-[470px] flex items-start justify-center">
+            <Image
+              src="https://images.unsplash.com/photo-1609220136736-443140cffec6?auto=format&fit=crop&q=85&w=2200"
+              alt="ครอบครัวใช้เวลาร่วมกันในบ้าน"
+              fill
+              sizes="100vw"
+              className="object-cover object-center md:object-[center_42%]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-white/96 via-white/55 to-white/6" />
+            <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-white via-white/85 to-white/0" />
+            <div className="absolute inset-x-0 top-10 h-52 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.72)_38%,rgba(255,255,255,0)_72%)]" />
+
+            <div className="relative z-10 max-w-4xl mx-auto px-6 pt-16 md:pt-24 text-center">
+              <p className="text-[#e53935] font-black text-xs uppercase tracking-[0.35em] mb-4 [text-shadow:0_1px_0_rgba(255,255,255,0.9)]">Your Happiness Is Our Hope</p>
+              <h2 className="text-4xl md:text-6xl font-black text-[#1a2d6b] tracking-tight mb-4 [text-shadow:0_2px_16px_rgba(255,255,255,0.95)]">
+                FREEDOM OF LIFE
+              </h2>
+              <p className="text-[#1a2d6b] font-medium text-base md:text-xl leading-relaxed max-w-2xl mx-auto [text-shadow:0_1px_12px_rgba(255,255,255,0.95)]">
+                อัสสกาญจน์เชื่อว่า บ้านที่ดีไม่ได้เป็นเพียงที่อยู่อาศัย แต่เป็นพื้นที่ให้ทุกคนได้ใช้ชีวิตในแบบของตัวเอง
+              </p>
+            </div>
           </div>
         </section>
 

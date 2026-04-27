@@ -40,7 +40,7 @@ export default function ContactForm() {
         <p className="text-green-500 text-xs">ขอบคุณที่ไว้วางใจ ASAKAN</p>
         <button
           onClick={() => setStatus('idle')}
-          className="mt-6 text-[#f4511e] font-semibold text-sm hover:underline"
+          className="mt-6 text-[#e53935] font-semibold text-sm hover:underline"
         >
           ส่งข้อความอีกครั้ง
         </button>
@@ -60,7 +60,7 @@ export default function ContactForm() {
             required
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f4511e] focus:border-transparent"
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#e53935] focus:border-transparent"
             placeholder="ชื่อของคุณ"
           />
         </div>
@@ -73,7 +73,7 @@ export default function ContactForm() {
             required
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f4511e] focus:border-transparent"
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#e53935] focus:border-transparent"
             placeholder="08X-XXX-XXXX"
           />
         </div>
@@ -84,7 +84,7 @@ export default function ContactForm() {
           type="email"
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
-          className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f4511e] focus:border-transparent"
+          className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#e53935] focus:border-transparent"
           placeholder="email@example.com"
         />
       </div>
@@ -96,7 +96,7 @@ export default function ContactForm() {
           rows={5}
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
-          className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f4511e] focus:border-transparent resize-none"
+          className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#e53935] focus:border-transparent resize-none"
           placeholder="บอกเราว่าคุณสนใจโครงการไหน หรือมีคำถามอะไร..."
         />
       </div>
@@ -110,7 +110,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="w-full flex items-center justify-center gap-2 bg-[#f4511e] text-white font-bold py-4 rounded-xl hover:bg-[#d43e0e] disabled:opacity-60 text-base transition-colors"
+        className="w-full flex items-center justify-center gap-2 bg-[#e53935] text-white font-bold py-4 rounded-xl hover:bg-[#c62828] disabled:opacity-60 text-base transition-colors"
       >
         {status === 'loading' ? (
           <>

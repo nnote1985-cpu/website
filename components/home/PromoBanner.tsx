@@ -31,11 +31,12 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
   if (!promos || promos.length === 0) return null;
 
   return (
-    <section className="relative z-10 overflow-hidden bg-[#1a2d6b] border-l-4 border-l-[#e53935] border-b border-b-[#0f1e4a]">
+    <section className="relative z-10 overflow-hidden bg-white border-b border-slate-200">
       {/* Diagonal shine stripe */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-4 -bottom-4 w-16 bg-white/[0.04] rotate-[20deg]" style={{ left: '38%' }} />
-        <div className="absolute -top-4 -bottom-4 w-6 bg-white/[0.03] rotate-[20deg]" style={{ left: '42%' }} />
+        <div className="absolute -top-4 -bottom-4 w-20 bg-[#e53935]/[0.04] rotate-[20deg]" style={{ left: '38%' }} />
+        <div className="absolute -top-4 -bottom-4 w-8 bg-[#1a2d6b]/[0.035] rotate-[20deg]" style={{ left: '42%' }} />
+        <div className="absolute inset-y-0 left-0 w-1 bg-[#e53935]" />
       </div>
 
       <div className="relative w-full max-w-7xl mx-auto px-6">
@@ -51,24 +52,24 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
                 }`}
               >
                 {/* Left: badge + title */}
-                <div className="text-center md:text-left text-white min-w-0 flex-1">
-                  <div className="inline-flex items-center gap-2 mb-1.5 px-2.5 py-1 rounded-full bg-[#e53935]/15 border border-[#e53935]/30">
+                <div className="text-center md:text-left text-[#1a2d6b] min-w-0 flex-1">
+                  <div className="inline-flex items-center gap-2 mb-1.5 px-2.5 py-1 rounded-full bg-[#e53935]/10 border border-[#e53935]/20">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] animate-pulse shrink-0" />
-                    <span className="text-[#ff8a80] text-[9px] font-bold uppercase tracking-[0.25em]">
+                    <span className="text-[#e53935] text-[9px] font-bold uppercase tracking-[0.25em]">
                       Limited Promotion
                     </span>
                   </div>
                   <h2 className="text-lg md:text-xl font-bold tracking-tight truncate">{promo.title}</h2>
-                  <p className="text-blue-300/70 text-xs mt-0.5 truncate hidden md:block">{promo.subtitle}</p>
+                  <p className="text-slate-500 text-xs mt-0.5 truncate hidden md:block">{promo.subtitle}</p>
                 </div>
 
                 {/* Right: price + CTA */}
                 <div className="flex items-center gap-4 md:gap-6 shrink-0">
-                  <div className="hidden sm:block text-right border-r border-white/10 pr-5 md:pr-6">
-                    <span className="text-[9px] font-semibold text-blue-300/60 uppercase tracking-[0.2em] block mb-0.5">
+                  <div className="hidden sm:block text-right border-r border-slate-200 pr-5 md:pr-6">
+                    <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-[0.2em] block mb-0.5">
                       Starting From
                     </span>
-                    <span className="text-xl md:text-2xl font-black text-white">{promo.discount}</span>
+                    <span className="text-xl md:text-2xl font-black text-[#1a2d6b]">{promo.discount}</span>
                   </div>
                   <Link
                     href={promo.ctaUrl}
@@ -91,7 +92,7 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
                 key={i}
                 onClick={() => setCurrentIndex(i)}
                 className={`h-1 rounded-full transition-all duration-300 cursor-pointer ${
-                  i === currentIndex ? 'w-5 bg-[#e53935]' : 'w-1.5 bg-white/25 hover:bg-white/40'
+                  i === currentIndex ? 'w-5 bg-[#e53935]' : 'w-1.5 bg-slate-300 hover:bg-slate-400'
                 }`}
                 aria-label={`โปรโมชั่น ${i + 1}`}
               />

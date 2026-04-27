@@ -1,13 +1,19 @@
 import type { Metadata } from 'next';
-import { Prompt } from 'next/font/google'; // 📍 1. เปลี่ยน Import เป็น Prompt
+import { Anuphan, Prompt } from 'next/font/google';
 import './globals.css';
 import { supabaseAdmin } from '@/lib/supabase';
 import FacebookPixel from '@/components/FacebookPixel';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 
-// 📍 2. ตั้งค่าฟอนต์ Prompt
-const promptFont = Prompt({
+const anuphanFont = Anuphan({
   subsets: ['thai', 'latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-anuphan',
+  display: 'swap',
+});
+
+const promptFont = Prompt({
+  subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-prompt',
   display: 'swap',
@@ -93,7 +99,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     // 📍 3. เปลี่ยนตัวแปรฟอนต์ที่ html และ body
-    <html lang="th" className={promptFont.variable} data-scroll-behavior="smooth">
+    <html lang="th" className={`${anuphanFont.variable} ${promptFont.variable}`} data-scroll-behavior="smooth">
       <head>
         <meta name="theme-color" content="#1a2d6b" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -127,7 +133,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           }}
         />
       </head>
-      <body className={`${promptFont.className} antialiased`}>
+      <body className="antialiased">
         {gaId && <GoogleAnalytics gaId={gaId} />}
         {pixelId && <FacebookPixel pixelId={pixelId} />}
         {children}
