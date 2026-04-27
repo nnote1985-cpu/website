@@ -71,24 +71,33 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
       initial="hidden"
       animate="show"
       transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
-      className="bg-white rounded-2xl overflow-hidden shadow-[0_24px_70px_rgba(0,0,0,0.18)]"
+      className="bg-white rounded-2xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.12),_0_8px_32px_rgba(0,0,0,0.5),_0_32px_80px_rgba(0,0,0,0.4),_0_0_60px_rgba(255,255,255,0.04)]"
     >
-      <div className="h-[3px] w-full bg-gradient-to-r from-[#e53935] via-[#e53935] to-[#e53935]" />
+      {/* Top accent — gradient với 2 ชั้น */}
+      <div className="h-[4px] w-full bg-gradient-to-r from-[#b71c1c] via-[#e53935] to-[#b71c1c]" />
+
       <div className="p-6 md:p-7">
-        <div className="mb-7">
-          <p className={`${mont.className} text-[#e53935] text-[9px] font-semibold uppercase tracking-[0.35em] mb-3`}>
-            Private Appointment
-          </p>
-          <h3 className={`${mont.className} text-2xl md:text-3xl font-bold mb-2 text-[#1a2d6b]`}>
+        <div className="mb-6">
+          {/* Badge row */}
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] animate-pulse" />
+            <p className={`${mont.className} text-[#e53935] text-[9px] font-semibold uppercase tracking-[0.4em]`}>
+              Private Appointment
+            </p>
+          </div>
+          <h3 className={`${mont.className} text-2xl md:text-3xl font-bold text-[#1a2d6b] leading-tight`}>
             Register Now
           </h3>
+          <div className="w-10 h-0.5 bg-[#e53935] mt-2 mb-3" />
           <p className="text-slate-400 text-sm leading-relaxed">
             ลงทะเบียนรับข้อมูล ราคา และโปรโมชันล่าสุดของ {project.name}
           </p>
         </div>
+
         <RegisterForm projectName={project.name} projectSlug={project.slug} />
-        <div className="mt-6 pt-5 border-t border-[#e53935]/20 flex items-center gap-4">
-          <div className="w-11 h-11 rounded-xl bg-[#e53935]/10 border border-[#e53935]/30 flex items-center justify-center shrink-0">
+
+        <div className="mt-6 pt-5 border-t border-slate-100 flex items-center gap-4">
+          <div className="w-11 h-11 rounded-xl bg-[#e53935]/10 border border-[#e53935]/20 flex items-center justify-center shrink-0">
             <Phone size={17} className="text-[#e53935]" />
           </div>
           <div>

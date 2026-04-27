@@ -21,69 +21,83 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    // ถ้ามีโปรโมชั่นแค่ 1 อัน หรือไม่มีเลย ไม่ต้องให้มันสไลด์
     if (!promos || promos.length <= 1) return;
-
-    // 📍 แก้จุดที่ 1: เพิ่มเวลาเป็น 8 วินาที เพื่อให้อ่านรายละเอียดได้ทัน
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % promos.length);
-    }, 8000); 
-
+      setCurrentIndex((prev) => (prev + 1) % promos.length);
+    }, 8000);
     return () => clearInterval(interval);
   }, [promos]);
 
   if (!promos || promos.length === 0) return null;
 
   return (
-    <section className="relative z-10 bg-[#1a2d6b] shadow-md border-b border-[#0f1e4a] overflow-hidden">
-      {/* 📍 แก้จุดที่ 2: ล็อกความสูง (Fixed Height) เพื่อไม่ให้หน้าเว็บกระตุกเวลาเฟดเปลี่ยนรูป */}
-      <div className="relative w-full max-w-7xl mx-auto px-6 h-[160px] sm:h-[130px] md:h-[110px]">
-        {promos.map((promo, index) => {
-          const isActive = index === currentIndex;
-          
-          return (
-            <div
-              key={promo.id}
-              // 📍 แก้จุดที่ 3: ใช้ top-1/2 -translate-y-1/2 เพื่อให้อยู่ตรงกลางเสมอ และใช้ duration-[1500ms] ให้ค่อยๆ ละลายซ้อนกัน (ไม่มีการเด้งขึ้นลงแล้ว)
-              className={`absolute inset-x-6 top-1/2 -translate-y-1/2 flex flex-col md:flex-row items-center justify-between gap-4 transition-opacity duration-[1500ms] ease-in-out ${
-                isActive 
-                  ? 'opacity-100 z-10' 
-                  : 'opacity-0 z-0 pointer-events-none' 
-              }`}
-            >
-              {/* ข้อความฝั่งซ้าย */}
-              <div className="text-center md:text-left text-white flex-1">
-                <div className="flex items-center justify-center md:justify-start gap-2 mb-1">
-                  {/* 📍 เปลี่ยนสีแดงจากรูปตัวอย่าง (#e53935) แทนที่สีส้มเดิม */}
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#e53935]" />
-                  {/* 📍 เปลี่ยนสีตัวหนังสือเป็นสีแดงอ่อน (#ffab91) เพื่อให้อ่านง่ายบนพื้นสีน้ำเงิน */}
-                  <span className="text-[#ffab91] text-[10px] font-bold uppercase tracking-widest">
-                    {promos.length > 1 ? `Special Offer ${index + 1}/${promos.length}` : 'Limited Promotion'}
-                  </span>
+    <section className="relative z-10 overflow-hidden bg-[#1a2d6b] border-l-4 border-l-[#e53935] border-b border-b-[#0f1e4a]">
+      {/* Diagonal shine stripe */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-4 -bottom-4 w-16 bg-white/[0.04] rotate-[20deg]" style={{ left: '38%' }} />
+        <div className="absolute -top-4 -bottom-4 w-6 bg-white/[0.03] rotate-[20deg]" style={{ left: '42%' }} />
+      </div>
+
+      <div className="relative w-full max-w-7xl mx-auto px-6">
+        {/* Promo slides */}
+        <div className="relative h-[140px] sm:h-[110px] md:h-[88px]">
+          {promos.map((promo, index) => {
+            const isActive = index === currentIndex;
+            return (
+              <div
+                key={promo.id}
+                className={`absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6 transition-opacity duration-[1500ms] ease-in-out ${
+                  isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                }`}
+              >
+                {/* Left: badge + title */}
+                <div className="text-center md:text-left text-white min-w-0 flex-1">
+                  <div className="inline-flex items-center gap-2 mb-1.5 px-2.5 py-1 rounded-full bg-[#e53935]/15 border border-[#e53935]/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] animate-pulse shrink-0" />
+                    <span className="text-[#ff8a80] text-[9px] font-bold uppercase tracking-[0.25em]">
+                      Limited Promotion
+                    </span>
+                  </div>
+                  <h2 className="text-lg md:text-xl font-bold tracking-tight truncate">{promo.title}</h2>
+                  <p className="text-blue-300/70 text-xs mt-0.5 truncate hidden md:block">{promo.subtitle}</p>
                 </div>
-                <h2 className="text-xl md:text-2xl font-bold tracking-tight truncate">{promo.title}</h2>
-                <p className="text-sm text-blue-200 mt-0.5 truncate hidden md:block">{promo.subtitle}</p>
-              </div>
-              
-              {/* ราคาและปุ่มฝั่งขวา */}
-              <div className="flex items-center justify-center md:justify-end gap-4 md:gap-6 flex-shrink-0">
-                <div className="text-right hidden sm:block border-r border-blue-800/50 pr-6">
-                  <span className="text-[10px] font-medium text-blue-300 uppercase tracking-widest block mb-0.5">
-                    Starting From
-                  </span>
-                  <span className="text-xl font-bold text-white">{promo.discount}</span>
+
+                {/* Right: price + CTA */}
+                <div className="flex items-center gap-4 md:gap-6 shrink-0">
+                  <div className="hidden sm:block text-right border-r border-white/10 pr-5 md:pr-6">
+                    <span className="text-[9px] font-semibold text-blue-300/60 uppercase tracking-[0.2em] block mb-0.5">
+                      Starting From
+                    </span>
+                    <span className="text-xl md:text-2xl font-black text-white">{promo.discount}</span>
+                  </div>
+                  <Link
+                    href={promo.ctaUrl}
+                    className="flex items-center gap-2 bg-[#e53935] hover:bg-[#c62828] text-white font-bold px-5 py-2.5 rounded-full text-sm whitespace-nowrap transition-all duration-200 shadow-[0_4px_14px_rgba(229,57,53,0.35)] hover:shadow-[0_4px_20px_rgba(229,57,53,0.5)] group"
+                  >
+                    {promo.ctaText}
+                    <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
+                  </Link>
                 </div>
-                {/* 📍 เปลี่ยนสีพื้นหลังปุ่มเป็นสีแดง (#e53935) และ hover เป็นสีแดงเข้ม (#c62828) */}
-                <Link
-                  href={promo.ctaUrl}
-                  className="flex items-center gap-2 bg-[#e53935] text-white font-bold px-6 py-2.5 rounded-lg hover:bg-[#c62828] transition-colors text-sm whitespace-nowrap shadow-sm"
-                >
-                  {promo.ctaText} <ArrowRight size={16} />
-                </Link>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+
+        {/* Dot navigation */}
+        {promos.length > 1 && (
+          <div className="flex justify-center gap-1.5 pb-2.5 -mt-1">
+            {promos.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className={`h-1 rounded-full transition-all duration-300 cursor-pointer ${
+                  i === currentIndex ? 'w-5 bg-[#e53935]' : 'w-1.5 bg-white/25 hover:bg-white/40'
+                }`}
+                aria-label={`โปรโมชั่น ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

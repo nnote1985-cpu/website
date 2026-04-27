@@ -470,7 +470,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               </p>
             </motion.div>
 
-            <motion.div variants={fadeUp} className="flex w-full gap-2 overflow-x-auto rounded-2xl border border-[#e53935]/20 bg-white p-1.5 shadow-sm lg:w-auto">
+            <motion.div variants={fadeUp} className="inline-flex bg-white p-1.5 rounded-full shadow-sm border overflow-x-auto max-w-full no-scrollbar">
               {[
                 { key: 'concept', label: 'แนวคิดโครงการ' },
                 { key: 'factsheet', label: 'Factsheet' },
@@ -479,10 +479,10 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 <button
                   key={tab.key}
                   onClick={() => setInfoTab(tab.key as 'concept' | 'factsheet' | 'facilities')}
-                  className={`min-w-fit rounded-xl px-5 py-3 text-xs md:text-sm font-black transition-all ${
+                  className={`min-w-fit rounded-full px-5 py-3 text-xs md:text-sm font-black transition-all whitespace-nowrap ${
                     infoTab === tab.key
                       ? 'bg-[#1a2d6b] text-white shadow-md'
-                      : 'text-slate-500 hover:bg-[#faf8f5] hover:text-[#1a2d6b]'
+                      : 'text-slate-500 hover:text-[#1a2d6b]'
                   }`}
                 >
                   {tab.label}
@@ -630,22 +630,22 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           {/* 📍 แถบเลือกหมวดหมู่ Perspective / Facility / Room */}
           {/* แก้ไข Logic การแสดงผล Tab: ตรวจสอบข้อมูล gallery ให้ถูกต้องสำหรับทุกโครงการ */}
           {project.gallery && !Array.isArray(project.gallery) && typeof project.gallery === 'object' && (
-            <div className="inline-flex bg-[#faf8f5] p-1.5 rounded-2xl border border-[#e53935]/20 overflow-x-auto max-w-full no-scrollbar">
+            <div className="inline-flex bg-white p-1.5 rounded-full shadow-sm border overflow-x-auto max-w-full no-scrollbar">
               <button
                 onClick={() => { setActiveGalleryTab('perspective'); setActiveImg(0); }}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'perspective' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'perspective' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Sparkles size={14} /> Perspective
               </button>
               <button
                 onClick={() => { setActiveGalleryTab('facility'); setActiveImg(0); }}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'facility' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'facility' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Building2 size={14} /> Facility
               </button>
               <button
                 onClick={() => { setActiveGalleryTab('room'); setActiveImg(0); }}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Home size={14} /> Room
               </button>

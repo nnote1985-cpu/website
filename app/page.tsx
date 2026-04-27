@@ -18,7 +18,7 @@ export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'ASAKAN | คอนโดมิเนียมคุณภาพ ราคาเข้าถึงได้ กรุงเทพฯ',
-  description: 'ASAKAN ผู้พัฒนาอสังหาริมทรัพย์ชั้นนำ กว่า 21 ปี คอนโดมิเนียมคุณภาพสูง ราคาเริ่มต้น 1.21 ล้านบาท ย่านรามคำแหง พหลโยธิน กรุงเทพฯ',
+  description: 'ASAKAN ผู้พัฒนาอสังหาริมทรัพย์ชั้นนำ กว่า 25 ปี คอนโดมิเนียมคุณภาพสูง ราคาเริ่มต้น 0.9 ล้านบาท ย่านรามคำแหง พหลโยธิน กรุงเทพฯ',
   keywords: 'ASAKAN, คอนโด, คอนโดมิเนียม, รามคำแหง, พหลโยธิน, กรุงเทพ, อสังหาริมทรัพย์, ราคาถูก',
 };
 
@@ -149,7 +149,7 @@ export default async function HomePage() {
             <div className="text-center mt-12 md:hidden">
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 bg-white border-2 border-slate-900 text-slate-900 font-bold px-10 py-4 rounded-xl"
+                className="inline-flex items-center gap-2 bg-white border-2 border-[#1a2d6b] text-[#1a2d6b] font-bold px-10 py-4 rounded-xl hover:bg-[#1a2d6b] hover:text-white transition-all"
               >
                 ดูโครงการทั้งหมด <ArrowRight size={18} />
               </Link>
@@ -171,7 +171,7 @@ export default async function HomePage() {
                     <span className="text-[#e53935]">ASAKAN?</span>
                   </h2>
                   <p className="text-slate-500 text-lg leading-relaxed mb-8">
-                    กว่า 21 ปีที่เราสร้างสรรค์ที่อยู่อาศัยบนมาตรฐานความคุ้มค่าและความมั่นคง
+                    กว่า 25 ปีที่เราสร้างสรรค์ที่อยู่อาศัยบนมาตรฐานความคุ้มค่าและความมั่นคง
                     เพื่อส่งมอบคุณภาพชีวิตที่ดีที่สุดให้กับคุณ
                   </p>
                   <div className="hidden lg:block w-full h-[1px] bg-slate-100" />
@@ -180,9 +180,9 @@ export default async function HomePage() {
                 {/* ฝั่งขวา: รายการจุดเด่น */}
                 <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
                   {[
-                    { icon: <Home size={32} strokeWidth={1.5} />, title: '2,500+ Units Delivered', desc: 'ความไว้วางใจจากครอบครัวอาซากันที่ส่งมอบแล้วทั่วกรุงเทพฯ' },
+                    { icon: <Home size={32} strokeWidth={1.5} />, title: '2,500+ Units Delivered', desc: 'ความไว้วางใจจากครอบครัวอัสสกาญจน์ที่ส่งมอบแล้วทั่วกรุงเทพฯ' },
                     { icon: <Star size={32} strokeWidth={1.5} />, title: 'Premium Quality', desc: 'คัดสรรวัสดุมาตรฐานสากล พร้อมทีมงานตรวจรับมอบมืออาชีพ' },
-                    { icon: <Shield size={32} strokeWidth={1.5} />, title: '21 Years Heritage', desc: 'รากฐานที่แข็งแกร่งและประสบการณ์ที่สั่งสมมายาวนานอย่างยั่งยืน' },
+                    { icon: <Shield size={32} strokeWidth={1.5} />, title: '25 Years Heritage', desc: 'รากฐานที่แข็งแกร่งและประสบการณ์ที่สั่งสมมายาวนานอย่างยั่งยืน' },
                     { icon: <TrendingUp size={32} strokeWidth={1.5} />, title: 'Prime Location', desc: 'เน้นทำเลศักยภาพใกล้รถไฟฟ้า เพื่อการอยู่อาศัยและการลงทุน' },
                   ].map((item, index) => (
                     <div key={item.title} className="group relative p-8 rounded-3xl transition-all duration-500 hover:bg-[#f0f4ff] border border-transparent hover:border-[#1a2d6b]/10 hover:shadow-xl hover:shadow-[#1a2d6b]/5">
@@ -285,7 +285,7 @@ export default async function HomePage() {
                   },
                   {
                     q: 'คอนโด ASAKAN ราคาเริ่มต้นเท่าไหร่?',
-                    a: 'ราคาเริ่มต้นอยู่ประมาณ 1.21 ล้านบาท โดยราคาและขนาดห้องขึ้นอยู่กับแต่ละโครงการและโปรโมชั่นในช่วงเวลานั้น',
+                    a: 'ราคาเริ่มต้นอยู่ประมาณ 9 แสนบาท โดยราคาและขนาดห้องขึ้นอยู่กับแต่ละโครงการและโปรโมชั่นในช่วงเวลานั้น',
                   },
                   {
                     q: 'ติดต่อฝ่ายขาย ASAKAN ได้อย่างไร?',

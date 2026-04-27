@@ -28,7 +28,7 @@ function MiniCalculator() {
           <input
             type="range" min={500000} max={10000000} step={100000} value={loan}
             onChange={(e) => setLoan(+e.target.value)}
-            className="w-full h-3 accent-[#e53935] cursor-pointer rounded-full"
+            className="range-slider"
           />
         </div>
 

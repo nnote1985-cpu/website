@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Phone, Plus, Calculator, ClipboardList } from 'lucide-react';
+import { Phone, Plus, Calculator } from 'lucide-react';
 
 interface Props {
   phone?: string;
@@ -16,7 +16,6 @@ function MiniCalculator() {
   const r = rate / 100 / 12;
   const n = years * 12;
   const monthly = r === 0 ? loan / n : (loan * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-  const loanPct = ((loan - 500000) / 9500000) * 100;
 
   return (
     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-3">
@@ -26,28 +25,15 @@ function MiniCalculator() {
       </div>
       <div className="space-y-2.5">
         <div>
-          <div className="flex justify-between items-baseline mb-3">
+          <div className="flex justify-between mb-1">
             <span className="text-[11px] text-slate-400">วงเงินกู้</span>
-            <span className="text-xl font-black text-[#1a2d6b] leading-none">{(loan / 1000000).toFixed(1)} <span className="text-sm font-bold text-slate-400">ล้านบาท</span></span>
+            <span className="text-[11px] font-bold text-[#1a2d6b]">{(loan / 1000000).toFixed(1)}M</span>
           </div>
-          {/* Custom slider — bypasses mobile browser native rendering */}
-          <div className="relative h-10 flex items-center">
-            {/* Track */}
-            <div className="absolute inset-x-0 h-2.5 bg-slate-200 rounded-full overflow-hidden">
-              <div className="h-full bg-[#1a2d6b] rounded-full" style={{ width: `${loanPct}%` }} />
-            </div>
-            {/* Invisible native input for touch/drag interaction */}
-            <input
-              type="range" min={500000} max={10000000} step={100000} value={loan}
-              onChange={(e) => setLoan(+e.target.value)}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            />
-            {/* Custom thumb */}
-            <div
-              className="absolute w-6 h-6 bg-white rounded-full border-2 border-slate-300 shadow-md pointer-events-none"
-              style={{ left: `calc(${loanPct}% - ${loanPct * 0.24}px)` }}
-            />
-          </div>
+          <input
+            type="range" min={500000} max={10000000} step={100000} value={loan}
+            onChange={(e) => setLoan(+e.target.value)}
+            className="w-full h-1.5 accent-[#e53935]"
+          />
         </div>
         <div className="grid grid-cols-2 gap-2">
           <div>
@@ -83,14 +69,6 @@ function MiniCalculator() {
 export default function FloatingProjectCTA({ phone, lineUrl }: Props) {
   const [expanded, setExpanded] = useState(false);
 
-  const scrollToRegister = () => {
-    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-register-form="true"]'));
-    const visibleTarget = targets.find((el) => el.offsetParent !== null || el.getClientRects().length > 0);
-    const target = visibleTarget ?? document.getElementById('register');
-    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setExpanded(false);
-  };
-
   const telHref = phone ? `tel:${phone.replace(/\D/g, '')}` : null;
   const lineHref = lineUrl
     ? lineUrl.startsWith('http')
@@ -114,13 +92,6 @@ export default function FloatingProjectCTA({ phone, lineUrl }: Props) {
         {/* Expanded panel */}
         {expanded && (
           <div className="px-4 pb-2 animate-in slide-in-from-bottom-4 fade-in duration-200">
-            <button
-              onClick={scrollToRegister}
-              className="w-full flex items-center justify-center gap-2 bg-[#e53935] text-white font-bold text-sm py-3.5 rounded-2xl shadow-sm active:scale-95 transition-transform mb-2"
-            >
-              <ClipboardList size={16} />
-              ลงทะเบียนรับข้อมูล / Register Now
-            </button>
             <MiniCalculator />
             <div className="grid grid-cols-2 gap-2 mb-2">
               {telHref && (
@@ -197,12 +168,6 @@ export default function FloatingProjectCTA({ phone, lineUrl }: Props) {
         {expanded && (
           <div className="flex flex-col gap-2 items-end">
             <MiniCalculator />
-            <button
-              onClick={scrollToRegister}
-              className="flex items-center gap-2 bg-[#e53935] text-white font-semibold text-sm px-4 py-2.5 rounded-full shadow-lg hover:bg-[#c62828] transition-all whitespace-nowrap"
-            >
-              <ClipboardList size={15} /> Register Now
-            </button>
             {telHref && (
               <a href={telHref} className="flex items-center gap-2 bg-white border border-gray-200 text-gray-700 font-semibold text-sm px-4 py-2.5 rounded-full shadow-lg hover:shadow-xl transition-all whitespace-nowrap">
                 <Phone size={15} className="text-[#e53935]" /> TEL

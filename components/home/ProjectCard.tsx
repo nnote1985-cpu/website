@@ -52,10 +52,12 @@ export default function ProjectCard({ project }: { project: Project }) {
 
         {/* Status Badge */}
         <div className="absolute top-3 left-3">
-          <span className={`inline-flex items-center px-2.5 py-1 rounded-sm text-[9px] font-bold uppercase tracking-widest bg-white/95 backdrop-blur-sm shadow-sm ${
-             project.status === 'presale' ? 'text-orange-600' : 'text-slate-800'
-          }`}>
-            <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${project.status === 'presale' ? 'bg-orange-500 animate-pulse' : 'bg-slate-400'}`} />
+          <span className="inline-flex items-center px-2.5 py-1 rounded-sm text-[9px] font-bold uppercase tracking-widest bg-white/95 backdrop-blur-sm shadow-sm text-slate-800">
+            <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
+              project.status === 'active' ? 'bg-green-500 animate-pulse' :
+              project.status === 'coming-soon' ? 'bg-[#e53935] animate-pulse' :
+              'bg-slate-400'
+            }`} />
             {statusLabel}
           </span>
         </div>
