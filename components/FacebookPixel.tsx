@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Script from 'next/script';
 import { Suspense } from 'react';
@@ -15,8 +15,14 @@ declare global {
 function PixelPageView() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const hasMounted = useRef(false);
 
   useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return;
+    }
+
     if (typeof window.fbq === 'function') {
       window.fbq('track', 'PageView');
     }

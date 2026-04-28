@@ -2,7 +2,7 @@
 
 import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, Suspense } from 'react';
+import { useEffect, Suspense, useRef } from 'react';
 
 declare global {
   interface Window {
@@ -14,8 +14,14 @@ declare global {
 function GAPageView({ gaId }: { gaId: string }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const hasMounted = useRef(false);
 
   useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return;
+    }
+
     if (typeof window.gtag === 'function') {
       window.gtag('config', gaId, {
         page_path: pathname + (searchParams.toString() ? `?${searchParams.toString()}` : ''),

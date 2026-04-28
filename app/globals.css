@@ -180,6 +180,17 @@ body {
     0 5px 12px rgba(0, 0, 0, 0.28);
 }
 
+.number-field-input::-webkit-outer-spin-button,
+.number-field-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.number-field-input {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
 @keyframes marquee {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }

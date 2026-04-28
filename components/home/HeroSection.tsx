@@ -15,8 +15,8 @@ interface HeroProps {
 }
 
 const FALLBACK_IMAGES = [
-  "https://images.unsplash.com/photo-1681951093228-47c246e9d016?auto=format&fit=crop&q=80&w=2000",
-  "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=2000",
+  '/images/fallback.webp',
+  '/images/fallback1.webp',
 ];
 
 const STATS = [

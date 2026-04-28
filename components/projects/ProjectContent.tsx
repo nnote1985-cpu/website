@@ -21,7 +21,12 @@ interface FacilityItem {
 }
 
 type GalleryTab = 'perspective' | 'facility' | 'room';
-type GalleryData = string[] | Partial<Record<GalleryTab, string[]>>;
+type GalleryGroup = {
+  label: string;
+  images: string[];
+};
+type GalleryTabData = string[] | GalleryGroup[];
+type GalleryData = string[] | Partial<Record<GalleryTab, GalleryTabData>>;
 
 interface ProjectContentData {
   name: string;
@@ -45,6 +50,10 @@ interface ProjectContentData {
   type?: string;
   units?: number | string;
   videoUrl?: string;
+}
+
+function isGalleryGroupArray(value: GalleryTabData | undefined): value is GalleryGroup[] {
+  return Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && 'images' in value[0];
 }
 
 function buildFaqs(project: ProjectContentData) {
@@ -161,6 +170,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   // 📍 STATE สำหรับ GALLERY (เพิ่ม Tab หมวดหมู่)
   // ==========================================
   const [activeGalleryTab, setActiveGalleryTab] = useState<GalleryTab>('perspective');
+  const [activeGalleryGroup, setActiveGalleryGroup] = useState(0);
   const [activeImg, setActiveImg] = useState(0);
   const [isGalleryFullscreen, setIsGalleryFullscreen] = useState(false);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
@@ -191,7 +201,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
 };
 
   // 📍 Logic การดึงรูป: แก้ไขให้ดึงจาก Object หมวดหมู่ได้แม่นยำขึ้น
-  const getRawGallery = useCallback(() => {
+  const getGalleryTabData = useCallback((): GalleryTabData => {
     if (!project.gallery) return [];
     
     // ถ้าข้อมูลเป็น Object แบ่งหมวดหมู่ (perspective, facility, room)
@@ -203,13 +213,19 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
     return Array.isArray(project.gallery) ? project.gallery : [];
   }, [project.gallery, activeGalleryTab]);
 
-  const currentRawGallery: string[] = getRawGallery();
+  const currentGalleryTabData = getGalleryTabData();
+  const currentGalleryGroups = isGalleryGroupArray(currentGalleryTabData) ? currentGalleryTabData : [];
+  const safeActiveGalleryGroup = currentGalleryGroups.length > 0 && activeGalleryGroup >= currentGalleryGroups.length ? 0 : activeGalleryGroup;
+  const currentRawGallery: string[] = currentGalleryGroups.length > 0
+    ? currentGalleryGroups[safeActiveGalleryGroup]?.images || []
+    : currentGalleryTabData as string[];
   
   // ปรับ Logic การกรอง: ให้รองรับรูปภาพที่กำลังโหลดได้ดีขึ้น
   const validGallery = currentRawGallery.filter(
   (img: string) => img && typeof img === 'string' && img.trim() !== ''
 );
   const hasGallery = validGallery.length > 0;
+  const validGalleryLength = validGallery.length;
   const safeActiveImg = activeImg >= validGallery.length ? 0 : activeImg;
   const fallbackImage = project.image || '/logo.png';
   
@@ -241,16 +257,16 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   // 📍 ฟังก์ชันควบคุม
   // ==========================================
   const handleGalleryNext = useCallback(() => {
-    if (validGallery.length <= 1) return;
+    if (validGalleryLength <= 1) return;
     setSlideDirection('right');
-    setActiveImg((prev) => (prev + 1) % validGallery.length);
-  }, [validGallery.length]);
+    setActiveImg((prev) => (prev + 1) % validGalleryLength);
+  }, [validGalleryLength]);
 
   const handleGalleryPrev = useCallback(() => {
-    if (validGallery.length <= 1) return;
+    if (validGalleryLength <= 1) return;
     setSlideDirection('left');
-    setActiveImg((prev) => (prev - 1 + validGallery.length) % validGallery.length);
-  }, [validGallery.length]);
+    setActiveImg((prev) => (prev - 1 + validGalleryLength) % validGalleryLength);
+  }, [validGalleryLength]);
 
   const handlePlanNext = useCallback(() => {
     const arr = activeTab === 'room' ? project.roomPlans : project.floorPlans;
@@ -368,7 +384,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             <div className="flex gap-2 md:gap-3 overflow-x-auto max-w-4xl px-4 pb-4 no-scrollbar">
               {validGallery.map((img: string, i: number) => (
   <div 
-    key={`${activeGalleryTab}-${img}`}
+    key={`${activeGalleryTab}-${safeActiveGalleryGroup}-${img}`}
     onClick={() => setActiveImg(i)} 
     className={`w-16 h-12 md:w-24 md:h-16 shrink-0 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
       safeActiveImg === i 
@@ -632,23 +648,40 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           {project.gallery && !Array.isArray(project.gallery) && typeof project.gallery === 'object' && (
             <div className="inline-flex bg-white p-1.5 rounded-full shadow-sm border overflow-x-auto max-w-full no-scrollbar">
               <button
-                onClick={() => { setActiveGalleryTab('perspective'); setActiveImg(0); }}
+                onClick={() => { setActiveGalleryTab('perspective'); setActiveGalleryGroup(0); setActiveImg(0); }}
                 className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'perspective' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Sparkles size={14} /> Perspective
               </button>
               <button
-                onClick={() => { setActiveGalleryTab('facility'); setActiveImg(0); }}
+                onClick={() => { setActiveGalleryTab('facility'); setActiveGalleryGroup(0); setActiveImg(0); }}
                 className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'facility' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Building2 size={14} /> Facility
               </button>
               <button
-                onClick={() => { setActiveGalleryTab('room'); setActiveImg(0); }}
+                onClick={() => { setActiveGalleryTab('room'); setActiveGalleryGroup(0); setActiveImg(0); }}
                 className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Home size={14} /> Room
               </button>
+            </div>
+          )}
+          {currentGalleryGroups.length > 0 && (
+            <div className="mt-5 flex justify-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+              {currentGalleryGroups.map((group, index) => (
+                <button
+                  key={group.label}
+                  onClick={() => { setActiveGalleryGroup(index); setActiveImg(0); }}
+                  className={`shrink-0 rounded-full border px-4 py-2 text-xs font-bold transition-all ${
+                    safeActiveGalleryGroup === index
+                      ? 'border-[#e53935] bg-[#e53935] text-white shadow-md shadow-[#e53935]/20'
+                      : 'border-slate-200 bg-white text-slate-500 hover:border-[#1a2d6b]/30 hover:text-[#1a2d6b]'
+                  }`}
+                >
+                  {group.label}
+                </button>
+              ))}
             </div>
           )}
         </motion.div>
@@ -715,7 +748,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               {validGallery.map((img: string, i: number) => (
                 <div 
                   // 📍 แก้ไข Key ที่ Thumbnail: บังคับ Re-render เมื่อสลับหมวด
-                  key={`${activeGalleryTab}-${img}`}
+                  key={`${activeGalleryTab}-${safeActiveGalleryGroup}-${img}`}
                   onClick={() => setActiveImg(i)} 
                   className={`relative w-28 md:w-40 aspect-video shrink-0 rounded-xl overflow-hidden cursor-pointer border-[3px] transition-all duration-300 snap-center ${safeActiveImg === i ? 'border-[#e53935] scale-100 opacity-100 shadow-md' : 'border-transparent scale-95 opacity-60 hover:opacity-100 hover:scale-100'}`}
                 >

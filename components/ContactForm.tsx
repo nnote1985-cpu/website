@@ -17,11 +17,17 @@ export default function ContactForm() {
         body: JSON.stringify(form),
       });
       if (res.ok) {
+        const resData = await res.json();
         setStatus('success');
         setForm({ name: '', email: '', phone: '', message: '' });
         // Fire Facebook Pixel lead event
         if (typeof window !== 'undefined' && typeof (window as Window & { fbq?: (...args: unknown[]) => void }).fbq === 'function') {
-          (window as Window & { fbq: (...args: unknown[]) => void }).fbq('track', 'Lead');
+          (window as Window & { fbq: (...args: unknown[]) => void }).fbq(
+            'track',
+            'Lead',
+            {},
+            { eventID: resData.eventId }
+          );
         }
       } else {
         setStatus('error');

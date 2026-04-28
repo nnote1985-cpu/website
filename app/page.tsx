@@ -278,7 +278,7 @@ export default async function HomePage() {
         )}
 
         {/* 9. AEO QUICK ANSWERS */}
-        <CollapsibleSection label="คำถามที่ถามบ่อย" alwaysCollapsible>
+        <CollapsibleSection label="คำถามที่พบบ่อย" alwaysCollapsible>
           <section className="py-12 bg-slate-50 border-t border-slate-100">
             <div className="max-w-5xl mx-auto px-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

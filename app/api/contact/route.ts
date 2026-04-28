@@ -109,7 +109,7 @@ export async function POST(req: NextRequest) {
     // ยิง Facebook CAPI Lead event (server-side)
     const globalCapiToken = process.env.FB_CAPI_ACCESS_TOKEN;
     const globalCapiPixelId = process.env.FB_CAPI_PIXEL_ID;
-    let capiEventId: string | undefined;
+    const capiEventId = crypto.randomUUID();
 
     const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || '';
     const clientUserAgent = req.headers.get('user-agent') || '';
@@ -138,8 +138,11 @@ export async function POST(req: NextRequest) {
           ...capiBase,
           pixelId: globalCapiPixelId,
           accessToken: globalCapiToken,
+          eventId: capiEventId,
         });
-        capiEventId = capiResult.eventId;
+        if (capiResult.eventId !== capiEventId) {
+          console.warn('[CAPI Global] unexpected event_id:', capiResult.eventId);
+        }
       } catch (e) {
         console.error('[CAPI Global] failed:', e);
       }

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { ArrowRight, Calculator, Phone } from 'lucide-react';
+import { ArrowRight, Calculator, Minus, Phone, Plus } from 'lucide-react';
 import { projectUrl } from '@/lib/projectUrl';
 
 type Mode = 'monthly' | 'maxloan';
@@ -133,14 +133,16 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
             <>
               <div>
                 <label className={labelCls}>วงเงินกู้ (บาท)</label>
-                <input
-                  type="number"
+                <StepperNumberInput
                   value={loanAmount}
-                  onChange={(e) => {
-                    setLoanAmount(+e.target.value);
+                  min={500000}
+                  max={10000000}
+                  step={100000}
+                  inputClassName={inputCls}
+                  onChange={(value) => {
+                    setLoanAmount(value);
                     setShowRecommendations(false);
                   }}
-                  className={inputCls}
                 />
                 <input
                   type="range"
@@ -167,9 +169,13 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className={labelCls}>ดอกเบี้ย (% ต่อปี)</label>
-                  <input type="number" step="0.1" value={interest}
-                    onChange={(e) => setInterest(+e.target.value)}
-                    className={inputCls}
+                  <StepperNumberInput
+                    value={interest}
+                    min={0}
+                    max={15}
+                    step={0.1}
+                    inputClassName={inputCls}
+                    onChange={setInterest}
                   />
                 </div>
                 <div>
@@ -197,12 +203,16 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
             <>
               <div>
                 <label className={labelCls}>รายได้ต่อเดือน (บาท)</label>
-                <input type="number" value={monthlyIncome}
-                  onChange={(e) => {
-                    setMonthlyIncome(+e.target.value);
+                <StepperNumberInput
+                  value={monthlyIncome}
+                  min={10000}
+                  max={200000}
+                  step={5000}
+                  inputClassName={inputCls}
+                  onChange={(value) => {
+                    setMonthlyIncome(value);
                     setShowRecommendations(false);
                   }}
-                  className={inputCls}
                 />
                 <CustomSlider
                   value={monthlyIncome}
@@ -220,9 +230,13 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className={labelCls}>ดอกเบี้ย (% ต่อปี)</label>
-                  <input type="number" step="0.1" value={maxInterest}
-                    onChange={(e) => setMaxInterest(+e.target.value)}
-                    className={inputCls}
+                  <StepperNumberInput
+                    value={maxInterest}
+                    min={0}
+                    max={15}
+                    step={0.1}
+                    inputClassName={inputCls}
+                    onChange={setMaxInterest}
                   />
                 </div>
                 <div>
@@ -298,6 +312,64 @@ function ResultSummary({
         >
           ดูโครงการตามงบ
           <ArrowRight size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+type StepperNumberInputProps = {
+  value: number;
+  min?: number;
+  max?: number;
+  step: number;
+  inputClassName: string;
+  onChange: (value: number) => void;
+};
+
+function clampValue(value: number, min?: number, max?: number) {
+  if (typeof min === 'number' && value < min) return min;
+  if (typeof max === 'number' && value > max) return max;
+  return value;
+}
+
+function StepperNumberInput({ value, min, max, step, inputClassName, onChange }: StepperNumberInputProps) {
+  function update(nextValue: number) {
+    const precision = step.toString().split('.')[1]?.length || 0;
+    const rounded = Number(nextValue.toFixed(precision));
+    onChange(clampValue(rounded, min, max));
+  }
+
+  return (
+    <div className="relative">
+      <input
+        type="number"
+        value={value}
+        min={min}
+        max={max}
+        step={step}
+        onChange={(e) => {
+          const nextValue = Number(e.target.value);
+          if (!Number.isNaN(nextValue)) onChange(clampValue(nextValue, min, max));
+        }}
+        className={`${inputClassName} number-field-input pr-16`}
+      />
+      <div className="absolute right-2 top-1/2 grid h-9 w-11 -translate-y-1/2 grid-cols-2 overflow-hidden rounded-full border border-white/12 bg-zinc-900/75 shadow-inner">
+        <button
+          type="button"
+          onClick={() => update(value - step)}
+          className="flex items-center justify-center text-white/55 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:bg-white/12"
+          aria-label="ลดค่า"
+        >
+          <Minus size={13} strokeWidth={2.4} />
+        </button>
+        <button
+          type="button"
+          onClick={() => update(value + step)}
+          className="flex items-center justify-center border-l border-white/10 text-white/55 transition-colors hover:bg-[#e53935] hover:text-white focus:outline-none focus-visible:bg-[#e53935]"
+          aria-label="เพิ่มค่า"
+        >
+          <Plus size={13} strokeWidth={2.4} />
         </button>
       </div>
     </div>

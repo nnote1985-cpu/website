@@ -18,34 +18,177 @@
     "parking": "45% (ไม่รวมซ้อนคัน)",
     "description": "คอนโดมิเนียม 14 ชั้น ใจกลางพหลโยธิน 59 ห่างจาก BTS พหล 59 เพียง 30 เมตร พร้อม Co-working Space, Clubhouse, สระว่ายน้ำขนาดใหญ่ และ Fitness Center ครบครัน",
     "descriptionEn": "14-story condominium at Phahol Yothin 59, only 30 meters from BTS Phahol 59.",
-    "features": ["สระว่ายน้ำขนาดใหญ่", "Fitness Center", "Co-working Space", "Clubhouse", "ระบบรักษาความปลอดภัย 4 ชั้น", "CCTV 24 ชั่วโมง", "ลิฟต์โดยสาร", "ที่จอดรถ 45%"],
-    "image": "/images/projects/elysium-phahol-59/main.jpg",
-    "heroImage": "/images/projects/elysium-phahol-59/hero.jpg",
-    "promoBanner": "/images/projects/elysium-phahol-59/promo.jpg",
+    "features": [
+      "สระว่ายน้ำขนาดใหญ่",
+      "Fitness Center",
+      "Co-working Space",
+      "Clubhouse",
+      "ระบบรักษาความปลอดภัย 4 ชั้น",
+      "CCTV 24 ชั่วโมง",
+      "ลิฟต์โดยสาร",
+      "ที่จอดรถ 45%"
+    ],
+    "image": "/images/projects/elysium-phahol-59/main.webp",
+    "heroImage": "/images/projects/elysium-phahol-59/hero.webp",
+    "promoBanner": "/images/projects/elysium-phahol-59/promo1.webp",
     "gallery": {
-  "perspective": [
-    "/images/projects/elysium-phahol-59/gallery/perspective/1.jpg",
-    "/images/projects/elysium-phahol-59/gallery/perspective/3.jpg"
-  ],
-  "facility": [
-    "/images/projects/elysium-phahol-59/gallery//facility/1.jpg",
-    "/images/projects/elysium-phahol-59/gallery/facility/2.jpg"
-  ],
-  "room": [
-    "/images/projects/elysium-phahol-59/gallery/room/1.jpg",
-    "/images/projects/elysium-phahol-59/gallery/room/3.jpg"
-  ]
-},
+      "perspective": [
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective1.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective2.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective3.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective4.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective5.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective6.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective7.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective8.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective9.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective10.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective11.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective12.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective13.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective14.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective15.webp",
+        "/images/projects/elysium-phahol-59/gallery/perspective/perspective16.webp"
+      ],
+      "facility": [
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities1.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities2.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities3.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities4.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities5.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities6.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities7.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities8.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities9.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities10.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities11.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities12.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities13.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities14.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities15.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities16.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities17.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities18.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities19.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities20.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities21.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities22.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities23.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities24.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities25.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities26.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities27.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities28.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities29.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities30.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities31.webp",
+        "/images/projects/elysium-phahol-59/gallery/facility/facilities32.webp"
+      ],
+      "room": [
+        {
+          "label": "25 sqm",
+          "images": [
+            "/images/projects/elysium-phahol-59/gallery/room/25%20sqm/1.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/25%20sqm/2.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/25%20sqm/3.webp"
+          ]
+        },
+        {
+          "label": "28.5 sqm",
+          "images": [
+            "/images/projects/elysium-phahol-59/gallery/room/28.5%20sqm/1.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/28.5%20sqm/2.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/28.5%20sqm/3.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/28.5%20sqm/4.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/28.5%20sqm/5.webp"
+          ]
+        },
+        {
+          "label": "34 sqm",
+          "images": [
+            "/images/projects/elysium-phahol-59/gallery/room/34%20sqm/1.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/34%20sqm/2.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/34%20sqm/3.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/34%20sqm/4.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/34%20sqm/5.webp"
+          ]
+        },
+        {
+          "label": "43 sqm",
+          "images": [
+            "/images/projects/elysium-phahol-59/gallery/room/43%20sqm/1.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/43%20sqm/2.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/43%20sqm/3.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/43%20sqm/4.webp",
+            "/images/projects/elysium-phahol-59/gallery/room/43%20sqm/5.webp"
+          ]
+        }
+      ]
+    },
     "floorPlans": [
-      "/images/projects/elysium-phahol-59/plans/master-plan.jpg",
-      "/images/projects/elysium-phahol-59/plans/floor-2-14.jpg"
+      "/images/projects/elysium-phahol-59/plans/floorplan/Ground.webp",
+      "/images/projects/elysium-phahol-59/plans/floorplan/B1.webp",
+      "/images/projects/elysium-phahol-59/plans/floorplan/B2.webp",
+      "/images/projects/elysium-phahol-59/plans/floorplan/fl2.webp",
+      "/images/projects/elysium-phahol-59/plans/floorplan/fl3.webp",
+      "/images/projects/elysium-phahol-59/plans/floorplan/fl5.webp",
+      "/images/projects/elysium-phahol-59/plans/floorplan/fl8.webp",
+      "/images/projects/elysium-phahol-59/plans/floorplan/fl11.webp",
+      "/images/projects/elysium-phahol-59/plans/floorplan/fl12.webp"
     ],
     "roomPlans": [
-      {"type": "Studio (22 ตร.ม.)", "image": "/images/projects/elysium-phahol-59/plans/room-studio.jpg"},
-      {"type": "1 Bedroom (25–31 ตร.ม.)", "image": "/images/projects/elysium-phahol-59/plans/room-1bed.jpg"},
-      {"type": "1 Bedroom Plus (34–36 ตร.ม.)", "image": "/images/projects/elysium-phahol-59/plans/room-1bed-plus.jpg"},
-      {"type": "2 Bedroom (36–43 ตร.ม.)", "image": "/images/projects/elysium-phahol-59/plans/room-2bed.jpg"},
-      {"type": "2 Bedroom Extra (63 ตร.ม.)", "image": "/images/projects/elysium-phahol-59/plans/room-2bed-extra.jpg"}
+      {
+        "type": "22 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/22.webp"
+      },
+      {
+        "type": "25 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/25.webp"
+      },
+      {
+        "type": "26 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/26.webp"
+      },
+      {
+        "type": "28 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/28.webp"
+      },
+      {
+        "type": "31 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/31.webp"
+      },
+      {
+        "type": "34 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/34.webp"
+      },
+      {
+        "type": "34.1 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/34.1.webp"
+      },
+      {
+        "type": "36 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/36.webp"
+      },
+      {
+        "type": "36.1 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/36.1.webp"
+      },
+      {
+        "type": "39 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/39.webp"
+      },
+      {
+        "type": "40 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/40.webp"
+      },
+      {
+        "type": "43 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/43.webp"
+      },
+      {
+        "type": "63 sqm",
+        "image": "/images/projects/elysium-phahol-59/plans/roomplan/63.webp"
+      }
     ],
     "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3873.660166667503!2d100.6019773!3d13.8821995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e28328eb4cd8e9%3A0xc33d6a6c25dbb2f3!2sElysium%20Phahol%2059!5e0!3m2!1sth!2sth!4v1700000000000",
     "isFeatured": true,
@@ -71,7 +214,16 @@
     "parking": "50%",
     "description": "คอนโดมิเนียม High-Rise 39 ชั้น 573 ยูนิต ใกล้ BTS สายสีส้ม และ Airport Rail Link พร้อม Infinity Sky Pool, Sky Gym, Sky Garden บนชั้นสูงสุด",
     "descriptionEn": "39-story high-rise near BTS Orange Line and Airport Rail Link. Features Infinity Sky Pool, Sky Gym, and Sky Garden.",
-    "features": ["Infinity Sky Pool", "Sky Gym", "Sky Garden", "Covered Parking", "CCTV 24 ชั่วโมง", "Smart Card Access", "EV Charger", "Co-working Space"],
+    "features": [
+      "Infinity Sky Pool",
+      "Sky Gym",
+      "Sky Garden",
+      "Covered Parking",
+      "CCTV 24 ชั่วโมง",
+      "Smart Card Access",
+      "EV Charger",
+      "Co-working Space"
+    ],
     "image": "/images/projects/elysium-ram-interchange/main.jpg",
     "heroImage": "/images/projects/elysium-ram-interchange/hero.jpg",
     "promoBanner": "",
@@ -81,9 +233,18 @@
     ],
     "floorPlans": [],
     "roomPlans": [
-      {"type": "Studio (24 ตร.ม.)", "image": "/images/projects/elysium-ram-interchange/plans/room-studio.jpg"},
-      {"type": "1 Bedroom (28–35 ตร.ม.)", "image": "/images/projects/elysium-ram-interchange/plans/room-1bed.jpg"},
-      {"type": "2 Bedroom (52–65 ตร.ม.)", "image": "/images/projects/elysium-ram-interchange/plans/room-2bed.jpg"}
+      {
+        "type": "Studio (24 ตร.ม.)",
+        "image": "/images/projects/elysium-ram-interchange/plans/room-studio.jpg"
+      },
+      {
+        "type": "1 Bedroom (28–35 ตร.ม.)",
+        "image": "/images/projects/elysium-ram-interchange/plans/room-1bed.jpg"
+      },
+      {
+        "type": "2 Bedroom (52–65 ตร.ม.)",
+        "image": "/images/projects/elysium-ram-interchange/plans/room-2bed.jpg"
+      }
     ],
     "isFeatured": true,
     "isSoldOut": false,
@@ -108,29 +269,41 @@
     "parking": "35%",
     "description": "คอนโดมิเนียม Low-Rise 6 ชั้น 79 ยูนิต บรรยากาศส่วนตัว เงียบสงบ ราคาเข้าถึงได้ เหมาะสำหรับการอยู่อาศัยและลงทุน",
     "descriptionEn": "6-story low-rise condominium with 79 units. Private atmosphere, peaceful, and affordable.",
-    "features": ["สระว่ายน้ำ", "ฟิตเนส", "ที่จอดรถ", "CCTV 24 ชั่วโมง", "ล็อบบี้ส่วนกลาง", "สวนพักผ่อน"],
+    "features": [
+      "สระว่ายน้ำ",
+      "ฟิตเนส",
+      "ที่จอดรถ",
+      "CCTV 24 ชั่วโมง",
+      "ล็อบบี้ส่วนกลาง",
+      "สวนพักผ่อน"
+    ],
     "image": "/images/projects/elysium-phahol-59/main.jpg",
     "heroImage": "/images/projects/elysium-phahol-59/hero.jpg",
     "promoBanner": "/images/projects/elysium-phahol-59/promo.jpg",
     "gallery": {
-  "perspective": [
-    "/images/projects/the-celine-bang-chan/gallery/perspective/1.jpg",
-    "/images/projects/the-celine-bang-chan/gallery/perspective/3.jpg"
-  ],
-  "facility": [
-    "/images/projects/the-celine-bang-chan/gallery//facility/1.jpg",
-    "/images/projects/the-celine-bang-chan/gallery/facility/2.jpg"
-  ],
-  "room": [
-    "/images/projects/the-celine-bang-chan/gallery/room/1.jpg",
-    "/images/projects/the-celine-bang-chan/gallery/room/3.jpg"
-  ]
-},
-
+      "perspective": [
+        "/images/projects/the-celine-bang-chan/gallery/perspective/1.jpg",
+        "/images/projects/the-celine-bang-chan/gallery/perspective/3.jpg"
+      ],
+      "facility": [
+        "/images/projects/the-celine-bang-chan/gallery//facility/1.jpg",
+        "/images/projects/the-celine-bang-chan/gallery/facility/2.jpg"
+      ],
+      "room": [
+        "/images/projects/the-celine-bang-chan/gallery/room/1.jpg",
+        "/images/projects/the-celine-bang-chan/gallery/room/3.jpg"
+      ]
+    },
     "floorPlans": [],
     "roomPlans": [
-      {"type": "Studio (24–28 ตร.ม.)", "image": "/images/projects/the-celine-bang-chan/plans/room-studio.jpg"},
-      {"type": "1 Bedroom (30–35 ตร.ม.)", "image": "/images/projects/the-celine-bang-chan/plans/room-1bed.jpg"}
+      {
+        "type": "Studio (24–28 ตร.ม.)",
+        "image": "/images/projects/the-celine-bang-chan/plans/room-studio.jpg"
+      },
+      {
+        "type": "1 Bedroom (30–35 ตร.ม.)",
+        "image": "/images/projects/the-celine-bang-chan/plans/room-1bed.jpg"
+      }
     ],
     "isFeatured": true,
     "isSoldOut": false,
@@ -155,15 +328,29 @@
     "parking": "40%",
     "description": "คอนโดมิเนียม Low-Rise 8 ชั้น 2 อาคาร 392 ยูนิต ย่านรามคำแหง 186 ราคาเริ่มต้นเพียง 1.21 ล้านบาท เฉลิมฉลองครบรอบ 21 ปี ASAKAN",
     "descriptionEn": "8-story low-rise, 2 buildings with 392 units at Ramkhamhaeng 186. Starting at 1.21 million baht.",
-    "features": ["สระว่ายน้ำ", "ฟิตเนส", "ที่จอดรถ", "สวนหย่อม", "CCTV 24 ชั่วโมง", "ระบบ Key Card", "Lobby พร้อม Reception"],
+    "features": [
+      "สระว่ายน้ำ",
+      "ฟิตเนส",
+      "ที่จอดรถ",
+      "สวนหย่อม",
+      "CCTV 24 ชั่วโมง",
+      "ระบบ Key Card",
+      "Lobby พร้อม Reception"
+    ],
     "image": "/images/projects/wela-ramkhamhaeng/main.jpg",
     "heroImage": "/images/projects/wela-ramkhamhaeng/hero.jpg",
     "promoBanner": "",
     "gallery": [],
     "floorPlans": [],
     "roomPlans": [
-      {"type": "Studio (22–26 ตร.ม.)", "image": "/images/projects/wela-ramkhamhaeng/plans/room-studio.jpg"},
-      {"type": "1 Bedroom (28–35 ตร.ม.)", "image": "/images/projects/wela-ramkhamhaeng/plans/room-1bed.jpg"}
+      {
+        "type": "Studio (22–26 ตร.ม.)",
+        "image": "/images/projects/wela-ramkhamhaeng/plans/room-studio.jpg"
+      },
+      {
+        "type": "1 Bedroom (28–35 ตร.ม.)",
+        "image": "/images/projects/wela-ramkhamhaeng/plans/room-1bed.jpg"
+      }
     ],
     "isFeatured": true,
     "isSoldOut": false,
@@ -186,7 +373,13 @@
     "conceptArticle": "สร้างสรรค์สังคมคุณภาพด้วยคอนโดมิเนียมสไตล์รีสอร์ท ที่ให้คุณรู้สึกเหมือนได้พักผ่อนในทุกๆ วัน โครงการขายหมดทุกยูนิต การันตีความสำเร็จและความไว้วางใจจากลูกบ้านของเรา",
     "description": "คอนโดมิเนียม Low-Rise 4 ชั้น 16 อาคาร 512 ยูนิต โครงการที่ได้รับความนิยมสูงสุด ขายหมดทุกยูนิต",
     "descriptionEn": "4-story low-rise, 16 buildings, 512 units. Sold out.",
-    "features": ["สระว่ายน้ำ", "ฟิตเนส", "สวนส่วนกลาง", "ที่จอดรถ", "ร้านค้า"],
+    "features": [
+      "สระว่ายน้ำ",
+      "ฟิตเนส",
+      "สวนส่วนกลาง",
+      "ที่จอดรถ",
+      "ร้านค้า"
+    ],
     "image": "/images/projects/asakan-city-phase-c/main.jpg",
     "heroImage": "",
     "promoBanner": "",
@@ -214,7 +407,11 @@
     "conceptArticle": "คุณภาพชีวิตที่เริ่มต้นได้ง่ายๆ กับราคาที่เข้าถึงได้ พร้อมส่วนกลางครบครัน โครงการคุณภาพที่ได้รับการตอบรับอย่างล้นหลามจนขายหมดทุกยูนิต",
     "description": "คอนโดมิเนียม Low-Rise 8 ชั้น 1 อาคาร 196 ยูนิต ขายหมดทุกยูนิต",
     "descriptionEn": "8-story low-rise, 1 building, 196 units. Sold out.",
-    "features": ["สระว่ายน้ำ", "ฟิตเนส", "ที่จอดรถ"],
+    "features": [
+      "สระว่ายน้ำ",
+      "ฟิตเนส",
+      "ที่จอดรถ"
+    ],
     "image": "/images/projects/asakan-city-phase-b/main.jpg",
     "heroImage": "",
     "promoBanner": "",
@@ -242,7 +439,12 @@
     "conceptArticle": "ความลงตัวของการใช้ชีวิต กับสถาปัตยกรรมแบบ Twin Condo ที่โดดเด่นและเป็นเอกลักษณ์ เติมเต็มความสุขด้วยสวนส่วนกลางขนาดใหญ่ อีกหนึ่งความภาคภูมิใจจาก ASAKAN",
     "description": "คอนโดมิเนียม Low-Rise 8 ชั้น 4 อาคาร 640 ยูนิต ขายหมดทุกยูนิต",
     "descriptionEn": "8-story low-rise, 4 buildings, 640 units. Sold out.",
-    "features": ["สระว่ายน้ำ", "ฟิตเนส", "ที่จอดรถ", "สวนส่วนกลาง"],
+    "features": [
+      "สระว่ายน้ำ",
+      "ฟิตเนส",
+      "ที่จอดรถ",
+      "สวนส่วนกลาง"
+    ],
     "image": "/images/projects/asakan-place-twin-condo/main.jpg",
     "heroImage": "",
     "promoBanner": "",
