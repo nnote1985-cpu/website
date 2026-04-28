@@ -12,8 +12,26 @@ import ProjectPopup from '@/components/ProjectPopup';
 import FloatingProjectCTA from '@/components/projects/FloatingProjectCTA';
 import type { Metadata } from 'next';
 import { absoluteProjectUrl } from '@/lib/projectUrl';
+import projectsData from '@/data/projects.json';
+
+type LocalProject = {
+  slug?: string;
+  image?: string;
+  heroImage?: string;
+  promoBanner?: string;
+  gallery?: unknown;
+  floorPlans?: string[];
+  roomPlans?: unknown;
+};
+
+const localProjects = projectsData as LocalProject[];
+
+function getLocalProject(slug: string) {
+  return localProjects.find((project) => project.slug === slug);
+}
 
 export async function getProjectMetadata(slug: string): Promise<Metadata> {
+  const localProject = getLocalProject(slug);
   const { data } = await supabaseAdmin
     .from('projects')
     .select('name, description, price_min, location, meta_title, meta_description, meta_keywords, image')
@@ -36,17 +54,19 @@ export async function getProjectMetadata(slug: string): Promise<Metadata> {
     description,
     keywords,
     alternates: { canonical: canonicalUrl },
-    openGraph: { title, description, url: canonicalUrl, images: data.image ? [{ url: data.image }] : [], type: 'website' },
-    twitter: { card: 'summary_large_image', title, description, images: data.image ? [data.image] : [] },
+    openGraph: { title, description, url: canonicalUrl, images: localProject?.image || data.image ? [{ url: localProject?.image || data.image }] : [], type: 'website' },
+    twitter: { card: 'summary_large_image', title, description, images: localProject?.image || data.image ? [localProject?.image || data.image] : [] },
   };
 }
 
 export async function renderProjectPage(slug: string) {
+  const localProject = getLocalProject(slug);
   const { data } = await supabaseAdmin.from('projects').select('*').eq('slug', slug).single();
   if (!data) notFound();
 
   const project = {
     ...data,
+    image: localProject?.image || data.image,
     nameEn: data.name_en,
     priceMin: data.price_min,
     priceMax: data.price_max,
@@ -54,8 +74,8 @@ export async function renderProjectPage(slug: string) {
     conceptImage: data.concept_image,
     projectArea: data.project_area,
     descriptionEn: data.description_en,
-    heroImage: data.hero_image,
-    promoBanner: data.promo_banner,
+    heroImage: localProject?.heroImage || data.hero_image,
+    promoBanner: localProject?.promoBanner || data.promo_banner,
     promoBannerMobile: data.promo_banner_mobile,
     fbPixelId: data.fb_pixel_id || '',
     facebookUrl: data.facebook_url || '',
@@ -65,8 +85,9 @@ export async function renderProjectPage(slug: string) {
     popupUrl: data.popup_url || '',
     videoUrl: data.video_url || '',
     facilities: data.facilities || [],
-    floorPlans: data.floor_plans,
-    roomPlans: data.room_plans,
+    gallery: localProject?.gallery || data.gallery,
+    floorPlans: localProject?.floorPlans || data.floor_plans,
+    roomPlans: localProject?.roomPlans || data.room_plans,
     googleMapUrl: data.google_map_url,
     isFeatured: true,
     isSoldOut: data.status === 'sold-out',
