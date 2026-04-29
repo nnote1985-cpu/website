@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import NextImage from 'next/image';
 import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, PlayCircle, ChevronDown, HelpCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -177,6 +177,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   const [activeGalleryGroup, setActiveGalleryGroup] = useState(0);
   const [activeImg, setActiveImg] = useState(0);
   const [isGalleryFullscreen, setIsGalleryFullscreen] = useState(false);
+  const [roomTypeDropdownOpen, setRoomTypeDropdownOpen] = useState(false);
+  const [planDropdownOpen, setPlanDropdownOpen] = useState(false);
   const [loadedGalleryImages, setLoadedGalleryImages] = useState<Set<string>>(new Set());
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
   const [infoTab, setInfoTab] = useState<'concept' | 'factsheet' | 'facilities'>('concept');
@@ -187,9 +189,12 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   const [activeTab, setActiveTab] = useState<'room' | 'floor'>(
     (project.roomPlans?.length ?? 0) > 0 ? 'room' : 'floor'
   );
+  const [activeRoomPlanGroupIndex, setActiveRoomPlanGroupIndex] = useState(0);
   const [activePlanIndex, setActivePlanIndex] = useState(0);
   const [isPlanFullscreen, setIsPlanFullscreen] = useState(false);
   const [loadedPlanImages, setLoadedPlanImages] = useState<Set<string>>(new Set());
+  const roomTypeDropdownRef = useRef<HTMLDivElement | null>(null);
+  const planDropdownRef = useRef<HTMLDivElement | null>(null);
 
   // ==========================================
   // 📍 ระบบจัดการรูปพัง
@@ -263,6 +268,19 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
     : [];
   const galleryPreloadKey = galleryPreloadImages.join('|');
   const planPreloadKey = uniqueImages([...planPreloadImages, ...nextPlanPreloadImages]).join('|');
+  const roomPlanGroups = [
+    { label: 'Studio', sizes: ['22'] },
+    { label: '1 Bed', sizes: ['25', '26', '28', '31'] },
+    { label: '1 Bed Plus', sizes: ['34', '34.1', '36', '36.1', '40'] },
+    { label: '2 Bed', sizes: ['39', '43', '63'] },
+  ].map((group) => ({
+    ...group,
+    plans: project.roomPlans
+      ?.map((plan, index) => ({ plan, index }))
+      .filter(({ plan }) => group.sizes.includes(plan.type.replace('sqm', '').trim())) || [],
+  })).filter((group) => group.plans.length > 0);
+  const safeActiveRoomPlanGroupIndex = activeRoomPlanGroupIndex >= roomPlanGroups.length ? 0 : activeRoomPlanGroupIndex;
+  const activeRoomPlanGroup = roomPlanGroups[safeActiveRoomPlanGroupIndex];
 
   const priceLabel = project.priceMin
     ? `เริ่มต้น ${(project.priceMin / 1000000).toFixed(2)} ล้านบาท*`
@@ -358,6 +376,25 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
     if (distance < -minSwipeDistance) handlePlanPrev();
   };
 
+  const scrollToPlans = () => {
+    requestAnimationFrame(() => {
+      document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  };
+
+  const jumpToRoomPlan = (index: number) => {
+    setActiveTab('room');
+    setActivePlanIndex(index);
+    setRoomTypeDropdownOpen(false);
+    setPlanDropdownOpen(false);
+    scrollToPlans();
+  };
+
+  const selectPlanIndex = (index: number) => {
+    setActivePlanIndex(index);
+    setPlanDropdownOpen(false);
+  };
+
   useEffect(() => {
     const imagesToPreload = uniqueImages([
       ...galleryPreloadKey.split('|'),
@@ -389,6 +426,21 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       });
     };
   }, [galleryPreloadKey, planPreloadKey]);
+
+  useEffect(() => {
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (roomTypeDropdownOpen && !roomTypeDropdownRef.current?.contains(target)) {
+        setRoomTypeDropdownOpen(false);
+      }
+      if (planDropdownOpen && !planDropdownRef.current?.contains(target)) {
+        setPlanDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [roomTypeDropdownOpen, planDropdownOpen]);
 
   return (
     <div className="bg-white">
@@ -550,7 +602,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               </p>
             </motion.div>
 
-            <motion.div variants={fadeUp} className="inline-flex bg-white p-1.5 rounded-full shadow-sm border overflow-x-auto max-w-full no-scrollbar">
+            <motion.div variants={fadeUp} className="inline-flex bg-white p-1.5 md:p-2 rounded-full shadow-sm border overflow-x-auto max-w-full no-scrollbar">
               {[
                 { key: 'concept', label: 'แนวคิดโครงการ' },
                 { key: 'factsheet', label: 'Factsheet' },
@@ -559,7 +611,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 <button
                   key={tab.key}
                   onClick={() => setInfoTab(tab.key as 'concept' | 'factsheet' | 'facilities')}
-                  className={`min-w-fit rounded-full px-5 py-3 text-xs md:text-sm font-black transition-all whitespace-nowrap ${
+                  className={`min-w-fit rounded-full px-5 py-3 md:px-7 md:py-3.5 text-xs md:text-base font-black transition-all whitespace-nowrap ${
                     infoTab === tab.key
                       ? 'bg-[#1a2d6b] text-white shadow-md'
                       : 'text-slate-500 hover:text-[#1a2d6b]'
@@ -635,12 +687,55 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                     <Home size={17} className="text-[#e53935]" />
                     <h3 className={`${mont.className} text-base font-semibold text-[#1a2d6b]`}>Room Types</h3>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="sm:hidden space-y-3">
+                    <div ref={roomTypeDropdownRef} className="relative z-30">
+                      <button
+                        type="button"
+                        onClick={() => setRoomTypeDropdownOpen((open) => !open)}
+                        className="flex w-full items-center justify-between rounded-2xl border border-[#e53935]/25 bg-[#faf8f5] px-4 py-4 text-left text-sm font-bold text-[#1a2d6b] shadow-sm transition-colors focus:border-[#e53935] focus:outline-none focus:ring-4 focus:ring-[#e53935]/10"
+                      >
+                        {project.roomPlans?.[activePlanIndex]?.type || project.roomPlans?.[0]?.type}
+                        <ChevronDown size={18} className={`text-[#e53935] transition-transform ${roomTypeDropdownOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      {roomTypeDropdownOpen && (
+                        <div className="absolute left-0 right-0 top-[calc(100%+8px)] max-h-72 overflow-y-auto rounded-2xl border border-[#e53935]/15 bg-white p-1.5 shadow-2xl shadow-[#1a2d6b]/15">
+                          {project.roomPlans?.map((plan: RoomPlan, i: number) => (
+                            <button
+                              type="button"
+                              key={`room-select-${i}`}
+                              onClick={() => jumpToRoomPlan(i)}
+                              className={`flex w-full items-center justify-between rounded-xl px-3.5 py-3 text-left text-sm font-bold transition-colors ${
+                                activePlanIndex === i
+                                  ? 'bg-[#e53935] text-white shadow-sm'
+                                  : 'text-[#1a2d6b] hover:bg-[#faf8f5]'
+                              }`}
+                            >
+                              {plan.type}
+                              {activePlanIndex === i && <span className="text-xs text-white/80">เลือกอยู่</span>}
+                            </button>
+                          ))}
+                          <div className="sticky bottom-0 -mx-1.5 flex justify-center bg-gradient-to-t from-white via-white/95 to-transparent pb-1.5 pt-8">
+                            <span className="pointer-events-none flex h-7 w-7 items-center justify-center rounded-full border border-[#e53935]/15 bg-white text-[#e53935] shadow-md shadow-[#1a2d6b]/10">
+                              <ChevronDown size={15} />
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => jumpToRoomPlan(activePlanIndex)}
+                      className="w-full rounded-2xl bg-[#e53935] px-4 py-3 text-sm font-bold text-white shadow-lg shadow-[#e53935]/20"
+                    >
+                      ดูแปลนห้องนี้
+                    </button>
+                  </div>
+                  <div className="hidden sm:grid sm:grid-cols-2 gap-2">
                     {project.roomPlans?.map((plan: RoomPlan, i: number) => (
-                      <div key={i} className="flex items-center justify-between bg-[#faf8f5] rounded-xl px-4 py-3 border border-[#e53935]/15">
+                      <button type="button" key={i} onClick={() => jumpToRoomPlan(i)} className="flex items-center justify-between bg-[#faf8f5] rounded-xl px-4 py-3 border border-[#e53935]/15 text-left transition-colors hover:border-[#e53935]/40 hover:bg-white">
                         <span className="text-sm font-bold text-slate-700">{plan.type}</span>
                         <span className="text-xs text-[#e53935] font-semibold">→ Plans</span>
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -710,22 +805,22 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           {/* 📍 แถบเลือกหมวดหมู่ Perspective / Facility / Room */}
           {/* แก้ไข Logic การแสดงผล Tab: ตรวจสอบข้อมูล gallery ให้ถูกต้องสำหรับทุกโครงการ */}
           {project.gallery && !Array.isArray(project.gallery) && typeof project.gallery === 'object' && (
-            <div className="inline-flex bg-white p-1.5 rounded-full shadow-sm border overflow-x-auto max-w-full no-scrollbar">
+            <div className="mx-auto grid w-full max-w-[340px] grid-cols-3 gap-1 rounded-[22px] border bg-white p-1.5 shadow-sm sm:inline-flex sm:w-auto sm:max-w-full sm:gap-1.5 sm:rounded-full sm:p-2 sm:overflow-x-auto sm:no-scrollbar">
               <button
                 onClick={() => { setActiveGalleryTab('perspective'); setActiveGalleryGroup(0); setActiveImg(0); }}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'perspective' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
+                className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'perspective' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
-                <Sparkles size={14} /> Perspective
+                <Sparkles size={14} /> <span className="hidden sm:inline">Perspective</span><span className="sm:hidden">View</span>
               </button>
               <button
                 onClick={() => { setActiveGalleryTab('facility'); setActiveGalleryGroup(0); setActiveImg(0); }}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'facility' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
+                className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'facility' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Building2 size={14} /> Facility
               </button>
               <button
                 onClick={() => { setActiveGalleryTab('room'); setActiveGalleryGroup(0); setActiveImg(0); }}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
+                className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Home size={14} /> Room
               </button>
@@ -864,7 +959,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               <div className="inline-flex bg-white p-1.5 rounded-full shadow-sm border overflow-x-auto max-w-full hide-scrollbar">
                 {(project.roomPlans?.length ?? 0) > 0 && (
                   <button 
-                    onClick={() => { setActiveTab('room'); setActivePlanIndex(0); }}
+                    onClick={() => { setActiveTab('room'); setActivePlanIndex(0); setPlanDropdownOpen(false); }}
                     className={`px-8 py-3 rounded-full text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
                   >
                     Room Plans
@@ -872,7 +967,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 )}
                 {(project.floorPlans?.length ?? 0) > 0 && (
                   <button 
-                    onClick={() => { setActiveTab('floor'); setActivePlanIndex(0); }}
+                    onClick={() => { setActiveTab('floor'); setActivePlanIndex(0); setPlanDropdownOpen(false); }}
                     className={`px-8 py-3 rounded-full text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'floor' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
                   >
                     Floor & Master 
@@ -882,21 +977,102 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             </div>
 
             <div className="max-w-6xl mx-auto">
-              <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10 md:mb-12">
-                {activeTab === 'room' && project.roomPlans?.map((plan: RoomPlan, idx: number) => (
+              <div className="md:hidden mb-8">
+                <div ref={planDropdownRef} className="relative z-20">
                   <button
-                    key={`room-btn-${idx}`}
-                    onClick={() => setActivePlanIndex(idx)}
-                    className={`px-4 py-2 md:px-6 md:py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 ${
-                      activePlanIndex === idx 
-                        ? 'bg-[#e53935] text-white shadow-lg shadow-[#e53935]/30 scale-105' 
-                        : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-[#1a2d6b]'
-                    }`}
+                    type="button"
+                    onClick={() => setPlanDropdownOpen((open) => !open)}
+                    className="flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-4 text-left text-sm font-bold text-[#1a2d6b] shadow-sm outline-none transition-colors focus:border-[#e53935] focus:ring-4 focus:ring-[#e53935]/10"
                   >
-                    {plan.type}
+                    {activeTab === 'room'
+                      ? project.roomPlans?.[activePlanIndex]?.type
+                      : `Plan ${activePlanIndex + 1}`}
+                    <ChevronDown size={18} className={`text-[#e53935] transition-transform ${planDropdownOpen ? 'rotate-180' : ''}`} />
                   </button>
-                ))}
+                  {planDropdownOpen && (
+                    <div className="absolute left-0 right-0 top-[calc(100%+8px)] max-h-72 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-1.5 shadow-2xl shadow-[#1a2d6b]/15">
+                      {activeTab === 'room' && project.roomPlans?.map((plan: RoomPlan, idx: number) => (
+                        <button
+                          type="button"
+                          key={`mobile-room-plan-${idx}`}
+                          onClick={() => selectPlanIndex(idx)}
+                          className={`flex w-full items-center justify-between rounded-xl px-3.5 py-3 text-left text-sm font-bold transition-colors ${
+                            activePlanIndex === idx
+                              ? 'bg-[#e53935] text-white shadow-sm'
+                              : 'text-[#1a2d6b] hover:bg-[#faf8f5]'
+                          }`}
+                        >
+                          {plan.type}
+                          {activePlanIndex === idx && <span className="text-xs text-white/80">เลือกอยู่</span>}
+                        </button>
+                      ))}
+                      {activeTab === 'floor' && project.floorPlans?.map((_, idx: number) => (
+                        <button
+                          type="button"
+                          key={`mobile-floor-plan-${idx}`}
+                          onClick={() => selectPlanIndex(idx)}
+                          className={`flex w-full items-center justify-between rounded-xl px-3.5 py-3 text-left text-sm font-bold transition-colors ${
+                            activePlanIndex === idx
+                              ? 'bg-[#e53935] text-white shadow-sm'
+                              : 'text-[#1a2d6b] hover:bg-[#faf8f5]'
+                          }`}
+                        >
+                          Plan {idx + 1}
+                          {activePlanIndex === idx && <span className="text-xs text-white/80">เลือกอยู่</span>}
+                        </button>
+                      ))}
+                      <div className="sticky bottom-0 -mx-1.5 flex justify-center bg-gradient-to-t from-white via-white/95 to-transparent pb-1.5 pt-8">
+                        <span className="pointer-events-none flex h-7 w-7 items-center justify-center rounded-full border border-[#e53935]/15 bg-white text-[#e53935] shadow-md shadow-[#1a2d6b]/10">
+                          <ChevronDown size={15} />
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
 
+              <div className="hidden md:block mb-10 md:mb-12">
+                {activeTab === 'room' && (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-4 gap-2 rounded-3xl border border-slate-200 bg-white p-2 shadow-sm">
+                    {roomPlanGroups.map((group) => (
+                      <button
+                        type="button"
+                        key={group.label}
+                        onClick={() => {
+                          const groupIndex = roomPlanGroups.findIndex((item) => item.label === group.label);
+                          setActiveRoomPlanGroupIndex(groupIndex);
+                          setActivePlanIndex(group.plans[0]?.index || 0);
+                        }}
+                        className={`rounded-2xl px-4 py-3 text-center text-xs lg:text-sm font-black uppercase tracking-[0.12em] transition-all ${
+                          safeActiveRoomPlanGroupIndex === roomPlanGroups.findIndex((item) => item.label === group.label)
+                            ? 'bg-[#1a2d6b] text-white shadow-lg shadow-[#1a2d6b]/20'
+                            : 'text-[#1a2d6b]/60 hover:bg-slate-50 hover:text-[#1a2d6b]'
+                        }`}
+                      >
+                          {group.label}
+                      </button>
+                    ))}
+                    </div>
+                    <div className="flex min-h-16 flex-wrap items-center justify-center gap-3 rounded-3xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+                      {activeRoomPlanGroup?.plans.map(({ plan, index }) => (
+                        <button
+                          key={`room-btn-${index}`}
+                          onClick={() => setActivePlanIndex(index)}
+                          className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
+                            activePlanIndex === index 
+                              ? 'bg-[#e53935] text-white shadow-lg shadow-[#e53935]/30 scale-105' 
+                              : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-[#1a2d6b]'
+                          }`}
+                        >
+                          {plan.type}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex flex-wrap justify-center gap-2 md:gap-3">
                 {activeTab === 'floor' && project.floorPlans?.map((_, idx: number) => (
                   <button
                     key={`floor-btn-${idx}`}
@@ -910,6 +1086,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                     Plan {idx + 1}
                   </button>
                 ))}
+                </div>
               </div>
 
               <div 
@@ -917,8 +1094,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 onClick={() => setIsPlanFullscreen(true)}
               >
                 {currentPlanImage && !planImageLoaded && (
-                  <div className="absolute inset-x-0 top-0 mx-auto flex min-h-[400px] md:min-h-[60vh] w-full max-w-5xl items-center justify-center rounded-3xl bg-white">
-                    <div className="h-[72%] w-[82%] rounded-2xl border border-slate-200 bg-gradient-to-r from-slate-100 via-white to-slate-100 animate-pulse" />
+                  <div className="absolute top-6 left-1/2 h-2 w-32 -translate-x-1/2 overflow-hidden rounded-full bg-slate-100">
+                    <div className="h-full w-full animate-pulse rounded-full bg-slate-200" />
                   </div>
                 )}
                 {activeTab === 'room' && project.roomPlans?.[activePlanIndex] && (
@@ -934,7 +1111,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                       next.add(currentPlanImage);
                       return next;
                     })}
-                    className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`} 
+                    className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`}
                   />
                 )}
 
@@ -951,11 +1128,11 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                       next.add(currentPlanImage);
                       return next;
                     })}
-                    className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`} 
+                    className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`}
                   />
                 )}
 
-                <div className="absolute inset-0 bg-[#1a2d6b]/0 group-hover:bg-[#1a2d6b]/5 transition-colors duration-300 flex items-center justify-center rounded-3xl pointer-events-none">
+                <div className="absolute inset-0 bg-[#1a2d6b]/0 group-hover:bg-[#1a2d6b]/5 transition-colors duration-300 flex items-center justify-center pointer-events-none">
                   <div className="bg-[#1a2d6b] text-white p-4 md:p-5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-50 group-hover:scale-100 shadow-xl pointer-events-auto shadow-[#1a2d6b]/30">
                     <Maximize2 size={32} />
                   </div>
