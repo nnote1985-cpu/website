@@ -56,6 +56,10 @@ function isGalleryGroupArray(value: GalleryTabData | undefined): value is Galler
   return Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && 'images' in value[0];
 }
 
+function uniqueImages(images: Array<string | undefined>) {
+  return Array.from(new Set(images.filter((img): img is string => Boolean(img))));
+}
+
 function buildFaqs(project: ProjectContentData) {
   const faqs: { q: string; a: string }[] = [];
   const name = project.name || 'โครงการนี้';
@@ -173,7 +177,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   const [activeGalleryGroup, setActiveGalleryGroup] = useState(0);
   const [activeImg, setActiveImg] = useState(0);
   const [isGalleryFullscreen, setIsGalleryFullscreen] = useState(false);
-  const [loadedGalleryImage, setLoadedGalleryImage] = useState<string | null>(null);
+  const [loadedGalleryImages, setLoadedGalleryImages] = useState<Set<string>>(new Set());
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
   const [infoTab, setInfoTab] = useState<'concept' | 'factsheet' | 'facilities'>('concept');
 
@@ -185,7 +189,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   );
   const [activePlanIndex, setActivePlanIndex] = useState(0);
   const [isPlanFullscreen, setIsPlanFullscreen] = useState(false);
-  const [loadedPlanImage, setLoadedPlanImage] = useState<string | null>(null);
+  const [loadedPlanImages, setLoadedPlanImages] = useState<Set<string>>(new Set());
 
   // ==========================================
   // 📍 ระบบจัดการรูปพัง
@@ -236,8 +240,21 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   const currentPlanImage = activeTab === 'room'
     ? project.roomPlans?.[activePlanIndex]?.image
     : project.floorPlans?.[activePlanIndex];
-  const galleryImageLoaded = loadedGalleryImage === currentImage;
-  const planImageLoaded = Boolean(currentPlanImage && loadedPlanImage === currentPlanImage);
+  const galleryImageLoaded = loadedGalleryImages.has(currentImage);
+  const planImageLoaded = Boolean(currentPlanImage && loadedPlanImages.has(currentPlanImage));
+  const galleryPreloadImages = uniqueImages([
+    validGallery[(safeActiveImg + 1) % validGalleryLength],
+    validGallery[(safeActiveImg + 2) % validGalleryLength],
+    validGallery[(safeActiveImg + 3) % validGalleryLength],
+    validGallery[(safeActiveImg - 1 + validGalleryLength) % validGalleryLength],
+  ]).filter((img) => img !== currentImage);
+  const planPreloadImages = uniqueImages(
+    activeTab === 'room'
+      ? project.roomPlans?.map((plan) => plan.image) || []
+      : project.floorPlans || []
+  ).filter((img) => img !== currentPlanImage);
+  const galleryPreloadKey = galleryPreloadImages.join('|');
+  const planPreloadKey = planPreloadImages.join('|');
 
   const priceLabel = project.priceMin
     ? `เริ่มต้น ${(project.priceMin / 1000000).toFixed(2)} ล้านบาท*`
@@ -332,6 +349,38 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
     if (distance > minSwipeDistance) handlePlanNext();
     if (distance < -minSwipeDistance) handlePlanPrev();
   };
+
+  useEffect(() => {
+    const imagesToPreload = uniqueImages([
+      ...galleryPreloadKey.split('|'),
+      ...planPreloadKey.split('|'),
+    ]);
+    const preloaders = imagesToPreload.map((src) => {
+      const img = new window.Image();
+      img.src = src;
+      img.onload = () => {
+        setLoadedGalleryImages((prev) => {
+          if (prev.has(src)) return prev;
+          const next = new Set(prev);
+          next.add(src);
+          return next;
+        });
+        setLoadedPlanImages((prev) => {
+          if (prev.has(src)) return prev;
+          const next = new Set(prev);
+          next.add(src);
+          return next;
+        });
+      };
+      return img;
+    });
+
+    return () => {
+      preloaders.forEach((img) => {
+        img.onload = null;
+      });
+    };
+  }, [galleryPreloadKey, planPreloadKey]);
 
   return (
     <div className="bg-white">
@@ -713,7 +762,12 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               fill
               sizes="(min-width: 1024px) 960px, 100vw"
               onError={() => handleImageError(currentImage)}
-              onLoad={() => setLoadedGalleryImage(currentImage)}
+              onLoad={() => setLoadedGalleryImages((prev) => {
+                if (prev.has(currentImage)) return prev;
+                const next = new Set(prev);
+                next.add(currentImage);
+                return next;
+              })}
               onClick={() => setIsGalleryFullscreen(true)}
               className={`w-full h-full object-cover cursor-pointer animate-in fade-in duration-300 ${
                 slideDirection === 'right' ? 'slide-in-from-right-10' : 'slide-in-from-left-10'
@@ -866,7 +920,12 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                     alt={project.roomPlans[activePlanIndex].type}
                     width={1400}
                     height={1000}
-                    onLoad={() => setLoadedPlanImage(currentPlanImage || null)}
+                    onLoad={() => setLoadedPlanImages((prev) => {
+                      if (!currentPlanImage || prev.has(currentPlanImage)) return prev;
+                      const next = new Set(prev);
+                      next.add(currentPlanImage);
+                      return next;
+                    })}
                     className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`} 
                   />
                 )}
@@ -878,7 +937,12 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                     alt={`Floor Plan ${activePlanIndex + 1}`}
                     width={1400}
                     height={1000}
-                    onLoad={() => setLoadedPlanImage(project.floorPlans?.[activePlanIndex] || null)}
+                    onLoad={() => setLoadedPlanImages((prev) => {
+                      if (!currentPlanImage || prev.has(currentPlanImage)) return prev;
+                      const next = new Set(prev);
+                      next.add(currentPlanImage);
+                      return next;
+                    })}
                     className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`} 
                   />
                 )}
