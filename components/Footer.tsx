@@ -34,7 +34,7 @@ export default function Footer() {
         <div className="pb-4 border-b border-slate-200 md:border-none md:pb-0">
           <div className="flex items-center gap-3 mb-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="ASAKAN" className="h-10 w-auto" />
+            <img src="/logo.png" alt="ASAKAN" width={40} height={40} className="h-10 w-auto" />
             <div>
               <div className="font-bold text-xl leading-none text-[#1a2d6b]">ASAKAN</div>
               <div className="text-xs text-slate-500 leading-none">อัสสกาญจน์</div>

@@ -92,7 +92,7 @@ export default function Header() {
             <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
               {/* 📍 เปลี่ยนโลโก้บล็อกเป็นสี Slate-900 หรูๆ Hover แล้วเป็นสีแดง */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo.png" alt="ASAKAN" className="h-10 w-auto" />
+              <img src="/logo.png" alt="ASAKAN" width={40} height={40} className="h-10 w-auto" />
               <div className="flex flex-col justify-center">
                 <div className="font-black text-xl text-slate-900 leading-none tracking-tight">ASAKAN</div>
                 <div className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-0.5">Co.Ltd</div>

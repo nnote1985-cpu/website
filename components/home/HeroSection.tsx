@@ -27,6 +27,7 @@ const STATS = [
 
 export default function HeroSection({ title, subtitle, description, ctaText, ctaUrl, images }: HeroProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [carouselReady, setCarouselReady] = useState(false);
 
   const displayImages = images && images.length > 0 ? images : FALLBACK_IMAGES;
 
@@ -36,10 +37,22 @@ export default function HeroSection({ title, subtitle, description, ctaText, cta
   const firstPart = words.join(' ');
 
   useEffect(() => {
+    const carouselTimer = window.setTimeout(() => {
+      setCarouselReady(true);
+    }, 1200);
+
+    if (displayImages.length <= 1) {
+      return () => window.clearTimeout(carouselTimer);
+    }
+
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % displayImages.length);
     }, 6000);
-    return () => clearInterval(interval);
+
+    return () => {
+      window.clearTimeout(carouselTimer);
+      clearInterval(interval);
+    };
   }, [displayImages.length]);
 
   return (
@@ -47,19 +60,25 @@ export default function HeroSection({ title, subtitle, description, ctaText, cta
 
       {/* Background images with crossfade + slow zoom */}
       <div className="absolute inset-0 z-0 bg-[#050B14]">
-        {displayImages.map((src, index) => (
+        {displayImages.map((src, index) => {
+          const shouldRender = index === 0 || (carouselReady && Math.abs(index - currentImageIndex) <= 1);
+          if (!shouldRender) return null;
+
+          return (
           <Image
             key={src}
             src={src}
             alt={`Asakan Residence View ${index + 1}`}
             fill
             sizes="100vw"
-            priority={index === 0}
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchPriority={index === 0 ? 'high' : 'auto'}
             className={`absolute inset-0 w-full h-full object-cover transition-all duration-[6000ms] ease-out ${
               index === currentImageIndex ? 'opacity-100 scale-110 z-10' : 'opacity-0 scale-100 z-0'
             }`}
           />
-        ))}
+          );
+        })}
         <div className="absolute inset-0 z-20 bg-gradient-to-r from-[#050B14]/90 via-[#050B14]/40 to-transparent pointer-events-none" />
         <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#050B14] via-transparent to-transparent opacity-80 pointer-events-none" />
       </div>

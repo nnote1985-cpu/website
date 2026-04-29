@@ -90,6 +90,8 @@ export default function PromoHeroWrapper({
           <img
             src={mobileImage}
             alt={`Promotion for ${projectName}`}
+            width={1080}
+            height={1600}
             onError={() => setHasError(true)}
             className="block h-auto w-full"
           />
