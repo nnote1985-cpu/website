@@ -37,13 +37,14 @@ export default function HeroSection({ title, subtitle, description, ctaText, cta
   const firstPart = words.join(' ');
 
   useEffect(() => {
+    const desktopQuery = window.matchMedia('(min-width: 768px)');
+    if (!desktopQuery.matches || displayImages.length <= 1) {
+      return;
+    }
+
     const carouselTimer = window.setTimeout(() => {
       setCarouselReady(true);
     }, 1200);
-
-    if (displayImages.length <= 1) {
-      return () => window.clearTimeout(carouselTimer);
-    }
 
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % displayImages.length);
