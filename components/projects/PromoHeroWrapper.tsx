@@ -32,23 +32,23 @@ export default function PromoHeroWrapper({
   }
 
   const FormPanel = (
-    <div className="w-full max-w-[430px] rounded-2xl border border-white/10 bg-[#101010]/90 p-6 shadow-2xl shadow-black/40 backdrop-blur-xl md:p-8">
-      <div className="mb-8">
+    <div className="flex w-full max-w-full flex-col rounded-2xl border border-white/10 bg-[#101010]/90 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl md:p-6 [&_form]:!space-y-5 [&_form>div.pt-2]:!pt-1 [&_form>div.pt-4]:!pt-1">
+      <div className="mb-5 shrink-0">
         <p className="mb-2 text-[10px] font-black uppercase tracking-[0.28em] text-white/35">
           Private Appointment
         </p>
-        <h2 className="text-3xl font-black tracking-tight text-white md:text-4xl">
+        <h2 className="text-3xl font-black tracking-tight text-white">
           Register Now
         </h2>
         <div className="mt-3 h-0.5 w-10" style={{ backgroundColor: accentColor }} />
-        <p className="mt-4 text-sm leading-relaxed text-white/45">
+        <p className="mt-3 text-sm leading-relaxed text-white/45">
           ลงทะเบียนรับข้อมูล ราคา และโปรโมชันล่าสุดของ {projectName}
         </p>
       </div>
 
       <RegisterFormDark projectName={projectName} projectSlug={projectSlug} accentColor={accentColor} />
 
-      <div className="mt-8 flex items-center gap-4 border-t border-white/10 pt-6">
+      <div className="mt-5 flex shrink-0 items-center gap-4 border-t border-white/10 pt-4">
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5">
           <Phone size={17} style={{ color: accentColor }} />
         </div>
@@ -66,7 +66,7 @@ export default function PromoHeroWrapper({
 
   return (
     <>
-      <section className="relative hidden h-[calc(100vh-80px)] overflow-hidden bg-[#101010] xl:block">
+      <section className="relative hidden min-h-[calc(100vh-80px)] bg-[#101010] xl:flex">
         <div className="absolute inset-0 bg-black">
           <Image
             src={promoBanner}
@@ -78,7 +78,8 @@ export default function PromoHeroWrapper({
             className="object-cover"
           />
         </div>
-        <div id="register" data-register-form="true" className="absolute bottom-0 right-0 top-0 z-10 flex w-[430px] items-center justify-center overflow-y-auto bg-[#171513]/95 px-6 py-10 shadow-[-24px_0_60px_rgba(0,0,0,0.35)] backdrop-blur-sm">
+        <div className="flex-1" />
+        <div id="register" data-register-form="true" className="relative z-10 flex w-[clamp(390px,24vw,430px)] shrink-0 flex-col justify-center bg-[#171513]/95 px-[clamp(18px,1.5vw,24px)] py-8 shadow-[-24px_0_60px_rgba(0,0,0,0.35)] backdrop-blur-sm">
           {FormPanel}
         </div>
       </section>
