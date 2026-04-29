@@ -8,12 +8,10 @@ import HeroSection from '@/components/home/HeroSection';
 import MarqueeBanner from '@/components/home/MarqueeBanner';
 import ProjectCard from '@/components/home/ProjectCard';
 import NewsCard from '@/components/home/NewsCard';
-import MortgageCalculator from '@/components/home/MortgageCalculator';
 import { ArrowRight, Shield, Star, Home, TrendingUp } from 'lucide-react';
 import FloatingCTA from '@/components/FloatingCTA';
-import SearchSection from '@/components/home/SearchSection';
-import PromoBanner from '@/components/home/PromoBanner';
 import CollapsibleSection from '@/components/home/CollapsibleSection';
+import { DeferredMortgageCalculator, DeferredPromoBanner, DeferredSearchSection } from '@/components/home/DeferredHomeClient';
 
 export const revalidate = 0;
 
@@ -122,13 +120,13 @@ export default async function HomePage() {
 
         {/* 3. PROMOTION BANNER - แถบโปรโมชั่น */}
         {promotions.filter((p) => p.isActive).length > 0 && (
-          <PromoBanner promos={promotions.filter((p) => p.isActive)} />
+          <DeferredPromoBanner promos={promotions.filter((p) => p.isActive)} />
         )}
 
         {/* 3. Search Section: วางบนพื้นหลังสีเทาอ่อนบางๆ เพื่อแยกเลเยอร์ */}
         <section className="relative z-20 bg-slate-50 py-10 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-6">
-            <SearchSection projects={allProjects} />
+            <DeferredSearchSection projects={allProjects} />
           </div>
         </section>
 
@@ -262,7 +260,7 @@ export default async function HomePage() {
 
         {/* 7. OTHER TOOLS */}
         <div className="bg-slate-50 py-12">
-          <MortgageCalculator projects={allProjects} />
+          <DeferredMortgageCalculator projects={allProjects} />
         </div>
 
         {/* 8. NEWS SECTION */}
