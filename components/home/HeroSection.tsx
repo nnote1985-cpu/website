@@ -32,7 +32,7 @@ export default function HeroSection({ title, subtitle, description, ctaText, cta
   const firstPart = words.join(' ');
 
   return (
-    <section className="relative h-[85vh] md:h-[95vh] w-full flex items-center overflow-hidden bg-[#050B14]">
+    <section className="relative h-[60vw] min-h-[480px] max-h-[85vh] md:h-[95vh] md:max-h-none w-full flex items-center overflow-hidden bg-[#050B14]">
 
       {/* First image — server-rendered for fast LCP */}
       <div className="absolute inset-0 z-0 bg-[#050B14]">
