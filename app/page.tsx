@@ -391,7 +391,7 @@ export default async function HomePage() {
         <section className="relative overflow-hidden bg-white">
           <div className="relative min-h-[335px] md:min-h-[430px] xl:min-h-[470px] flex items-start justify-center">
             <Image
-              src="https://images.unsplash.com/photo-1609220136736-443140cffec6?auto=format&fit=crop&q=85&w=2200"
+              src="/images/emotional.webp"
               alt="ครอบครัวใช้เวลาร่วมกันในบ้าน"
               fill
               sizes="100vw"
