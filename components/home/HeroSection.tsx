@@ -1,9 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import dynamic from 'next/dynamic';
-
-const HeroSlideshow = dynamic(() => import('./HeroSlideshow'), { ssr: false });
+import HeroSlideshow from './HeroSlideshow';
 
 interface HeroProps {
   title: string;
