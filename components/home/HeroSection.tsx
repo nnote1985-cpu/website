@@ -1,9 +1,9 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+const HeroSlideshow = dynamic(() => import('./HeroSlideshow'), { ssr: false });
 
 interface HeroProps {
   title: string;
@@ -26,63 +26,34 @@ const STATS = [
 ];
 
 export default function HeroSection({ title, subtitle, description, ctaText, ctaUrl, images }: HeroProps) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [carouselReady, setCarouselReady] = useState(false);
-
   const displayImages = images && images.length > 0 ? images : FALLBACK_IMAGES;
+  const firstImage = displayImages[0];
 
-  // split last word for red accent
   const words = title ? title.trim().split(' ') : [];
   const lastWord = words.pop();
   const firstPart = words.join(' ');
 
-  useEffect(() => {
-    const desktopQuery = window.matchMedia('(min-width: 768px)');
-    if (!desktopQuery.matches || displayImages.length <= 1) {
-      return;
-    }
-
-    const carouselTimer = window.setTimeout(() => {
-      setCarouselReady(true);
-    }, 1200);
-
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % displayImages.length);
-    }, 6000);
-
-    return () => {
-      window.clearTimeout(carouselTimer);
-      clearInterval(interval);
-    };
-  }, [displayImages.length]);
-
   return (
     <section className="relative h-[85vh] md:h-[95vh] w-full flex items-center overflow-hidden bg-[#050B14]">
 
-      {/* Background images with crossfade + slow zoom */}
+      {/* First image — server-rendered for fast LCP */}
       <div className="absolute inset-0 z-0 bg-[#050B14]">
-        {displayImages.map((src, index) => {
-          const shouldRender = index === 0 || (carouselReady && Math.abs(index - currentImageIndex) <= 1);
-          if (!shouldRender) return null;
-
-          return (
-          <Image
-            key={src}
-            src={src}
-            alt={`Asakan Residence View ${index + 1}`}
-            fill
-            sizes="100vw"
-            loading={index === 0 ? 'eager' : 'lazy'}
-            fetchPriority={index === 0 ? 'high' : 'auto'}
-            className={`absolute inset-0 w-full h-full object-cover transition-all duration-[6000ms] ease-out ${
-              index === currentImageIndex ? 'opacity-100 scale-110 z-10' : 'opacity-0 scale-100 z-0'
-            }`}
-          />
-          );
-        })}
-        <div className="absolute inset-0 z-20 bg-gradient-to-r from-[#050B14]/90 via-[#050B14]/40 to-transparent pointer-events-none" />
-        <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#050B14] via-transparent to-transparent opacity-80 pointer-events-none" />
+        <Image
+          src={firstImage}
+          alt="Asakan Residence View 1"
+          fill
+          sizes="100vw"
+          priority
+          className="absolute inset-0 w-full h-full object-cover scale-110"
+        />
       </div>
+
+      {/* Gradients — always visible above both server image and slideshow */}
+      <div className="absolute inset-0 z-[15] bg-gradient-to-r from-[#050B14]/90 via-[#050B14]/40 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 z-[15] bg-gradient-to-t from-[#050B14] via-transparent to-transparent opacity-80 pointer-events-none" />
+
+      {/* Client slideshow — loads after JS, fades in over server image */}
+      <HeroSlideshow images={displayImages} />
 
       {/* Content */}
       <div className="relative z-30 container mx-auto px-6 md:px-12 lg:px-20">
@@ -141,22 +112,6 @@ export default function HeroSection({ title, subtitle, description, ctaText, cta
 
         </div>
       </div>
-
-      {/* Pagination dots */}
-      {displayImages.length > 1 && (
-        <div className="absolute bottom-12 left-6 md:left-12 lg:left-20 z-30 flex items-center gap-3">
-          {displayImages.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentImageIndex(idx)}
-              className={`h-1.5 transition-all duration-500 rounded-full cursor-pointer ${
-                idx === currentImageIndex ? 'w-10 bg-[#e53935]' : 'w-2.5 bg-white/30 hover:bg-white/60'
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
-        </div>
-      )}
 
       {/* Vertical text */}
       <div className="absolute right-12 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-8 text-white/30 z-30 pointer-events-none">
