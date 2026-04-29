@@ -10,6 +10,7 @@ import RegisterFormDark from '@/components/projects/RegisterFormDark';
 import ProjectPixel from '@/components/ProjectPixel';
 import ProjectPopup from '@/components/ProjectPopup';
 import FloatingProjectCTA from '@/components/projects/FloatingProjectCTA';
+import PromoHeroWrapper from '@/components/projects/PromoHeroWrapper';
 import type { Metadata } from 'next';
 import { absoluteProjectUrl } from '@/lib/projectUrl';
 import projectsData from '@/data/projects.json';
@@ -132,6 +133,10 @@ export async function renderProjectPage(slug: string) {
   } else if (slug.includes('wela')) {
     const WelaCustom = dynamic(() => import('@/components/projects/custom/WelaCustom'));
     HeroSection = <WelaCustom project={project} />;
+  }
+
+  if (HeroSection && !slug.includes('elysium') && project.promoBanner) {
+    HeroSection = <PromoHeroWrapper promoBanner={project.promoBanner} fallbackHero={HeroSection} />;
   }
 
   const residenceSchema = {

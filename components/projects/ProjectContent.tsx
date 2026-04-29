@@ -602,7 +602,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               </p>
             </motion.div>
 
-            <motion.div variants={fadeUp} className="inline-flex bg-white p-1.5 md:p-2 rounded-full shadow-sm border overflow-x-auto max-w-full no-scrollbar">
+            <motion.div variants={fadeUp} className="inline-flex w-fit max-w-full self-center overflow-x-auto rounded-full border bg-white p-1.5 shadow-sm no-scrollbar md:p-2 lg:self-auto">
               {[
                 { key: 'concept', label: 'แนวคิดโครงการ' },
                 { key: 'factsheet', label: 'Factsheet' },

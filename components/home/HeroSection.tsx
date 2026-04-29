@@ -66,7 +66,7 @@ export default function HeroSection({ title, subtitle, description, ctaText, cta
 
       {/* Content */}
       <div className="relative z-30 container mx-auto px-6 md:px-12 lg:px-20">
-        <div className="max-w-3xl text-white">
+        <div className="max-w-3xl text-white pb-16 md:pb-0">
 
           {/* Subtitle badge */}
           <div className="inline-flex items-center gap-3 mb-6 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
