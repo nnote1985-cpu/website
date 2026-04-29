@@ -38,7 +38,7 @@ export default function FacebookPixel({ pixelId }: { pixelId: string }) {
     <>
       <Script
         id="fb-pixel"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
             !function(f,b,e,v,n,t,s)
