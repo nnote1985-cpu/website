@@ -220,6 +220,8 @@ export default function FloatingProjectCTA({ phone, lineUrl }: Props) {
         )}
         <button
           onClick={() => setExpanded(!expanded)}
+          aria-label={expanded ? 'ปิดเมนู' : 'เปิดเมนูติดต่อ'}
+          aria-expanded={expanded}
           className={`w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all relative ${expanded ? 'bg-slate-800' : 'bg-[#e53935]'}`}
         >
           <Plus size={22} className={`text-white transition-transform duration-300 ${expanded ? 'rotate-45' : ''}`} />

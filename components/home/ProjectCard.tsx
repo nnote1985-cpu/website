@@ -110,7 +110,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         {/* --- 3. Footer Section (Price & CTA) --- */}
         <div className="flex items-end justify-between gap-2 mt-auto">
           <div className="min-w-0">
-            <span className="block text-[8px] sm:text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+            <span className="block text-[8px] sm:text-[9px] font-bold text-slate-600 uppercase tracking-widest mb-0.5">
               Starting Price
             </span>
             <div className="flex items-baseline gap-1 text-[#e53935]">

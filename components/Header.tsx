@@ -95,7 +95,7 @@ export default function Header() {
               <img src="/logo.png" alt="ASAKAN" width={40} height={40} className="h-10 w-auto" />
               <div className="flex flex-col justify-center">
                 <div className="font-black text-xl text-slate-900 leading-none tracking-tight">ASAKAN</div>
-                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-0.5">Co.Ltd</div>
+                <div className="text-[9px] font-bold text-slate-600 uppercase tracking-[0.2em] mt-0.5">Co.Ltd</div>
               </div>
             </Link>
 
@@ -126,7 +126,7 @@ export default function Header() {
                     >
                       <div className="w-72 bg-white/95 backdrop-blur-2xl shadow-[0_20px_40px_rgba(0,0,0,0.08)] rounded-2xl border border-slate-100 p-2.5 overflow-hidden">
                         <div className="px-4 pt-2 pb-1">
-                          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Current Projects</span>
+                          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Current Projects</span>
                         </div>
                         {link.children.filter(c => c.group === 'current').map((child) => (
                           <Link
@@ -142,7 +142,7 @@ export default function Header() {
                         ))}
                         <div className="mx-4 my-2 border-t border-slate-100" />
                         <div className="px-4 pb-1">
-                          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Past Projects</span>
+                          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Past Projects</span>
                         </div>
                         {link.children.filter(c => c.group === 'past').map((child) => (
                           <Link
@@ -220,7 +220,7 @@ export default function Header() {
               {link.children && (
                 <>
                   {link.children.some(c => c.group) && (
-                    <span className="block pl-4 pt-1 pb-0.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Current Projects</span>
+                    <span className="block pl-4 pt-1 pb-0.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Current Projects</span>
                   )}
                   {link.children.filter(c => !c.group || c.group === 'current').map((child) => (
                     <Link
@@ -236,7 +236,7 @@ export default function Header() {
                   {link.children.some(c => c.group === 'past') && (
                     <>
                       <div className="mx-4 my-1 border-t border-slate-100" />
-                      <span className="block pl-4 pt-0.5 pb-0.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Past Projects</span>
+                      <span className="block pl-4 pt-0.5 pb-0.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Past Projects</span>
                       {link.children.filter(c => c.group === 'past').map((child) => (
                         <Link
                           key={child.href}

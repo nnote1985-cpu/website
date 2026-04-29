@@ -166,6 +166,8 @@ export default function FloatingCTA() {
         )}
         <button
           onClick={() => setExpanded(!expanded)}
+          aria-label={expanded ? 'ปิดเมนู' : 'เปิดเมนูติดต่อ'}
+          aria-expanded={expanded}
           className={`w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all relative ${expanded ? 'bg-gray-800' : 'bg-[#e53935]'}`}
         >
           {expanded ? <X size={22} className="text-white" /> : <Plus size={22} className="text-white" />}

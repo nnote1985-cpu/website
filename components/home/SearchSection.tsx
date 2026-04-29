@@ -74,6 +74,7 @@ export default function SearchSection({ projects }: Props) {
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
+              aria-label="กรองตามสถานะโครงการ"
               className="w-full h-full bg-transparent pl-3 pr-7 text-[13px] md:text-[14px] font-medium text-slate-700 outline-none appearance-none cursor-pointer relative z-10"
             >
               <option value="">สถานะ</option>
@@ -89,6 +90,7 @@ export default function SearchSection({ projects }: Props) {
             <select
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+              aria-label="กรองตามทำเล"
               className="w-full h-full bg-transparent pl-3 pr-7 text-[13px] md:text-[14px] font-medium text-slate-700 outline-none appearance-none cursor-pointer relative z-10"
             >
               <option value="">ทำเล</option>
@@ -104,6 +106,7 @@ export default function SearchSection({ projects }: Props) {
             <select
               value={price}
               onChange={(e) => setPrice(e.target.value)}
+              aria-label="กรองตามช่วงราคา"
               className="w-full h-full bg-transparent pl-3 pr-7 text-[13px] md:text-[14px] font-medium text-slate-700 outline-none appearance-none cursor-pointer relative z-10"
             >
               <option value="">ช่วงราคา</option>
@@ -118,7 +121,7 @@ export default function SearchSection({ projects }: Props) {
         {/* ปุ่มค้นหา */}
         <button
           onClick={handleSearch}
-          className="bg-[#e53935] text-white font-bold px-10 rounded-xl hover:bg-[#c62828] transition-colors text-[15px] whitespace-nowrap h-[52px] shadow-lg shadow-red-500/20 active:scale-95"
+          className="bg-[#c62828] text-white font-bold px-10 rounded-xl hover:bg-[#b71c1c] transition-colors text-[15px] whitespace-nowrap h-[52px] shadow-lg shadow-red-500/20 active:scale-95"
         >
           ค้นหาโครงการ
         </button>

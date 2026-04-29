@@ -55,7 +55,7 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
                 <div className="text-center md:text-left text-[#1a2d6b] min-w-0 flex-1">
                   <div className="inline-flex items-center gap-2 mb-1.5 px-2.5 py-1 rounded-full bg-[#e53935]/10 border border-[#e53935]/20">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] animate-pulse shrink-0" />
-                    <span className="text-[#e53935] text-[9px] font-bold uppercase tracking-[0.25em]">
+                    <span className="text-[#b71c1c] text-[9px] font-bold uppercase tracking-[0.25em]">
                       Limited Promotion
                     </span>
                   </div>
@@ -66,14 +66,14 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
                 {/* Right: price + CTA */}
                 <div className="flex items-center gap-4 md:gap-6 shrink-0">
                   <div className="hidden sm:block text-right border-r border-slate-200 pr-5 md:pr-6">
-                    <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-[0.2em] block mb-0.5">
+                    <span className="text-[9px] font-semibold text-slate-600 uppercase tracking-[0.2em] block mb-0.5">
                       Starting From
                     </span>
                     <span className="text-xl md:text-2xl font-black text-[#1a2d6b]">{promo.discount}</span>
                   </div>
                   <Link
                     href={promo.ctaUrl}
-                    className="flex items-center gap-2 bg-[#e53935] hover:bg-[#c62828] text-white font-bold px-5 py-2.5 rounded-full text-sm whitespace-nowrap transition-all duration-200 shadow-[0_4px_14px_rgba(229,57,53,0.35)] hover:shadow-[0_4px_20px_rgba(229,57,53,0.5)] group"
+                    className="flex items-center gap-2 bg-[#c62828] hover:bg-[#b71c1c] text-white font-bold px-5 py-2.5 rounded-full text-sm whitespace-nowrap transition-all duration-200 shadow-[0_4px_14px_rgba(229,57,53,0.35)] hover:shadow-[0_4px_20px_rgba(229,57,53,0.5)] group"
                   >
                     {promo.ctaText}
                     <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
