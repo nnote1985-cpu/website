@@ -173,6 +173,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   const [activeGalleryGroup, setActiveGalleryGroup] = useState(0);
   const [activeImg, setActiveImg] = useState(0);
   const [isGalleryFullscreen, setIsGalleryFullscreen] = useState(false);
+  const [loadedGalleryImage, setLoadedGalleryImage] = useState<string | null>(null);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
   const [infoTab, setInfoTab] = useState<'concept' | 'factsheet' | 'facilities'>('concept');
 
@@ -184,6 +185,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   );
   const [activePlanIndex, setActivePlanIndex] = useState(0);
   const [isPlanFullscreen, setIsPlanFullscreen] = useState(false);
+  const [loadedPlanImage, setLoadedPlanImage] = useState<string | null>(null);
 
   // ==========================================
   // 📍 ระบบจัดการรูปพัง
@@ -231,6 +233,11 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   
   // ถ้าไม่มีรูปในหมวดนั้นเลย ให้เอารูปหน้าปก (project.image) มาแสดงแก้ขัด
   const currentImage = hasGallery ? validGallery[safeActiveImg] : fallbackImage;
+  const currentPlanImage = activeTab === 'room'
+    ? project.roomPlans?.[activePlanIndex]?.image
+    : project.floorPlans?.[activePlanIndex];
+  const galleryImageLoaded = loadedGalleryImage === currentImage;
+  const planImageLoaded = Boolean(currentPlanImage && loadedPlanImage === currentPlanImage);
 
   const priceLabel = project.priceMin
     ? `เริ่มต้น ${(project.priceMin / 1000000).toFixed(2)} ล้านบาท*`
@@ -694,12 +701,19 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             onTouchEnd={onGalleryTouchEnd}
           >
             {/* Main image — click center to fullscreen */}
+            {!galleryImageLoaded && (
+              <div className="absolute inset-0 z-10 overflow-hidden bg-slate-100">
+                <div className="absolute inset-0 bg-gradient-to-r from-slate-100 via-white to-slate-100 animate-pulse" />
+                <div className="absolute inset-x-8 bottom-8 h-2 rounded-full bg-slate-200/80" />
+              </div>
+            )}
             <NextImage
               key={`main-${currentImage}-${safeActiveImg}`}
               src={failedImages.has(currentImage) ? fallbackImage : currentImage}
               fill
               sizes="(min-width: 1024px) 960px, 100vw"
               onError={() => handleImageError(currentImage)}
+              onLoad={() => setLoadedGalleryImage(currentImage)}
               onClick={() => setIsGalleryFullscreen(true)}
               className={`w-full h-full object-cover cursor-pointer animate-in fade-in duration-300 ${
                 slideDirection === 'right' ? 'slide-in-from-right-10' : 'slide-in-from-left-10'
@@ -840,6 +854,11 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 className="relative flex justify-center items-center cursor-pointer group min-h-[400px] md:min-h-[60vh] w-full"
                 onClick={() => setIsPlanFullscreen(true)}
               >
+                {currentPlanImage && !planImageLoaded && (
+                  <div className="absolute inset-x-0 top-0 mx-auto flex min-h-[400px] md:min-h-[60vh] w-full max-w-5xl items-center justify-center rounded-3xl bg-white">
+                    <div className="h-[72%] w-[82%] rounded-2xl border border-slate-200 bg-gradient-to-r from-slate-100 via-white to-slate-100 animate-pulse" />
+                  </div>
+                )}
                 {activeTab === 'room' && project.roomPlans?.[activePlanIndex] && (
                   <NextImage
                     key={`room-img-${activePlanIndex}`}
@@ -847,7 +866,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                     alt={project.roomPlans[activePlanIndex].type}
                     width={1400}
                     height={1000}
-                    className="w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply" 
+                    onLoad={() => setLoadedPlanImage(currentPlanImage || null)}
+                    className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`} 
                   />
                 )}
 
@@ -858,7 +878,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                     alt={`Floor Plan ${activePlanIndex + 1}`}
                     width={1400}
                     height={1000}
-                    className="w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply" 
+                    onLoad={() => setLoadedPlanImage(project.floorPlans?.[activePlanIndex] || null)}
+                    className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`} 
                   />
                 )}
 

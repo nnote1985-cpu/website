@@ -13,6 +13,8 @@ import FloatingProjectCTA from '@/components/projects/FloatingProjectCTA';
 import type { Metadata } from 'next';
 import { absoluteProjectUrl } from '@/lib/projectUrl';
 import projectsData from '@/data/projects.json';
+import fs from 'node:fs';
+import path from 'node:path';
 
 type LocalProject = {
   slug?: string;
@@ -28,6 +30,33 @@ const localProjects = projectsData as LocalProject[];
 
 function getLocalProject(slug: string) {
   return localProjects.find((project) => project.slug === slug);
+}
+
+function localPublicAssetExists(src: string) {
+  if (!src.startsWith('/')) return false;
+  return fs.existsSync(path.join(process.cwd(), 'public', decodeURIComponent(src).replace(/^\//, '')));
+}
+
+function isUsableAssetPath(src: unknown): src is string {
+  if (typeof src !== 'string' || src.trim() === '') return false;
+  if (/^https?:\/\//.test(src)) return true;
+  return localPublicAssetExists(src);
+}
+
+function collectAssetLikeStrings(value: unknown): string[] {
+  if (typeof value === 'string') {
+    return /^https?:\/\//.test(value) || value.startsWith('/') ? [value] : [];
+  }
+  if (Array.isArray(value)) return value.flatMap(collectAssetLikeStrings);
+  if (value && typeof value === 'object') {
+    return Object.values(value).flatMap(collectAssetLikeStrings);
+  }
+  return [];
+}
+
+function preferSupabaseAsset<T>(supabaseValue: T, localValue: T | undefined): T | undefined {
+  const assetPaths = collectAssetLikeStrings(supabaseValue);
+  return assetPaths.length > 0 && assetPaths.every(isUsableAssetPath) ? supabaseValue : localValue;
 }
 
 export async function getProjectMetadata(slug: string): Promise<Metadata> {
@@ -54,8 +83,8 @@ export async function getProjectMetadata(slug: string): Promise<Metadata> {
     description,
     keywords,
     alternates: { canonical: canonicalUrl },
-    openGraph: { title, description, url: canonicalUrl, images: localProject?.image || data.image ? [{ url: localProject?.image || data.image }] : [], type: 'website' },
-    twitter: { card: 'summary_large_image', title, description, images: localProject?.image || data.image ? [localProject?.image || data.image] : [] },
+    openGraph: { title, description, url: canonicalUrl, images: preferSupabaseAsset(data.image, localProject?.image) ? [{ url: preferSupabaseAsset(data.image, localProject?.image) as string }] : [], type: 'website' },
+    twitter: { card: 'summary_large_image', title, description, images: preferSupabaseAsset(data.image, localProject?.image) ? [preferSupabaseAsset(data.image, localProject?.image) as string] : [] },
   };
 }
 
@@ -66,7 +95,7 @@ export async function renderProjectPage(slug: string) {
 
   const project = {
     ...data,
-    image: localProject?.image || data.image,
+    image: preferSupabaseAsset(data.image, localProject?.image),
     nameEn: data.name_en,
     priceMin: data.price_min,
     priceMax: data.price_max,
@@ -74,8 +103,8 @@ export async function renderProjectPage(slug: string) {
     conceptImage: data.concept_image,
     projectArea: data.project_area,
     descriptionEn: data.description_en,
-    heroImage: localProject?.heroImage || data.hero_image,
-    promoBanner: localProject?.promoBanner || data.promo_banner,
+    heroImage: preferSupabaseAsset(data.hero_image, localProject?.heroImage),
+    promoBanner: preferSupabaseAsset(data.promo_banner, localProject?.promoBanner),
     promoBannerMobile: data.promo_banner_mobile,
     fbPixelId: data.fb_pixel_id || '',
     facebookUrl: data.facebook_url || '',
