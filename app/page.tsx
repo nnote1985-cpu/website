@@ -89,11 +89,23 @@ export default async function HomePage() {
   const latestNews: NewsItem[] = (newsRes.data || []).map((n) => ({ ...n, isPublished: n.is_published, publishedAt: n.published_at }));
 
   const featuredProjects = allProjects.filter((p) => p.status !== 'sold-out').slice(0, 4);
+  const firstHeroImage = settings.heroImages?.[0];
+
   return (
     <>
+      {firstHeroImage && (
+        <link
+          rel="preload"
+          as="image"
+          href={`/_next/image?url=${encodeURIComponent(firstHeroImage)}&w=1080&q=75`}
+          imageSrcSet={`/_next/image?url=${encodeURIComponent(firstHeroImage)}&w=828&q=75 828w, /_next/image?url=${encodeURIComponent(firstHeroImage)}&w=1080&q=75 1080w, /_next/image?url=${encodeURIComponent(firstHeroImage)}&w=1920&q=75 1920w`}
+          imageSizes="100vw"
+          fetchPriority="high"
+        />
+      )}
       <Header />
       <FloatingCTA />
-      
+
       <main className="bg-white">
         {/* 1. HERO SECTION - แคมเปญหลัก */}
         <HeroSection
@@ -383,6 +395,7 @@ export default async function HomePage() {
               alt="ครอบครัวใช้เวลาร่วมกันในบ้าน"
               fill
               sizes="100vw"
+              loading="lazy"
               className="object-cover object-center md:object-[center_42%]"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-white/96 via-white/55 to-white/6" />
