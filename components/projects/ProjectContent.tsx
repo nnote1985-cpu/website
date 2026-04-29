@@ -242,19 +242,27 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
     : project.floorPlans?.[activePlanIndex];
   const galleryImageLoaded = loadedGalleryImages.has(currentImage);
   const planImageLoaded = Boolean(currentPlanImage && loadedPlanImages.has(currentPlanImage));
-  const galleryPreloadImages = uniqueImages([
-    validGallery[(safeActiveImg + 1) % validGalleryLength],
-    validGallery[(safeActiveImg + 2) % validGalleryLength],
-    validGallery[(safeActiveImg + 3) % validGalleryLength],
-    validGallery[(safeActiveImg - 1 + validGalleryLength) % validGalleryLength],
-  ]).filter((img) => img !== currentImage);
+  const galleryPreloadImages = galleryImageLoaded
+    ? uniqueImages(validGallery).filter((img) => img !== currentImage)
+    : [];
   const planPreloadImages = uniqueImages(
+    planImageLoaded && activeTab === 'room'
+      ? project.roomPlans?.map((plan) => plan.image) || []
+      : planImageLoaded
+        ? project.floorPlans || []
+        : []
+  ).filter((img) => img !== currentPlanImage);
+  const activePlanImages = uniqueImages(
     activeTab === 'room'
       ? project.roomPlans?.map((plan) => plan.image) || []
       : project.floorPlans || []
-  ).filter((img) => img !== currentPlanImage);
+  );
+  const activePlansLoaded = activePlanImages.length > 0 && activePlanImages.every((img) => loadedPlanImages.has(img));
+  const nextPlanPreloadImages = activePlansLoaded
+    ? uniqueImages(activeTab === 'room' ? project.floorPlans || [] : project.roomPlans?.map((plan) => plan.image) || [])
+    : [];
   const galleryPreloadKey = galleryPreloadImages.join('|');
-  const planPreloadKey = planPreloadImages.join('|');
+  const planPreloadKey = uniqueImages([...planPreloadImages, ...nextPlanPreloadImages]).join('|');
 
   const priceLabel = project.priceMin
     ? `เริ่มต้น ${(project.priceMin / 1000000).toFixed(2)} ล้านบาท*`
@@ -844,7 +852,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           📍 PLANS SECTION
       ========================================= */}
       {((project.floorPlans?.length ?? 0) > 0 || (project.roomPlans?.length ?? 0) > 0) && (
-        <section id="plans" className="py-16 md:py-24 bg-slate-50 border-b border-slate-100">
+        <section id="plans" className="py-16 md:py-24 bg-white border-b border-slate-100">
           <div className="container mx-auto px-4 md:px-8">
             <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-3 mb-4 text-[#1a2d6b]">
@@ -926,7 +934,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                       next.add(currentPlanImage);
                       return next;
                     })}
-                    className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`} 
+                    className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`} 
                   />
                 )}
 
@@ -943,7 +951,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                       next.add(currentPlanImage);
                       return next;
                     })}
-                    className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 mix-blend-multiply transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`} 
+                    className={`w-full h-auto max-h-[80vh] object-contain animate-in fade-in zoom-in-95 duration-500 transition-opacity ${planImageLoaded ? 'opacity-100' : 'opacity-0'}`} 
                   />
                 )}
 
