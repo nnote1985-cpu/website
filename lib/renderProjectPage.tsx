@@ -136,7 +136,17 @@ export async function renderProjectPage(slug: string) {
   }
 
   if (HeroSection && !slug.includes('elysium') && project.promoBanner) {
-    HeroSection = <PromoHeroWrapper promoBanner={project.promoBanner} fallbackHero={HeroSection} />;
+    HeroSection = (
+      <PromoHeroWrapper
+        promoBanner={project.promoBanner}
+        promoBannerMobile={project.promoBannerMobile}
+        fallbackHero={HeroSection}
+        projectName={project.name}
+        projectSlug={project.slug}
+        phone={project.phone}
+        accentColor={slug === 'the-celine-bang-chan' ? '#cca464' : '#e53935'}
+      />
+    );
   }
 
   const residenceSchema = {
