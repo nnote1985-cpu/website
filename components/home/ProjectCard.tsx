@@ -43,7 +43,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             src={project.image}
             alt={project.name}
             fill
-            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            sizes="(min-width: 1024px) 25vw, 50vw"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
           />
         )}
