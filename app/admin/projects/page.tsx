@@ -98,6 +98,63 @@ function mapProject(p: Record<string, unknown>): Project {
   };
 }
 
+interface VideoSlot { title: string; url: string }
+
+function VideoManagerField({
+  value, onChange, inputClass, labelClass,
+}: {
+  value: string; onChange: (v: string) => void; inputClass: string; labelClass: string;
+}) {
+  function parse(raw: string): VideoSlot[] {
+    const empty: VideoSlot[] = [{ title: '', url: '' }, { title: '', url: '' }, { title: '', url: '' }];
+    if (!raw) return empty;
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        parsed.slice(0, 3).forEach((v, i) => { empty[i] = { title: v.title || '', url: v.url || '' }; });
+        return empty;
+      }
+    } catch {}
+    empty[0] = { title: '', url: raw };
+    return empty;
+  }
+
+  const slots = parse(value);
+
+  function update(i: number, field: 'title' | 'url', val: string) {
+    const updated = slots.map((s, j) => j === i ? { ...s, [field]: val } : s);
+    const hasAny = updated.some(s => s.url.trim());
+    onChange(hasAny ? JSON.stringify(updated) : '');
+  }
+
+  return (
+    <div className="col-span-2 space-y-3">
+      {slots.map((v, i) => (
+        <div key={i}>
+          <label className={labelClass}>วีดีโอที่ {i + 1}{i > 0 ? ' (Optional)' : ''}</label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={v.title}
+              onChange={(e) => update(i, 'title', e.target.value)}
+              placeholder="ชื่อวีดีโอ"
+              className={`${inputClass} w-2/5`}
+            />
+            <input
+              type="url"
+              value={v.url}
+              onChange={(e) => update(i, 'url', e.target.value)}
+              placeholder="https://www.youtube.com/embed/XXXXXXXXX"
+              className={`${inputClass} flex-1`}
+            />
+          </div>
+        </div>
+      ))}
+      <p className="text-xs text-gray-400">ใช้ลิงค์แบบ embed · ถ้าไม่ใส่จะไม่แสดง section วีดีโอ</p>
+    </div>
+  );
+}
+
 export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -465,19 +522,14 @@ export default function AdminProjectsPage() {
 
                 {/* ── Video ── */}
                 <div className="col-span-2 pt-2 border-t border-gray-100">
-                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">วีดีโอโครงการ</p>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">วีดีโอโครงการ (สูงสุด 3 รายการ)</p>
                 </div>
-                <div className="col-span-2">
-                  <label className={labelClass}>YouTube / Vimeo Embed URL</label>
-                  <input
-                    type="url"
-                    value={modal.project.videoUrl || ''}
-                    onChange={(e) => updateField('videoUrl', e.target.value)}
-                    className={inputClass}
-                    placeholder="https://www.youtube.com/embed/XXXXXXXXX"
-                  />
-                  <p className="text-xs text-gray-400 mt-1">ใช้ลิงค์แบบ embed เช่น youtube.com/embed/... ถ้าไม่ใส่จะไม่แสดง section นี้</p>
-                </div>
+                <VideoManagerField
+                  value={modal.project.videoUrl || ''}
+                  onChange={(v) => updateField('videoUrl', v)}
+                  inputClass={inputClass}
+                  labelClass={labelClass}
+                />
 
                 {/* ── SEO ── */}
                 <div className="col-span-2 pt-2 border-t border-gray-100">

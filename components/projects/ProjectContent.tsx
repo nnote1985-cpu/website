@@ -50,6 +50,22 @@ interface ProjectContentData {
   videoUrl?: string;
 }
 
+type VideoItem = { title: string; url: string };
+
+function parseVideos(raw: string | undefined): VideoItem[] {
+  if (!raw) return [];
+  try {
+    const arr = JSON.parse(raw);
+    if (Array.isArray(arr)) return arr.filter((v: VideoItem) => v?.url);
+  } catch {}
+  return [{ title: 'Video', url: raw }];
+}
+
+function getYouTubeThumb(url: string): string {
+  const m = url.match(/embed\/([^?&/]+)/);
+  return m ? `https://img.youtube.com/vi/${m[1]}/mqdefault.jpg` : '';
+}
+
 function isGalleryGroupArray(value: GalleryTabData | undefined): value is GalleryGroup[] {
   return Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && 'images' in value[0];
 }
@@ -180,6 +196,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   const [loadedGalleryImages, setLoadedGalleryImages] = useState<Set<string>>(new Set());
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
   const [infoTab, setInfoTab] = useState<'concept' | 'factsheet' | 'facilities'>('concept');
+  const [activeVideo, setActiveVideo] = useState(0);
+  const videos = parseVideos(project.videoUrl);
 
   // ==========================================
   // 📍 STATE สำหรับ PLANS
@@ -1130,9 +1148,9 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       {/* =========================================
           📍 3. VIDEO SECTION
       ========================================= */}
-      {project.videoUrl && (
+      {videos.length > 0 && (
         <section id="video" className="py-16 md:py-24 bg-[#0f1e4a]">
-          <div className="max-w-5xl mx-auto px-4">
+          <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-10">
               <div className="flex items-center justify-center gap-3 mb-4 text-white">
                 <PlayCircle size={32} />
@@ -1140,14 +1158,68 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               </div>
               <div className="w-16 h-1 bg-[#e53935] mx-auto rounded-full" />
             </div>
-            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl" style={{ paddingTop: '56.25%' }}>
-              <iframe
-                src={project.videoUrl?.replace('www.youtube.com', 'www.youtube-nocookie.com')}
-                className="absolute inset-0 w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title={`${project.name} Video`}
-              />
+
+            <div className={`flex gap-6 ${videos.length > 1 ? 'flex-col lg:flex-row items-start' : ''}`}>
+              {/* Player */}
+              <div className={videos.length > 1 ? 'w-full lg:flex-1 min-w-0' : 'w-full'}>
+                <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl" style={{ paddingTop: '56.25%' }}>
+                  <iframe
+                    key={activeVideo}
+                    src={videos[activeVideo].url.replace('www.youtube.com', 'www.youtube-nocookie.com')}
+                    className="absolute inset-0 w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title={videos[activeVideo].title || `${project.name} Video`}
+                  />
+                </div>
+                {videos.length > 1 && (
+                  <p className="mt-3 text-white font-semibold text-base md:text-lg">
+                    {videos[activeVideo].title || `Video ${activeVideo + 1}`}
+                  </p>
+                )}
+              </div>
+
+              {/* Playlist — only when multiple videos */}
+              {videos.length > 1 && (
+                <div className="w-full lg:w-72 shrink-0 flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
+                  {videos.map((v, i) => {
+                    const thumb = getYouTubeThumb(v.url);
+                    const isActive = i === activeVideo;
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => setActiveVideo(i)}
+                        className={`flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer text-left shrink-0 w-64 lg:w-auto ${isActive ? 'bg-[#e53935]' : 'bg-white/8 hover:bg-white/15'}`}
+                      >
+                        <div className="relative w-20 h-[45px] rounded-lg overflow-hidden shrink-0 bg-white/10">
+                          {thumb ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={thumb} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <PlayCircle size={20} className="text-white/50" />
+                            </div>
+                          )}
+                          {isActive && (
+                            <div className="absolute inset-0 bg-black/25 flex items-center justify-center">
+                              <PlayCircle size={16} className="text-white" />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className={`text-sm font-semibold line-clamp-2 ${isActive ? 'text-white' : 'text-white/70'}`}>
+                            {v.title || `Video ${i + 1}`}
+                          </p>
+                          {isActive && (
+                            <p className="text-[10px] text-white/70 mt-0.5 uppercase tracking-widest">กำลังเล่น</p>
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </section>
