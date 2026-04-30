@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import NextImage from 'next/image';
-import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, PlayCircle, ChevronDown, HelpCircle } from 'lucide-react';
+import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, Play, ChevronDown, HelpCircle } from 'lucide-react';
 import { Montserrat } from 'next/font/google';
 import CollapsibleSection from '@/components/home/CollapsibleSection';
 
@@ -61,10 +61,6 @@ function parseVideos(raw: string | undefined): VideoItem[] {
   return [{ title: 'Video', url: raw }];
 }
 
-function getYouTubeThumb(url: string): string {
-  const m = url.match(/embed\/([^?&/]+)/);
-  return m ? `https://img.youtube.com/vi/${m[1]}/mqdefault.jpg` : '';
-}
 
 function isGalleryGroupArray(value: GalleryTabData | undefined): value is GalleryGroup[] {
   return Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && 'images' in value[0];
@@ -1150,19 +1146,21 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       ========================================= */}
       {videos.length > 0 && (
         <section id="video" className="py-16 md:py-24 bg-[#0f1e4a]">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="text-center mb-10">
-              <div className="flex items-center justify-center gap-3 mb-4 text-white">
-                <PlayCircle size={32} />
-                <h2 className={`${mont.className} text-4xl md:text-5xl font-black uppercase tracking-tight`}>Video</h2>
+          <div className="max-w-6xl mx-auto px-4">
+            {/* Section title */}
+            <div className="mb-8 md:mb-10">
+              <div className="flex items-center gap-2.5 mb-2">
+                <div className="w-1 h-5 bg-[#e53935] rounded-full" />
+                <span className={`${mont.className} text-[10px] font-semibold tracking-[0.3em] uppercase text-[#e53935]`}>Project</span>
               </div>
-              <div className="w-16 h-1 bg-[#e53935] mx-auto rounded-full" />
+              <h2 className={`${mont.className} text-3xl md:text-4xl font-black text-white uppercase tracking-tight`}>Video</h2>
             </div>
 
-            <div className={`flex gap-6 ${videos.length > 1 ? 'flex-col lg:flex-row items-start' : ''}`}>
+            {/* Player + Playlist */}
+            <div className={`flex overflow-hidden rounded-2xl shadow-2xl ${videos.length > 1 ? 'flex-col lg:flex-row lg:items-stretch' : ''}`}>
               {/* Player */}
-              <div className={videos.length > 1 ? 'w-full lg:flex-1 min-w-0' : 'w-full'}>
-                <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl" style={{ paddingTop: '56.25%' }}>
+              <div className={`${videos.length > 1 ? 'lg:flex-1' : 'w-full'} bg-black shrink-0`}>
+                <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
                   <iframe
                     key={activeVideo}
                     src={videos[activeVideo].url.replace('www.youtube.com', 'www.youtube-nocookie.com')}
@@ -1172,52 +1170,48 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                     title={videos[activeVideo].title || `${project.name} Video`}
                   />
                 </div>
-                {videos.length > 1 && (
-                  <p className="mt-3 text-white font-semibold text-base md:text-lg">
-                    {videos[activeVideo].title || `Video ${activeVideo + 1}`}
-                  </p>
-                )}
               </div>
 
               {/* Playlist — only when multiple videos */}
               {videos.length > 1 && (
-                <div className="w-full lg:w-72 shrink-0 flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
-                  {videos.map((v, i) => {
-                    const thumb = getYouTubeThumb(v.url);
-                    const isActive = i === activeVideo;
-                    return (
-                      <button
-                        key={i}
-                        type="button"
-                        onClick={() => setActiveVideo(i)}
-                        className={`flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer text-left shrink-0 w-64 lg:w-auto ${isActive ? 'bg-[#e53935]' : 'bg-white/8 hover:bg-white/15'}`}
-                      >
-                        <div className="relative w-20 h-[45px] rounded-lg overflow-hidden shrink-0 bg-white/10">
-                          {thumb ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={thumb} alt="" className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center">
-                              <PlayCircle size={20} className="text-white/50" />
-                            </div>
-                          )}
-                          {isActive && (
-                            <div className="absolute inset-0 bg-black/25 flex items-center justify-center">
-                              <PlayCircle size={16} className="text-white" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className={`text-sm font-semibold line-clamp-2 ${isActive ? 'text-white' : 'text-white/70'}`}>
+                <div className="w-full lg:w-72 shrink-0 flex flex-col">
+                  {/* Header */}
+                  <div className="bg-[#1a2d6b] px-5 py-3.5 flex items-center justify-between shrink-0">
+                    <span className={`${mont.className} text-white font-bold text-sm uppercase tracking-widest`}>Playlist</span>
+                    <span className="text-white/50 text-xs font-medium">{videos.length} Videos</span>
+                  </div>
+                  {/* Items */}
+                  <div className="bg-white flex-1 flex flex-col divide-y divide-slate-100 overflow-y-auto">
+                    {videos.map((v, i) => {
+                      const isActive = i === activeVideo;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setActiveVideo(i)}
+                          className={`flex items-center gap-3 px-5 py-4 text-left transition-colors w-full border-l-[3px] cursor-pointer ${
+                            isActive
+                              ? 'bg-slate-50 border-[#e53935]'
+                              : 'border-transparent hover:bg-slate-50 hover:border-slate-200'
+                          }`}
+                        >
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${
+                            isActive ? 'bg-[#e53935]' : 'bg-slate-100'
+                          }`}>
+                            {isActive
+                              ? <Play size={12} fill="white" className="text-white ml-0.5" />
+                              : <span className="text-slate-400 text-xs font-bold">{i + 1}</span>
+                            }
+                          </div>
+                          <p className={`text-sm line-clamp-2 flex-1 transition-colors ${
+                            isActive ? 'text-[#1a2d6b] font-semibold' : 'text-slate-600 font-medium'
+                          }`}>
                             {v.title || `Video ${i + 1}`}
                           </p>
-                          {isActive && (
-                            <p className="text-[10px] text-white/70 mt-0.5 uppercase tracking-widest">กำลังเล่น</p>
-                          )}
-                        </div>
-                      </button>
-                    );
-                  })}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </div>
