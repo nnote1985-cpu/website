@@ -133,24 +133,28 @@ function VideoManagerField({
         <div key={i}>
           <label className={labelClass}>วีดีโอที่ {i + 1}{i > 0 ? ' (Optional)' : ''}</label>
           <div className="flex gap-2">
-            <input
-              type="text"
-              value={v.title}
-              onChange={(e) => update(i, 'title', e.target.value)}
-              placeholder="ชื่อวีดีโอ"
-              className={`${inputClass} w-2/5`}
-            />
-            <input
-              type="url"
-              value={v.url}
-              onChange={(e) => update(i, 'url', e.target.value)}
-              placeholder="https://www.youtube.com/embed/XXXXXXXXX"
-              className={`${inputClass} flex-1`}
-            />
+            <div className="flex-1 min-w-0">
+              <input
+                type="url"
+                value={v.url}
+                onChange={(e) => update(i, 'url', e.target.value)}
+                placeholder="https://www.youtube.com/embed/XXXXXXXXX"
+                className={inputClass}
+              />
+            </div>
+            <div className="w-40 shrink-0">
+              <input
+                type="text"
+                value={v.title}
+                onChange={(e) => update(i, 'title', e.target.value)}
+                placeholder="ชื่อวีดีโอ"
+                className={inputClass}
+              />
+            </div>
           </div>
         </div>
       ))}
-      <p className="text-xs text-gray-400">ใช้ลิงค์แบบ embed · ถ้าไม่ใส่จะไม่แสดง section วีดีโอ</p>
+      <p className="text-xs text-gray-400">ใช้ลิงค์แบบ embed · ชื่อวีดีโอจะแสดงใน playlist · ถ้าไม่ใส่ URL จะไม่แสดง section วีดีโอ</p>
     </div>
   );
 }
