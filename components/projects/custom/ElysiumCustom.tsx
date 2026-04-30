@@ -106,7 +106,7 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
         <div className="xl:hidden flex flex-col bg-[#faf8f5]">
           <div className="w-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={mobilePromoUrl || heroImageUrl || '/logo.png'} alt="โปรโมชั่น" width={1080} height={1600} className="w-full h-auto block" />
+            <img src={mobilePromoUrl || heroImageUrl || '/logo.png'} alt="โปรโมชั่น" width={1080} height={1600} className="w-full h-auto block" fetchPriority="high" />
           </div>
 
           <div id="register-mobile" data-register-form="true" className="scroll-mt-24 px-6 py-10 bg-[#faf8f5]">
