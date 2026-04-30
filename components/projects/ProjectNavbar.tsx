@@ -65,6 +65,8 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
         <div className="flex md:hidden items-center gap-3 flex-1 min-w-0 pr-2">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
+            aria-expanded={isMobileMenuOpen}
             className="p-1 -ml-1 text-[#1a2d6b] hover:bg-slate-100 rounded-lg shrink-0"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -128,7 +130,7 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center w-8 h-8 text-slate-400 hover:text-[#1877F2] hover:bg-blue-50 rounded-full transition-colors"
-              title="Facebook"
+              aria-label="Facebook Page"
             >
               <FbIcon />
             </a>

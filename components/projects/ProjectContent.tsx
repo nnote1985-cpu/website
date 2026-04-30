@@ -3,12 +3,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import NextImage from 'next/image';
 import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, PlayCircle, ChevronDown, HelpCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { Montserrat } from 'next/font/google';
 import CollapsibleSection from '@/components/home/CollapsibleSection';
 
 const mont = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
-const fadeUp = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } };
 
 interface RoomPlan {
   type: string;
@@ -582,14 +580,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       ========================================= */}
       <section id="info" className="py-16 md:py-24 bg-[#faf8f5] border-b border-[#e53935]/15">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <motion.div
-            variants={{ show: { transition: { staggerChildren: 0.1 } } }}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
-            className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10"
-          >
-            <motion.div variants={fadeUp}>
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+            <div>
               <span className={`text-[10px] font-semibold tracking-[0.35em] uppercase text-[#e53935]`}>
                 ข้อมูลโครงการ
               </span>
@@ -600,9 +592,9 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               <p className="mt-3 max-w-2xl text-sm md:text-base text-slate-500 leading-relaxed">
                 สรุปภาพรวมโครงการ ทั้ง Concept Information และ Facilities
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div variants={fadeUp} className="inline-flex w-fit max-w-full self-center overflow-x-auto rounded-full border bg-white p-1.5 shadow-sm no-scrollbar md:p-2 lg:self-auto">
+            <div className="inline-flex w-fit max-w-full self-center overflow-x-auto rounded-full border bg-white p-1.5 shadow-sm no-scrollbar md:p-2 lg:self-auto">
               {[
                 { key: 'concept', label: 'แนวคิดโครงการ' },
                 { key: 'factsheet', label: 'Factsheet' },
@@ -620,16 +612,11 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   {tab.label}
                 </button>
               ))}
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {infoTab === 'concept' && (
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              animate="show"
-              className="overflow-hidden rounded-2xl bg-[#1a2d6b] text-white shadow-lg"
-            >
+            <div className="overflow-hidden rounded-2xl bg-[#1a2d6b] text-white shadow-lg">
               <div className="flex flex-col lg:flex-row min-h-0">
                 {/* รูป — ซ้าย */}
                 <div className="relative w-full lg:w-1/2 aspect-[4/3] lg:aspect-auto lg:min-h-[420px] bg-[#0f1e4a] shrink-0">
@@ -663,11 +650,11 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {infoTab === 'factsheet' && (
-            <motion.div variants={fadeUp} initial="hidden" animate="show" className="space-y-4">
+            <div className="space-y-4">
               <div className="overflow-hidden rounded-2xl border border-[#e53935]/15 bg-white shadow-sm">
                 <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y divide-[#e53935]/10">
                   {projectFacts.map((item) => (
@@ -740,11 +727,11 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   </div>
                 </div>
               )}
-            </motion.div>
+            </div>
           )}
 
           {infoTab === 'facilities' && (
-            <motion.div variants={fadeUp} initial="hidden" animate="show" className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-4 bg-[#1a2d6b] text-white rounded-2xl p-7 md:p-8 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#e53935] via-[#e8c98a] to-[#e53935]" />
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#e53935]/15 border border-[#e53935]/25 mb-6">
@@ -778,7 +765,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   </div>
                 )}
               </div>
-            </motion.div>
+            </div>
           )}
         </div>
       </section>
@@ -787,13 +774,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           📍 GALLERY SECTION (แยกหมวดหมู่)
       ========================================= */}
       <section id="gallery" className="py-24 bg-white border-b border-[#e53935]/10">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-60px' }}
-          className="max-w-7xl mx-auto px-4 text-center mb-10"
-        >
+        <div className="max-w-7xl mx-auto px-4 text-center mb-10">
           <p className={`text-[10px] font-semibold tracking-[0.35em] uppercase text-[#e53935] mb-3`}>
             Photo Gallery
           </p>
@@ -843,8 +824,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               ))}
             </div>
           )}
-        </motion.div>
-        
+        </div>
+
         <div className="max-w-6xl mx-auto px-4">
           <div
             className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-slate-100 mb-6 shadow-xl border group"
@@ -882,6 +863,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             {validGallery.length > 1 && (
               <button
                 onClick={(e) => { e.stopPropagation(); handleGalleryPrev(); }}
+                aria-label="รูปก่อนหน้า"
                 className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-[#e53935] text-white p-2.5 md:p-3 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 hover:scale-110 shadow-lg"
               >
                 <ChevronLeft size={22} />
@@ -892,6 +874,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             {validGallery.length > 1 && (
               <button
                 onClick={(e) => { e.stopPropagation(); handleGalleryNext(); }}
+                aria-label="รูปถัดไป"
                 className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-[#e53935] text-white p-2.5 md:p-3 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 hover:scale-110 shadow-lg"
               >
                 <ChevronRight size={22} />
@@ -908,6 +891,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             {/* Fullscreen button */}
             <button
               onClick={() => setIsGalleryFullscreen(true)}
+              aria-label="ดูรูปแบบเต็มจอ"
               className="absolute top-3 right-3 z-20 bg-black/40 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all"
             >
               <Maximize2 size={18} />
@@ -1158,7 +1142,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             </div>
             <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl" style={{ paddingTop: '56.25%' }}>
               <iframe
-                src={project.videoUrl}
+                src={project.videoUrl?.replace('www.youtube.com', 'www.youtube-nocookie.com')}
                 className="absolute inset-0 w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

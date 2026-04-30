@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Phone, MapPin, TrainFront, Building2, Home } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { Montserrat } from 'next/font/google';
 import RegisterForm from '@/components/projects/RegisterForm';
 
@@ -27,9 +26,6 @@ interface CustomProject {
   floors?: number;
   units?: number;
 }
-
-const fadeUp = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0 } };
-const fadeIn = { hidden: { opacity: 0 }, show: { opacity: 1 } };
 
 export default function ElysiumCustom({ project }: { project: CustomProject }) {
   const promoBanner = project.promoBanner?.trim();
@@ -66,19 +62,11 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
   ];
 
   const FormCard = (
-    <motion.div
-      variants={fadeUp}
-      initial="hidden"
-      animate="show"
-      transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
-      className="bg-white rounded-2xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.12),_0_8px_32px_rgba(0,0,0,0.5),_0_32px_80px_rgba(0,0,0,0.4),_0_0_60px_rgba(255,255,255,0.04)]"
-    >
-      {/* Top accent — gradient với 2 ชั้น */}
+    <div className="bg-white rounded-2xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.12),_0_8px_32px_rgba(0,0,0,0.5),_0_32px_80px_rgba(0,0,0,0.4),_0_0_60px_rgba(255,255,255,0.04)]">
       <div className="h-[4px] w-full bg-gradient-to-r from-[#b71c1c] via-[#e53935] to-[#b71c1c]" />
 
       <div className="p-6 md:p-7">
         <div className="mb-6">
-          {/* Badge row */}
           <div className="flex items-center gap-2 mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] animate-pulse" />
             <p className={`${mont.className} text-[#e53935] text-[9px] font-semibold uppercase tracking-[0.4em]`}>
@@ -101,14 +89,14 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
             <Phone size={17} className="text-[#e53935]" />
           </div>
           <div>
-            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.16em] mb-0.5">Sales Gallery</p>
+            <p className="text-[9px] font-bold text-slate-600 uppercase tracking-[0.16em] mb-0.5">Sales Gallery</p>
             <a href={`tel:${phoneTel}`} className="text-lg md:text-xl font-black text-slate-900 hover:text-[#e53935] transition-colors">
               {phone}
             </a>
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 
   return (
@@ -116,16 +104,10 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
       {/* ===== MOBILE: promo บน + ฟอร์มล่าง ===== */}
       {showPromo && (
         <div className="xl:hidden flex flex-col bg-[#faf8f5]">
-          <motion.div
-            variants={fadeIn}
-            initial="hidden"
-            animate="show"
-            transition={{ duration: 0.6 }}
-            className="w-full"
-          >
+          <div className="w-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={mobilePromoUrl || heroImageUrl || '/logo.png'} alt="โปรโมชั่น" width={1080} height={1600} className="w-full h-auto block" />
-          </motion.div>
+          </div>
 
           <div id="register-mobile" data-register-form="true" className="scroll-mt-24 px-6 py-10 bg-[#faf8f5]">
             <div className="mb-1">
@@ -144,7 +126,7 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
                 <Phone size={17} className="text-[#e53935]" />
               </div>
               <div>
-                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-0.5">Sales Gallery</p>
+                <p className="text-[9px] font-bold text-slate-600 uppercase tracking-[0.1em] mb-0.5">Sales Gallery</p>
                 <a href={`tel:${phoneTel}`} className="text-lg font-black text-slate-900 hover:text-[#e53935] transition-colors">
                   {phone}
                 </a>
@@ -176,58 +158,37 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
           {/* Left: text content */}
           <div className="flex min-h-[44vh] flex-col justify-end xl:min-h-[calc(100vh-160px)]">
             {!showPromo && (
-              <motion.div
-                className="max-w-4xl text-white"
-                initial="hidden"
-                animate="show"
-                variants={{ show: { transition: { staggerChildren: 0.12 } } }}
-              >
+              <div className="max-w-4xl text-white">
                 {/* Badge */}
-                <motion.div variants={fadeUp} transition={{ duration: 0.6 }}>
-                  <div className="inline-flex items-center gap-3 rounded-full border border-[#e53935]/40 bg-[#e53935]/10 px-5 py-2 backdrop-blur-md mb-6">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] animate-pulse" />
-                    <span className={`${mont.className} text-[10px] font-semibold tracking-[0.3em] uppercase text-[#e53935]`}>
-                      {project.type || 'Exclusive Residence'}
-                    </span>
-                  </div>
-                </motion.div>
+                <div className="inline-flex items-center gap-3 rounded-full border border-[#e53935]/40 bg-[#e53935]/10 px-5 py-2 backdrop-blur-md mb-6">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] animate-pulse" />
+                  <span className={`${mont.className} text-[10px] font-semibold tracking-[0.3em] uppercase text-[#e53935]`}>
+                    {project.type || 'Exclusive Residence'}
+                  </span>
+                </div>
 
                 {/* Title */}
-                <motion.div variants={fadeUp} transition={{ duration: 0.65 }}>
-                  <h1 className={`${mont.className} text-4xl md:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight uppercase`}>
-                    {firstPart} <br />
-                    <span className="text-[#e53935]">{lastWord}</span>
-                  </h1>
-                </motion.div>
+                <h1 className={`${mont.className} text-4xl md:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight uppercase`}>
+                  {firstPart} <br />
+                  <span className="text-[#e53935]">{lastWord}</span>
+                </h1>
 
                 {/* Concept */}
                 {project.concept && (
-                  <motion.p
-                    variants={fadeUp}
-                    transition={{ duration: 0.6 }}
-                    className="mt-4 text-base md:text-xl font-light text-white/70 uppercase tracking-[0.2em]"
-                  >
+                  <p className="mt-4 text-base md:text-xl font-light text-white/70 uppercase tracking-[0.2em]">
                     {project.concept}
-                  </motion.p>
+                  </p>
                 )}
 
                 {/* Description */}
                 {project.description && (
-                  <motion.p
-                    variants={fadeUp}
-                    transition={{ duration: 0.6 }}
-                    className="mt-4 max-w-xl text-sm md:text-base leading-relaxed text-white/60 border-l-2 border-[#e53935]/50 pl-4"
-                  >
+                  <p className="mt-4 max-w-xl text-sm md:text-base leading-relaxed text-white/60 border-l-2 border-[#e53935]/50 pl-4">
                     {project.description}
-                  </motion.p>
+                  </p>
                 )}
 
                 {/* Facts */}
-                <motion.div
-                  variants={fadeUp}
-                  transition={{ duration: 0.6 }}
-                  className="mt-8 grid grid-cols-2 gap-2 md:grid-cols-4"
-                >
+                <div className="mt-8 grid grid-cols-2 gap-2 md:grid-cols-4">
                   {facts.map((fact) => (
                     <div
                       key={fact.label}
@@ -237,11 +198,11 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
                         {fact.icon}
                         <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/50">{fact.label}</span>
                       </div>
-                      <div className={`text-sm font-semibold text-white line-clamp-1`}>{fact.value}</div>
+                      <div className="text-sm font-semibold text-white line-clamp-1">{fact.value}</div>
                     </div>
                   ))}
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             )}
           </div>
 

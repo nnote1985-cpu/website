@@ -130,8 +130,9 @@ export default function RegisterForm({ projectName, projectSlug }: Props) {
       )}
       <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
         <div className="space-y-1.5">
-          <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Full Name</label>
+          <label htmlFor="reg-name" className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Full Name</label>
           <input
+            id="reg-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -143,8 +144,9 @@ export default function RegisterForm({ projectName, projectSlug }: Props) {
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Phone Number</label>
+          <label htmlFor="reg-phone" className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Phone Number</label>
           <input
+            id="reg-phone"
             type="tel"
             value={phone}
             onChange={(e) => setPhone(formatPhone(e.target.value))}
@@ -156,8 +158,9 @@ export default function RegisterForm({ projectName, projectSlug }: Props) {
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Email Address (Optional)</label>
+          <label htmlFor="reg-email" className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Email Address (Optional)</label>
           <input
+            id="reg-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -167,10 +170,11 @@ export default function RegisterForm({ projectName, projectSlug }: Props) {
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">
+          <label htmlFor="reg-date" className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">
             วันที่นัดหมายเข้าชม <span className="normal-case font-normal text-slate-400">(Optional)</span>
           </label>
           <input
+            id="reg-date"
             type="date"
             value={appointmentDate}
             min={today}

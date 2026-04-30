@@ -58,7 +58,7 @@ export default function HeroSection({ title, subtitle, description, ctaText, cta
         <div className="max-w-3xl text-white pb-16 md:pb-0">
 
           {/* Subtitle badge */}
-          <div className="inline-flex items-center gap-3 mb-6 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-3 mb-4 sm:mb-6 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
             <div className="w-6 h-[1.5px] bg-[#e53935]" />
             <p className="text-[#e53935] font-semibold tracking-[0.35em] uppercase text-[10px]">
               {subtitle}
@@ -66,17 +66,17 @@ export default function HeroSection({ title, subtitle, description, ctaText, cta
           </div>
 
           {/* Title — last word red */}
-          <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold mb-8 leading-[1.05] tracking-tight drop-shadow-2xl">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold mb-5 sm:mb-8 leading-[1.05] tracking-tight drop-shadow-2xl">
             {firstPart}{firstPart && ' '}<span className="text-[#e53935]">{lastWord}</span>
           </h1>
 
           {/* Description */}
-          <p className="text-lg md:text-xl text-slate-300 mb-10 font-light leading-relaxed max-w-xl border-l-2 border-[#e53935]/60 pl-6 py-2">
+          <p className="text-base sm:text-lg md:text-xl text-slate-300 mb-6 sm:mb-10 font-light leading-relaxed max-w-xl border-l-2 border-[#e53935]/60 pl-6 py-2">
             {description}
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 mb-12">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 mb-8 sm:mb-12">
             <Link
               href={ctaUrl}
               className="group relative flex items-center gap-4 bg-white text-slate-900 font-bold px-10 py-4 hover:text-white transition-all duration-500 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-sm"
@@ -120,7 +120,7 @@ export default function HeroSection({ title, subtitle, description, ctaText, cta
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-70 z-30 pointer-events-none">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-3 opacity-70 z-30 pointer-events-none">
         <span className="text-[9px] uppercase tracking-[0.4em] text-white font-bold">Scroll</span>
         <div className="w-[1px] h-16 bg-white/10 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1/2 bg-[#e53935] animate-[bounce_2s_infinite]" />
