@@ -401,7 +401,6 @@ export default async function HomePage() {
             <div className="absolute inset-x-0 top-10 h-52 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.72)_38%,rgba(255,255,255,0)_72%)]" />
 
             <div className="relative z-10 max-w-4xl mx-auto px-6 pt-16 md:pt-24 text-center">
-              <p className="text-[#e53935] font-black text-xs uppercase tracking-[0.35em] mb-4 [text-shadow:0_1px_0_rgba(255,255,255,0.9)]">Your Happiness Is Our Hope</p>
               <h2 className="text-4xl md:text-6xl font-black text-[#1a2d6b] tracking-tight mb-4 [text-shadow:0_2px_16px_rgba(255,255,255,0.95)]">
                 FREEDOM OF LIFE
               </h2>
