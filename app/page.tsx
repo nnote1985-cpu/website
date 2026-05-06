@@ -108,7 +108,6 @@ export default async function HomePage() {
         {/* 1. HERO SECTION - แคมเปญหลัก */}
         <HeroSection
           title={settings.heroTitle}
-          subtitle={settings.heroSubtitle}
           description={settings.heroDescription}
           ctaText={settings.heroCTA}
           ctaUrl={settings.heroCTAUrl}

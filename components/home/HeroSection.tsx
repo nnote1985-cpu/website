@@ -5,7 +5,6 @@ import HeroSlideshow from './HeroSlideshow';
 
 interface HeroProps {
   title: string;
-  subtitle: string;
   description: string;
   ctaText: string;
   ctaUrl: string;
@@ -23,7 +22,7 @@ const STATS = [
   { value: '6', label: 'ทำเลกรุงเทพฯ' },
 ];
 
-export default function HeroSection({ title, subtitle, description, ctaText, ctaUrl, images }: HeroProps) {
+export default function HeroSection({ title, description, ctaText, ctaUrl, images }: HeroProps) {
   const displayImages = images && images.length > 0 ? images : FALLBACK_IMAGES;
   const firstImage = displayImages[0];
 
@@ -56,14 +55,6 @@ export default function HeroSection({ title, subtitle, description, ctaText, cta
       {/* Content */}
       <div className="relative z-30 container mx-auto px-6 md:px-12 lg:px-20">
         <div className="max-w-3xl text-white pb-16 md:pb-0">
-
-          {/* Subtitle badge */}
-          <div className="inline-flex items-center gap-3 mb-4 sm:mb-6 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
-            <div className="w-6 h-[1.5px] bg-[#e53935]" />
-            <p className="text-[#e53935] font-semibold tracking-[0.35em] uppercase text-[10px]">
-              {subtitle}
-            </p>
-          </div>
 
           {/* Title — last word red */}
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold mb-5 sm:mb-8 leading-[1.05] tracking-tight drop-shadow-2xl">
