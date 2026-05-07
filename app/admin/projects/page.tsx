@@ -606,6 +606,7 @@ export default function AdminProjectsPage() {
                     onChange={(e) => updateField('fbPixelId', e.target.value)}
                     className={inputClass}
                     placeholder="เช่น 1234567890123456"
+                    autoComplete="off"
                   />
                   <p className="text-xs text-gray-400 mt-1">ยิง Pixel นี้เพิ่มเติมจาก Global Pixel เมื่อผู้ใช้เปิดหน้าโครงการนี้</p>
                 </div>
@@ -617,6 +618,7 @@ export default function AdminProjectsPage() {
                     onChange={(e) => updateField('fbCapiToken', e.target.value)}
                     className={inputClass}
                     placeholder="EAAxxxxx..."
+                    autoComplete="new-password"
                   />
                   <p className="text-xs text-gray-400 mt-1">ใช้คู่กับ Pixel ID ด้านบน — สร้างได้ที่ Facebook Events Manager → Settings → Conversions API</p>
                 </div>
