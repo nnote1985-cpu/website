@@ -27,6 +27,22 @@ const EMPTY: Omit<NewsItem, 'id'> = {
 
 const CATEGORIES = ['Market Analysis', 'Property Tips', 'Finance', 'Project Update', 'Company News'];
 
+function mapNewsItem(d: Record<string, unknown>): NewsItem {
+  return {
+    id: d.id as string,
+    slug: (d.slug as string) || '',
+    title: (d.title as string) || '',
+    excerpt: (d.excerpt as string) || '',
+    content: (d.content as string) || '',
+    category: (d.category as string) || 'Market Analysis',
+    image: (d.image as string) || '',
+    author: (d.author as string) || 'ASAKAN Team',
+    publishedAt: (d.published_at as string) || (d.publishedAt as string) || '',
+    isPublished: (d.is_published as boolean) ?? (d.isPublished as boolean) ?? false,
+    tags: Array.isArray(d.tags) ? d.tags as string[] : [],
+  };
+}
+
 export default function AdminNewsPage() {
   const [items, setItems] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -40,7 +56,7 @@ export default function AdminNewsPage() {
   useEffect(() => {
     fetch('/api/news/all')
       .then((r) => r.json())
-      .then((d) => { setItems(Array.isArray(d) ? d : []); setLoading(false); })
+      .then((d) => { setItems(Array.isArray(d) ? d.map(mapNewsItem) : []); setLoading(false); })
       .catch(() => setLoading(false));
   }, []);
 
@@ -124,7 +140,7 @@ export default function AdminNewsPage() {
         alert(`บันทึกไม่สำเร็จ: ${err.error || res.status}`);
         return;
       }
-      const data = await res.json();
+      const data = mapNewsItem(await res.json());
       if (modal.isNew) setItems([data, ...items]);
       else setItems(items.map((n) => (n.id === id ? data : n)));
       closeModal();
@@ -137,7 +153,8 @@ export default function AdminNewsPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...item, isPublished: !item.isPublished }),
     });
-    const data = await res.json();
+    if (!res.ok) return;
+    const data = mapNewsItem(await res.json());
     setItems(items.map((n) => (n.id === item.id ? data : n)));
   }
 
