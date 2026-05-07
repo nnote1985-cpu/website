@@ -114,6 +114,16 @@ export default function AdminNewsPage() {
       const url = modal.isNew ? '/api/news' : `/api/news/${id}`;
       const method = modal.isNew ? 'POST' : 'PUT';
       const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      if (res.status === 401) {
+        alert('Session หมดอายุ กรุณา Login ใหม่');
+        window.location.href = '/admin/login';
+        return;
+      }
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(`บันทึกไม่สำเร็จ: ${err.error || res.status}`);
+        return;
+      }
       const data = await res.json();
       if (modal.isNew) setItems([data, ...items]);
       else setItems(items.map((n) => (n.id === id ? data : n)));

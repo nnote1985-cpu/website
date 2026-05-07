@@ -9,7 +9,7 @@ export async function signToken(payload: Record<string, unknown>) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('24h')
+    .setExpirationTime('7d')
     .sign(JWT_SECRET);
 }
 
