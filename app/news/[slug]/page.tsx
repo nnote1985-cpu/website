@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function NewsDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const { data } = await supabaseAdmin.from('news').select('*').eq('slug', slug).eq('is_published', true).single();
+  const { data } = await supabaseAdmin.from('news').select('*').eq('slug', slug).single();
   if (!data) notFound();
   const item: NewsItem = { ...data, isPublished: data.is_published, publishedAt: data.published_at };
   const articleUrl = `${SITE_URL}/news/${item.slug}`;
