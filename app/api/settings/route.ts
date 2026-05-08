@@ -31,6 +31,6 @@ export async function PUT(req: NextRequest) {
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  revalidateTag('settings');
+  revalidateTag('settings', 'max');
   return NextResponse.json(data.data);
 }
