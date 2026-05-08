@@ -5,38 +5,39 @@ import ContactForm from '@/components/ContactForm';
 import FloatingCTA from '@/components/FloatingCTA';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
+import { getContactSettings, lineUrl, telHref } from '@/lib/getContactSettings';
 
 export const metadata: Metadata = {
   title: 'ติดต่อเรา | ASAKAN สอบถามโครงการคอนโด',
-  description: 'ติดต่อ ASAKAN สอบถามโครงการคอนโดมิเนียม โทร 082-526-5566 หรือส่งข้อความ ทีมงานพร้อมให้คำปรึกษาฟรี ไม่มีค่าใช้จ่าย',
+  description: 'ติดต่อ ASAKAN สอบถามโครงการคอนโดมิเนียม ทีมงานพร้อมให้คำปรึกษาฟรี ไม่มีค่าใช้จ่าย',
   openGraph: {
     title: 'ติดต่อ ASAKAN | คำปรึกษาฟรี',
-    description: 'ทีมงานพร้อมให้คำปรึกษา โทร 082-526-5566 หรือส่งข้อความได้เลย',
+    description: 'ทีมงานพร้อมให้คำปรึกษา ส่งข้อความได้เลย',
   },
 };
 
-const CONTACT_INFO = [
-  {
-    icon: <Phone size={22} />,
-    title: 'โทรศัพท์',
-    lines: ['082-526-5566', '02-059-9655', '099-198-2940'],
-    href: 'tel:0825265566',
-  },
-  {
-    icon: <Mail size={22} />,
-    title: 'อีเมล',
-    lines: ['info@asakan.co.th'],
-    href: 'mailto:info@asakan.co.th',
-  },
-  {
-    icon: <MapPin size={22} />,
-    title: 'ที่ตั้ง',
-    lines: ['191 ถนนรามคำแหง แขวงสะพานสูง', 'เขตสะพานสูง กรุงเทพฯ 10240'],
-    href: 'https://maps.google.com/?q=ASAKAN+Ramkhamhaeng+Bangkok',
-  },
-];
-
-export default function ContactPage() {
+export default async function ContactPage() {
+  const contact = await getContactSettings();
+  const CONTACT_INFO = [
+    {
+      icon: <Phone size={22} />,
+      title: 'โทรศัพท์',
+      lines: contact.phone,
+      href: telHref(contact.phone[0]),
+    },
+    {
+      icon: <Mail size={22} />,
+      title: 'อีเมล',
+      lines: [contact.email],
+      href: `mailto:${contact.email}`,
+    },
+    {
+      icon: <MapPin size={22} />,
+      title: 'ที่ตั้ง',
+      lines: [contact.address],
+      href: 'https://maps.google.com/?q=ASAKAN+Ramkhamhaeng+Bangkok',
+    },
+  ];
   const contactPageJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ContactPage',
@@ -130,7 +131,7 @@ export default function ContactPage() {
                 <h3 className="font-bold text-[#1a2d6b] mb-4">ช่องทางโซเชียล</h3>
                 <div className="flex gap-3 flex-wrap">
                   <a
-                    href="https://www.facebook.com/Asakandevelopment"
+                    href={contact.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-700"
@@ -141,7 +142,7 @@ export default function ContactPage() {
                     Facebook
                   </a>
                   <a
-                    href="https://line.me/ti/p/~@asakan"
+                    href={lineUrl(contact.line)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 bg-[#00c300] text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-[#00a300]"
@@ -149,7 +150,7 @@ export default function ContactPage() {
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                       <path d="M8 0C3.582 0 0 3.13 0 6.993c0 3.492 3.1 6.407 7.286 6.926l-.288 1.073c-.049.183.118.35.3.3l3.3-1.07C13.2 13.2 16 10.3 16 6.993 16 3.13 12.418 0 8 0z" />
                     </svg>
-                    LINE: @asakan
+                    LINE: {contact.line}
                   </a>
                 </div>
               </div>

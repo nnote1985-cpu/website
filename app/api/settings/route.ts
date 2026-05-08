@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidateTag } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getSession } from '@/lib/auth';
 
@@ -30,5 +31,6 @@ export async function PUT(req: NextRequest) {
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  revalidateTag('settings');
   return NextResponse.json(data.data);
 }

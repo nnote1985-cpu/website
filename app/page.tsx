@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { supabaseAdmin } from '@/lib/supabase';
+import { getContactSettings, lineUrl, telHref } from '@/lib/getContactSettings';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/home/HeroSection';
@@ -74,11 +75,12 @@ interface NewsItem {
 }
 
 export default async function HomePage() {
-  const [settingsRes, projectsRes, promotionsRes, newsRes] = await Promise.all([
+  const [settingsRes, projectsRes, promotionsRes, newsRes, contact] = await Promise.all([
     supabaseAdmin.from('settings').select('data').eq('id', 1).single(),
     supabaseAdmin.from('projects').select('*').eq('is_active', true).order('created_at', { ascending: false }),
     supabaseAdmin.from('promotions').select('*').eq('is_active', true),
     supabaseAdmin.from('news').select('*').eq('is_published', true).order('published_at', { ascending: false }).limit(3),
+    getContactSettings(),
   ]);
 
   const settings: Settings = settingsRes.data?.data || {};
@@ -336,7 +338,7 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {/* โทรศัพท์ */}
               <a
-                href="tel:0825265566"
+                href={telHref(contact.phone[0])}
                 className="group flex items-center gap-4 bg-white border border-slate-200 rounded-2xl px-5 py-4 hover:border-[#1a2d6b] hover:shadow-md transition-all"
               >
                 <div className="w-10 h-10 rounded-xl bg-[#f0f4ff] flex items-center justify-center shrink-0 group-hover:bg-[#1a2d6b] transition-colors">
@@ -344,13 +346,13 @@ export default async function HomePage() {
                 </div>
                 <div>
                   <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-0.5">โทรหาเรา</p>
-                  <p className="text-[#1a2d6b] font-bold text-sm">082-526-5566</p>
+                  <p className="text-[#1a2d6b] font-bold text-sm">{contact.phone[0]}</p>
                 </div>
               </a>
 
               {/* LINE */}
               <a
-                href="https://line.me/ti/p/~@asakan"
+                href={lineUrl(contact.line)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-4 bg-white border border-slate-200 rounded-2xl px-5 py-4 hover:border-[#00c300] hover:shadow-md transition-all"
@@ -362,7 +364,7 @@ export default async function HomePage() {
                 </div>
                 <div>
                   <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-0.5">LINE Official</p>
-                  <p className="text-[#1a2d6b] font-bold text-sm">@asakan</p>
+                  <p className="text-[#1a2d6b] font-bold text-sm">{contact.line}</p>
                 </div>
               </a>
 

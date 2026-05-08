@@ -1,36 +1,15 @@
-'use client';
-
 import Link from 'next/link';
-import { Phone, Mail, MapPin, Plus, Minus } from 'lucide-react';
-import { useState } from 'react';
+import { Phone, Mail, MapPin } from 'lucide-react';
+import FooterSection from './FooterSection';
+import { getContactSettings, lineUrl, telHref } from '@/lib/getContactSettings';
 
-function FooterSection({ title, children }: { title: string; children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
+export default async function Footer() {
+  const contact = await getContactSettings();
 
-  return (
-    <div>
-      <button
-        onClick={() => setOpen(!open)}
-        className="md:hidden w-full flex items-center justify-between py-3 border-b border-slate-200"
-      >
-        <span className="font-bold text-sm text-[#1a2d6b]">{title}</span>
-        <span className={`w-6 h-6 rounded-full border flex items-center justify-center transition-colors ${open ? 'border-[#1a2d6b] text-[#1a2d6b]' : 'border-[#e53935] text-[#e53935]'}`}>
-          {open ? <Minus size={12} /> : <Plus size={12} />}
-        </span>
-      </button>
-      <h3 className="hidden md:block font-bold text-base mb-4 text-[#1a2d6b]">{title}</h3>
-      <div className={`${open ? 'block' : 'hidden'} md:block pt-3 md:pt-0`}>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-export default function Footer() {
   return (
     <footer className="bg-white text-slate-700">
       <div className="max-w-7xl mx-auto px-4 py-10 md:py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-10">
-        {/* Brand — ไม่ collapsible */}
+        {/* Brand */}
         <div className="pb-4 border-b border-slate-200 md:border-none md:pb-0">
           <div className="flex items-center gap-3 mb-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -45,17 +24,17 @@ export default function Footer() {
             <em className="text-[#e53935]">&quot;Your happiness is our hope&quot;</em>
           </p>
           <div className="flex gap-3">
-            <a href="https://www.facebook.com/Asakandevelopment" target="_blank" rel="noopener noreferrer"
+            <a href={contact.facebook} target="_blank" rel="noopener noreferrer"
               className="w-9 h-9 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700" aria-label="Facebook">
               <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
-            <a href="https://line.me/ti/p/~@asakan" target="_blank" rel="noopener noreferrer"
+            <a href={lineUrl(contact.line)} target="_blank" rel="noopener noreferrer"
               className="w-9 h-9 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600" aria-label="LINE">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M8 0C3.582 0 0 3.13 0 6.993c0 3.492 3.1 6.407 7.286 6.926l-.288 1.073c-.049.183.118.35.3.3l3.3-1.07C13.2 13.2 16 10.3 16 6.993 16 3.13 12.418 0 8 0z" />
               </svg>
             </a>
-            <a href="mailto:info@asakan.co.th"
+            <a href={`mailto:${contact.email}`}
               className="w-9 h-9 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center hover:bg-[#e53935] hover:text-white transition-colors" aria-label="Email">
               <Mail size={16} />
             </a>
@@ -104,19 +83,19 @@ export default function Footer() {
           <ul className="space-y-3 text-sm text-slate-500">
             <li className="flex gap-2">
               <MapPin size={16} className="text-[#e53935] flex-shrink-0 mt-0.5" />
-              <span>191 ถนนรามคำแหง แขวงสะพานสูง เขตสะพานสูง กรุงเทพฯ 10240</span>
+              <span>{contact.address}</span>
             </li>
             <li className="flex gap-2">
               <Phone size={16} className="text-[#e53935] flex-shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <a href="tel:0825265566" className="block hover:text-[#e53935]">082-526-5566</a>
-                <a href="tel:020599655" className="block hover:text-[#e53935]">02-059-9655</a>
-                <a href="tel:0991982940" className="block hover:text-[#e53935]">099-198-2940</a>
+                {contact.phone.map((p) => (
+                  <a key={p} href={telHref(p)} className="block hover:text-[#e53935]">{p}</a>
+                ))}
               </div>
             </li>
             <li className="flex gap-2">
               <Mail size={16} className="text-[#e53935] flex-shrink-0 mt-0.5" />
-              <a href="mailto:info@asakan.co.th" className="hover:text-[#e53935]">info@asakan.co.th</a>
+              <a href={`mailto:${contact.email}`} className="hover:text-[#e53935]">{contact.email}</a>
             </li>
           </ul>
         </FooterSection>
