@@ -162,6 +162,26 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // ส่งลีดไปยัง CRM (fire-and-forget, ไม่บล็อก response)
+    const crmUrl = process.env.CRM_WEBHOOK_URL;
+    const crmSecret = process.env.CRM_WEBHOOK_SECRET;
+    if (crmUrl && crmSecret && project) {
+      fetch(crmUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secret: crmSecret,
+          project_slug: project,
+          name,
+          phone: phone || undefined,
+          email: email || undefined,
+          message: message || undefined,
+          appointment_date: appointmentDate || undefined,
+          source_url: referer || undefined,
+        }),
+      }).catch((e) => console.error('[CRM webhook] failed:', e));
+    }
+
     // ส่ง event_id กลับไปให้ browser pixel ใช้ dedup
     return NextResponse.json({ success: true, eventId: capiEventId }, { status: 201 });
   } catch (error) {

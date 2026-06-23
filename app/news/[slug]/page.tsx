@@ -10,6 +10,13 @@ import FloatingCTA from '@/components/FloatingCTA';
 import { Calendar, Tag, ArrowLeft } from 'lucide-react';
 import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
 
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const { data } = await supabaseAdmin.from('news').select('slug');
+  return (data ?? []).map((item) => ({ slug: item.slug as string }));
+}
+
 interface NewsItem {
   id: string;
   slug: string;

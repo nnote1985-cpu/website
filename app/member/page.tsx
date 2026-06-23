@@ -126,7 +126,7 @@ export default function MemberPage() {
           <div className="max-w-4xl mx-auto px-4 text-center">
             <h2 className="section-title mb-4">บัตรสมาชิก ASAKAN Privilege</h2>
             <p className="text-gray-500 text-sm mb-10">
-              บัตรมีอายุถึงวันที่ 31 ธันวาคม 2570 (2027)
+              Privilege Card
             </p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

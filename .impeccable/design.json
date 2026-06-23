@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-16T00:00:00.000Z",
+  "title": "Design System: ASAKAN",
+  "extensions": {
+    "colorMeta": {
+      "established-ink": {
+        "role": "primary",
+        "displayName": "Established Ink",
+        "canonical": "oklch(27% 0.14 264)",
+        "tonalRamp": ["#0a0f2a", "#111d47", "#1a2d6b", "#2d4690", "#4a65ad", "#7089c4", "#a4b5d8", "#d4dcee"]
+      },
+      "established-ink-deep": {
+        "role": "primary-dark",
+        "displayName": "Established Ink Deep",
+        "canonical": "oklch(19% 0.13 264)",
+        "tonalRamp": ["#060a18", "#0a1028", "#0f1e4a", "#1a2d6b", "#2d4690", "#4a65ad", "#7089c4", "#a4b5d8"]
+      },
+      "established-ink-hero": {
+        "role": "hero-bg",
+        "displayName": "Established Ink Hero",
+        "canonical": "oklch(8% 0.05 264)",
+        "tonalRamp": ["#020308", "#050B14", "#0a1020", "#111d30", "#1a2d47", "#2d4265", "#4a6090", "#7089b8"]
+      },
+      "decisive-red": {
+        "role": "accent",
+        "displayName": "Decisive Red",
+        "canonical": "oklch(54% 0.22 27)",
+        "tonalRamp": ["#5c0d0b", "#8b1412", "#b71c1c", "#e53935", "#ef6767", "#f5a0a0", "#f9cccc", "#fde8e8"]
+      },
+      "decisive-red-dark": {
+        "role": "accent-hover",
+        "displayName": "Decisive Red Dark",
+        "canonical": "oklch(42% 0.22 27)",
+        "tonalRamp": ["#3d0908", "#5c0d0b", "#8b1412", "#b71c1c", "#e53935", "#ef6767", "#f5a0a0", "#fde8e8"]
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "White Canvas",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": ["#e2e8f0", "#f1f5f9", "#f8fafc", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Reading Ink",
+        "canonical": "oklch(24% 0.02 250)",
+        "tonalRamp": ["#0f172a", "#1e293b", "#1f2937", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Slate",
+        "canonical": "oklch(52% 0.04 248)",
+        "tonalRamp": ["#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0", "#f8fafc"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Homepage hero headline only. One per page maximum." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings (Projects, News, Why ASAKAN)." },
+      "title": { "displayName": "Title", "purpose": "Card headings, article titles, sub-section leaders." },
+      "body": { "displayName": "Body", "purpose": "Reading copy. Thai body text at 1.7 line-height minimum." },
+      "label": { "displayName": "Label", "purpose": "Status badges, stat chips, nav links, metadata. ≤4 words, always uppercase." }
+    },
+    "shadows": [
+      { "name": "card-rest", "value": "0 4px 20px rgba(0,0,0,0.03)", "purpose": "Project card and article card at rest. Barely perceptible separation from background." },
+      { "name": "card-hover", "value": "0 10px 30px rgba(0,0,0,0.08)", "purpose": "Card on :hover. Signals interactivity. Transition 500ms." },
+      { "name": "hero-gradient", "value": "linear-gradient(to right, rgba(5,11,20,0.90) 0%, rgba(5,11,20,0.40) 60%, transparent 100%)", "purpose": "Hero section text legibility overlay. Not a shadow — an art direction tool." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default easing for state transitions (card hover, nav color change)." },
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Button hover slide-in overlay. Fast deceleration, premium feel." },
+      { "name": "duration-fast", "value": "160ms", "purpose": "Icon scale, dot pulse, border-color changes." },
+      { "name": "duration-standard", "value": "300ms", "purpose": "Color transitions, opacity changes, nav background on scroll." },
+      { "name": "duration-slow", "value": "500ms", "purpose": "Card lift, image scale on hover, button overlay reveal." },
+      { "name": "duration-hero-image", "value": "1500ms", "purpose": "Hero image scale on card hover. Deliberately slow — the photography earns the motion." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main CTA. Red fill, white text, sliding hover animation. Used for hero CTA and primary actions.",
+      "html": "<button class=\"ds-btn-primary\"><span class=\"ds-btn-primary__label\">ดูโครงการทั้งหมด</span><svg class=\"ds-btn-primary__arrow\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14M12 5l7 7-7 7\"/></svg></button>",
+      "css": ".ds-btn-primary { position: relative; display: inline-flex; align-items: center; gap: 16px; background: #e53935; color: #ffffff; padding: 16px 40px; border-radius: 2px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; border: none; cursor: pointer; overflow: hidden; transition: color 500ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary::before { content: ''; position: absolute; inset: 0; background: #b71c1c; transform: translateX(-100%); transition: transform 500ms cubic-bezier(0.16,1,0.3,1); z-index: 0; } .ds-btn-primary:hover::before { transform: translateX(0); } .ds-btn-primary__label, .ds-btn-primary__arrow { position: relative; z-index: 1; } .ds-btn-primary__arrow { transition: transform 300ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover .ds-btn-primary__arrow { transform: translateX(4px); } .ds-btn-primary:focus-visible { outline: 2px solid #1a2d6b; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Outlined navy button. Used for secondary actions like 'see all projects'.",
+      "html": "<button class=\"ds-btn-secondary\">ดูโครงการทั้งหมด</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: #1a2d6b; padding: 14px 40px; border-radius: 12px; font-size: 0.875rem; font-weight: 700; border: 2px solid #1a2d6b; cursor: pointer; transition: background 300ms ease, color 300ms ease; } .ds-btn-secondary:hover { background: #1a2d6b; color: #ffffff; } .ds-btn-secondary:focus-visible { outline: 2px solid #1a2d6b; outline-offset: 2px; }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "project-card",
+      "description": "Primary unit for displaying condo projects. Image-led, factual, hover-lifts.",
+      "html": "<article class=\"ds-project-card\"><div class=\"ds-project-card__image-wrap\"><div class=\"ds-project-card__img-placeholder\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M3 9h18M9 21V9\"/></svg></div><div class=\"ds-project-card__overlay\"></div><span class=\"ds-status-badge\"><span class=\"ds-status-dot ds-status-dot--active\"></span>เปิดขาย</span><p class=\"ds-project-card__concept\">ASAKAN RESIDENCES</p></div><div class=\"ds-project-card__body\"><h3 class=\"ds-project-card__name\">THE CELINE PHAHOL 2</h3><div class=\"ds-project-card__location\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#e53935\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"margin-top:2px;flex-shrink:0\"><path d=\"M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg><span>BTS พหลโยธิน</span></div><div class=\"ds-project-card__stats\"><div class=\"ds-stat-chip\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#e53935\" stroke-width=\"2\"><path d=\"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9,22 9,12 15,12 15,22\"/></svg><span>Condo</span></div><div class=\"ds-stat-chip\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#e53935\" stroke-width=\"2\"><rect x=\"1\" y=\"3\" width=\"15\" height=\"13\"/><polygon points=\"16,8 20,8 23,11 23,16 16,16 16,8\"/><circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"/><circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"/></svg><span>25 ชั้น</span></div><div class=\"ds-stat-chip ds-stat-chip--full\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#e53935\" stroke-width=\"2\"><path d=\"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M23 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/></svg><span>480 ยูนิต</span></div></div><div class=\"ds-project-card__footer\"><div class=\"ds-price\"><span class=\"ds-price__label\">Starting Price</span><div class=\"ds-price__amount\"><span class=\"ds-price__number\">1,590,000</span><span class=\"ds-price__unit\">บาท*</span></div></div><button class=\"ds-arrow-cta\" aria-label=\"ดูรายละเอียด\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14M12 5l7 7-7 7\"/></svg></button></div></div></article>",
+      "css": ".ds-project-card { display: flex; flex-direction: column; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; transition: box-shadow 500ms ease, transform 500ms ease; } .ds-project-card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.08); } .ds-project-card__image-wrap { position: relative; height: 180px; background: #f1f5f9; overflow: hidden; } .ds-project-card__img-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; } .ds-project-card__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,30,74,0.75) 0%, rgba(15,30,74,0.1) 50%, transparent 100%); } .ds-project-card__concept { position: absolute; bottom: 12px; left: 16px; right: 16px; color: rgba(255,255,255,0.9); font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; border-left: 1.5px solid #e53935; padding-left: 8px; margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; } .ds-project-card__body { display: flex; flex-direction: column; flex: 1; padding: 16px 20px 20px; } .ds-project-card__name { font-size: 1rem; font-weight: 900; color: #0f172a; line-height: 1.3; margin: 0 0 10px; transition: color 300ms ease; } .ds-project-card:hover .ds-project-card__name { color: #e53935; } .ds-project-card__location { display: flex; gap: 6px; font-size: 12px; color: #64748b; font-weight: 500; margin-bottom: 12px; } .ds-project-card__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; } .ds-stat-chip { display: flex; align-items: center; gap: 6px; background: #f8fafc; border-radius: 8px; padding: 6px 8px; font-size: 11px; color: #64748b; font-weight: 600; } .ds-stat-chip--full { grid-column: 1 / -1; } .ds-project-card__footer { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; margin-top: auto; } .ds-price__label { display: block; font-size: 8px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 2px; } .ds-price__amount { display: flex; align-items: baseline; gap: 3px; color: #e53935; } .ds-price__number { font-size: 1.25rem; font-weight: 900; line-height: 1; } .ds-price__unit { font-size: 10px; font-weight: 700; } .ds-arrow-cta { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 9999px; border: 1px solid #e2e8f0; color: #94a3b8; background: transparent; cursor: pointer; transition: background 300ms ease, border-color 300ms ease, color 300ms ease, transform 300ms ease; flex-shrink: 0; } .ds-project-card:hover .ds-arrow-cta { background: #e53935; border-color: #e53935; color: #ffffff; } .ds-arrow-cta svg { transition: transform 300ms ease; } .ds-project-card:hover .ds-arrow-cta svg { transform: translateX(2px); }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "status-badge",
+      "description": "Overlay badge on project card images. Signals availability status at a glance.",
+      "html": "<div style=\"display:flex;gap:8px;flex-wrap:wrap;\"><span class=\"ds-status-badge\"><span class=\"ds-status-dot ds-status-dot--active\"></span>เปิดขาย</span><span class=\"ds-status-badge\"><span class=\"ds-status-dot ds-status-dot--soon\"></span>เร็วๆ นี้</span><span class=\"ds-status-badge\"><span class=\"ds-status-dot ds-status-dot--sold\"></span>ขายหมดแล้ว</span></div>",
+      "css": ".ds-status-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.95); backdrop-filter: blur(4px); border-radius: 2px; padding: 4px 10px; font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #1f2937; } .ds-status-dot { width: 6px; height: 6px; border-radius: 9999px; flex-shrink: 0; } .ds-status-dot--active { background: #22c55e; animation: ds-pulse 2s infinite; } .ds-status-dot--soon { background: #e53935; animation: ds-pulse 2s infinite; } .ds-status-dot--sold { background: #94a3b8; } @keyframes ds-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }"
+    },
+    {
+      "name": "Price Display",
+      "kind": "custom",
+      "refersTo": "project-card",
+      "description": "The signature price label. Red number at font-weight 900. The only place red type appears at display size.",
+      "html": "<div class=\"ds-price-display\"><span class=\"ds-price-display__label\">Starting Price</span><div class=\"ds-price-display__row\"><span class=\"ds-price-display__number\">990,000</span><span class=\"ds-price-display__unit\">บาท*</span></div></div>",
+      "css": ".ds-price-display { display: inline-flex; flex-direction: column; } .ds-price-display__label { font-size: 9px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 2px; } .ds-price-display__row { display: flex; align-items: baseline; gap: 4px; } .ds-price-display__number { font-size: 1.5rem; font-weight: 900; color: #e53935; line-height: 1; } .ds-price-display__unit { font-size: 11px; font-weight: 700; color: #e53935; }"
+    },
+    {
+      "name": "Navigation Link",
+      "kind": "nav",
+      "refersTo": "button-secondary",
+      "description": "Header navigation links. Label scale, uppercase, hover to Established Ink.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link\" href=\"#\">โครงการ</a><a class=\"ds-nav-link\" href=\"#\">ข่าวสาร</a><a class=\"ds-nav-link ds-nav-link--active\" href=\"#\">เกี่ยวกับเรา</a><a class=\"ds-nav-link\" href=\"#\">ติดต่อ</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 32px; } .ds-nav-link { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #334155; text-decoration: none; transition: color 300ms ease; } .ds-nav-link:hover { color: #1a2d6b; } .ds-nav-link--active { color: #1a2d6b; }"
+    },
+    {
+      "name": "Section Kicker",
+      "kind": "custom",
+      "refersTo": "status-badge",
+      "description": "One deliberate brand kicker per page. Red, small, uppercase. Not for every section — only for the primary section that needs to declare its category.",
+      "html": "<div class=\"ds-kicker\">Our Projects</div>",
+      "css": ".ds-kicker { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: #e53935; margin-bottom: 8px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Bangkok Address",
+    "overview": "ASAKAN is not a brand that needs to announce itself. Over 25 years and 2,500+ delivered units, the track record does the talking. This design system carries that posture: structured, unhurried, confident without being loud. The palette is restrained — a deep navy that reads as institutional trust, a decisive red that appears rarely and means something when it does, and a white field that gives the real-estate photography room to breathe.\n\nThe system prioritizes information density over visual decoration. Investors scanning for price-to-location ratios and families weighing livability both need to find what they came for fast. Cards are tight and factual. Labels are crisp and uppercase. Hero sections are image-led, not infographic-led.\n\nWhat this system explicitly rejects: SaaS startup aesthetics, glassmorphism as decoration, gradient text, and the luxury-developer cliché of pure-black backgrounds with gold type. ASAKAN is not premium-inaccessible — it is premium-accessible.",
+    "keyCharacteristics": [
+      "White-field base with deep navy structure and rare red accent",
+      "Thai-first typography: Prompt carries both script and Latin with authority",
+      "Flat-by-default elevation; shadow appears only on state change",
+      "Image-led sections, never placeholder rectangles",
+      "Labels are data, not decoration — every uppercase string earns its place"
+    ],
+    "rules": [
+      { "name": "The One Voice Rule", "body": "Decisive Red appears on ≤10% of any given screen. A page where red is everywhere is a page where nothing is urgent. Reserve it for the one action or fact that matters most in each viewport.", "section": "colors" },
+      { "name": "The No-Tint Rule", "body": "The background is #ffffff — not cream, not warm white, not sand. Warmth lives in the photography and the navy, not in the canvas. A tinted background is not a design choice here; it is brand drift.", "section": "colors" },
+      { "name": "The Weight Contrast Rule", "body": "Every heading-to-body pairing must span at least two weight steps (e.g., 700 → 400). A 600 heading above 500 body reads as timid. Commit to the contrast.", "section": "typography" },
+      { "name": "The Thai-First Rule", "body": "Prompt and Anuphan are the canonical fonts. Never introduce a Latin-only display font that would render Thai characters in system fallback. The brand speaks Thai first.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "No element has a resting shadow that serves decoration. If removing a shadow doesn't break readability or hierarchy, it should not be there. Shadows are earned by state, not granted by template.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use photography as the primary hero material. A real project photo beats any CSS composition.",
+      "Do use Decisive Red for exactly one action or one number per viewport — the most important CTA or the price.",
+      "Do keep navigation labels at label scale (≤11px, uppercase, tracking-widest, ≤4 words).",
+      "Do use text-wrap: balance on h1–h3 and text-wrap: pretty on body paragraphs ≥3 lines.",
+      "Do verify contrast for Muted (#64748b) on Surface (#f8fafc) before using it for body copy.",
+      "Do let the card border fade to shadow on hover. The transition is the affordance.",
+      "Do use Anuphan alongside Prompt for Thai script to ensure full glyph coverage."
+    ],
+    "donts": [
+      "Don't use gradient text (background-clip: text with a gradient). Use a single solid color.",
+      "Don't use border-left or border-right greater than 1px as a decorative colored stripe on cards or list items.",
+      "Don't use a warm-tinted or cream background. The canvas is #ffffff. Tinted backgrounds are brand drift.",
+      "Don't use glassmorphism as a decorative default. The hero overlay gradient is the only permitted instance.",
+      "Don't introduce a new Latin-only display font. Thai characters must always render in Prompt or Anuphan.",
+      "Don't use SaaS startup layout patterns (metric grids, feature flag tables, pricing tier cards).",
+      "Don't make every section carry a small uppercase tracked eyebrow. One deliberate kicker per page is voice; repeating it is AI scaffolding.",
+      "Don't use stock-photo placeholder rectangles where project photography belongs.",
+      "Don't apply Decisive Red to more than 10% of any screen surface."
+    ]
+  }
+}

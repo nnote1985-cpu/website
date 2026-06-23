@@ -14,7 +14,7 @@ import FloatingCTA from '@/components/FloatingCTA';
 import CollapsibleSection from '@/components/home/CollapsibleSection';
 import { DeferredMortgageCalculator, DeferredPromoBanner, DeferredSearchSection } from '@/components/home/DeferredHomeClient';
 
-export const revalidate = 0;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'ASAKAN | คอนโดมิเนียมคุณภาพ ราคาเข้าถึงได้ กรุงเทพฯ',
