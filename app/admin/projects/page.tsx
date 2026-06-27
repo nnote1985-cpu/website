@@ -437,21 +437,71 @@ export default function AdminProjectsPage() {
                 </div>
                 <div className="col-span-2">
                   <label className={labelClass}>URL รูปภาพหลัก (Thumbnail)</label>
-                  <input type="text" value={modal.project.image || ''} onChange={(e) => updateField('image', e.target.value)} className={inputClass} placeholder="https://..." />
+                  <div className="flex flex-col gap-2">
+                    <input type="text" value={modal.project.image || ''} onChange={(e) => updateField('image', e.target.value)} className={inputClass} placeholder="https://..." />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) uploadProjectAsset(file, (url) => updateField('image', url));
+                      }}
+                      className="text-sm text-gray-500"
+                    />
+                    {modal.project.image && (
+                      <Image src={modal.project.image} alt="Thumbnail preview" width={400} height={200} className="h-28 w-full rounded-xl object-cover border border-gray-200" />
+                    )}
+                  </div>
                 </div>
                 <div className="col-span-2">
                   <label className={labelClass}>Hero Image URL</label>
-                  <input type="text" value={modal.project.heroImage || ''} onChange={(e) => updateField('heroImage', e.target.value)} className={inputClass} placeholder="https://..." />
+                  <div className="flex flex-col gap-2">
+                    <input type="text" value={modal.project.heroImage || ''} onChange={(e) => updateField('heroImage', e.target.value)} className={inputClass} placeholder="https://..." />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) uploadProjectAsset(file, (url) => updateField('heroImage', url));
+                      }}
+                      className="text-sm text-gray-500"
+                    />
+                    {modal.project.heroImage && (
+                      <Image src={modal.project.heroImage} alt="Hero preview" width={400} height={200} className="h-28 w-full rounded-xl object-cover border border-gray-200" />
+                    )}
+                  </div>
                   <p className="text-xs text-gray-400 mt-1">รูปหลักในหน้าโครงการ (ถ้าไม่มีจะใช้รูป Thumbnail)</p>
                 </div>
                 <div className="col-span-2">
                   <label className={labelClass}>Promo Banner URL (Desktop)</label>
-                  <input type="text" value={modal.project.promoBanner || ''} onChange={(e) => updateField('promoBanner', e.target.value)} className={inputClass} placeholder="https://..." />
+                  <div className="flex flex-col gap-2">
+                    <input type="text" value={modal.project.promoBanner || ''} onChange={(e) => updateField('promoBanner', e.target.value)} className={inputClass} placeholder="https://..." />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) uploadProjectAsset(file, (url) => updateField('promoBanner', url));
+                      }}
+                      className="text-sm text-gray-500"
+                    />
+                  </div>
                   <p className="text-xs text-gray-400 mt-1">ถ้าใส่จะแสดงแบนเนอร์โปรโมชันแทน Hero Image</p>
                 </div>
                 <div className="col-span-2">
                   <label className={labelClass}>Promo Banner URL (Mobile)</label>
-                  <input type="text" value={modal.project.promoBannerMobile || ''} onChange={(e) => updateField('promoBannerMobile', e.target.value)} className={inputClass} placeholder="https://..." />
+                  <div className="flex flex-col gap-2">
+                    <input type="text" value={modal.project.promoBannerMobile || ''} onChange={(e) => updateField('promoBannerMobile', e.target.value)} className={inputClass} placeholder="https://..." />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) uploadProjectAsset(file, (url) => updateField('promoBannerMobile', url));
+                      }}
+                      className="text-sm text-gray-500"
+                    />
+                  </div>
                 </div>
 
                 <div className="col-span-2 pt-2 border-t border-gray-100">
