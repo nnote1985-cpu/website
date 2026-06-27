@@ -28,7 +28,7 @@
       "ลิฟต์โดยสาร",
       "ที่จอดรถ 45%"
     ],
-    "image": "/images/projects/elysium-phahol-59/main.webp",
+    "image": "/images/elysium-phahol.webp",
     "heroImage": "/images/projects/elysium-phahol-59/hero.webp",
     "promoBanner": "/images/projects/elysium-phahol-59/promo1.webp",
     "gallery": {
@@ -224,7 +224,7 @@
       "EV Charger",
       "Co-working Space"
     ],
-    "image": "/images/projects/elysium-ram-interchange/main.jpg",
+    "image": "/images/elysium-ram.jpg",
     "heroImage": "/images/projects/elysium-ram-interchange/hero.jpg",
     "promoBanner": "",
     "gallery": [
@@ -277,33 +277,85 @@
       "ล็อบบี้ส่วนกลาง",
       "สวนพักผ่อน"
     ],
-    "image": "/images/projects/the-celine-bang-chan/main.jpg",
-    "heroImage": "/images/projects/the-celine-bang-chan/hero.jpg",
+    "image": "/images/the-celine.webp",
+    "heroImage": "/images/projects/the-celine-bang-chan/hero.webp",
     "promoBanner": "/images/projects/the-celine-bang-chan/promo1.jpg",
     "gallery": {
       "perspective": [
-        "/images/projects/the-celine-bang-chan/gallery/perspective/1.jpg",
-        "/images/projects/the-celine-bang-chan/gallery/perspective/3.jpg"
+        "/images/projects/the-celine-bang-chan/gallery/perspective/1.webp",
+        "/images/projects/the-celine-bang-chan/gallery/perspective/2.webp",
+        "/images/projects/the-celine-bang-chan/gallery/perspective/3.webp",
+        "/images/projects/the-celine-bang-chan/gallery/perspective/4.webp",
+        "/images/projects/the-celine-bang-chan/gallery/perspective/5.webp",
+        "/images/projects/the-celine-bang-chan/gallery/perspective/6.webp",
+        "/images/projects/the-celine-bang-chan/gallery/perspective/7.webp",
+        "/images/projects/the-celine-bang-chan/gallery/perspective/8.webp",
+        "/images/projects/the-celine-bang-chan/gallery/perspective/9.webp"
       ],
       "facility": [
-        "/images/projects/the-celine-bang-chan/gallery//facility/1.jpg",
-        "/images/projects/the-celine-bang-chan/gallery/facility/2.jpg"
+        "/images/projects/the-celine-bang-chan/gallery/facility/1.webp",
+        "/images/projects/the-celine-bang-chan/gallery/facility/2.webp",
+        "/images/projects/the-celine-bang-chan/gallery/facility/3.webp",
+        "/images/projects/the-celine-bang-chan/gallery/facility/4.webp"
       ],
       "room": [
-        "/images/projects/the-celine-bang-chan/gallery/room/1.jpg",
-        "/images/projects/the-celine-bang-chan/gallery/room/3.jpg"
+        {
+          "label": "25 ตร.ม.",
+          "images": [
+            "/images/projects/the-celine-bang-chan/gallery/room/25/1.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/25/2.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/25/3.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/25/4.webp"
+          ]
+        },
+        {
+          "label": "25 Duo ตร.ม.",
+          "images": [
+            "/images/projects/the-celine-bang-chan/gallery/room/25%20duo/1.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/25%20duo/2.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/25%20duo/3.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/25%20duo/4.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/25%20duo/5.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/25%20duo/6.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/25%20duo/7.webp"
+          ]
+        },
+        {
+          "label": "34 ตร.ม.",
+          "images": [
+            "/images/projects/the-celine-bang-chan/gallery/room/34/1.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/34/2.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/34/3.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/34/4.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/34/5.webp",
+            "/images/projects/the-celine-bang-chan/gallery/room/34/6.webp"
+          ]
+        }
       ]
     },
-    "floorPlans": [],
+    "floorPlans": [
+      "/images/projects/the-celine-bang-chan/plans/floorplan/master-plan.webp",
+      "/images/projects/the-celine-bang-chan/plans/floorplan/Fl-2.webp",
+      "/images/projects/the-celine-bang-chan/plans/floorplan/Fl-3.webp",
+      "/images/projects/the-celine-bang-chan/plans/floorplan/Fl-4.webp",
+      "/images/projects/the-celine-bang-chan/plans/floorplan/Fl-5.webp",
+      "/images/projects/the-celine-bang-chan/plans/floorplan/Fl-6.webp"
+    ],
     "roomPlans": [
-      {
-        "type": "Studio (24–28 ตร.ม.)",
-        "image": "/images/projects/the-celine-bang-chan/plans/room-studio.jpg"
-      },
-      {
-        "type": "1 Bedroom (30–35 ตร.ม.)",
-        "image": "/images/projects/the-celine-bang-chan/plans/room-1bed.jpg"
-      }
+      { "type": "A - 25 ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/A-25%20SQM.webp" },
+      { "type": "Ax - 25 Duo ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/Ax-25Duo%20SQM.webp" },
+      { "type": "B - 31.5 ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/B-31.5%20SQM.webp" },
+      { "type": "Bx - 31.5 Duo ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/Bx-31.5Duo%20SQM.webp" },
+      { "type": "C - 34.5 ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/C-34.5%20SQM.webp" },
+      { "type": "Cx - 34.5 Duo ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/Cx-34.5Duo%20SQM.webp" },
+      { "type": "D - 39.5 ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/D-39.5%20SQM.webp" },
+      { "type": "Dx - 39.5 Duo ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/Dx-39.5Duo%20SQM.webp" },
+      { "type": "E1 - 54 ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/E1-54%20SQM.webp" },
+      { "type": "E2 - 54 ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/E2-54%20SQM.webp" },
+      { "type": "E3 - 54 ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/E3-54%20SQM.webp" },
+      { "type": "Ex - 54 Duo ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/Ex-54Duo%20SQM.webp" },
+      { "type": "Fx1 - 28.5 Duo ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/Fx1-28.5Duo%20SQM.webp" },
+      { "type": "Fx2 - 28.5 Duo ตร.ม.", "image": "/images/projects/the-celine-bang-chan/plans/roomplan/Fx2-28.5Duo%20SQM.webp" }
     ],
     "isFeatured": true,
     "isSoldOut": false,
@@ -337,20 +389,100 @@
       "ระบบ Key Card",
       "Lobby พร้อม Reception"
     ],
-    "image": "/images/projects/wela-ramkhamhaeng/main.jpg",
-    "heroImage": "/images/projects/wela-ramkhamhaeng/hero.jpg",
+    "image": "/images/wela.webp",
+    "heroImage": "/images/projects/wela-ramkhamhaeng/hero.webp",
     "promoBanner": "",
-    "gallery": [],
-    "floorPlans": [],
+    "gallery": {
+      "perspective": [
+        "/images/projects/wela-ramkhamhaeng/gallery/perspective/1.webp",
+        "/images/projects/wela-ramkhamhaeng/gallery/perspective/2.webp",
+        "/images/projects/wela-ramkhamhaeng/gallery/perspective/3.webp",
+        "/images/projects/wela-ramkhamhaeng/gallery/perspective/4.webp"
+      ],
+      "facility": [
+        "/images/projects/wela-ramkhamhaeng/gallery/facility/1.webp",
+        "/images/projects/wela-ramkhamhaeng/gallery/facility/2.webp",
+        "/images/projects/wela-ramkhamhaeng/gallery/facility/3.webp",
+        "/images/projects/wela-ramkhamhaeng/gallery/facility/4.webp",
+        "/images/projects/wela-ramkhamhaeng/gallery/facility/5.webp",
+        "/images/projects/wela-ramkhamhaeng/gallery/facility/6.webp"
+      ],
+      "room": [
+        {
+          "label": "23 ตร.ม.",
+          "images": [
+            "/images/projects/wela-ramkhamhaeng/gallery/room/23/01.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/23/01x.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/23/02.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/23/03.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/23/04.webp"
+          ]
+        },
+        {
+          "label": "29 ตร.ม.",
+          "images": [
+            "/images/projects/wela-ramkhamhaeng/gallery/room/29/A_1%20-%20Photo.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/29/A_2%20-%20Photo.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/29/A_3%20-%20Photo.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/29/A_4%20-%20Photo.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/29/A_5%20-%20Photo.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/29/A_6%20-%20Photo.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/29/A_7%20-%20Photo.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/29/A_8%20-%20Photo.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/29/A_9%20-%20Photo.webp"
+          ]
+        },
+        {
+          "label": "36 ตร.ม.",
+          "images": [
+            "/images/projects/wela-ramkhamhaeng/gallery/room/36/05.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/36/06.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/36/07.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/36/08.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/36/09.1.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/36/09.2.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/36/10.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/36/11.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/36/12.webp"
+          ]
+        },
+        {
+          "label": "46 ตร.ม.",
+          "images": [
+            "/images/projects/wela-ramkhamhaeng/gallery/room/46/1.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/46/2.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/46/3.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/46/4.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/46/5.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/46/6.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/46/7.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/46/8.webp"
+          ]
+        },
+        {
+          "label": "47 ตร.ม.",
+          "images": [
+            "/images/projects/wela-ramkhamhaeng/gallery/room/47/1%20copy.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/47/2%20copy.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/47/3%20copy.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/47/4%20copy.webp",
+            "/images/projects/wela-ramkhamhaeng/gallery/room/47/5%20copy.webp"
+          ]
+        }
+      ]
+    },
+    "floorPlans": [
+      "/images/projects/wela-ramkhamhaeng/plans/floorplan/masterplan.webp",
+      "/images/projects/wela-ramkhamhaeng/plans/floorplan/F1.webp",
+      "/images/projects/wela-ramkhamhaeng/plans/floorplan/F2.webp",
+      "/images/projects/wela-ramkhamhaeng/plans/floorplan/FL3-8.webp"
+    ],
     "roomPlans": [
-      {
-        "type": "Studio (22–26 ตร.ม.)",
-        "image": "/images/projects/wela-ramkhamhaeng/plans/room-studio.jpg"
-      },
-      {
-        "type": "1 Bedroom (28–35 ตร.ม.)",
-        "image": "/images/projects/wela-ramkhamhaeng/plans/room-1bed.jpg"
-      }
+      { "type": "22 ตร.ม.", "image": "/images/projects/wela-ramkhamhaeng/plans/roomplan/22sqm.webp" },
+      { "type": "29 ตร.ม.", "image": "/images/projects/wela-ramkhamhaeng/plans/roomplan/29sqm.webp" },
+      { "type": "36 ตร.ม.", "image": "/images/projects/wela-ramkhamhaeng/plans/roomplan/36sqm.webp" },
+      { "type": "46 ตร.ม.", "image": "/images/projects/wela-ramkhamhaeng/plans/roomplan/46sqm.webp" },
+      { "type": "47 ตร.ม.", "image": "/images/projects/wela-ramkhamhaeng/plans/roomplan/47sqm.webp" }
     ],
     "isFeatured": true,
     "isSoldOut": false,
@@ -380,7 +512,7 @@
       "ที่จอดรถ",
       "ร้านค้า"
     ],
-    "image": "/images/projects/asakan-city-phase-c/main.jpg",
+    "image": "/images/asakan-city-c.webp",
     "heroImage": "",
     "promoBanner": "",
     "gallery": [],
@@ -412,7 +544,7 @@
       "ฟิตเนส",
       "ที่จอดรถ"
     ],
-    "image": "/images/projects/asakan-city-phase-b/main.jpg",
+    "image": "/images/asakan-city-b.webp",
     "heroImage": "",
     "promoBanner": "",
     "gallery": [],
@@ -445,7 +577,7 @@
       "ที่จอดรถ",
       "สวนส่วนกลาง"
     ],
-    "image": "/images/projects/asakan-place-twin-condo/main.jpg",
+    "image": "/images/asakan-place-twin.webp",
     "heroImage": "",
     "promoBanner": "",
     "gallery": [],
