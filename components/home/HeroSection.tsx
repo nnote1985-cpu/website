@@ -9,6 +9,8 @@ interface HeroProps {
   ctaText: string;
   ctaUrl: string;
   images?: string[];
+  videoSrc?: string;
+  posterSrc?: string;
 }
 
 const FALLBACK_IMAGES = [
@@ -22,55 +24,80 @@ const STATS = [
   { value: '6', label: 'ทำเลกรุงเทพฯ' },
 ];
 
-export default function HeroSection({ title, description, ctaText, ctaUrl, images }: HeroProps) {
+export default function HeroSection({ title, description, ctaText, ctaUrl, images, videoSrc, posterSrc }: HeroProps) {
   const displayImages = images && images.length > 0 ? images : FALLBACK_IMAGES;
   const firstImage = displayImages[0];
+  const fallbackImage = posterSrc || firstImage;
 
   const words = title ? title.trim().split(' ') : [];
   const lastWord = words.pop();
   const firstPart = words.join(' ');
 
   return (
-    <section className="relative min-h-[85vh] md:h-[95vh] w-full flex items-center overflow-hidden bg-[#050B14]">
+    <section className="relative min-h-[85dvh] w-full overflow-hidden bg-[#050B14] md:h-[95dvh]">
 
       {/* First image — server-rendered for fast LCP */}
       <div className="absolute inset-0 z-0 bg-[#050B14]">
         <Image
-          src={firstImage}
-          alt="Asakan Residence View 1"
+          src={fallbackImage}
+          alt="ASAKAN residence landscape"
           fill
           sizes="100vw"
           priority
-          className="absolute inset-0 w-full h-full object-cover scale-110"
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />
       </div>
 
-      {/* Gradients — always visible above both server image and slideshow */}
-      <div className="absolute inset-0 z-[15] bg-gradient-to-r from-[#050B14]/90 via-[#050B14]/40 to-transparent pointer-events-none" />
-      <div className="absolute inset-0 z-[15] bg-gradient-to-t from-[#050B14] via-transparent to-transparent opacity-80 pointer-events-none" />
+      {/* Temporary remote-video preview. The image layer remains the LCP and failure fallback. */}
+      {videoSrc && (
+        <video
+          aria-hidden="true"
+          tabIndex={-1}
+          autoPlay
+          muted
+          playsInline
+          preload="metadata"
+          poster={fallbackImage}
+          className="absolute inset-0 z-[5] hidden h-full w-full object-cover object-center md:block motion-reduce:hidden"
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+      )}
 
-      {/* Client slideshow — loads after JS, fades in over server image */}
-      <HeroSlideshow images={displayImages} />
+      {/* Gradients keep the architecture visible while reserving contrast for live HTML text. */}
+      <div className="pointer-events-none absolute inset-0 z-[15] bg-gradient-to-b from-[#050B14]/65 via-[#050B14]/10 to-[#050B14]/85" />
+      <div className="pointer-events-none absolute inset-0 z-[15] bg-gradient-to-r from-[#050B14]/70 via-[#050B14]/10 to-transparent" />
 
-      {/* Content */}
-      <div className="relative z-30 container mx-auto px-6 md:px-12 lg:px-20">
-        <div className="max-w-3xl text-white pb-16 md:pb-0">
+      {/* Keep the original slideshow only when no video preview is configured. */}
+      {!videoSrc && <HeroSlideshow images={displayImages} />}
 
-          {/* Title — last word red */}
-          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold mb-5 sm:mb-8 leading-[1.05] tracking-tight drop-shadow-2xl">
+      <div className="relative z-30 mx-auto flex min-h-[85dvh] w-full max-w-[1600px] flex-col px-6 pb-8 pt-32 sm:px-10 sm:pt-36 md:min-h-[95dvh] md:px-12 md:pb-10 md:pt-40 lg:px-20">
+        {/* Centered editorial headline, inspired by the selected reference layout. */}
+        <div className="mx-auto max-w-5xl text-center text-white">
+          <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.32em] text-white/70 sm:text-xs">
+            ASAKAN RESIDENCES · BANGKOK
+          </p>
+
+          <h1 className="text-5xl font-bold leading-[0.9] tracking-[-0.05em] drop-shadow-2xl sm:text-6xl md:text-7xl lg:text-[5.6rem] xl:text-[6.5rem]">
             {firstPart}{firstPart && ' '}<span className="text-[#e53935]">{lastWord}</span>
           </h1>
+        </div>
 
-          {/* Description */}
-          <p className="text-base sm:text-lg md:text-xl text-slate-300 mb-6 sm:mb-10 font-light leading-relaxed max-w-xl border-l-2 border-[#e53935]/60 pl-6 py-2">
+        {/* Bottom-left action block preserves the original content in the new composition. */}
+        <div className="mt-auto max-w-xl text-white">
+          <div className="mb-4 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.26em] text-white/70 sm:text-xs">
+            <span className="h-px w-9 bg-[#e53935]" />
+            <span>Live Beyond the Expected</span>
+          </div>
+
+          <p className="mb-6 max-w-lg text-sm font-light leading-relaxed text-white/85 sm:text-base md:mb-8 md:text-lg">
             {description}
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 mb-8 sm:mb-12">
+          <div className="mb-7 flex flex-col items-start gap-4 sm:mb-9 sm:flex-row sm:items-center sm:gap-7">
             <Link
               href={ctaUrl}
-              className="group relative flex items-center gap-4 bg-white text-slate-900 font-bold px-10 py-4 hover:text-white transition-all duration-500 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-sm"
+              className="group relative flex min-h-12 items-center gap-4 overflow-hidden rounded-sm bg-white px-8 py-3.5 font-bold text-slate-900 shadow-[0_16px_40px_rgba(0,0,0,0.26)] transition-all duration-300 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#050B14]"
             >
               <span className="relative z-10 uppercase tracking-widest text-sm">{ctaText}</span>
               <ArrowRight size={18} className="relative z-10 group-hover:translate-x-2 transition-transform duration-300" />
@@ -79,26 +106,21 @@ export default function HeroSection({ title, description, ctaText, ctaUrl, image
 
             <Link
               href="/contact"
-              className="group flex items-center gap-3 text-white/80 hover:text-white text-xs font-bold uppercase tracking-[0.2em] transition-colors"
+              className="group flex min-h-12 items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#050B14]"
             >
               <span className="w-8 h-[2px] bg-white/30 group-hover:w-12 group-hover:bg-[#e53935] transition-all duration-300" />
               Explore Gallery
             </Link>
           </div>
 
-          {/* Stats row */}
-          <div className="flex items-center gap-6 md:gap-10">
+          <div className="grid max-w-xl grid-cols-3 gap-3 sm:gap-6">
             {STATS.map((stat, i) => (
-              <div key={stat.label} className="flex items-center gap-6 md:gap-10">
-                <div>
-                  <div className="text-2xl md:text-3xl font-black text-white leading-none">{stat.value}</div>
-                  <div className="text-[10px] text-white/45 uppercase tracking-widest mt-1">{stat.label}</div>
-                </div>
-                {i < STATS.length - 1 && <div className="w-px h-8 bg-white/15" />}
+              <div key={stat.label} className={`${i > 0 ? 'border-l border-white/15 pl-3 sm:pl-6' : ''} min-w-0`}>
+                <div className="text-2xl font-black leading-none text-white md:text-3xl">{stat.value}</div>
+                <div className="mt-1 text-[9px] uppercase leading-tight tracking-wider text-white/55 sm:text-[10px] sm:tracking-widest">{stat.label}</div>
               </div>
             ))}
           </div>
-
         </div>
       </div>
 
@@ -111,7 +133,7 @@ export default function HeroSection({ title, description, ctaText, ctaUrl, image
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-3 opacity-70 z-30 pointer-events-none">
+      <div className="pointer-events-none absolute bottom-8 right-8 z-30 hidden flex-col items-center gap-3 opacity-70 sm:flex md:bottom-10 md:right-12">
         <span className="text-[9px] uppercase tracking-[0.4em] text-white font-bold">Scroll</span>
         <div className="w-[1px] h-16 bg-white/10 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1/2 bg-[#e53935] animate-[bounce_2s_infinite]" />

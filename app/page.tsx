@@ -114,6 +114,8 @@ export default async function HomePage() {
           ctaText={settings.heroCTA}
           ctaUrl={settings.heroCTAUrl}
           images={settings.heroImages}
+          videoSrc="/images/hero-video.mp4"
+          posterSrc="/images/hero-video-poster.webp"
         />
 
         {/* 2. MARQUEE TICKER */}
