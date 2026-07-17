@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import HeroSlideshow from './HeroSlideshow';
+import HeroVideo from './HeroVideo';
 
 interface HeroProps {
   title: string;
@@ -38,38 +39,47 @@ export default function HeroSection({ title, description, ctaText, ctaUrl, image
 
       {/* First image — server-rendered for fast LCP */}
       <div className="absolute inset-0 z-0 bg-[#050B14]">
-        <Image
-          src={fallbackImage}
-          alt="ASAKAN residence landscape"
-          fill
-          sizes="100vw"
-          priority
-          className="absolute inset-0 h-full w-full object-cover object-center"
-        />
+        {videoSrc ? (
+          <>
+            <Image
+              src={firstImage}
+              alt="ASAKAN residence landscape"
+              fill
+              sizes="100vw"
+              priority
+              className="absolute inset-0 h-full w-full object-cover object-center md:hidden"
+            />
+            <Image
+              src={fallbackImage}
+              alt=""
+              aria-hidden="true"
+              fill
+              sizes="100vw"
+              priority
+              className="absolute inset-0 hidden h-full w-full object-cover object-center md:block"
+            />
+          </>
+        ) : (
+          <Image
+            src={firstImage}
+            alt="ASAKAN residence landscape"
+            fill
+            sizes="100vw"
+            priority
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+        )}
       </div>
 
-      {/* Temporary remote-video preview. The image layer remains the LCP and failure fallback. */}
-      {videoSrc && (
-        <video
-          aria-hidden="true"
-          tabIndex={-1}
-          autoPlay
-          muted
-          playsInline
-          preload="metadata"
-          poster={fallbackImage}
-          className="absolute inset-0 z-[5] hidden h-full w-full object-cover object-center md:block motion-reduce:hidden"
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </video>
-      )}
+      {/* Desktop video; the server-rendered image remains the loading and failure fallback. */}
+      {videoSrc && <HeroVideo src={videoSrc} poster={fallbackImage} />}
 
       {/* Gradients keep the architecture visible while reserving contrast for live HTML text. */}
       <div className="pointer-events-none absolute inset-0 z-[15] bg-gradient-to-b from-[#050B14]/65 via-[#050B14]/10 to-[#050B14]/85" />
       <div className="pointer-events-none absolute inset-0 z-[15] bg-gradient-to-r from-[#050B14]/70 via-[#050B14]/10 to-transparent" />
 
-      {/* Keep the original slideshow only when no video preview is configured. */}
-      {!videoSrc && <HeroSlideshow images={displayImages} />}
+      {/* The original project-image slideshow is preserved for phones. */}
+      <HeroSlideshow images={displayImages} mobileOnly={Boolean(videoSrc)} />
 
       <div className="relative z-30 mx-auto flex min-h-[85dvh] w-full max-w-[1600px] flex-col px-6 pb-8 pt-32 sm:px-10 sm:pt-36 md:min-h-[95dvh] md:px-12 md:pb-10 md:pt-40 lg:px-20">
         {/* Centered editorial headline, inspired by the selected reference layout. */}

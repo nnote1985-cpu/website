@@ -3,12 +3,29 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-export default function HeroSlideshow({ images }: { images: string[] }) {
+interface HeroSlideshowProps {
+  images: string[];
+  mobileOnly?: boolean;
+}
+
+export default function HeroSlideshow({ images, mobileOnly = false }: HeroSlideshowProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [started, setStarted] = useState(false);
+  const [isMobile, setIsMobile] = useState(!mobileOnly);
 
   useEffect(() => {
-    if (images.length <= 1) return;
+    if (!mobileOnly) return;
+
+    const mobileQuery = window.matchMedia('(max-width: 767px)');
+    const updateViewport = () => setIsMobile(mobileQuery.matches);
+
+    updateViewport();
+    mobileQuery.addEventListener('change', updateViewport);
+    return () => mobileQuery.removeEventListener('change', updateViewport);
+  }, [mobileOnly]);
+
+  useEffect(() => {
+    if (images.length <= 1 || !isMobile) return;
     // First rotation after 6s — don't render any image before this
     // so the server-rendered image[0] is the sole LCP candidate
     const first = setTimeout(() => {
@@ -16,17 +33,17 @@ export default function HeroSlideshow({ images }: { images: string[] }) {
       setStarted(true);
     }, 6000);
     return () => clearTimeout(first);
-  }, [images.length]);
+  }, [images.length, isMobile]);
 
   useEffect(() => {
-    if (!started || images.length <= 1) return;
+    if (!started || images.length <= 1 || !isMobile) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, [started, images.length]);
+  }, [started, images.length, isMobile]);
 
-  if (images.length <= 1) return null;
+  if (images.length <= 1 || !isMobile) return null;
 
   return (
     <>
@@ -49,19 +66,20 @@ export default function HeroSlideshow({ images }: { images: string[] }) {
         </div>
       )}
 
-      {/* Pagination dots */}
-      <div className="absolute bottom-12 left-6 md:left-12 lg:left-20 z-30 flex items-center gap-3">
-        {images.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => { setCurrentIndex(idx); setStarted(true); }}
-            className={`h-1.5 transition-all duration-500 rounded-full cursor-pointer ${
-              idx === currentIndex ? 'w-10 bg-[#e53935]' : 'w-2.5 bg-white/30 hover:bg-white/60'
-            }`}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
-      </div>
+      {!mobileOnly && (
+        <div className="absolute bottom-12 left-6 z-30 flex items-center gap-3 md:left-12 lg:left-20">
+          {images.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => { setCurrentIndex(idx); setStarted(true); }}
+              className={`h-1.5 cursor-pointer rounded-full transition-all duration-500 ${
+                idx === currentIndex ? 'w-10 bg-[#e53935]' : 'w-2.5 bg-white/30 hover:bg-white/60'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 }
