@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getSession } from '@/lib/auth';
 import { generateId } from '@/lib/utils';
@@ -66,6 +67,8 @@ export async function POST(req: NextRequest) {
 
     const { data, error } = await supabaseAdmin.from('projects').insert(newProject).select().single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    revalidatePath(`/projects/${data.slug}`);
+    revalidatePath('/');
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     console.error(error);
