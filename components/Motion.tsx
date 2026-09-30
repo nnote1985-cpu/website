@@ -17,6 +17,9 @@ export default function Motion() {
       const parallax = () => Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]'));
       const hero = document.querySelector<HTMLElement>('.hero');
       const progress = document.querySelector<HTMLElement>('.scroll-progress');
+      const philosophy = document.querySelector<HTMLElement>('#philosophy');
+      const philosophyLines = Array.from(document.querySelectorAll<HTMLElement>('.philosophy-line'));
+      philosophy?.classList.add('philosophy-motion');
       let frame = 0;
       const update = () => {
         frame = 0;
@@ -24,6 +27,19 @@ export default function Motion() {
         const max = document.documentElement.scrollHeight - height;
         if (progress) progress.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
         document.documentElement.classList.toggle('has-scrolled', scrollY > 35);
+        if (philosophy) {
+          const rect = philosophy.getBoundingClientRect();
+          const p = Math.max(0, Math.min(1, (height * 0.85 - rect.top) / (height * 0.85)));
+          philosophy.style.setProperty('--philosophy-turn', `${-35 + p * 155}deg`);
+          philosophy.style.setProperty('--philosophy-lift', `${85 - p * 150}px`);
+          philosophy.style.setProperty('--philosophy-tilt', `${-12 + p * 16}deg`);
+          philosophy.style.setProperty('--philosophy-photo', `${18 - p * 36}px`);
+          philosophyLines.forEach((line, i) => {
+            const fill = Math.max(0, Math.min(1, (p - i * 0.2) / 0.55));
+            line.style.setProperty('--line-fill', `${fill * 100}%`);
+            line.style.setProperty('--line-shift', `${(1 - fill) * (innerWidth < 768 ? 12 : 32)}px`);
+          });
+        }
         if (innerWidth < 768) return;
         parallax().forEach(el => {
           const rect = el.parentElement!.getBoundingClientRect();
@@ -53,6 +69,7 @@ export default function Motion() {
         hero?.removeEventListener('pointermove', pointer); hero?.removeEventListener('pointerleave', reset); reset();
         targets.forEach(el => el.classList.remove('will-reveal'));
         parallax().forEach(el => el.style.removeProperty('--parallax'));
+        philosophy?.classList.remove('philosophy-motion');
       };
     };
     setup(); media.addEventListener('change', setup);

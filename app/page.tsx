@@ -2,6 +2,7 @@ import Header from '@/components/Header';
 import HeroExperience from '@/components/HeroExperience';
 import Journey from '@/components/Journey';
 import Motion from '@/components/Motion';
+import StoryThread from '@/components/StoryThread';
 import PointerTrail from '@/components/PointerTrail';
 import Photo from '@/components/Photo';
 import Projects from '@/components/Projects';
@@ -25,8 +26,9 @@ export default function HomePage() {
       <HeroExperience/>
 
       <section className="intro section-pad" id="philosophy" aria-labelledby="intro-title">
+        <StoryThread/>
         <div className="intro-label" data-reveal><span className="index-label">THE ASAKAN PHILOSOPHY</span><span className="asterisk" aria-hidden="true">✳</span></div>
-        <div className="intro-main" data-reveal><h2 id="intro-title">A home is more<br/>than a place.<br/><em>It’s a possibility.</em></h2><div className="intro-bottom"><p>บ้านที่ดี เปิดพื้นที่ให้ชีวิตได้เป็นไปได้มากกว่า<br/>ที่อัสสกาญจน์ เราใส่ใจตั้งแต่ทำเล การออกแบบ<br className="desktop-break"/> ไปจนถึงช่วงเวลาเล็ก ๆ ในทุกวันของคุณ</p><a href="/about" className="round-cta" aria-label="เรื่องราวของอัสสกาญจน์"><Arrow diagonal/><span>OUR STORY</span></a></div></div>
+        <div className="intro-main" data-reveal><h2 id="intro-title"><span className="philosophy-line">A home is more</span><span className="philosophy-line">than a place.</span><em className="philosophy-line">It’s a possibility.</em></h2><div className="intro-bottom"><p>บ้านที่ดี เปิดพื้นที่ให้ชีวิตได้เป็นไปได้มากกว่า<br/>ที่อัสสกาญจน์ เราใส่ใจตั้งแต่ทำเล การออกแบบ<br className="desktop-break"/> ไปจนถึงช่วงเวลาเล็ก ๆ ในทุกวันของคุณ</p><a href="/about" className="round-cta" aria-label="เรื่องราวของอัสสกาญจน์"><Arrow diagonal/><span>OUR STORY</span></a></div></div>
         <div className="intro-detail"><Photo name="courtyard" alt="สวนร่มรื่นในโครงการ ASAKAN Elysium Phahol 59" sizes="(max-width: 767px) 50vw, 22vw"/><span>A LITTLE CLOSER TO NATURE.</span></div>
       </section>
 

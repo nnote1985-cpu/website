@@ -5,6 +5,7 @@ import '@fontsource/cormorant-garamond/400-italic.css';
 import './globals.css';
 import './experience.css';
 import './gallery.css';
+import './residences.css';
 
 const site = process.env.SITE_URL || 'https://www.asakan.co.th';
 export const metadata: Metadata = {
