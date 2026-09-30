@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+reference-website/
+website-delta-blush-73.html
+material-*
+artifacts/
+*.tsbuildinfo
+*.log

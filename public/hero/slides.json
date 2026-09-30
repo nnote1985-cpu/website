@@ -1,0 +1,8 @@
+[
+  {"src":"/hero/perspective1.webp","alt":"ภาพจำลองอาคาร Elysium Phahol 59 ใกล้รถไฟฟ้า","title":"Elysium Phahol 59","label":"01 — THE BIG PICTURE","href":"/elysium59","focus":"68% 55%","effect":"fade"},
+  {"src":"/hero/facilities5.webp","alt":"ภาพจำลองสระว่ายน้ำและสวนกลางอาคาร","title":"พักผ่อนในจังหวะของคุณ","label":"02 — A MOMENT OF CALM","href":"/elysium59","focus":"55% 60%","effect":"left"},
+  {"src":"/hero/perspective7.webp","alt":"ภาพจำลองทางเข้าอาคารและประติมากรรมน้ำพุ","title":"ใส่ใจในทุกรายละเอียด","label":"03 — THE ART OF ARRIVING","href":"/elysium59","focus":"65% 65%","effect":"right"},
+  {"src":"/hero/facilities16.webp","alt":"ภาพจำลองพื้นที่พักผ่อนภายในโทนสีอบอุ่น","title":"พื้นที่สำหรับช่วงเวลาดี ๆ","label":"04 — ROOM TO CONNECT","href":"/elysium59","focus":"50% 60%","effect":"up"},
+  {"src":"/hero/perspective2.webp","alt":"ภาพจำลองทางเข้าโครงการ ASAKAN Elysium","title":"ความรู้สึกของการกลับบ้าน","label":"05 — WELCOME HOME","href":"/elysium59","focus":"65% 58%","effect":"split"},
+  {"src":"/hero/facilities30.webp","alt":"ภาพจำลองศาลาพักผ่อนท่ามกลางสวน","title":"ใกล้ชิดธรรมชาติทุกวัน","label":"06 — SPACE TO BREATHE","href":"/elysium59","focus":"50% 55%","effect":"down"}
+]

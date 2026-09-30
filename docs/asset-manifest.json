@@ -1,0 +1,212 @@
+[
+  {
+    "file": "public\\media\\hero-640.webp",
+    "source": "images/elysium-phahol.webp",
+    "width": 640,
+    "height": 360,
+    "bytes": 38874
+  },
+  {
+    "file": "public\\media\\hero-1200.webp",
+    "source": "images/elysium-phahol.webp",
+    "width": 1200,
+    "height": 675,
+    "bytes": 126894
+  },
+  {
+    "file": "public\\media\\hero-1920.webp",
+    "source": "images/elysium-phahol.webp",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 356376
+  },
+  {
+    "file": "public\\media\\phahol-640.webp",
+    "source": "images/elysium-phahol.webp",
+    "width": 640,
+    "height": 360,
+    "bytes": 38874
+  },
+  {
+    "file": "public\\media\\phahol-1200.webp",
+    "source": "images/elysium-phahol.webp",
+    "width": 1200,
+    "height": 675,
+    "bytes": 126894
+  },
+  {
+    "file": "public\\media\\phahol-1920.webp",
+    "source": "images/elysium-phahol.webp",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 356376
+  },
+  {
+    "file": "public\\media\\ram-640.webp",
+    "source": "images/elysium-ram.jpg",
+    "width": 640,
+    "height": 360,
+    "bytes": 20548
+  },
+  {
+    "file": "public\\media\\ram-1200.webp",
+    "source": "images/elysium-ram.jpg",
+    "width": 1200,
+    "height": 675,
+    "bytes": 51260
+  },
+  {
+    "file": "public\\media\\ram-1920.webp",
+    "source": "images/elysium-ram.jpg",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 125844
+  },
+  {
+    "file": "public\\media\\celine-640.webp",
+    "source": "images/the-celine.webp",
+    "width": 282,
+    "height": 208,
+    "bytes": 10378
+  },
+  {
+    "file": "public\\media\\celine-1200.webp",
+    "source": "images/the-celine.webp",
+    "width": 282,
+    "height": 208,
+    "bytes": 10378
+  },
+  {
+    "file": "public\\media\\celine-1920.webp",
+    "source": "images/the-celine.webp",
+    "width": 282,
+    "height": 208,
+    "bytes": 12072
+  },
+  {
+    "file": "public\\media\\wela-640.webp",
+    "source": "images/wela.webp",
+    "width": 282,
+    "height": 208,
+    "bytes": 13922
+  },
+  {
+    "file": "public\\media\\wela-1200.webp",
+    "source": "images/wela.webp",
+    "width": 282,
+    "height": 208,
+    "bytes": 13922
+  },
+  {
+    "file": "public\\media\\wela-1920.webp",
+    "source": "images/wela.webp",
+    "width": 282,
+    "height": 208,
+    "bytes": 16160
+  },
+  {
+    "file": "public\\media\\garden-640.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/perspective/perspective14.webp",
+    "width": 640,
+    "height": 406,
+    "bytes": 83330
+  },
+  {
+    "file": "public\\media\\garden-1200.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/perspective/perspective14.webp",
+    "width": 1200,
+    "height": 761,
+    "bytes": 278764
+  },
+  {
+    "file": "public\\media\\garden-1920.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/perspective/perspective14.webp",
+    "width": 1920,
+    "height": 1217,
+    "bytes": 809236
+  },
+  {
+    "file": "public\\media\\courtyard-640.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/perspective/perspective5.webp",
+    "width": 640,
+    "height": 430,
+    "bytes": 84058
+  },
+  {
+    "file": "public\\media\\courtyard-1200.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/perspective/perspective5.webp",
+    "width": 1200,
+    "height": 807,
+    "bytes": 282160
+  },
+  {
+    "file": "public\\media\\courtyard-1920.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/perspective/perspective5.webp",
+    "width": 1920,
+    "height": 1291,
+    "bytes": 811034
+  },
+  {
+    "file": "public\\media\\lounge-640.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/facility/facilities10.webp",
+    "width": 640,
+    "height": 360,
+    "bytes": 35106
+  },
+  {
+    "file": "public\\media\\lounge-1200.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/facility/facilities10.webp",
+    "width": 1200,
+    "height": 675,
+    "bytes": 101426
+  },
+  {
+    "file": "public\\media\\lounge-1920.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/facility/facilities10.webp",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 280220
+  },
+  {
+    "file": "public\\media\\residence-640.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/room/43 sqm/1.webp",
+    "width": 640,
+    "height": 400,
+    "bytes": 20142
+  },
+  {
+    "file": "public\\media\\residence-1200.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/room/43 sqm/1.webp",
+    "width": 1200,
+    "height": 750,
+    "bytes": 49924
+  },
+  {
+    "file": "public\\media\\residence-1920.webp",
+    "source": "images/projects/elysium-phahol-59/gallery/room/43 sqm/1.webp",
+    "width": 1920,
+    "height": 1200,
+    "bytes": 132528
+  },
+  {
+    "file": "public\\media\\celine-living-640.webp",
+    "source": "images/projects/the-celine-bang-chan/gallery/room/25 duo/2.webp",
+    "width": 640,
+    "height": 489,
+    "bytes": 30794
+  },
+  {
+    "file": "public\\media\\celine-living-1200.webp",
+    "source": "images/projects/the-celine-bang-chan/gallery/room/25 duo/2.webp",
+    "width": 1200,
+    "height": 917,
+    "bytes": 76770
+  },
+  {
+    "file": "public\\media\\celine-living-1920.webp",
+    "source": "images/projects/the-celine-bang-chan/gallery/room/25 duo/2.webp",
+    "width": 1920,
+    "height": 1467,
+    "bytes": 192970
+  }
+]
