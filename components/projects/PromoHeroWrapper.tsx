@@ -46,7 +46,7 @@ export default function PromoHeroWrapper({
     >
       <div className="absolute inset-y-0 left-0 w-[3px]" style={{ background: `linear-gradient(180deg, ${accentColor}, transparent 70%)` }} />
 
-      <div className="relative flex flex-1 flex-col justify-between gap-5 px-7 pt-7 pb-5 xl:px-9">
+      <div className="relative flex flex-1 flex-col justify-between gap-[clamp(14px,2.6vh,28px)] px-7 pt-[clamp(18px,3.4vh,32px)] pb-[clamp(14px,2.4vh,24px)] xl:px-9">
         {/* Header: inviting headline, project name, and three things signing up gets you. */}
         <div>
           <div className="flex items-center gap-2.5">
@@ -58,20 +58,20 @@ export default function PromoHeroWrapper({
               Private Appointment
             </p>
           </div>
-          <h2 className="mt-4 text-[30px] font-bold leading-[1.15] tracking-tight text-white">
+          <h2 className="mt-[clamp(8px,1.6vh,16px)] text-[clamp(24px,3.3vh,30px)] font-bold leading-[1.15] tracking-tight text-white">
             ลงทะเบียน<br />
             <span style={{ color: accentColor }}>รับสิทธิพิเศษ</span>
           </h2>
           <p className="mt-2 text-sm text-white/70">{projectName}</p>
-          <ul className="mt-5 grid grid-cols-3 gap-2">
+          <ul className="mt-[clamp(8px,1.6vh,16px)] flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/70 [@media(min-width:1280px)_and_(max-height:800px)]:hidden">
             {[
               { icon: Tag, label: 'ราคาและแบบห้อง' },
               { icon: Gift, label: 'โปรโมชันล่าสุด' },
               { icon: CalendarCheck, label: 'นัดชมโครงการ' },
             ].map(({ icon: Icon, label }) => (
-              <li key={label} className="flex flex-col items-center gap-1 rounded-xl border border-white/[0.05] bg-white/[0.025] px-2 py-1.5 text-center">
-                <Icon size={15} strokeWidth={1.75} style={{ color: accentColor }} />
-                <span className="text-[11px] leading-tight text-white/70">{label}</span>
+              <li key={label} className="flex items-center gap-1.5">
+                <Icon size={13} strokeWidth={1.75} style={{ color: accentColor }} />
+                {label}
               </li>
             ))}
           </ul>
@@ -82,7 +82,7 @@ export default function PromoHeroWrapper({
         {/* Number sits left so the floating CTA button in the corner never covers it. */}
         <a
           href={`tel:${phoneTel}`}
-          className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 transition-colors hover:border-white/20 hover:bg-white/[0.07]"
+          className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-[clamp(8px,1.3vh,12px)] transition-colors hover:border-white/20 hover:bg-white/[0.07]"
         >
           <span
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"

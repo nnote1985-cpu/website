@@ -39,7 +39,7 @@ function Step({ n, filled, last, accent, onAccent, children }: {
           <span className="mt-1 w-px flex-1 transition-colors duration-300" style={{ backgroundColor: filled ? accent : 'rgba(255,255,255,0.1)' }} />
         )}
       </div>
-      <div className="mb-5 flex-1 border-b border-white/15 pb-0.5 transition-colors group-focus-within:border-[var(--accent)]">
+      <div className="mb-[clamp(8px,2vh,20px)] flex-1 border-b border-white/15 pb-0.5 transition-colors group-focus-within:border-[var(--accent)]">
         {children}
       </div>
     </div>
@@ -238,7 +238,7 @@ export default function RegisterFormDark({ projectName, projectSlug, accentColor
         {error && <p className="text-red-400 text-sm">{error}</p>}
 
         {/* Consent */}
-        <label className="flex items-start gap-3 cursor-pointer pt-3 pl-11">
+        <label className="flex items-start gap-3 cursor-pointer pt-[clamp(2px,1vh,12px)] pl-11">
           <input
             type="checkbox"
             checked={consented}
@@ -261,7 +261,7 @@ export default function RegisterFormDark({ projectName, projectSlug, accentColor
           </span>
         </label>
 
-        <div className="pt-6">
+        <div className="pt-[clamp(10px,2.4vh,24px)]">
           <button
             type="submit"
             disabled={loading || !consented}
@@ -273,15 +273,12 @@ export default function RegisterFormDark({ projectName, projectSlug, accentColor
               <ArrowRight size={18} />
             </span>
           </button>
-          <p className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-white/55">
-            <Lock size={11} />
-            ข้อมูลปลอดภัย · ทีมงานติดต่อกลับภายใน 24 ชั่วโมง
+          {/* One quiet line for trust + the reCAPTCHA notice (the badge itself is hidden in globals.css). */}
+          <p className="mt-2.5 flex flex-wrap items-center justify-center gap-x-1.5 text-[10.5px] leading-snug text-white/50">
+            <Lock size={10} />
+            <span>ข้อมูลปลอดภัย · ติดต่อกลับภายใน 24 ชม.</span>
+            {SITE_KEY && <span>· Protected by reCAPTCHA</span>}
           </p>
-          {SITE_KEY && (
-            <p className="text-white/40 text-[10px] text-center mt-1">
-              Protected by reCAPTCHA
-            </p>
-          )}
         </div>
       </form>
     </>
