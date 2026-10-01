@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingCTA from '@/components/FloatingCTA';
+import PageHero from '@/components/PageHero';
 import { Clock, ChevronRight } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -45,16 +46,11 @@ export default async function PromotionPage() {
       <Header />
       <FloatingCTA />
       <main className="pt-20 bg-[#f8fafc]">
-        {/* Hero Section - ปรับให้เล็กลง กระชับขึ้น */}
-        <section
-          className="py-16 text-white text-center"
-          style={{ background: 'linear-gradient(135deg, #0f1e4a 0%, #1a2d6b 100%)' }}
-        >
-          <div className="max-w-4xl mx-auto px-4">
-            <h1 className="text-3xl md:text-4xl font-black mb-3">โปรโมชั่นพิเศษ</h1>
-            <p className="text-blue-100/70 text-base font-light">รวมดีลดีที่สุด คัดสรรมาเพื่อคุณโดยเฉพาะ</p>
-          </div>
-        </section>
+        <PageHero
+          eyebrow="Promotion"
+          title="โปรโมชั่นพิเศษ"
+          subtitle="รวมดีลดีที่สุด คัดสรรมาเพื่อคุณโดยเฉพาะ"
+        />
 
         <section className="py-12">
           <div className="max-w-6xl mx-auto px-4">
