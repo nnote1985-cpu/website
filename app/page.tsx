@@ -6,7 +6,6 @@ import { getContactSettings, lineUrl, telHref } from '@/lib/getContactSettings';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HeroExperience from '@/components/home/HeroExperience';
-import MarqueeBanner from '@/components/home/MarqueeBanner';
 import ProjectCard from '@/components/home/ProjectCard';
 import NewsCard from '@/components/home/NewsCard';
 import { ArrowRight, Shield, Star, Home, TrendingUp } from 'lucide-react';
@@ -102,7 +101,6 @@ export default async function HomePage() {
         <HeroExperience />
 
         {/* 2. MARQUEE TICKER */}
-        <MarqueeBanner />
 
         {/* 3. PROMOTION BANNER - แถบโปรโมชั่น */}
         {promotions.filter((p) => p.isActive).length > 0 && (
