@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import PageHero from '@/components/PageHero';
 import FaqSection from '@/components/home/FaqSection';
 import { faqs } from '@/lib/faqs';
 import { JsonLd, breadcrumbJsonLd } from '@/lib/seo';
@@ -35,7 +36,8 @@ export default function FaqPage() {
       <JsonLd data={faqJsonLd} />
       <Header />
       <main className="pt-20 min-h-screen">
-        <FaqSection />
+        <PageHero eyebrow="FAQ" title="คำถามที่พบบ่อย" subtitle="ทุกคำถามเกี่ยวกับคอนโด ASAKAN ตอบครบที่นี่" />
+        <FaqSection showHeading={false} />
       </main>
       <Footer />
     </>

@@ -24,7 +24,13 @@ export default function PageHero({ eyebrow, title, subtitle, meta, children }: P
         {eyebrow && (
           <div className="flex items-center gap-3 mb-5">
             <span className="h-px w-10 bg-orange-400" />
-            <p className="text-orange-400 font-semibold text-xs uppercase tracking-[0.3em]">{eyebrow}</p>
+            <p
+              className={`text-orange-400 font-semibold ${
+                /^[\x00-\x7F]*$/.test(eyebrow) ? 'text-xs uppercase tracking-[0.3em]' : 'text-sm tracking-wide'
+              }`}
+            >
+              {eyebrow}
+            </p>
           </div>
         )}
         <h1 className="text-[2.6rem] leading-[1.15] md:text-6xl font-bold mb-5 max-w-3xl">{title}</h1>

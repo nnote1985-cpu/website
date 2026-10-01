@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ContactForm from '@/components/ContactForm';
 import FloatingCTA from '@/components/FloatingCTA';
+import PageHero from '@/components/PageHero';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
 import { getContactSettings, lineUrl, telHref } from '@/lib/getContactSettings';
@@ -89,16 +90,11 @@ export default async function ContactPage() {
       <FloatingCTA />
       <main className="pt-20">
         {/* Hero */}
-        <section
-          className="py-20 text-white"
-          style={{ background: 'linear-gradient(135deg, #0f1e4a 0%, #1a2d6b 60%, #2a3d8b 100%)' }}
-        >
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <p className="text-orange-400 font-semibold text-sm uppercase tracking-widest mb-3">ติดต่อเรา</p>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">พูดคุยกับเรา</h1>
-            <p className="text-gray-300 text-lg">ทีมงานผู้เชี่ยวชาญพร้อมให้คำปรึกษาฟรี ไม่มีค่าใช้จ่าย</p>
-          </div>
-        </section>
+        <PageHero
+          eyebrow="ติดต่อเรา"
+          title="พูดคุยกับเรา"
+          subtitle="ทีมงานผู้เชี่ยวชาญพร้อมให้คำปรึกษาฟรี ไม่มีค่าใช้จ่าย"
+        />
 
         <section className="py-16 bg-gray-50">
           <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12">
