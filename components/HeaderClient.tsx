@@ -31,6 +31,7 @@ export default function Header({ phones = ['082-526-5566', '02-059-9655'], line 
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isHeroPage, setIsHeroPage] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 
   useEffect(() => {
@@ -39,18 +40,24 @@ export default function Header({ phones = ['082-526-5566', '02-059-9655'], line 
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    setIsHeroPage(!!document.querySelector('.gallery-hero'));
+  }, [pathname]);
+
   // 3. เงื่อนไขการซ่อน Navbar เมื่ออยู่หน้า Admin
   // ต้องเช็ค mounted ด้วยเพื่อให้ค่า pathname ฝั่ง Client เสถียร
   if (pathname?.startsWith('/admin')) {
     return null;
   }
 
+  const heroTransparent = isHeroPage && !scrolled;
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-[100]">
-      {/* 1. Top bar - ใช้พื้นหลังสีเทาอ่อนสุดๆ เพื่อตัดกับเมนูหลัก */}
-      <div 
+    <header className={`fixed top-0 left-0 right-0 z-[100] transition-colors duration-700 ${heroTransparent ? 'hero-glass' : ''}`}>
+      {/* 1. Top bar - hidden when scrolled or hero transparent */}
+      <div
         className={`transition-all duration-500 bg-slate-50 border-b border-slate-200/50 text-[11px] font-bold tracking-widest hidden md:block ${
-          scrolled ? 'h-0 overflow-hidden opacity-0 border-transparent' : 'py-2.5 opacity-100'
+          scrolled || heroTransparent ? 'h-0 overflow-hidden opacity-0 border-transparent' : 'py-2.5 opacity-100'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -76,11 +83,13 @@ export default function Header({ phones = ['082-526-5566', '02-059-9655'], line 
       </div>
 
       {/* 2. Main Header */}
-      <div 
-        className={`transition-all duration-500 ${
-          scrolled 
-            ? 'bg-white/90 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] py-3' 
-            : 'bg-white border-b border-slate-100 py-4 md:py-5'
+      <div
+        className={`transition-all duration-700 ${
+          scrolled
+            ? 'bg-white/90 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] py-3'
+            : heroTransparent
+              ? 'bg-transparent py-4 md:py-5'
+              : 'bg-white border-b border-slate-100 py-4 md:py-5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6">

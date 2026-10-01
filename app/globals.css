@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
 :root {
+  /* Gallery hero variables */
+  --gutter: clamp(24px, 5.2vw, 100px);
+  --paper: #f5f4ef;
+  --ink: #243a34;
+  --sans: var(--font-prompt), var(--font-anuphan), sans-serif;
+
   /* 📍 ปรับสัดส่วนสีใหม่ */
   --color-primary: #1a2d6b;       /* สีหลักเป็นสีฟ้า (Secondary เดิม) */
   --color-accent: #e53935;        /* สีแดงเป็นสีเน้น (ใช้แค่ 10%) */

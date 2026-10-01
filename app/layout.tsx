@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Anuphan, Prompt } from 'next/font/google';
 import './globals.css';
+import './gallery.css';
 import { supabaseAdmin } from '@/lib/supabase';
 import FacebookPixel from '@/components/FacebookPixel';
 import GoogleAnalytics from '@/components/GoogleAnalytics';

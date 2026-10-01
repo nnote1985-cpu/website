@@ -5,7 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { getContactSettings, lineUrl, telHref } from '@/lib/getContactSettings';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import HeroSection from '@/components/home/HeroSection';
+import HeroExperience from '@/components/home/HeroExperience';
 import MarqueeBanner from '@/components/home/MarqueeBanner';
 import ProjectCard from '@/components/home/ProjectCard';
 import NewsCard from '@/components/home/NewsCard';
@@ -93,30 +93,13 @@ export default async function HomePage() {
 
   return (
     <>
-      {firstHeroImage && (
-        <link
-          rel="preload"
-          as="image"
-          href={`/_next/image?url=${encodeURIComponent(firstHeroImage)}&w=1080&q=75`}
-          imageSrcSet={`/_next/image?url=${encodeURIComponent(firstHeroImage)}&w=828&q=75 828w, /_next/image?url=${encodeURIComponent(firstHeroImage)}&w=1080&q=75 1080w, /_next/image?url=${encodeURIComponent(firstHeroImage)}&w=1920&q=75 1920w`}
-          imageSizes="100vw"
-          fetchPriority="high"
-        />
-      )}
+      <link rel="preload" as="image" href="/hero/perspective1.webp" fetchPriority="high" />
       <Header />
       <FloatingCTA />
 
       <main className="bg-white">
-        {/* 1. HERO SECTION - แคมเปญหลัก */}
-        <HeroSection
-          title={settings.heroTitle}
-          description={settings.heroDescription}
-          ctaText={settings.heroCTA}
-          ctaUrl={settings.heroCTAUrl}
-          images={settings.heroImages}
-          videoSrc="/images/hero-video.mp4"
-          posterSrc="/images/hero-video-poster.webp"
-        />
+        {/* 1. HERO SECTION - scroll-driven parallax */}
+        <HeroExperience />
 
         {/* 2. MARQUEE TICKER */}
         <MarqueeBanner />
