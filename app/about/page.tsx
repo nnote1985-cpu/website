@@ -5,7 +5,8 @@ import Header from '@/components/Header';
 import FloatingCTA from '@/components/FloatingCTA';
 import Footer from '@/components/Footer';
 import { Parallax, Reveal } from '@/components/about/AboutMotion';
-import { Target, Eye, Heart, Building2, MapPin, Phone, Mail } from 'lucide-react';
+import PrinciplesPanels from '@/components/about/PrinciplesPanels';
+import { Building2, MapPin, Phone, Mail } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'เกี่ยวกับเรา | ASAKAN บริษัท อัสสกาญจน์',
@@ -13,30 +14,6 @@ export const metadata: Metadata = {
 };
 
 const GALLERY = '/images/projects/elysium-phahol-59/gallery';
-
-const PRINCIPLES = [
-  {
-    icon: Target,
-    title: 'พันธกิจ',
-    subtitle: 'Mission',
-    image: `${GALLERY}/perspective/perspective14.webp`,
-    content: 'พัฒนาโครงการในทำเลที่ดี ด้วยราคาที่เข้าถึงได้ เพื่อยกระดับคุณภาพชีวิตของชุมชน และสร้างความพึงพอใจสูงสุดให้กับลูกค้า',
-  },
-  {
-    icon: Eye,
-    title: 'วิสัยทัศน์',
-    subtitle: 'Vision',
-    image: `${GALLERY}/perspective/perspective11.webp`,
-    content: 'มุ่งสู่การเป็นผู้พัฒนาคอนโดมิเนียมชั้นนำที่มีการเติบโตอย่างยั่งยืน โดยให้ความสำคัญกับความต้องการของลูกค้าเป็นหลัก',
-  },
-  {
-    icon: Heart,
-    title: 'ปรัชญา',
-    subtitle: 'Philosophy',
-    image: `${GALLERY}/facility/facilities28.webp`,
-    content: '"Freedom of Life" — เชื่อในการคิดอย่างอิสระ แสดงออกในแบบของตัวเอง ASAKAN เชื่อว่าคุณคือลูกค้าที่สำคัญ',
-  },
-];
 
 const STATS = [
   { value: '10', suffix: '+', label: 'โครงการ' },
@@ -174,43 +151,18 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Mission, Vision, Philosophy as photo cards */}
-        <section className="bg-[#f8fafc] pb-28 pt-24 md:pb-40 md:pt-32">
+        {/* Mission, Vision, Philosophy */}
+        <section className="bg-[#0f1e4a] py-24 text-white md:py-32">
           <div className="mx-auto max-w-7xl px-5 lg:px-10">
             <Reveal>
-              <Kicker>Mission · Vision · Philosophy</Kicker>
+              <p className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.22em] text-white/70">
+                <span className="h-px w-10 bg-[#e53935]" />
+                Mission · Vision · Philosophy
+              </p>
             </Reveal>
-
-            <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-3 lg:gap-6">
-              {PRINCIPLES.map((item, i) => {
-                const Icon = item.icon;
-                return (
-                  <Reveal key={item.subtitle} delay={i * 110} className={i === 1 ? 'md:translate-y-10' : ''}>
-                    <article className="group relative isolate flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-3xl bg-[#0f1e4a] p-6 text-white md:aspect-[3/4.4] lg:p-8">
-                      <Image
-                        src={item.image}
-                        alt=""
-                        fill
-                        sizes="(max-width: 768px) 100vw, 400px"
-                        className="-z-20 object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#0f1e4a] via-[#0f1e4a]/80 to-[#0f1e4a]/10" />
-                      <div className="flex items-center justify-between">
-                        <span className="grid h-12 w-12 place-items-center rounded-full bg-white text-[#e53935]">
-                          <Icon size={20} aria-hidden="true" />
-                        </span>
-                        <span className="text-sm font-bold tabular-nums text-white/70">0{i + 1}</span>
-                      </div>
-                      <div>
-                        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/60">{item.subtitle}</p>
-                        <h2 className="mt-2 text-3xl font-bold lg:text-4xl">{item.title}</h2>
-                        <p className="mt-4 text-[15px] leading-[1.85] text-white/85 md:text-base [text-wrap:pretty]">{item.content}</p>
-                      </div>
-                    </article>
-                  </Reveal>
-                );
-              })}
-            </div>
+            <Reveal className="mt-10 md:mt-14" delay={100}>
+              <PrinciplesPanels />
+            </Reveal>
           </div>
         </section>
 
