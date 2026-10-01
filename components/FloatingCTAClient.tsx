@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Phone, X, Plus, Calculator } from 'lucide-react';
+import { Phone, X, Plus, Calculator, Minus } from 'lucide-react';
 import YearPicker from '@/components/YearPicker';
 
 function MiniCalculator() {
@@ -36,11 +36,27 @@ function MiniCalculator() {
         <div className="grid grid-cols-2 gap-2">
           <div>
             <span className="text-[11px] text-slate-400 block mb-1">ดอกเบี้ย (%/ปี)</span>
-            <input
-              type="number" step="0.1" value={rate}
-              onChange={(e) => setRate(+e.target.value)}
-              className="w-full border border-slate-200 rounded-lg px-2 py-1.5 text-sm text-center font-bold text-[#1a2d6b] focus:outline-none focus:border-[#e53935]"
-            />
+            <div className="flex items-center w-full border border-slate-200 rounded-lg p-0.5 focus-within:border-[#e53935]">
+              <button
+                type="button" aria-label="ลดดอกเบี้ย" disabled={rate <= 0}
+                onClick={() => setRate((v) => Math.max(0, Math.round((v - 0.1) * 10) / 10))}
+                className="w-7 h-7 shrink-0 grid place-items-center rounded-md bg-slate-50 text-[#1a2d6b] active:bg-slate-100 disabled:opacity-35"
+              >
+                <Minus size={13} strokeWidth={2.4} />
+              </button>
+              <input
+                type="number" inputMode="decimal" step="0.1" min={0} max={15} value={rate} aria-label="ดอกเบี้ยต่อปี"
+                onChange={(e) => setRate(Math.min(15, Math.max(0, +e.target.value)))}
+                className="number-field-input min-w-0 flex-1 bg-transparent text-sm text-center font-bold text-[#1a2d6b] focus:outline-none"
+              />
+              <button
+                type="button" aria-label="เพิ่มดอกเบี้ย" disabled={rate >= 15}
+                onClick={() => setRate((v) => Math.min(15, Math.round((v + 0.1) * 10) / 10))}
+                className="w-7 h-7 shrink-0 grid place-items-center rounded-md bg-slate-50 text-[#1a2d6b] active:bg-slate-100 disabled:opacity-35"
+              >
+                <Plus size={13} strokeWidth={2.4} />
+              </button>
+            </div>
           </div>
           <div>
             <span className="text-[11px] text-slate-400 block mb-1">ระยะเวลา (ปี)</span>
