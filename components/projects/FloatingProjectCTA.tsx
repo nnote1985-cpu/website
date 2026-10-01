@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Phone, Plus, Calculator, ClipboardList, Minus } from 'lucide-react';
+import { Phone, Plus, Calculator, ClipboardList } from 'lucide-react';
+import YearPicker from '@/components/YearPicker';
 
 interface Props {
   phone?: string;
@@ -60,23 +61,7 @@ function MiniCalculator() {
           </div>
           <div>
             <span className="text-[11px] text-slate-400 block mb-1">ระยะเวลา (ปี)</span>
-            <div className="flex items-center justify-between w-full border border-slate-200 rounded-lg p-0.5">
-              <button
-                type="button" aria-label="ลดระยะเวลา" disabled={years <= 10}
-                onClick={() => setYears((y) => Math.max(10, y - 5))}
-                className="w-7 h-7 grid place-items-center rounded-md bg-slate-50 text-[#1a2d6b] active:bg-slate-100 disabled:opacity-35"
-              >
-                <Minus size={13} strokeWidth={2.4} />
-              </button>
-              <span className="text-sm font-bold text-[#1a2d6b] tabular-nums" aria-live="polite">{years} ปี</span>
-              <button
-                type="button" aria-label="เพิ่มระยะเวลา" disabled={years >= 40}
-                onClick={() => setYears((y) => Math.min(40, y + 5))}
-                className="w-7 h-7 grid place-items-center rounded-md bg-slate-50 text-[#1a2d6b] active:bg-slate-100 disabled:opacity-35"
-              >
-                <Plus size={13} strokeWidth={2.4} />
-              </button>
-            </div>
+            <YearPicker value={years} onChange={setYears} />
           </div>
         </div>
         <div className="bg-[#1a2d6b] rounded-xl px-4 py-3 text-center">
