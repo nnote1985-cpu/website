@@ -4,7 +4,6 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Search, ChevronDown, ArrowRight } from 'lucide-react';
 import ProjectCard from './ProjectCard';
-import StoryThread from '@/components/StoryThread';
 
 interface Project {
   id: string;
@@ -81,8 +80,7 @@ export default function ProjectsWithSearch({ projects }: { projects: Project[] }
   return (
     <div>
       {/* Search bar */}
-      <section className="relative z-20 bg-slate-50 py-10 border-b border-gray-200" style={{ overflow: 'visible' }}>
-        <StoryThread />
+      <section className="relative z-20 bg-slate-50 py-10 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-6 flex items-center gap-3">
             <div className="w-1.5 h-6 bg-[#e53935] rounded-full" />
