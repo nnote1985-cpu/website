@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 
 /**
  * พื้นหลังอนุภาคตัวอักษรสำหรับ PageHero: ตัวอักษรลอยลงช้าๆ ลำแสงสีฟ้าวิ่งขึ้น
- * และเส้นเชื่อมระหว่างตัวอักษรที่อยู่ใกล้กัน ตัวที่อยู่ใกล้นิ้ว/เมาส์จะเปลี่ยนเป็นสีส้ม
+ * และเส้นเชื่อมระหว่างตัวอักษรที่อยู่ใกล้กัน ฝั่งซ้ายบางและจางกว่าเพื่อให้อ่านข้อความง่าย ตัวที่อยู่ใกล้นิ้ว/เมาส์จะเปลี่ยนเป็นสีส้ม
  * วาดด้วย canvas ล้วน ไม่มี dependency หยุดวาดเมื่อเลื่อนพ้นจอหรือแท็บถูกซ่อน
  * และแสดงเป็นภาพนิ่งเมื่อผู้ใช้ตั้งค่าลดการเคลื่อนไหว
  */
@@ -17,6 +17,14 @@ type Node = { x: number; y: number; vy: number; char: string };
 type Beam = { x: number; y: number; length: number; speed: number; alpha: number };
 
 const pick = () => CHARS[Math.floor(Math.random() * CHARS.length)];
+
+const smooth = (a: number, b: number, t: number) => {
+  const k = Math.min(Math.max((t - a) / (b - a), 0), 1);
+  return k * k * (3 - 2 * k);
+};
+// ฝั่งซ้ายมีข้อความหลัก จึงไล่ทั้งความหนาแน่นและความเข้มจากซ้ายไปขวา
+const densityAt = (t: number) => 0.5 + 0.5 * smooth(0.15, 0.75, t);
+const alphaAt = (t: number) => 0.22 + 0.78 * smooth(0.1, 0.8, t);
 
 export default function ParticleField({ className = '' }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -39,18 +47,27 @@ export default function ParticleField({ className = '' }: { className?: string }
     let onScreen = true;
     const pointer = { x: -9999, y: -9999 };
 
+    // สุ่มตำแหน่ง x ให้ฝั่งซ้ายมีตัวอักษรน้อยกว่าฝั่งขวา
+    const spawnX = () => {
+      for (;;) {
+        const x = Math.random() * width;
+        if (Math.random() < densityAt(x / width)) return x;
+      }
+    };
+    const fade = (x: number) => alphaAt(x / width);
+
     const seed = () => {
       const area = width * height;
       const nodeCount = Math.round(Math.min(Math.max(area / (coarse ? 9000 : 7000), 24), coarse ? 45 : 90));
       const beamCount = Math.round(Math.min(Math.max(width / 60, 6), coarse ? 10 : 22));
       nodes = Array.from({ length: nodeCount }, () => ({
-        x: Math.random() * width,
+        x: spawnX(),
         y: Math.random() * height,
         vy: Math.random() * 0.35 + 0.1,
         char: pick(),
       }));
       beams = Array.from({ length: beamCount }, () => ({
-        x: Math.random() * width,
+        x: spawnX(),
         y: Math.random() * height,
         length: Math.random() * 90 + 40,
         speed: Math.random() * 3 + 1.5,
@@ -81,11 +98,11 @@ export default function ParticleField({ className = '' }: { className?: string }
           b.y -= b.speed;
           if (b.y + b.length < 0) {
             b.y = height + Math.random() * 80;
-            b.x = Math.random() * width;
+            b.x = spawnX();
           }
         }
         const g = ctx!.createLinearGradient(b.x, b.y, b.x, b.y + b.length);
-        g.addColorStop(0, `rgba(94, 196, 240, ${b.alpha})`);
+        g.addColorStop(0, `rgba(94, 196, 240, ${b.alpha * fade(b.x)})`);
         g.addColorStop(1, 'rgba(94, 196, 240, 0)');
         ctx!.strokeStyle = g;
         ctx!.beginPath();
@@ -101,7 +118,7 @@ export default function ParticleField({ className = '' }: { className?: string }
           const c = nodes[j];
           const d = Math.hypot(a.x - c.x, a.y - c.y);
           if (d < LINK) {
-            ctx!.strokeStyle = `rgba(170, 190, 230, ${0.16 * (1 - d / LINK)})`;
+            ctx!.strokeStyle = `rgba(170, 190, 230, ${0.16 * (1 - d / LINK) * fade((a.x + c.x) / 2)})`;
             ctx!.beginPath();
             ctx!.moveTo(a.x, a.y);
             ctx!.lineTo(c.x, c.y);
@@ -118,7 +135,7 @@ export default function ParticleField({ className = '' }: { className?: string }
           n.y += n.vy;
           if (n.y > height + 20) {
             n.y = -20;
-            n.x = Math.random() * width;
+            n.x = spawnX();
           }
         }
         const dist = Math.hypot(pointer.x - n.x, pointer.y - n.y);
@@ -131,7 +148,7 @@ export default function ParticleField({ className = '' }: { className?: string }
           ctx!.lineTo(pointer.x, pointer.y);
           ctx!.stroke();
         }
-        ctx!.fillStyle = near ? '#ff8a5c' : 'rgba(170, 190, 230, 0.42)';
+        ctx!.fillStyle = near ? '#ff8a5c' : `rgba(170, 190, 230, ${0.42 * fade(n.x)})`;
         ctx!.fillText(n.char, n.x, n.y);
       }
     }
