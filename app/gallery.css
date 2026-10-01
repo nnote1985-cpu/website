@@ -100,6 +100,9 @@ header.hero-glass .bg-\[\#e53935\] { background-color: #e53935 !important; }
 @media(max-width:767px){
   .gallery-sticky{min-height:0}
   .gallery-heading{bottom:calc(var(--wordmark-bottom,28px) + 84px + env(safe-area-inset-bottom,0px))}
+  /* The shrunken BEYOND lands on the same line as the project link, so the link
+     sits to its right instead of spanning the full width underneath it. */
+  .gallery-footnote a{align-self:flex-end;justify-content:flex-end;gap:12px;border-top:0}
 }
 /* Mobile Safari/Chrome jump a GPU transform animation when it is paused or resumed,
    which flashed the image on every slide change (outgoing slide pauses) and when
