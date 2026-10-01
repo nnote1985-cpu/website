@@ -67,5 +67,7 @@
   .stepper button{width:32px}
   .label{font-size:12px}
 }
-@media(max-width:389px){.calculator{padding:16px}.result{padding:20px}.resultValue{font-size:34px}.grid>div:nth-child(2){grid-template-columns:1fr}}
+@media(max-width:389px){.calculator{padding:16px}.result{padding:20px}.resultValue{font-size:34px}.grid>div:nth-child(2){gap:10px}.grid>div:nth-child(2) .input{padding-right:70px}.grid>div:nth-child(2) .stepper button{width:30px}}
+/* Interest and term share one row on phones; only stack them on very narrow screens. */
+@media(max-width:339px){.grid>div:nth-child(2){grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.input,.select,.primaryAction,.secondaryAction{transition:none}}
