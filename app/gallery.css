@@ -93,8 +93,6 @@ header.hero-glass .bg-\[\#e53935\] { background-color: #e53935 !important; }
 @keyframes gallery-rise{from{transform:scale(1.08) translateY(1.6%)}to{transform:scale(1.08) translateY(-1.6%)}}
 @keyframes gallery-fall{from{transform:scale(1.08) translateY(-1.6%)}to{transform:scale(1.08) translateY(1.6%)}}
 .gallery-slide.is-previous img{animation-play-state:paused}
-/* Keep the outgoing slide on its own layer so it is not re-rasterized (flashing the dark frame) when its entry animation is removed. */
-.gallery-slide:is(.is-current,.is-previous){will-change:opacity}
 
 @media(max-width:900px){.gallery-topline{top:110px}.gallery-heading h1{font-size:11vw}}
 @media(max-width:767px){.gallery-hero{height:215svh}.gallery-sticky{min-height:620px}.gallery-topline{top:105px;font-size:7px}.gallery-topline>span:last-child{display:none}.gallery-caption{top:44%;gap:15px;flex-wrap:wrap;gap:8px 12px}.gallery-caption-window{flex-basis:100%}.gallery-caption>a{margin-left:0;margin-right:auto;font-size:12px}.gallery-caption p{font-size:16px}.gallery-caption-content>div>span{font-size:9px}.gallery-count{font-size:12px}.gallery-heading h1{font-size:14vw;line-height:.85}.gallery-heading .gallery-expectation{font-size:22px;margin-top:15px}.gallery-footnote{left:8%;right:8%;bottom:18%;gap:14px}.gallery-footnote h2{font-size:23px}.gallery-footnote a{font-size:11px;padding-top:10px}.gallery-detail-arrow{width:30px;height:30px}.gallery-parallax{inset:-32% 0}}
@@ -103,6 +101,42 @@ header.hero-glass .bg-\[\#e53935\] { background-color: #e53935 !important; }
   .gallery-sticky{min-height:0}
   .gallery-heading{bottom:calc(var(--wordmark-bottom,28px) + 84px + env(safe-area-inset-bottom,0px))}
 }
+/* Mobile Safari/Chrome jump a GPU transform animation when it is paused or resumed,
+   which flashed the image on every slide change (outgoing slide pauses) and when
+   scrolling back to the top (autoplay resumes). On phones the zoom keeps running and
+   only the pause button stops it. */
+@media(max-width:767px){
+  .gallery-slide.is-previous img,
+  .gallery-hero[data-paused=true] .gallery-slide.is-current img{animation-play-state:running}
+  .gallery-hero[data-user-paused=true] .gallery-slide.is-current img{animation-play-state:paused}
+  /* clip-path reveals repaint the whole tall image layer every frame, and phones
+     could not keep up (parts of the image went blank). Opacity fades stay on the GPU. */
+  .gallery-slide.is-current:is(.effect-left,.effect-right,.effect-up,.effect-split,.effect-down){animation-name:gallery-fade}
+  /* Same problem while scrolling: resizing the frame resized the image layer and forced
+     a full repaint per frame. Keep the layer a fixed size (the full-frame box) and
+     reproduce the old shrink with transform, which needs no repaint. */
+  .gallery-parallax{
+    inset:auto;
+    top:calc(-32svh - var(--frame-p,0) * 5svh);
+    left:calc(var(--frame-p,0) * -5vw);
+    width:100vw;
+    height:164svh;
+    transform:translateY(calc(var(--image-parallax) - var(--frame-p,0) * 18.5svh)) scale(calc(var(--parallax-scale,1.09) * (1 - var(--frame-p,0) * .47)));
+  }
+  /* The layer now shrinks with transform, so slides are made wider than the screen and
+     each image is placed by hand to match the old object-fit: cover / object-position. */
+  .gallery-slide{left:-50vw;right:-50vw}
+  .gallery-slide img{
+    position:absolute;top:0;height:100%;width:auto;max-width:none;object-fit:fill;
+    left:calc(50vw + var(--fx,.5) * 100vw);
+    translate:calc(var(--fx,.5) * -100%) 0;
+    transform-origin:calc(50vw - var(--fx,.5) * 100vw + var(--fx,.5) * 100%) 50%;
+  }
+  .gallery-slide.effect-left:is(.is-current,.is-previous) img{animation-name:gallery-drift-right-m}
+  .gallery-slide.effect-right:is(.is-current,.is-previous) img{animation-name:gallery-drift-left-m}
+}
+@keyframes gallery-drift-right-m{from{transform:scale(1.08) translateX(-1.6vw)}to{transform:scale(1.08) translateX(1.6vw)}}
+@keyframes gallery-drift-left-m{from{transform:scale(1.08) translateX(1.6vw)}to{transform:scale(1.08) translateX(-1.6vw)}}
 @media(max-height:760px) and (min-width:768px){.gallery-caption{top:40%}.gallery-heading h1{font-size:min(10vw,19svh)}}
 @media(max-height:800px) and (min-width:768px){.gallery-footnote{gap:16px;bottom:3%}.gallery-footnote h2{font-size:26px}.gallery-footnote a{padding-top:10px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){.gallery-hero{height:100svh}.gallery-sticky{position:relative}.gallery-slide img,.gallery-parallax{transform:none!important}.gallery-footnote{display:none}}

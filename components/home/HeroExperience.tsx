@@ -105,6 +105,7 @@ export default function HeroExperience() {
       if (Math.abs(target - imageProgress) < .001) imageProgress = target;
 
       const p = sceneProgress;
+      el.style.setProperty('--frame-p', String(p));
       el.style.setProperty('--frame-inset', `${p * (innerWidth < 768 ? 5 : 9)}%`);
       el.style.setProperty('--frame-top', `${p * 5}%`);
       el.style.setProperty('--frame-bottom', `${p * (innerWidth < 768 ? 42 : 30)}%`);
@@ -183,6 +184,7 @@ export default function HeroExperience() {
       aria-label="ภาพโครงการ ASAKAN"
       aria-roledescription="carousel"
       data-paused={stopped}
+      data-user-paused={paused || reduced}
       onFocusCapture={e => {
         if (!(e.target as HTMLElement).closest('.gallery-play')) setPaused(true);
       }}
@@ -195,7 +197,7 @@ export default function HeroExperience() {
                 key={s.src + i}
                 className={`gallery-slide effect-${s.effect} ${i === current.index ? 'is-current' : i === current.previous ? 'is-previous' : ''}`}
                 aria-hidden={i !== current.index}
-                style={{ '--focus': s.focus } as CSSProperties}
+                style={{ '--focus': s.focus, '--fx': (parseFloat(s.focus) || 50) / 100 } as CSSProperties}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={s.src} alt={s.alt} fetchPriority={i === 0 ? 'high' : 'low'} decoding="async" />
