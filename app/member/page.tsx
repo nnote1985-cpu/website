@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingCTA from '@/components/FloatingCTA';
+import PageHero from '@/components/PageHero';
 import { Gift, Shield, Percent, Users, Star, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -61,25 +62,17 @@ export default function MemberPage() {
       <Header />
       <FloatingCTA />
       <main className="pt-20">
-        <section
-          className="py-24 text-white relative overflow-hidden"
-          style={{ background: 'linear-gradient(135deg, #0f1e4a 0%, #1a2d6b 50%, #f4511e 130%)' }}
-        >
-          <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, white 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
-          <div className="relative max-w-4xl mx-auto px-4 text-center">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-sm font-semibold mb-6">
-              <Star size={16} className="text-yellow-400" />
-              ASAKAN Privilege Member
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              More than Living,<br />
+        <PageHero
+          eyebrow="ASAKAN Privilege Member"
+          title={
+            <>
+              More than Living,
+              <br />
               <span className="text-[#f4511e]">A Lifestyle of Privilege</span>
-            </h1>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
-              บัตรสมาชิก ASAKAN Privilege เพื่อสิทธิพิเศษเฉพาะคุณ ที่มากกว่าแค่การอยู่อาศัย
-            </p>
-          </div>
-        </section>
+            </>
+          }
+          subtitle="บัตรสมาชิก ASAKAN Privilege เพื่อสิทธิพิเศษเฉพาะคุณ ที่มากกว่าแค่การอยู่อาศัย"
+        />
 
         <section className="py-20 bg-white">
           <div className="max-w-6xl mx-auto px-4">
