@@ -6,6 +6,7 @@ import type { CSSProperties } from 'react';
 import { ArrowRight, Calculator, Minus, Phone, Plus } from 'lucide-react';
 import { projectUrl } from '@/lib/projectUrl';
 import styles from './MortgageCalculator.module.css';
+import YearPicker from '@/components/YearPicker';
 
 type Mode = 'monthly' | 'maxloan';
 
@@ -185,16 +186,7 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
                 </div>
                 <div>
                   <label htmlFor="mortgage-years" className={labelCls}>ระยะเวลา (ปี)</label>
-                  <StepperNumberInput
-                    id="mortgage-years"
-                    readOnly
-                    value={years}
-                    min={10}
-                    max={40}
-                    step={5}
-                    inputClassName={inputCls}
-                    onChange={setYears}
-                  />
+                  <YearPicker id="mortgage-years" value={years} onChange={setYears} className={`${inputCls} ${styles.yearTrigger}`} />
                 </div>
               </div>
 
@@ -251,16 +243,7 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
                 </div>
                 <div>
                   <label htmlFor="mortgage-max-years" className={labelCls}>ระยะเวลา (ปี)</label>
-                  <StepperNumberInput
-                    id="mortgage-max-years"
-                    readOnly
-                    value={maxYears}
-                    min={10}
-                    max={40}
-                    step={5}
-                    inputClassName={inputCls}
-                    onChange={setMaxYears}
-                  />
+                  <YearPicker id="mortgage-max-years" value={maxYears} onChange={setMaxYears} className={`${inputCls} ${styles.yearTrigger}`} />
                 </div>
               </div>
 
@@ -338,7 +321,6 @@ type StepperNumberInputProps = {
   max?: number;
   step: number;
   inputClassName: string;
-  readOnly?: boolean;
   onChange: (value: number) => void;
 };
 
@@ -348,7 +330,7 @@ function clampValue(value: number, min?: number, max?: number) {
   return value;
 }
 
-function StepperNumberInput({ id, value, min, max, step, inputClassName, readOnly, onChange }: StepperNumberInputProps) {
+function StepperNumberInput({ id, value, min, max, step, inputClassName, onChange }: StepperNumberInputProps) {
   function update(nextValue: number) {
     const precision = step.toString().split('.')[1]?.length || 0;
     const rounded = Number(nextValue.toFixed(precision));
@@ -364,7 +346,6 @@ function StepperNumberInput({ id, value, min, max, step, inputClassName, readOnl
         min={min}
         max={max}
         step={step}
-        readOnly={readOnly}
         onChange={(e) => {
           const nextValue = Number(e.target.value);
           if (!Number.isNaN(nextValue)) onChange(clampValue(nextValue, min, max));

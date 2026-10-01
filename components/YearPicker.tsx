@@ -7,7 +7,7 @@ import { Check, ChevronDown, X } from 'lucide-react';
 const YEAR_OPTIONS = [10, 15, 20, 25, 30, 35, 40];
 
 // Styled replacement for <select>: the native picker on Android/iOS can't be themed.
-export default function YearPicker({ value, onChange }: { value: number; onChange: (years: number) => void }) {
+export default function YearPicker({ id, value, onChange, className }: { id?: string; value: number; onChange: (years: number) => void; className?: string }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -24,17 +24,18 @@ export default function YearPicker({ value, onChange }: { value: number; onChang
         onClick={() => setOpen(true)}
         aria-haspopup="dialog"
         aria-expanded={open}
-        className="w-full flex items-center justify-between border border-slate-200 rounded-lg px-3 py-1.5 text-sm font-bold text-[#1a2d6b] focus:outline-none focus-visible:border-[#e53935]"
+        id={id}
+        className={`w-full flex items-center justify-between text-left ${className ?? 'border border-slate-200 rounded-lg px-3 py-1.5 text-sm font-bold text-[#1a2d6b] focus:outline-none focus-visible:border-[#e53935]'}`}
       >
         {value} ปี
         <ChevronDown size={15} className="text-slate-400" />
       </button>
 
       {open && createPortal(
-        <div className="fixed inset-0 z-[200] flex items-end" role="dialog" aria-modal="true" aria-label="เลือกระยะเวลาผ่อน">
+        <div className="fixed inset-0 z-[200] flex items-end md:items-center md:justify-center" role="dialog" aria-modal="true" aria-label="เลือกระยะเวลาผ่อน">
           <button type="button" aria-label="ปิด" className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] animate-[fadeIn_.2s_ease-out]" onClick={() => setOpen(false)} />
-          <div className="relative w-full bg-white rounded-t-3xl shadow-2xl px-5 pt-3 pb-[calc(20px+env(safe-area-inset-bottom))] animate-[sheetUp_.25s_cubic-bezier(.22,.61,.36,1)]">
-            <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-slate-200" />
+          <div className="relative w-full md:max-w-md bg-white rounded-t-3xl md:rounded-3xl shadow-2xl px-5 pt-3 md:pt-5 pb-[calc(20px+env(safe-area-inset-bottom))] animate-[sheetUp_.25s_cubic-bezier(.22,.61,.36,1)]">
+            <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-slate-200 md:hidden" />
             <div className="flex items-center justify-between mb-3">
               <div>
                 <div className="text-[15px] font-black text-[#1a2d6b]">ระยะเวลาผ่อน</div>
