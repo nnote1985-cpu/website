@@ -10,7 +10,7 @@ import NewsCard from '@/components/home/NewsCard';
 import { ArrowRight, Shield, Star, Home, TrendingUp } from 'lucide-react';
 import FloatingCTA from '@/components/FloatingCTA';
 import PointerTrail from '@/components/PointerTrail';
-import SectionLine from '@/components/SectionLine';
+import Journey from '@/components/Journey';
 import CollapsibleSection from '@/components/home/CollapsibleSection';
 import { DeferredMortgageCalculator, DeferredPromoBanner } from '@/components/home/DeferredHomeClient';
 import ProjectsWithSearch from '@/components/home/ProjectsWithSearch';
@@ -96,11 +96,11 @@ export default async function HomePage() {
     <>
       <link rel="preload" as="image" href="/hero/perspective1.webp" fetchPriority="high" />
       <PointerTrail />
-      <SectionLine />
       <Header />
       <FloatingCTA />
 
-      <main className="bg-white">
+      <main className="bg-white relative isolate">
+        <Journey />
         {/* 1. HERO SECTION - scroll-driven parallax */}
         <HeroExperience />
 
@@ -112,10 +112,10 @@ export default async function HomePage() {
         )}
 
         {/* 3+4. SEARCH + PROJECTS - live filter */}
-        <ProjectsWithSearch projects={allProjects} />
+        <div id="projects"><ProjectsWithSearch projects={allProjects} /></div>
 
         {/* 5. TRUST SECTION - Why ASAKAN */}
-        <CollapsibleSection label="Why ASAKAN?">
+        <div id="why"><CollapsibleSection label="Why ASAKAN?">
           <section className="py-24 bg-white border-t border-slate-100">
             <div className="max-w-7xl mx-auto px-6">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -168,10 +168,10 @@ export default async function HomePage() {
               </div>
             </div>
           </section>
-        </CollapsibleSection>
+        </CollapsibleSection></div>
 
         {/* 6. SERVICES - บริการเสริม */}
-        <CollapsibleSection label="Service & Care ครบจบในที่เดียว">
+        <div id="services"><CollapsibleSection label="Service & Care ครบจบในที่เดียว">
           <section className="py-24 bg-white border-t border-slate-100">
             <div className="max-w-7xl mx-auto px-6">
               <div className="max-w-3xl mb-14">
@@ -202,16 +202,16 @@ export default async function HomePage() {
               </div>
             </div>
           </section>
-        </CollapsibleSection>
+        </CollapsibleSection></div>
 
         {/* 7. OTHER TOOLS */}
-        <div className="bg-slate-50 py-12">
+        <div id="finance" className="bg-slate-50 py-12">
           <DeferredMortgageCalculator projects={allProjects} />
         </div>
 
         {/* 8. NEWS SECTION */}
         {latestNews.length > 0 && (
-          <section className="py-24 bg-white">
+          <section id="news" className="py-24 bg-white">
             <div className="max-w-7xl mx-auto px-6">
               <div className="flex items-end justify-between mb-12">
                 <div>
@@ -267,7 +267,7 @@ export default async function HomePage() {
         </CollapsibleSection>
 
         {/* 10. FINAL CTA */}
-        <section className="py-14 bg-white border-t border-slate-100">
+        <section id="contact" className="py-14 bg-white border-t border-slate-100">
           <div className="max-w-5xl mx-auto px-6">
 
             {/* Heading */}
