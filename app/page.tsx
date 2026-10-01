@@ -10,6 +10,7 @@ import ProjectCard from '@/components/home/ProjectCard';
 import NewsCard from '@/components/home/NewsCard';
 import { ArrowRight, Shield, Star, Home, TrendingUp } from 'lucide-react';
 import FloatingCTA from '@/components/FloatingCTA';
+import PointerTrail from '@/components/PointerTrail';
 import CollapsibleSection from '@/components/home/CollapsibleSection';
 import { DeferredMortgageCalculator, DeferredPromoBanner, DeferredSearchSection } from '@/components/home/DeferredHomeClient';
 
@@ -93,6 +94,7 @@ export default async function HomePage() {
   return (
     <>
       <link rel="preload" as="image" href="/hero/perspective1.webp" fetchPriority="high" />
+      <PointerTrail />
       <Header />
       <FloatingCTA />
 
