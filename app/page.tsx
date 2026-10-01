@@ -6,13 +6,13 @@ import { getContactSettings, lineUrl, telHref } from '@/lib/getContactSettings';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HeroExperience from '@/components/home/HeroExperience';
-import ProjectCard from '@/components/home/ProjectCard';
 import NewsCard from '@/components/home/NewsCard';
 import { ArrowRight, Shield, Star, Home, TrendingUp } from 'lucide-react';
 import FloatingCTA from '@/components/FloatingCTA';
 import PointerTrail from '@/components/PointerTrail';
 import CollapsibleSection from '@/components/home/CollapsibleSection';
-import { DeferredMortgageCalculator, DeferredPromoBanner, DeferredSearchSection } from '@/components/home/DeferredHomeClient';
+import { DeferredMortgageCalculator, DeferredPromoBanner } from '@/components/home/DeferredHomeClient';
+import ProjectsWithSearch from '@/components/home/ProjectsWithSearch';
 
 export const revalidate = 3600;
 
@@ -109,50 +109,8 @@ export default async function HomePage() {
           <DeferredPromoBanner promos={promotions.filter((p) => p.isActive)} />
         )}
 
-        {/* 3. Search Section: วางบนพื้นหลังสีเทาอ่อนบางๆ เพื่อแยกเลเยอร์ */}
-        <section className="relative z-20 bg-slate-50 py-10 border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-6">
-            <DeferredSearchSection projects={allProjects} />
-          </div>
-        </section>
-
-        {/* 4. FEATURED PROJECTS - รายการโครงการ */}
-        <section className="py-20 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 text-center md:text-left gap-6">
-              <div>
-                {/* 📍 เปลี่ยนเป็นสีแดง */}
-                <p className="text-[#e53935] font-bold tracking-widest text-xs uppercase mb-2">Our Projects</p>
-                <h2 className="text-4xl md:text-5xl font-bold text-slate-900">โครงการคอนโดมิเนียม</h2>
-                <p className="text-slate-500 mt-3 max-w-xl text-sm">
-                  เลือกที่อยู่อาศัยที่ตรงใจ ใกล้รถไฟฟ้า ราคาเข้าถึงได้ พร้อมสิ่งอำนวยความสะดวกครบครัน
-                </p>
-              </div>
-              <Link
-                href="/projects"
-                // 📍 เปลี่ยน Hover เป็นสีแดง
-                className="hidden md:flex items-center gap-2 text-slate-900 font-bold hover:text-[#e53935] transition-colors"
-              >
-                ดูโครงการทั้งหมด <ArrowRight size={20} />
-              </Link>
-            </div>
-            
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-8">
-              {featuredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
-            </div>
-            
-            <div className="text-center mt-12 md:hidden">
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-2 bg-white border-2 border-[#1a2d6b] text-[#1a2d6b] font-bold px-10 py-4 rounded-xl hover:bg-[#1a2d6b] hover:text-white transition-all"
-              >
-                ดูโครงการทั้งหมด <ArrowRight size={18} />
-              </Link>
-            </div>
-          </div>
-        </section>
+        {/* 3+4. SEARCH + PROJECTS - live filter */}
+        <ProjectsWithSearch projects={allProjects} />
 
         {/* 5. TRUST SECTION - Why ASAKAN */}
         <CollapsibleSection label="Why ASAKAN?">
