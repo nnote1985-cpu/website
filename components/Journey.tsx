@@ -39,12 +39,13 @@ export default function Journey() {
       const ys = targets.map(el => el.getBoundingClientRect().top - box.top);
       if (!ys.length) return;
 
-      // Ink starts animating from hero bottom; ends at last section
-      startY = heroH;
+      // Start ~55% of viewport BEFORE the hero ends so the line
+      // appears close to the BEYOND text during late hero parallax scroll
+      const pathStart = Math.max(0, heroH - Math.round(innerHeight * 0.55));
+      startY = pathStart;
       endY   = ys[ys.length - 1] + 90;
 
-      // Path: straight down from hero bottom, then S-curve at each section marker
-      let d = `M ${x} ${heroH}`;
+      let d = `M ${x} ${pathStart}`;
       for (let i = 0; i < ys.length; i++) {
         const y    = ys[i];
         const bend = i % 2 === 0 ? x + Math.min(width * 0.013, 24) : x - 6;
