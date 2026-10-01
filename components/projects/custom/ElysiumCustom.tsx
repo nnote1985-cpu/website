@@ -3,11 +3,13 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Phone, MapPin, TrainFront, Building2, Home } from 'lucide-react';
-import { Montserrat, Cormorant_Garamond } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import RegisterForm from '@/components/projects/RegisterForm';
 
 const mont = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
-const serif = Cormorant_Garamond({ subsets: ['latin'], weight: ['500', '600'], style: ['normal', 'italic'], display: 'swap' });
+// Cormorant Garamond is loaded as a plain stylesheet: next/font/google fails to resolve
+// its font files in Turbopack builds on Vercel ("queries have exactly one entry").
+const SERIF_HREF = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&display=swap';
 
 interface CustomProject {
   slug?: string;
@@ -72,7 +74,8 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
           <p className={`${mont.className} text-[10px] font-semibold uppercase tracking-[0.45em] text-[#C2A363]`}>
             Private Appointment
           </p>
-          <h3 className={`${serif.className} mt-2 text-[40px] font-medium italic leading-none text-white`}>
+          <link rel="stylesheet" href={SERIF_HREF} precedence="default" />
+          <h3 className="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-[40px] font-medium italic leading-none text-white">
             Register Now
           </h3>
           <div className="mx-auto mt-3 flex items-center justify-center gap-2">
