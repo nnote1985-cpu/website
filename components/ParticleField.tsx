@@ -48,11 +48,13 @@ export default function ParticleField({ className = '' }: { className?: string }
     const pointer = { x: -9999, y: -9999 };
 
     // สุ่มตำแหน่ง x ให้ฝั่งซ้ายมีตัวอักษรน้อยกว่าฝั่งขวา
+    // จำกัดจำนวนรอบเสมอ: ถ้าวนไม่จบ (เช่น width เป็น 0) หน้าเว็บจะค้างทั้งหน้า
     const spawnX = () => {
-      for (;;) {
+      for (let i = 0; i < 8; i++) {
         const x = Math.random() * width;
         if (Math.random() < densityAt(x / width)) return x;
       }
+      return width * (0.5 + Math.random() * 0.5);
     };
     const fade = (x: number) => alphaAt(x / width);
 
@@ -63,14 +65,14 @@ export default function ParticleField({ className = '' }: { className?: string }
       nodes = Array.from({ length: nodeCount }, () => ({
         x: spawnX(),
         y: Math.random() * height,
-        vy: Math.random() * 0.35 + 0.1,
+        vy: Math.random() * 0.7 + 0.2,
         char: pick(),
       }));
       beams = Array.from({ length: beamCount }, () => ({
         x: spawnX(),
         y: Math.random() * height,
         length: Math.random() * 90 + 40,
-        speed: Math.random() * 3 + 1.5,
+        speed: Math.random() * 6 + 3,
         alpha: Math.random() * 0.4 + 0.2,
       }));
     };
@@ -78,6 +80,8 @@ export default function ParticleField({ className = '' }: { className?: string }
     const resize = () => {
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
+      // ระหว่างเปลี่ยนหน้า canvas อาจยังไม่มีขนาด รอให้ ResizeObserver เรียกใหม่
+      if (w < 1 || h < 1) return;
       if (w === width && Math.abs(h - height) < 2) return;
       const widthChanged = w !== width;
       width = w;
@@ -153,9 +157,13 @@ export default function ParticleField({ className = '' }: { className?: string }
       }
     }
 
-    const loop = () => {
-      draw(true);
+    // จำกัดไว้ ~30fps พอสำหรับพื้นหลัง และกินเครื่องน้อยลงครึ่งหนึ่ง
+    let last = 0;
+    const loop = (now: number) => {
       frame = requestAnimationFrame(loop);
+      if (now - last < 32 || width < 1) return;
+      last = now;
+      draw(true);
     };
     const start = () => {
       if (reduced || frame || !onScreen || document.hidden) return;
