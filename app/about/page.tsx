@@ -5,8 +5,7 @@ import Header from '@/components/Header';
 import FloatingCTA from '@/components/FloatingCTA';
 import Footer from '@/components/Footer';
 import { Parallax, Reveal } from '@/components/about/AboutMotion';
-import PrinciplesPanels from '@/components/about/PrinciplesPanels';
-import { Building2, MapPin, Phone, Mail } from 'lucide-react';
+import { Target, Eye, Heart, Building2, MapPin, Phone, Mail } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'เกี่ยวกับเรา | ASAKAN บริษัท อัสสกาญจน์',
@@ -14,6 +13,27 @@ export const metadata: Metadata = {
 };
 
 const GALLERY = '/images/projects/elysium-phahol-59/gallery';
+
+const PRINCIPLES = [
+  {
+    icon: Target,
+    title: 'พันธกิจ',
+    subtitle: 'Mission',
+    content: 'พัฒนาโครงการในทำเลที่ดี ด้วยราคาที่เข้าถึงได้ เพื่อยกระดับคุณภาพชีวิตของชุมชน และสร้างความพึงพอใจสูงสุดให้กับลูกค้า',
+  },
+  {
+    icon: Eye,
+    title: 'วิสัยทัศน์',
+    subtitle: 'Vision',
+    content: 'มุ่งสู่การเป็นผู้พัฒนาคอนโดมิเนียมชั้นนำที่มีการเติบโตอย่างยั่งยืน โดยให้ความสำคัญกับความต้องการของลูกค้าเป็นหลัก',
+  },
+  {
+    icon: Heart,
+    title: 'ปรัชญา',
+    subtitle: 'Philosophy',
+    content: '"Freedom of Life" — เชื่อในการคิดอย่างอิสระ แสดงออกในแบบของตัวเอง ASAKAN เชื่อว่าคุณคือลูกค้าที่สำคัญ',
+  },
+];
 
 const STATS = [
   { value: '10', suffix: '+', label: 'โครงการ' },
@@ -152,7 +172,7 @@ export default function AboutPage() {
         </section>
 
         {/* Mission, Vision, Philosophy */}
-        <section className="bg-[#0f1e4a] py-24 text-white md:py-32">
+        <section className="bg-[#0f1e4a] py-16 text-white md:py-24">
           <div className="mx-auto max-w-7xl px-5 lg:px-10">
             <Reveal>
               <p className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.22em] text-white/70">
@@ -160,9 +180,32 @@ export default function AboutPage() {
                 Mission · Vision · Philosophy
               </p>
             </Reveal>
-            <Reveal className="mt-10 md:mt-14" delay={100}>
-              <PrinciplesPanels />
-            </Reveal>
+            <div className="mt-10 grid border-y border-white/15 md:mt-14 md:grid-cols-3">
+              {PRINCIPLES.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <Reveal
+                    key={item.subtitle}
+                    delay={i * 100}
+                    className={`py-7 md:px-8 md:py-10 lg:px-10 ${i ? 'border-t border-white/15 md:border-l md:border-t-0' : 'md:pl-0 lg:pl-0'} ${i === 2 ? 'md:pr-0 lg:pr-0' : ''}`}
+                  >
+                    <article className="flex gap-4 md:block">
+                      <div className="flex shrink-0 items-center justify-between self-start pt-0.5 md:pt-0">
+                        <span className="grid h-10 w-10 place-items-center rounded-full bg-[#e53935] text-white md:h-11 md:w-11">
+                          <Icon size={18} aria-hidden="true" />
+                        </span>
+                        <span className="hidden text-xs font-bold tabular-nums tracking-[0.18em] text-white/40 md:block">0{i + 1}</span>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/55 md:mt-8">{item.subtitle}</p>
+                        <h2 className="mt-1 text-2xl font-bold md:mt-1.5 md:text-[28px]">{item.title}</h2>
+                        <p className="mt-2.5 text-[15px] leading-[1.8] text-white/75 md:mt-3 md:text-base md:leading-[1.85] [text-wrap:pretty]">{item.content}</p>
+                      </div>
+                    </article>
+                  </Reveal>
+                );
+              })}
+            </div>
           </div>
         </section>
 
