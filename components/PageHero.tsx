@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import BrandPattern from '@/components/BrandPattern';
+import ParticleField from '@/components/ParticleField';
 
 interface PageHeroProps {
   eyebrow?: string;
@@ -10,7 +11,7 @@ interface PageHeroProps {
   children?: ReactNode;
 }
 
-/** ส่วนหัวหน้ามาตรฐานของเว็บ: พื้นกรมท่า + ลายกราฟิกแบรนด์ ใช้ได้ทุกหน้าย่อย */
+/** ส่วนหัวหน้ามาตรฐานของเว็บ: พื้นกรมท่า + ลายตัว A + อนุภาคตัวอักษร ใช้ได้ทุกหน้าย่อย */
 export default function PageHero({ eyebrow, title, subtitle, meta, children }: PageHeroProps) {
   return (
     <section className="relative isolate overflow-hidden bg-[#0f1e4a] text-white">
@@ -20,6 +21,7 @@ export default function PageHero({ eyebrow, title, subtitle, meta, children }: P
         style={{ background: 'radial-gradient(120% 90% at 85% 10%, #22377f 0%, #14255a 45%, #0c1840 100%)' }}
       />
       <BrandPattern className="-z-10" />
+      <ParticleField className="-z-10" />
       <div className="max-w-7xl mx-auto px-6 md:px-4 pt-14 pb-14 md:pt-24 md:pb-24">
         {eyebrow && (
           <div className="flex items-center gap-3 mb-5">
