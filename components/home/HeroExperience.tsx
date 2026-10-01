@@ -80,16 +80,22 @@ export default function HeroExperience() {
       const el = root.current; if (!el) return;
       const rect = el.getBoundingClientRect();
       const top = rect.top;
+      // On phones innerHeight changes whenever the address bar shows or hides,
+      // which made the parallax jump mid-scroll. The sticky stage is 100svh there,
+      // so its height stays put.
+      const vh = innerWidth < 768
+        ? el.querySelector<HTMLElement>('.gallery-sticky')?.offsetHeight || innerHeight
+        : innerHeight;
 
       // Always toggle has-scrolled so header can react to scroll position
       document.documentElement.classList.toggle('has-scrolled', scrollY > 35);
 
-      const travel = Math.max(1, el.offsetHeight - innerHeight * 1.15);
+      const travel = Math.max(1, el.offsetHeight - vh * 1.15);
       const target = reduced ? 0 : Math.max(0, Math.min(1, -top / travel));
       const dt = Math.min(64, Math.max(1, now - lastTime));
       lastTime = now;
 
-      const snap = reduced || document.hidden || rect.bottom < 0 || top > innerHeight;
+      const snap = reduced || document.hidden || rect.bottom < 0 || top > vh;
       if (sceneProgress === null || snap) sceneProgress = target;
       else sceneProgress += (target - sceneProgress) * (1 - Math.exp(-dt / 520));
       if (imageProgress === null || snap) imageProgress = target;
@@ -102,7 +108,7 @@ export default function HeroExperience() {
       el.style.setProperty('--frame-inset', `${p * (innerWidth < 768 ? 5 : 9)}%`);
       el.style.setProperty('--frame-top', `${p * 5}%`);
       el.style.setProperty('--frame-bottom', `${p * (innerWidth < 768 ? 42 : 30)}%`);
-      el.style.setProperty('--image-parallax', `${imageProgress * innerHeight * .15}px`);
+      el.style.setProperty('--image-parallax', `${imageProgress * vh * .15}px`);
       el.style.setProperty('--parallax-scale', String(1.09 - imageProgress * .09));
       el.style.setProperty('--hero-copy-opacity', `${1 - Math.min(1, p * 1.5)}`);
       el.style.setProperty('--caption-y', `${-p * 90}px`);
@@ -147,6 +153,13 @@ export default function HeroExperience() {
       if (img?.complete && img.naturalWidth) elapsed.current += Math.min(now - last, 100);
       last = now;
       root.current?.style.setProperty('--slide-progress', String(Math.min(1, elapsed.current / 6000)));
+      // Wait until the next image is decoded; switching to one that is still
+      // loading made the transition run over an empty slide and then pop in.
+      const next = root.current?.querySelectorAll<HTMLImageElement>('.gallery-slide img')[(current.index + 1) % slides.length];
+      if (elapsed.current >= 6000 && next && !(next.complete && next.naturalWidth)) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
       if (elapsed.current >= 6000) {
         elapsed.current = 0;
         root.current?.style.setProperty('--slide-progress', '0');
