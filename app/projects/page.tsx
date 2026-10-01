@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProjectCard from '@/components/home/ProjectCard';
 import FloatingCTA from '@/components/FloatingCTA';
+import PageHero from '@/components/PageHero';
 import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
 import { projectUrl } from '@/lib/projectUrl';
 
@@ -93,18 +94,11 @@ export default async function ProjectsPage({
       <Header />
       <FloatingCTA />
       <main className="pt-20">
-        <section
-          className="py-20 text-white"
-          style={{ background: 'linear-gradient(135deg, #0f1e4a 0%, #1a2d6b 60%, #2a3d8b 100%)' }}
-        >
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <p className="text-orange-400 font-semibold text-sm uppercase tracking-widest mb-3">Portfolio</p>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">โครงการของเรา</h1>
-            <p className="text-gray-300 text-lg">
-              คอนโดมิเนียมคุณภาพในกรุงเทพฯ ราคาเริ่มต้น 1.21 ล้านบาท
-            </p>
-          </div>
-        </section>
+        <PageHero
+          eyebrow="Portfolio"
+          title="โครงการของเรา"
+          subtitle="คอนโดมิเนียมคุณภาพในกรุงเทพฯ ราคาเริ่มต้น 1.21 ล้านบาท"
+        />
 
         <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4">
