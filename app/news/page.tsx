@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import NewsCard from '@/components/home/NewsCard';
+import Image from 'next/image';
+import NewsList from '@/components/news/NewsList';
 import FloatingCTA from '@/components/FloatingCTA';
 import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
 
@@ -48,42 +49,41 @@ export default async function NewsPage() {
       <Header />
       <FloatingCTA />
       <main className="pt-20">
-        <section
-          className="py-20 text-white"
-          style={{ background: 'linear-gradient(135deg, #0f1e4a 0%, #1a2d6b 60%, #2a3d8b 100%)' }}
-        >
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <p className="text-orange-400 font-semibold text-sm uppercase tracking-widest mb-3">Blog</p>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">ข่าวสาร & บทความ</h1>
-            <p className="text-gray-300 text-lg">วิเคราะห์ตลาด เคล็ดลับการลงทุน และอัปเดตโครงการ</p>
+        <section className="relative isolate overflow-hidden bg-[#0f1e4a] text-white">
+          <Image
+            src="/hero/perspective7.webp"
+            alt=""
+            fill
+            preload
+            sizes="100vw"
+            className="-z-10 object-cover object-[70%_center]"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10"
+            style={{ background: 'linear-gradient(180deg, rgba(10,20,52,0.55) 0%, rgba(10,20,52,0.72) 55%, rgba(10,20,52,0.94) 100%)' }}
+          />
+          <div className="max-w-7xl mx-auto px-6 md:px-4 pt-16 pb-16 md:pt-32 md:pb-24">
+            <div className="flex items-center gap-3 mb-5">
+              <span className="h-px w-10 bg-orange-400" />
+              <p className="text-orange-400 font-semibold text-xs uppercase tracking-[0.3em]">Blog</p>
+            </div>
+            <h1 className="text-[2.6rem] leading-[1.15] md:text-6xl font-bold mb-5 max-w-3xl">ข่าวสาร & บทความ</h1>
+            <p className="text-white/75 text-base md:text-lg font-light leading-relaxed max-w-xl">
+              วิเคราะห์ตลาด เคล็ดลับการลงทุน
+              <br className="sm:hidden" /> และอัปเดตโครงการ
+            </p>
+            {published.length > 0 && (
+              <p className="mt-8 text-xs tracking-widest uppercase text-white/50">
+                {published.length} บทความ
+              </p>
+            )}
           </div>
         </section>
 
-        <section className="py-16 bg-gray-50">
+        <section className="pb-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4">
-            {categories.length > 1 && (
-              <div className="flex gap-2 flex-wrap mb-8">
-                <span className="text-sm font-medium text-gray-500 self-center">หมวดหมู่:</span>
-                {categories.map((cat) => (
-                  <span
-                    key={cat}
-                    className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 hover:border-[#f4511e] hover:text-[#f4511e] cursor-pointer transition-colors"
-                  >
-                    {cat}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {published.length === 0 ? (
-              <div className="text-center py-20 text-gray-400">ยังไม่มีบทความ</div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {published.map((news) => (
-                  <NewsCard key={news.id} news={news} />
-                ))}
-              </div>
-            )}
+            <NewsList items={published} categories={categories} />
           </div>
         </section>
       </main>
