@@ -113,7 +113,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             <span className="block text-[8px] sm:text-[9px] font-bold text-slate-600 uppercase tracking-widest mb-0.5">
               Starting Price
             </span>
-            <div className="flex items-baseline gap-1 text-[#e53935]">
+            <div className="flex flex-wrap items-baseline gap-x-1 text-[#e53935]">
               <span className="font-black text-base sm:text-xl leading-none">
                 {Number(project.priceMin).toLocaleString('th-TH')}
               </span>
