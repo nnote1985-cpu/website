@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
+import FreedomSection from '@/components/home/FreedomSection';
+import ServicesSection from '@/components/home/ServicesSection';
 import Link from 'next/link';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getContactSettings, lineUrl, telHref } from '@/lib/getContactSettings';
@@ -172,40 +173,11 @@ export default async function HomePage() {
 
         {/* 6. SERVICES - บริการเสริม */}
         <div id="services"><CollapsibleSection label="Service & Care ครบจบในที่เดียว">
-          <section className="py-24 bg-white border-t border-slate-100">
-            <div className="max-w-7xl mx-auto px-6">
-              <div className="max-w-3xl mb-14">
-                <p className="text-[#e53935] font-bold text-xs uppercase tracking-[0.3em] mb-3">Service & Care</p>
-                <h2 className="text-4xl md:text-5xl font-black text-[#1a2d6b] tracking-tight">ครบจบในที่เดียว</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 bg-white">
-                {[
-                  { title: 'ซื้อคอนโดมิเนียม', desc: 'โครงการคุณภาพในทำเลศักยภาพ ราคาเริ่มต้น 1.21 ล้านบาท พร้อมส่วนกลางครบครัน', href: '/projects', cta: 'ดูโครงการ' },
-                  { title: 'ASAKAN AssetCare+', desc: 'บริการบริหารการปล่อยเช่าแบบครบวงจร ให้คุณมีรายได้ Passive Income โดยไม่ต้องกังวล', href: '/assetcare', cta: 'เรียนรู้เพิ่มเติม' },
-                  { title: 'สมาชิก ASAKAN', desc: 'สิทธิพิเศษสำหรับเจ้าของห้อง ประกันอุบัติเหตุ ส่วนลดซื้อห้องถัดไป และรางวัลแนะนำเพื่อน', href: '/member', cta: 'สมัครสมาชิก' },
-                ].map((service, index) => (
-                  <div key={service.title} className="group bg-white p-7 md:p-8 hover:bg-slate-50 transition-colors">
-                    <div className="mb-6 flex items-center justify-between">
-                      <span className="text-xs font-black uppercase tracking-[0.24em] text-[#e53935]">0{index + 1}</span>
-                      <span className="h-px flex-1 bg-slate-200 ml-4" />
-                    </div>
-                    <h3 className="font-black text-[#1a2d6b] text-2xl mb-4 leading-tight">{service.title}</h3>
-                    <p className="text-slate-500 text-sm leading-relaxed mb-8 min-h-[5.25rem]">{service.desc}</p>
-                    <Link
-                      href={service.href}
-                      className="inline-flex items-center gap-2 text-[#e53935] font-bold text-sm group-hover:gap-4 transition-all uppercase tracking-widest"
-                    >
-                      {service.cta} <ArrowRight size={16} />
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+          <ServicesSection />
         </CollapsibleSection></div>
 
         {/* 7. OTHER TOOLS */}
-        <div id="finance" className="bg-slate-50 py-12">
+        <div id="finance" className="bg-slate-50">
           <DeferredMortgageCalculator projects={allProjects} />
         </div>
 
@@ -234,6 +206,7 @@ export default async function HomePage() {
         )}
 
         {/* 9. AEO QUICK ANSWERS */}
+        <div id="faq">
         <CollapsibleSection label="คำถามที่พบบ่อย" alwaysCollapsible>
           <section className="py-12 bg-slate-50 border-t border-slate-100">
             <div className="max-w-5xl mx-auto px-6">
@@ -265,6 +238,7 @@ export default async function HomePage() {
             </div>
           </section>
         </CollapsibleSection>
+        </div>
 
         {/* 10. FINAL CTA */}
         <section id="contact" className="py-14 bg-white border-t border-slate-100">
@@ -332,30 +306,7 @@ export default async function HomePage() {
         </section>
 
         {/* 11. EMOTIONAL BRAND SECTION */}
-        <section className="relative overflow-hidden bg-white">
-          <div className="relative min-h-[335px] md:min-h-[430px] xl:min-h-[470px] flex items-start justify-center">
-            <Image
-              src="/images/emotional.webp"
-              alt="ครอบครัวใช้เวลาร่วมกันในบ้าน"
-              fill
-              sizes="100vw"
-              loading="lazy"
-              className="object-cover object-center md:object-[center_42%]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-white/96 via-white/55 to-white/6" />
-            <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-white via-white/85 to-white/0" />
-            <div className="absolute inset-x-0 top-10 h-52 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.72)_38%,rgba(255,255,255,0)_72%)]" />
-
-            <div className="relative z-10 max-w-4xl mx-auto px-6 pt-16 md:pt-24 text-center">
-              <h2 className="text-4xl md:text-6xl font-black text-[#1a2d6b] tracking-tight mb-4 [text-shadow:0_2px_16px_rgba(255,255,255,0.95)]">
-                FREEDOM OF LIFE
-              </h2>
-              <p className="text-[#1a2d6b] font-medium text-base md:text-xl leading-relaxed max-w-2xl mx-auto [text-shadow:0_1px_12px_rgba(255,255,255,0.95)]">
-                อัสสกาญจน์เชื่อว่า บ้านที่ดีไม่ได้เป็นเพียงที่อยู่อาศัย แต่เป็นพื้นที่ให้ทุกคนได้ใช้ชีวิตในแบบของตัวเอง
-              </p>
-            </div>
-          </div>
-        </section>
+        <FreedomSection />
 
       </main>
 

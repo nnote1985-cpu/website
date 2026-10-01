@@ -1,0 +1,33 @@
+.section{background:#fff;padding:48px 0 56px;color:#1a2d6b}
+.container{max-width:1280px;margin:0 auto;padding:0 24px}
+.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:24px}
+.label{font-size:.75rem;font-weight:900;line-height:1rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:6px;color:#e53935}
+.heading h2{font-size:clamp(28px,2.6vw,36px);font-weight:700;line-height:1.4;letter-spacing:-.02em;text-wrap:balance}
+.intro{font-size:13px;line-height:1.8;color:#475569;padding-bottom:4px}
+.layout{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:40px;align-items:start}
+.visual{margin:0}
+.imageFrame{position:relative;height:300px;overflow:hidden;border-radius:4px}
+.image{object-fit:cover;object-position:50% 72%}
+.caption{display:flex;justify-content:space-between;gap:12px;padding-top:10px;line-height:1.6;font-size:10px;color:#64748b}
+.services{border-top:1px solid #e2e8f0}
+.service{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:15px 0;border-bottom:1px solid #e2e8f0;text-decoration:none;color:inherit}
+.service h3{font-size:18px;font-weight:600;line-height:1.5;margin-bottom:5px}
+.service p{max-width:500px;font-size:12px;line-height:1.8;color:#475569}
+.action{display:inline-block;margin-top:6px;font-size:11px;font-weight:600;color:#bd2424}
+.arrow{flex-shrink:0;color:#1a2d6b;transition:transform .2s ease-out,color .2s}
+.service:hover .arrow{color:#bd2424;transform:translate(3px,-3px)}
+.service:hover h3{color:#bd2424}
+.service:focus-visible{outline:2px solid #1a2d6b;outline-offset:6px}
+@media(max-width:1023px) and (min-width:768px){.layout{gap:28px}.intro{max-width:260px}.imageFrame{height:320px}}
+@media(max-width:767px){
+  .section{padding:24px 0 36px}
+  .heading{display:block;margin-bottom:20px}
+  .heading h2{font-size:28px}
+  .intro{margin-top:8px;font-size:12px}
+  .layout{grid-template-columns:minmax(0,1fr);gap:20px}
+  .imageFrame{height:auto;aspect-ratio:2/1}
+  .caption{font-size:9px;padding-top:8px}
+  .service{padding:16px 0;gap:16px}
+  .service h3{font-size:18px}
+}
+@media(prefers-reduced-motion:reduce){.arrow{transition:none}.service:hover .arrow{transform:none}}

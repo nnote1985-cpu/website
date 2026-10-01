@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { ArrowRight, Calculator, Minus, Phone, Plus } from 'lucide-react';
 import { projectUrl } from '@/lib/projectUrl';
+import styles from './MortgageCalculator.module.css';
 
 type Mode = 'monthly' | 'maxloan';
 
@@ -85,55 +86,58 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
   const loanPct = ((loanAmount - 500000) / 9500000) * 100;
   const incomePct = ((monthlyIncome - 10000) / 190000) * 100;
 
-  const inputCls = "w-full bg-white/8 border border-white/12 rounded-xl px-4 py-3 text-white font-semibold focus:outline-none focus:border-[#e53935]/60 focus:bg-white/12 transition-all placeholder-white/30";
-  const selectCls = "w-full bg-zinc-800 border border-white/12 rounded-xl px-4 py-3 text-white font-semibold focus:outline-none focus:border-[#e53935]/60 transition-all appearance-none cursor-pointer";
-  const labelCls = "block text-xs font-semibold text-white/50 uppercase tracking-widest mb-2";
+  const inputCls = styles.input;
+  const selectCls = styles.select;
+  const labelCls = styles.label;
 
   function sliderStyle(pct: number) {
     return getSliderStyle(pct);
   }
 
   return (
-    <section className="bg-zinc-900 py-16">
-      <div className="max-w-3xl mx-auto px-4">
-        <div className="text-center mb-10">
-          <p className="text-[#e53935] text-xs font-bold uppercase tracking-[0.3em] mb-2">เครื่องมือคำนวณ</p>
-          <h2 className="text-3xl font-bold text-white mb-2">คำนวณสินเชื่อบ้าน</h2>
-          <p className="text-white/40 text-sm">วางแผนการเงินก่อนตัดสินใจซื้อ</p>
+    <section className={styles.section} aria-labelledby="mortgage-title">
+      <div className={styles.container}>
+        <div className={styles.heading}>
+          <div>
+            <h2 id="mortgage-title">วางแผนวันนี้<br />ให้บ้านที่ใช่ใกล้ขึ้น</h2>
+          </div>
+          <p>คำนวณสินเชื่อบ้านเบื้องต้น<br />ลองปรับวงเงินและระยะเวลา เพื่อหายอดผ่อนที่เหมาะกับคุณ</p>
         </div>
 
-        <div className="flex bg-white/6 rounded-2xl p-1 mb-8 border border-white/8">
+        <div className={styles.calculator}>
+        <div className={styles.modes} role="group" aria-label="รูปแบบการคำนวณ">
           <button
+            type="button"
+            aria-pressed={mode === 'monthly'}
             onClick={() => {
               setMode('monthly');
               setShowRecommendations(false);
             }}
-            className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${
-              mode === 'monthly' ? 'bg-[#e53935] text-white shadow-lg' : 'text-white/40 hover:text-white/70'
-            }`}
+            className={styles.mode}
           >
             <Calculator size={14} className="inline mr-1.5 -mt-0.5" />
             คำนวณผ่อนต่อเดือน
           </button>
           <button
+            type="button"
+            aria-pressed={mode === 'maxloan'}
             onClick={() => {
               setMode('maxloan');
               setShowRecommendations(false);
             }}
-            className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${
-              mode === 'maxloan' ? 'bg-[#e53935] text-white shadow-lg' : 'text-white/40 hover:text-white/70'
-            }`}
+            className={styles.mode}
           >
             กู้ได้สูงสุดเท่าไหร่?
           </button>
         </div>
 
-        <div className="bg-white/5 rounded-2xl p-6 border border-white/8 space-y-5">
+        <div className={styles.grid}>
           {mode === 'monthly' ? (
             <>
               <div>
-                <label className={labelCls}>วงเงินกู้ (บาท)</label>
+                <label htmlFor="mortgage-amount" className={labelCls}>วงเงินกู้ (บาท)</label>
                 <StepperNumberInput
+                  id="mortgage-amount"
                   value={loanAmount}
                   min={500000}
                   max={10000000}
@@ -145,6 +149,7 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
                   }}
                 />
                 <input
+                  aria-label="ปรับวงเงินกู้"
                   type="range"
                   min={500000}
                   max={10000000}
@@ -158,18 +163,19 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
                     setLoanAmount(+e.target.value);
                     setShowRecommendations(false);
                   }}
-                  className="range-slider mt-2"
+                  className={styles.slider}
                   style={sliderStyle(loanPct)}
                 />
-                <div className="flex justify-between text-[10px] text-white/30 mt-1 px-0.5">
+                <div className={styles.rangeLabels}>
                   <span>500,000</span><span>10,000,000</span>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className={labelCls}>ดอกเบี้ย (% ต่อปี)</label>
+                  <label htmlFor="mortgage-interest" className={labelCls}>ดอกเบี้ย (% ต่อปี)</label>
                   <StepperNumberInput
+                    id="mortgage-interest"
                     value={interest}
                     min={0}
                     max={15}
@@ -179,14 +185,14 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
                   />
                 </div>
                 <div>
-                  <label className={labelCls}>ระยะเวลา (ปี)</label>
+                  <label htmlFor="mortgage-years" className={labelCls}>ระยะเวลา (ปี)</label>
                   <div className="relative">
-                    <select value={years} onChange={(e) => setYears(+e.target.value)} className={selectCls}>
+                    <select id="mortgage-years" value={years} onChange={(e) => setYears(+e.target.value)} className={selectCls}>
                       {[10, 15, 20, 25, 30, 35, 40].map((y) => (
                         <option key={y} value={y}>{y} ปี</option>
                       ))}
                     </select>
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">▾</div>
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">▾</div>
                   </div>
                 </div>
               </div>
@@ -202,8 +208,9 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
           ) : (
             <>
               <div>
-                <label className={labelCls}>รายได้ต่อเดือน (บาท)</label>
+                <label htmlFor="mortgage-income" className={labelCls}>รายได้ต่อเดือน (บาท)</label>
                 <StepperNumberInput
+                  id="mortgage-income"
                   value={monthlyIncome}
                   min={10000}
                   max={200000}
@@ -225,12 +232,14 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
                     setShowRecommendations(false);
                   }}
                 />
+                <div className={styles.rangeLabels}><span>10,000</span><span>200,000</span></div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className={labelCls}>ดอกเบี้ย (% ต่อปี)</label>
+                  <label htmlFor="mortgage-max-interest" className={labelCls}>ดอกเบี้ย (% ต่อปี)</label>
                   <StepperNumberInput
+                    id="mortgage-max-interest"
                     value={maxInterest}
                     min={0}
                     max={15}
@@ -240,14 +249,14 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
                   />
                 </div>
                 <div>
-                  <label className={labelCls}>ระยะเวลา (ปี)</label>
+                  <label htmlFor="mortgage-max-years" className={labelCls}>ระยะเวลา (ปี)</label>
                   <div className="relative">
-                    <select value={maxYears} onChange={(e) => setMaxYears(+e.target.value)} className={selectCls}>
+                    <select id="mortgage-max-years" value={maxYears} onChange={(e) => setMaxYears(+e.target.value)} className={selectCls}>
                       {[10, 15, 20, 25, 30, 35, 40].map((y) => (
                         <option key={y} value={y}>{y} ปี</option>
                       ))}
                     </select>
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">▾</div>
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">▾</div>
                   </div>
                 </div>
               </div>
@@ -266,9 +275,10 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
             <RecommendedProjects projects={recommendedProjects} targetBudget={targetBudget} />
           )}
 
-          <p className="text-white/25 text-xs text-center pt-1">
+          <p className={styles.disclaimer}>
             * ผลการคำนวณเป็นเพียงการประมาณการ ขึ้นอยู่กับเงื่อนไขของธนาคาร
           </p>
+        </div>
         </div>
       </div>
     </section>
@@ -289,18 +299,18 @@ function ResultSummary({
   onShowProjects: () => void;
 }) {
   return (
-    <div className="bg-[#e53935]/15 border border-[#e53935]/25 rounded-2xl p-5 text-center">
-      <p className="text-white/50 text-xs uppercase tracking-widest mb-2">{label}</p>
-      <p className="text-5xl font-black text-white tracking-tight">
+    <div className={styles.result}>
+      <p className={styles.resultLabel}>{label}</p>
+      <p className={styles.resultValue} aria-live="polite" aria-atomic="true">
         {formatBaht(value)}
+        <span>{unit}</span>
       </p>
-      <p className="text-[#e53935] font-bold text-base mt-1">{unit}</p>
-      <p className="text-white/30 text-xs mt-3">{detail}</p>
+      <p className={styles.resultDetail}>{detail}</p>
 
-      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className={styles.resultActions}>
         <Link
           href="/contact"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#e53935] px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-[#c62828]"
+          className={styles.primaryAction}
         >
           <Phone size={16} />
           ติดต่อฝ่ายขาย
@@ -308,7 +318,7 @@ function ResultSummary({
         <button
           type="button"
           onClick={onShowProjects}
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/8 px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-white/12 cursor-pointer"
+          className={styles.secondaryAction}
         >
           ดูโครงการตามงบ
           <ArrowRight size={16} />
@@ -319,6 +329,7 @@ function ResultSummary({
 }
 
 type StepperNumberInputProps = {
+  id: string;
   value: number;
   min?: number;
   max?: number;
@@ -333,7 +344,7 @@ function clampValue(value: number, min?: number, max?: number) {
   return value;
 }
 
-function StepperNumberInput({ value, min, max, step, inputClassName, onChange }: StepperNumberInputProps) {
+function StepperNumberInput({ id, value, min, max, step, inputClassName, onChange }: StepperNumberInputProps) {
   function update(nextValue: number) {
     const precision = step.toString().split('.')[1]?.length || 0;
     const rounded = Number(nextValue.toFixed(precision));
@@ -343,6 +354,7 @@ function StepperNumberInput({ value, min, max, step, inputClassName, onChange }:
   return (
     <div className="relative">
       <input
+        id={id}
         type="number"
         value={value}
         min={min}
@@ -352,13 +364,13 @@ function StepperNumberInput({ value, min, max, step, inputClassName, onChange }:
           const nextValue = Number(e.target.value);
           if (!Number.isNaN(nextValue)) onChange(clampValue(nextValue, min, max));
         }}
-        className={`${inputClassName} number-field-input pr-16`}
+        className={`${inputClassName} number-field-input`}
       />
-      <div className="absolute right-2 top-1/2 grid h-9 w-11 -translate-y-1/2 grid-cols-2 overflow-hidden rounded-full border border-white/12 bg-zinc-900/75 shadow-inner">
+      <div className={styles.stepper}>
         <button
           type="button"
           onClick={() => update(value - step)}
-          className="flex items-center justify-center text-white/55 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:bg-white/12"
+          disabled={min !== undefined && value <= min}
           aria-label="ลดค่า"
         >
           <Minus size={13} strokeWidth={2.4} />
@@ -366,7 +378,7 @@ function StepperNumberInput({ value, min, max, step, inputClassName, onChange }:
         <button
           type="button"
           onClick={() => update(value + step)}
-          className="flex items-center justify-center border-l border-white/10 text-white/55 transition-colors hover:bg-[#e53935] hover:text-white focus:outline-none focus-visible:bg-[#e53935]"
+          disabled={max !== undefined && value >= max}
           aria-label="เพิ่มค่า"
         >
           <Plus size={13} strokeWidth={2.4} />
@@ -379,21 +391,21 @@ function StepperNumberInput({ value, min, max, step, inputClassName, onChange }:
 function RecommendedProjects({ projects, targetBudget }: { projects: CalculatorProject[]; targetBudget: number }) {
   if (projects.length === 0) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-center">
-        <p className="text-sm font-bold text-white">ยังไม่มีโครงการที่ตรงกับงบนี้</p>
-        <p className="mt-1 text-xs text-white/40">ฝ่ายขายช่วยแนะนำตัวเลือกที่เหมาะกับคุณได้</p>
+      <div className={styles.recommendations}>
+        <p className="text-sm font-bold text-[#1a2d6b]">ยังไม่มีโครงการที่ตรงกับงบนี้</p>
+        <p className="mt-1 text-xs text-slate-600">ฝ่ายขายช่วยแนะนำตัวเลือกที่เหมาะกับคุณได้</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+    <div className={styles.recommendations}>
       <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#e53935]">Recommended</p>
-          <h3 className="text-lg font-bold text-white">โครงการแนะนำตามงบ {formatBaht(targetBudget)} บาท</h3>
+
+          <h3 className="text-lg font-bold text-[#1a2d6b]">โครงการแนะนำตามงบ {formatBaht(targetBudget)} บาท</h3>
         </div>
-        <Link href="/projects" className="text-xs font-bold text-white/45 transition-colors hover:text-white">
+        <Link href="/projects" className="text-xs font-bold text-[#1a2d6b] underline underline-offset-4">
           ดูทั้งหมด
         </Link>
       </div>
@@ -403,18 +415,18 @@ function RecommendedProjects({ projects, targetBudget }: { projects: CalculatorP
           <Link
             key={project.id}
             href={projectUrl(project.slug)}
-            className="group flex items-center justify-between gap-4 rounded-xl border border-white/8 bg-white/6 px-4 py-3 transition-colors hover:border-[#e53935]/40 hover:bg-white/10"
+            className={styles.projectLink}
           >
             <div className="min-w-0">
-              <p className="truncate text-sm font-bold text-white group-hover:text-[#e53935] transition-colors">
+              <p className="truncate text-sm font-bold text-[#1a2d6b] group-hover:text-[#e53935] transition-colors">
                 {project.name}
               </p>
-              <p className="mt-1 truncate text-xs text-white/40">
+              <p className="mt-1 truncate text-xs text-slate-600">
                 {project.bts || project.location || 'ASAKAN Residence'}
               </p>
             </div>
             <div className="shrink-0 text-right">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">เริ่มต้น</p>
+              <p className="text-xs text-slate-600">เริ่มต้น</p>
               <p className="text-sm font-black text-[#e53935]">{formatBaht(Number(project.priceMin))}</p>
             </div>
           </Link>
@@ -436,6 +448,7 @@ type CustomSliderProps = {
 function CustomSlider({ value, min, max, step, pct, onChange }: CustomSliderProps) {
   return (
     <input
+      aria-label="ปรับรายได้ต่อเดือน"
       type="range"
       min={min}
       max={max}
@@ -443,7 +456,7 @@ function CustomSlider({ value, min, max, step, pct, onChange }: CustomSliderProp
       value={value}
       onInput={(e) => onChange(+(e.target as HTMLInputElement).value)}
       onChange={(e) => onChange(+e.target.value)}
-      className="range-slider mt-2"
+      className={styles.slider}
       style={getSliderStyle(pct)}
     />
   );
