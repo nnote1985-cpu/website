@@ -87,7 +87,6 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
   const incomePct = ((monthlyIncome - 10000) / 190000) * 100;
 
   const inputCls = styles.input;
-  const selectCls = styles.select;
   const labelCls = styles.label;
 
   function sliderStyle(pct: number) {
@@ -186,14 +185,16 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
                 </div>
                 <div>
                   <label htmlFor="mortgage-years" className={labelCls}>ระยะเวลา (ปี)</label>
-                  <div className="relative">
-                    <select id="mortgage-years" value={years} onChange={(e) => setYears(+e.target.value)} className={selectCls}>
-                      {[10, 15, 20, 25, 30, 35, 40].map((y) => (
-                        <option key={y} value={y}>{y} ปี</option>
-                      ))}
-                    </select>
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">▾</div>
-                  </div>
+                  <StepperNumberInput
+                    id="mortgage-years"
+                    readOnly
+                    value={years}
+                    min={10}
+                    max={40}
+                    step={5}
+                    inputClassName={inputCls}
+                    onChange={setYears}
+                  />
                 </div>
               </div>
 
@@ -250,14 +251,16 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
                 </div>
                 <div>
                   <label htmlFor="mortgage-max-years" className={labelCls}>ระยะเวลา (ปี)</label>
-                  <div className="relative">
-                    <select id="mortgage-max-years" value={maxYears} onChange={(e) => setMaxYears(+e.target.value)} className={selectCls}>
-                      {[10, 15, 20, 25, 30, 35, 40].map((y) => (
-                        <option key={y} value={y}>{y} ปี</option>
-                      ))}
-                    </select>
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">▾</div>
-                  </div>
+                  <StepperNumberInput
+                    id="mortgage-max-years"
+                    readOnly
+                    value={maxYears}
+                    min={10}
+                    max={40}
+                    step={5}
+                    inputClassName={inputCls}
+                    onChange={setMaxYears}
+                  />
                 </div>
               </div>
 
@@ -335,6 +338,7 @@ type StepperNumberInputProps = {
   max?: number;
   step: number;
   inputClassName: string;
+  readOnly?: boolean;
   onChange: (value: number) => void;
 };
 
@@ -344,7 +348,7 @@ function clampValue(value: number, min?: number, max?: number) {
   return value;
 }
 
-function StepperNumberInput({ id, value, min, max, step, inputClassName, onChange }: StepperNumberInputProps) {
+function StepperNumberInput({ id, value, min, max, step, inputClassName, readOnly, onChange }: StepperNumberInputProps) {
   function update(nextValue: number) {
     const precision = step.toString().split('.')[1]?.length || 0;
     const rounded = Number(nextValue.toFixed(precision));
@@ -360,6 +364,7 @@ function StepperNumberInput({ id, value, min, max, step, inputClassName, onChang
         min={min}
         max={max}
         step={step}
+        readOnly={readOnly}
         onChange={(e) => {
           const nextValue = Number(e.target.value);
           if (!Number.isNaN(nextValue)) onChange(clampValue(nextValue, min, max));
