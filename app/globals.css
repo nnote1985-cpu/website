@@ -210,7 +210,6 @@ body {
 @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
 @keyframes sheetUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
 
-/* About hero: slow drift on the photo */
-@keyframes about-hero-drift { from { transform: scale(1.04) } to { transform: scale(1.1) translateX(-1%) } }
-.about-hero-image { animation: about-hero-drift 18s ease-in-out infinite alternate; }
-@media (prefers-reduced-motion: reduce) { .about-hero-image { animation: none; } }
+/* About page: reveal on scroll (class added by components/about/AboutMotion.tsx) */
+.about-reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.22,.61,.36,1), transform .9s cubic-bezier(.22,.61,.36,1); }
+.about-reveal.is-in { opacity: 1; transform: none; }
