@@ -48,7 +48,9 @@ export default function ProjectsWithSearch({ projects }: { projects: Project[] }
 
   const filtered = useMemo(() => {
     return projects.filter((p) => {
-      if (status && p.status !== status) return false;
+      // Default to active-only when no status filter selected
+      const effectiveStatus = status || 'active';
+      if (p.status !== effectiveStatus) return false;
       if (location && p.location !== location) return false;
       if (price) {
         const [min, max] = price.split('-').map(Number);
@@ -66,7 +68,7 @@ export default function ProjectsWithSearch({ projects }: { projects: Project[] }
     });
   }, [projects, query, status, location, price]);
 
-  const isFiltering = query || status || location || price;
+  const isFiltering = !!(query || status || location || price);
 
   const clearAll = () => {
     setQuery('');
@@ -149,21 +151,14 @@ export default function ProjectsWithSearch({ projects }: { projects: Project[] }
               </div>
             </div>
 
-            {/* ปุ่มล้าง / เพิ่มเติม */}
-            {isFiltering ? (
+            {/* ล้างตัวกรอง — แสดงเฉพาะเมื่อมี filter */}
+            {isFiltering && (
               <button
                 onClick={clearAll}
                 className="bg-slate-100 text-slate-600 font-bold px-6 rounded-xl hover:bg-slate-200 transition-colors text-[14px] whitespace-nowrap h-[52px]"
               >
                 ล้างตัวกรอง
               </button>
-            ) : (
-              <Link
-                href="/projects"
-                className="bg-[#c62828] text-white font-bold px-8 rounded-xl hover:bg-[#b71c1c] transition-colors text-[15px] whitespace-nowrap h-[52px] shadow-lg shadow-red-500/20 flex items-center justify-center"
-              >
-                ดูทั้งหมด
-              </Link>
             )}
           </div>
         </div>
