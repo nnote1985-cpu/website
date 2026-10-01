@@ -209,3 +209,8 @@ body {
 /* Year picker bottom sheet */
 @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
 @keyframes sheetUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
+
+/* About hero: slow drift on the photo */
+@keyframes about-hero-drift { from { transform: scale(1.04) } to { transform: scale(1.1) translateX(-1%) } }
+.about-hero-image { animation: about-hero-drift 18s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .about-hero-image { animation: none; } }
