@@ -3,10 +3,11 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Phone, MapPin, TrainFront, Building2, Home } from 'lucide-react';
-import { Montserrat } from 'next/font/google';
+import { Montserrat, Cormorant_Garamond } from 'next/font/google';
 import RegisterForm from '@/components/projects/RegisterForm';
 
 const mont = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
+const serif = Cormorant_Garamond({ subsets: ['latin'], weight: ['500', '600'], style: ['normal', 'italic'], display: 'swap' });
 
 interface CustomProject {
   slug?: string;
@@ -62,40 +63,43 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
   ];
 
   const FormCard = (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.12),_0_8px_32px_rgba(0,0,0,0.5),_0_32px_80px_rgba(0,0,0,0.4),_0_0_60px_rgba(255,255,255,0.04)]">
-      <div className="h-[4px] w-full bg-gradient-to-r from-[#b71c1c] via-[#e53935] to-[#b71c1c]" />
+    <div className="relative overflow-hidden rounded-2xl border border-[#C2A363]/[0.18] bg-[#0b1630]/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_2px_6px_rgba(0,0,0,0.25),0_18px_40px_rgba(0,0,0,0.35),0_40px_100px_rgba(5,11,20,0.55)] backdrop-blur-xl">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#D9BE85] to-transparent" />
+      <div className="pointer-events-none absolute -top-24 -right-24 h-56 w-56 rounded-full bg-[#C2A363]/10 blur-3xl" />
 
-      <div className="p-6 md:p-7">
-        <div className="mb-6">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#e53935] animate-pulse" />
-            <p className={`${mont.className} text-[#e53935] text-[9px] font-semibold uppercase tracking-[0.4em]`}>
-              Private Appointment
-            </p>
-          </div>
-          <h3 className={`${mont.className} text-2xl md:text-3xl font-bold text-[#1a2d6b] leading-tight`}>
+      <div className="relative px-7 pt-7 pb-6">
+        <div className="mb-5 text-center">
+          <p className={`${mont.className} text-[10px] font-semibold uppercase tracking-[0.45em] text-[#C2A363]`}>
+            Private Appointment
+          </p>
+          <h3 className={`${serif.className} mt-2 text-[40px] font-medium italic leading-none text-white`}>
             Register Now
           </h3>
-          <div className="w-10 h-0.5 bg-[#e53935] mt-2 mb-3" />
-          <p className="text-slate-400 text-sm leading-relaxed">
-            ลงทะเบียนรับข้อมูล ราคา และโปรโมชันล่าสุดของ {project.name}
+          <div className="mx-auto mt-3 flex items-center justify-center gap-2">
+            <span className="h-px w-8 bg-[#C2A363]/50" />
+            <span className="h-1 w-1 rotate-45 bg-[#C2A363]" />
+            <span className="h-px w-8 bg-[#C2A363]/50" />
+          </div>
+          <p className="mt-3 text-[13px] leading-relaxed text-white/75">
+            รับข้อมูล ราคา และสิทธิพิเศษของ {project.name}
           </p>
         </div>
 
-        <RegisterForm projectName={project.name} projectSlug={project.slug} />
-
-        <div className="mt-6 pt-5 border-t border-slate-100 flex items-center gap-4">
-          <div className="w-11 h-11 rounded-xl bg-[#e53935]/10 border border-[#e53935]/20 flex items-center justify-center shrink-0">
-            <Phone size={17} className="text-[#e53935]" />
-          </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase tracking-[0.16em] mb-0.5">Sales Gallery</p>
-            <a href={`tel:${phoneTel}`} className="text-lg md:text-xl font-black text-slate-900 hover:text-[#e53935] transition-colors">
-              {phone}
-            </a>
-          </div>
-        </div>
+        <RegisterForm projectName={project.name} projectSlug={project.slug} variant="luxe" />
       </div>
+
+      <a
+        href={`tel:${phoneTel}`}
+        className="group relative flex items-center justify-between gap-3 border-t border-[#C2A363]/20 px-7 py-4 transition-colors hover:bg-white/[0.03]"
+      >
+        <span className="flex items-center gap-3">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#C2A363]/50 text-[#C2A363]">
+            <Phone size={14} />
+          </span>
+          <span className={`${mont.className} text-[10px] font-semibold uppercase tracking-[0.25em] text-white/70`}>Sales Gallery</span>
+        </span>
+        <span className={`${mont.className} text-base font-semibold tracking-wider text-white tabular-nums group-hover:text-[#D9BE85] transition-colors`}>{phone}</span>
+      </a>
     </div>
   );
 
@@ -109,28 +113,9 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
             <img src={mobilePromoUrl || heroImageUrl || '/logo.png'} alt="โปรโมชั่น" width={1080} height={1600} className="w-full h-auto block" fetchPriority="high" />
           </div>
 
-          <div id="register-mobile" data-register-form="true" className="scroll-mt-24 px-6 py-10 bg-[#faf8f5]">
-            <div className="mb-1">
-              <div className="w-8 h-[2px] bg-[#e53935] mb-3" />
-              <p className={`${mont.className} text-[#e53935] text-[9px] font-semibold uppercase tracking-[0.3em] mb-2`}>
-                Private Appointment
-              </p>
-              <h3 className={`${mont.className} text-2xl font-bold text-slate-900 uppercase tracking-tight`}>
-                Register Now
-              </h3>
-            </div>
-            <p className="text-slate-400 text-[11px] mb-6 mt-1">ลงทะเบียนรับสิทธิพิเศษ {project.name}</p>
-            <RegisterForm projectName={project.name} projectSlug={project.slug} />
-            <div className="mt-8 pt-6 border-t border-[#e53935]/20 flex items-center gap-4">
-              <div className="w-11 h-11 rounded-xl bg-[#e53935]/10 border border-[#e53935]/25 flex items-center justify-center">
-                <Phone size={17} className="text-[#e53935]" />
-              </div>
-              <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase tracking-[0.1em] mb-0.5">Sales Gallery</p>
-                <a href={`tel:${phoneTel}`} className="text-lg font-black text-slate-900 hover:text-[#e53935] transition-colors">
-                  {phone}
-                </a>
-              </div>
+          <div id="register-mobile" data-register-form="true" className="scroll-mt-24 bg-gradient-to-b from-[#faf8f5] to-[#efe9df] px-4 pt-8 pb-10">
+            <div className="mx-auto max-w-[430px]">
+              {FormCard}
             </div>
           </div>
         </div>

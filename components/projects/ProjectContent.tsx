@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import NextImage from 'next/image';
-import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, Play, ChevronDown, HelpCircle } from 'lucide-react';
+import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, Play, ChevronDown, HelpCircle, Layers, TrainFront, DoorOpen, LandPlot, Car, Tag, ArrowRight } from 'lucide-react';
 import { Montserrat } from 'next/font/google';
 import CollapsibleSection from '@/components/home/CollapsibleSection';
 
@@ -299,14 +299,14 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
     : undefined;
 
   const projectFacts = [
-    { label: 'ชื่อโครงการ', value: project.name },
-    { label: 'ลักษณะโครงการ', value: [project.type, project.floors ? `${project.floors} ชั้น` : undefined].filter(Boolean).join(' ') },
-    { label: 'ทำเลที่ตั้ง', value: project.location },
-    { label: 'รถไฟฟ้าใกล้เคียง', value: project.bts },
-    { label: 'จำนวนยูนิต', value: project.units ? `${project.units} ยูนิต` : undefined },
-    { label: 'พื้นที่โครงการ', value: project.projectArea },
-    { label: 'ที่จอดรถ', value: project.parking },
-    { label: 'ราคา', value: priceLabel },
+    { label: 'ชื่อโครงการ', value: project.name, icon: Building2 },
+    { label: 'ลักษณะโครงการ', value: [project.type, project.floors ? `${project.floors} ชั้น` : undefined].filter(Boolean).join(' '), icon: Layers },
+    { label: 'ทำเลที่ตั้ง', value: project.location, icon: MapPin },
+    { label: 'รถไฟฟ้าใกล้เคียง', value: project.bts, icon: TrainFront },
+    { label: 'จำนวนยูนิต', value: project.units ? `${project.units} ยูนิต` : undefined, icon: DoorOpen },
+    { label: 'พื้นที่โครงการ', value: project.projectArea, icon: LandPlot },
+    { label: 'ที่จอดรถ', value: project.parking, icon: Car },
+    { label: 'ราคา', value: priceLabel, icon: Tag, highlight: true },
   ].filter((item) => item.value && String(item.value).trim() !== '');
 
   const facilityItems: FacilityItem[] = project.facilities?.length
@@ -669,24 +669,36 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
 
           {infoTab === 'factsheet' && (
             <div className="space-y-4">
-              <div className="overflow-hidden rounded-2xl border border-[#e53935]/15 bg-white shadow-sm">
-                <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y divide-[#e53935]/10">
-                  {projectFacts.map((item) => (
-                    <div key={item.label} className="group p-5 hover:bg-[#faf8f5] transition-colors">
-                      <span className={`text-[9px] font-semibold uppercase tracking-[0.2em] text-[#e53935] block mb-2`}>
-                        {item.label}
-                      </span>
-                      <div className="text-base md:text-lg font-black text-[#1a2d6b] leading-snug">{item.value}</div>
+              {/* Facts: one continuous panel with hairline dividers */}
+              <dl className="grid grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[#1a2d6b]/[0.08] bg-[#1a2d6b]/[0.07] shadow-[0_1px_2px_rgba(26,45,107,0.04),0_16px_40px_rgba(26,45,107,0.06)]">
+                {projectFacts.map(({ label, value, icon: Icon, highlight }) => (
+                  <div
+                    key={label}
+                    className={`group flex flex-col sm:flex-row items-start gap-3 p-5 md:p-6 transition-colors ${
+                      highlight ? 'bg-[#1a2d6b] text-white' : 'bg-white hover:bg-[#faf8f5]'
+                    }`}
+                  >
+                    <Icon size={18} strokeWidth={1.75} className={`mt-0.5 shrink-0 ${highlight ? 'text-white/80' : 'text-[#e53935]'}`} />
+                    <div className="min-w-0">
+                      <dt className={`mb-1 text-xs font-medium ${highlight ? 'text-white/60' : 'text-slate-500'}`}>{label}</dt>
+                      <dd className={`break-words text-sm md:text-base font-bold leading-snug ${highlight ? 'text-white' : 'text-[#1a2d6b]'}`}>{value}</dd>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </div>
+                ))}
+              </dl>
 
               {(project.roomPlans?.length ?? 0) > 0 && (
-                <div className="bg-white border border-[#e53935]/15 rounded-2xl p-5 shadow-sm">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Home size={17} className="text-[#e53935]" />
-                    <h3 className={`${mont.className} text-base font-semibold text-[#1a2d6b]`}>Room Types</h3>
+                <div className="bg-white border border-[#1a2d6b]/[0.08] rounded-2xl p-5 md:p-7 shadow-[0_1px_2px_rgba(26,45,107,0.04)]">
+                  <div className="flex items-end justify-between gap-4 mb-5 pb-4 border-b border-slate-100">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e53935]/[0.08] text-[#e53935]">
+                        <Home size={18} strokeWidth={1.75} />
+                      </span>
+                      <div>
+                        <h3 className={`${mont.className} text-lg font-bold text-[#1a2d6b] leading-tight`}>Room Types</h3>
+                        <p className="text-xs text-slate-500">{project.roomPlans?.length} แบบห้อง · กดเพื่อดูแปลน</p>
+                      </div>
+                    </div>
                   </div>
                   <div className="sm:hidden space-y-3">
                     <div ref={roomTypeDropdownRef} className="relative z-30">
@@ -731,11 +743,19 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                       ดูแปลนห้องนี้
                     </button>
                   </div>
-                  <div className="hidden sm:grid sm:grid-cols-2 gap-2">
+                  <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
                     {project.roomPlans?.map((plan: RoomPlan, i: number) => (
-                      <button type="button" key={i} onClick={() => jumpToRoomPlan(i)} className="flex items-center justify-between bg-[#faf8f5] rounded-xl px-4 py-3 border border-[#e53935]/15 text-left transition-colors hover:border-[#e53935]/40 hover:bg-white">
-                        <span className="text-sm font-bold text-slate-700">{plan.type}</span>
-                        <span className="text-xs text-[#e53935] font-semibold">→ Plans</span>
+                      <button
+                        type="button"
+                        key={i}
+                        onClick={() => jumpToRoomPlan(i)}
+                        className="group flex items-center justify-between gap-3 rounded-xl border border-[#1a2d6b]/[0.08] bg-[#faf8f5] px-4 py-3.5 text-left transition-all duration-200 hover:border-[#e53935]/30 hover:bg-white hover:shadow-[0_8px_20px_rgba(26,45,107,0.08)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1a2d6b]"
+                      >
+                        <span className="text-sm font-semibold text-[#1a2d6b]">{plan.type}</span>
+                        <span className="flex items-center gap-1 text-xs font-semibold text-[#e53935]">
+                          ดูแปลน
+                          <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+                        </span>
                       </button>
                     ))}
                   </div>

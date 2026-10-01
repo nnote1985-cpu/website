@@ -6,20 +6,12 @@ header.hero-glass {
   border-color: transparent !important;
   box-shadow: none !important;
 }
-header.hero-glass a,
-header.hero-glass span,
-header.hero-glass div,
-header.hero-glass button,
-header.hero-glass p,
-header.hero-glass nav {
+/* White-on-hero text, except inside light panels (dropdown, mobile menu). */
+header.hero-glass :where(a, span, div, button, p, nav):where(:not(.hero-glass-panel, .hero-glass-panel *)) {
   color: white;
   border-color: rgba(255,255,255,0.2);
 }
-header.hero-glass svg path,
-header.hero-glass svg line,
-header.hero-glass svg circle,
-header.hero-glass svg polyline,
-header.hero-glass svg rect {
+header.hero-glass svg :where(path, line, circle, polyline, rect):where(:not(.hero-glass-panel *)) {
   stroke: white;
 }
 /* Keep the ping dot red */

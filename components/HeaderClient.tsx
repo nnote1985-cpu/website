@@ -128,7 +128,7 @@ export default function Header({ phones = ['082-526-5566', '02-059-9655'], line 
                         dropdownOpen === link.href ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'
                       }`}
                     >
-                      <div className="w-72 bg-white/95 backdrop-blur-2xl shadow-[0_20px_40px_rgba(0,0,0,0.08)] rounded-2xl border border-slate-100 p-2.5 overflow-hidden">
+                      <div className="hero-glass-panel w-72 bg-white/95 backdrop-blur-2xl shadow-[0_20px_40px_rgba(0,0,0,0.08)] rounded-2xl border border-slate-100 p-2.5 overflow-hidden">
                         <div className="px-4 pt-2 pb-1">
                           <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Current Projects</span>
                         </div>
@@ -207,7 +207,7 @@ export default function Header({ phones = ['082-526-5566', '02-059-9655'], line 
 
       {/* 3. Mobile menu */}
       <div 
-        className={`lg:hidden fixed inset-x-0 bg-white/95 backdrop-blur-2xl border-t border-slate-100 shadow-2xl transition-all duration-500 overflow-hidden ${
+        className={`hero-glass-panel lg:hidden fixed inset-x-0 bg-white/95 backdrop-blur-2xl border-t border-slate-100 shadow-2xl transition-all duration-500 overflow-hidden ${
           isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
         }`}
       >

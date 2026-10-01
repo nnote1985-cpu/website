@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
 import Script from 'next/script';
+import LuxeDatePicker from '@/components/projects/LuxeDatePicker';
 
 declare global {
   interface Window {
@@ -16,9 +17,36 @@ declare global {
 
 const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
 
+const THEMES = {
+  light: {
+    label: 'block mb-1.5 text-xs font-medium text-slate-600',
+    input: 'w-full h-11 bg-slate-50 border border-slate-200 px-3.5 rounded-lg outline-none text-sm text-[#1a2d6b] placeholder:text-slate-400 hover:border-slate-300 focus:bg-white focus:border-[#1a2d6b] focus:ring-2 focus:ring-[#1a2d6b]/15 transition-colors',
+    muted: 'text-slate-400',
+    consent: 'text-slate-500',
+    link: 'text-[#1a2d6b] hover:text-[#e53935]',
+    checkbox: 'accent-[#e53935]',
+    button: 'bg-[#e53935] text-white hover:bg-[#b71c1c] shadow-[0_10px_24px_rgba(229,57,53,0.28)]',
+    title: 'text-slate-900',
+    body: 'text-slate-500',
+  },
+  luxe: {
+    label: 'block mb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/75',
+    input: 'w-full h-10 bg-transparent border-0 border-b border-white/20 px-0 rounded-none outline-none text-base text-white placeholder:text-white/50 [color-scheme:dark] hover:border-white/35 focus:border-[#C2A363] transition-colors',
+    muted: 'normal-case tracking-normal text-white/55',
+    consent: 'text-white/75',
+    link: 'text-[#C2A363] hover:text-[#E3CC98]',
+    checkbox: 'accent-[#C2A363]',
+    button: 'bg-gradient-to-r from-[#A88A4E] via-[#D9BE85] to-[#A88A4E] bg-[length:200%_100%] bg-left hover:bg-right text-[#0b1630] shadow-[0_8px_28px_rgba(194,163,99,0.35)] duration-500 disabled:!opacity-80',
+    title: 'text-white',
+    body: 'text-white/60',
+  },
+} as const;
+
+
 interface Props {
   projectName: string;
   projectSlug?: string;
+  variant?: keyof typeof THEMES;
 }
 
 function formatPhone(value: string): string {
@@ -28,7 +56,8 @@ function formatPhone(value: string): string {
   return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
 }
 
-export default function RegisterForm({ projectName, projectSlug }: Props) {
+export default function RegisterForm({ projectName, projectSlug, variant = 'light' }: Props) {
+  const t = THEMES[variant];
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -108,8 +137,8 @@ export default function RegisterForm({ projectName, projectSlug }: Props) {
         <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
           <CheckCircle size={32} className="text-green-500" />
         </div>
-        <h3 className="text-xl font-bold text-slate-900">ลงทะเบียนสำเร็จ!</h3>
-        <p className="text-slate-500 text-sm">ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง</p>
+        <h3 className={`text-xl font-bold ${t.title}`}>ลงทะเบียนสำเร็จ!</h3>
+        <p className={`text-sm ${t.body}`}>ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง</p>
         <button
           onClick={() => { setSuccess(false); setName(''); setPhone(''); setEmail(''); setAppointmentDate(''); }}
           className="text-xs text-slate-400 underline hover:text-slate-600 transition-colors"
@@ -128,9 +157,9 @@ export default function RegisterForm({ projectName, projectSlug }: Props) {
           strategy="lazyOnload"
         />
       )}
-      <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
-        <div className="space-y-1.5">
-          <label htmlFor="reg-name" className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Full Name</label>
+      <form onSubmit={handleSubmit} className="relative z-10 grid grid-cols-2 gap-x-3 gap-y-3.5">
+        <div className="col-span-2">
+          <label htmlFor="reg-name" className={t.label}>ชื่อ-นามสกุล</label>
           <input
             id="reg-name"
             type="text"
@@ -138,13 +167,13 @@ export default function RegisterForm({ projectName, projectSlug }: Props) {
             onChange={(e) => setName(e.target.value)}
             onFocus={handleFirstInteraction}
             placeholder="กรุณากรอกชื่อ-นามสกุล"
-            className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
+            className={t.input}
             required
           />
         </div>
 
-        <div className="space-y-1.5">
-          <label htmlFor="reg-phone" className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Phone Number</label>
+        <div className="col-span-2 sm:col-span-1">
+          <label htmlFor="reg-phone" className={t.label}>เบอร์โทรศัพท์</label>
           <input
             id="reg-phone"
             type="tel"
@@ -152,55 +181,61 @@ export default function RegisterForm({ projectName, projectSlug }: Props) {
             onChange={(e) => setPhone(formatPhone(e.target.value))}
             placeholder="08X-XXX-XXXX"
             maxLength={12}
-            className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
+            className={t.input}
             required
           />
         </div>
 
-        <div className="space-y-1.5">
-          <label htmlFor="reg-email" className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">Email Address (Optional)</label>
+        <div className="col-span-2 sm:col-span-1">
+          <label htmlFor="reg-email" className={t.label}>
+            อีเมล <span className={`font-normal ${t.muted}`}>(ไม่บังคับ)</span>
+          </label>
           <input
             id="reg-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="example@email.com"
-            className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 placeholder:text-slate-400 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
+            className={t.input}
           />
         </div>
 
-        <div className="space-y-1.5">
-          <label htmlFor="reg-date" className="text-[10px] font-bold uppercase text-slate-500 tracking-widest pl-1">
-            วันที่นัดหมายเข้าชม <span className="normal-case font-normal text-slate-400">(Optional)</span>
+        <div className="col-span-2">
+          <label htmlFor="reg-date" className={t.label}>
+            วันที่นัดหมายเข้าชม <span className={`font-normal ${t.muted}`}>(ไม่บังคับ)</span>
           </label>
-          <input
-            id="reg-date"
-            type="date"
-            value={appointmentDate}
-            min={today}
-            onChange={(e) => setAppointmentDate(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl outline-none text-slate-800 focus:border-[#e53935] focus:bg-white focus:ring-4 focus:ring-[#e53935]/10 transition-all text-sm font-medium shadow-inner"
-          />
+          {variant === 'luxe' ? (
+            <LuxeDatePicker id="reg-date" value={appointmentDate} min={today} onChange={setAppointmentDate} className={t.input} />
+          ) : (
+            <input
+              id="reg-date"
+              type="date"
+              value={appointmentDate}
+              min={today}
+              onChange={(e) => setAppointmentDate(e.target.value)}
+              className={t.input}
+            />
+          )}
         </div>
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && <p className="col-span-2 text-red-500 text-sm">{error}</p>}
 
         {/* Consent */}
-        <label className="flex items-start gap-3 cursor-pointer group">
+        <label className="col-span-2 flex items-start gap-2.5 cursor-pointer pt-0.5">
           <input
             type="checkbox"
             checked={consented}
             onChange={(e) => setConsented(e.target.checked)}
-            className="mt-1 w-4 h-4 flex-shrink-0 accent-[#e53935] cursor-pointer"
+            className={`mt-0.5 w-4 h-4 flex-shrink-0 cursor-pointer ${t.checkbox}`}
             required
           />
-          <span className="text-slate-500 text-xs leading-relaxed group-hover:text-slate-700 transition-colors">
+          <span className={`text-xs leading-relaxed ${t.consent}`}>
             ยืนยันและยอมรับเงื่อนไขในการลงทะเบียน{' '}
             <a
               href="/policy"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline text-[#1a2d6b] hover:text-[#e53935] transition-colors"
+              className={`underline transition-colors ${t.link}`}
               onClick={(e) => e.stopPropagation()}
             >
               ดูนโยบายความเป็นส่วนตัว
@@ -208,17 +243,17 @@ export default function RegisterForm({ projectName, projectSlug }: Props) {
           </span>
         </label>
 
-        <div className="pt-4">
+        <div className="col-span-2">
           <button
             type="submit"
             disabled={loading || !consented}
-            className="group w-full bg-[#e53935] text-white font-black py-4 rounded-xl text-lg transition-all duration-300 hover:bg-[#b71c1c] shadow-[0_10px_20px_rgba(211,47,47,0.2)] flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-50"
+            className={`group w-full min-h-[48px] font-bold rounded-lg text-[15px] tracking-[0.08em] uppercase transition-all duration-200 ${t.button} flex items-center justify-center gap-2.5 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none`}
           >
-            {loading ? 'กำลังส่ง...' : 'REGISTER NOW'}
-            {!loading && <Send size={18} className="group-hover:translate-x-1.5 group-hover:-translate-y-1.5 transition-transform" />}
+            {loading ? 'กำลังส่ง...' : 'Register Now'}
+            {!loading && <Send size={16} className="transition-transform group-enabled:group-hover:translate-x-1" />}
           </button>
           {SITE_KEY && (
-            <p className="text-slate-400 text-[10px] text-center mt-2">Protected by reCAPTCHA</p>
+            <p className={`text-[10px] text-center mt-2 ${t.muted}`}>Protected by reCAPTCHA</p>
           )}
         </div>
       </form>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Phone } from 'lucide-react';
+import { Phone, Tag, Gift, CalendarCheck } from 'lucide-react';
 import RegisterFormDark from '@/components/projects/RegisterFormDark';
 
 export default function PromoHeroWrapper({
@@ -31,35 +31,70 @@ export default function PromoHeroWrapper({
     return <>{fallbackHero}</>;
   }
 
+  // Full-height dark column: tinted glow in the project colour, heading block, boxed form, contact card.
   const FormPanel = (
-    <div className="flex w-full max-w-full flex-col rounded-2xl border border-white/10 bg-[#101010]/90 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl md:p-6 [&_form]:!space-y-5 [&_form>div.pt-2]:!pt-1 [&_form>div.pt-4]:!pt-1">
-      <div className="mb-5 shrink-0">
-        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.28em] text-white/35">
-          Private Appointment
-        </p>
-        <h2 className="text-3xl font-black tracking-tight text-white">
-          Register Now
-        </h2>
-        <div className="mt-3 h-0.5 w-10" style={{ backgroundColor: accentColor }} />
-        <p className="mt-3 text-sm leading-relaxed text-white/45">
-          ลงทะเบียนรับข้อมูล ราคา และโปรโมชันล่าสุดของ {projectName}
-        </p>
-      </div>
+    <div
+      className="relative isolate flex h-full w-full flex-col overflow-hidden bg-[#0C1120]"
+      style={{
+        // Deep brand-navy gradient with soft glows in the project colour: clean, no muddy tint, strong text contrast.
+        backgroundImage: [
+          `radial-gradient(60% 30% at 0% 100%, ${accentColor}14, transparent 70%)`,
+          'radial-gradient(circle at 70% 0%, rgba(65, 47, 76, 0.25) 0%, transparent 38%)',
+          'linear-gradient(180deg, #15172E 0%, #10162A 45%, #0C1120 100%)',
+        ].join(', '),
+      }}
+    >
+      <div className="absolute inset-y-0 left-0 w-[3px]" style={{ background: `linear-gradient(180deg, ${accentColor}, transparent 70%)` }} />
 
-      <RegisterFormDark projectName={projectName} projectSlug={projectSlug} accentColor={accentColor} />
-
-      <div className="mt-5 flex shrink-0 items-center gap-4 border-t border-white/10 pt-4">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5">
-          <Phone size={17} style={{ color: accentColor }} />
-        </div>
+      <div className="relative flex flex-1 flex-col justify-between gap-5 px-7 pt-7 pb-5 xl:px-9">
+        {/* Header: inviting headline, project name, and three things signing up gets you. */}
         <div>
-          <p className="mb-0.5 text-[9px] font-bold uppercase tracking-[0.16em] text-white/30">
-            Sales Gallery
-          </p>
-          <a href={`tel:${phoneTel}`} className="text-lg font-black text-white transition-colors hover:opacity-80">
-            {displayPhone}
-          </a>
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-60" style={{ backgroundColor: accentColor }} />
+              <span className="relative inline-flex h-2 w-2 rounded-full" style={{ backgroundColor: accentColor }} />
+            </span>
+            <p className="text-[10px] font-bold uppercase tracking-[0.32em]" style={{ color: accentColor }}>
+              Private Appointment
+            </p>
+          </div>
+          <h2 className="mt-4 text-[30px] font-bold leading-[1.15] tracking-tight text-white">
+            ลงทะเบียน<br />
+            <span style={{ color: accentColor }}>รับสิทธิพิเศษ</span>
+          </h2>
+          <p className="mt-2 text-sm text-white/70">{projectName}</p>
+          <ul className="mt-5 grid grid-cols-3 gap-2">
+            {[
+              { icon: Tag, label: 'ราคาและแบบห้อง' },
+              { icon: Gift, label: 'โปรโมชันล่าสุด' },
+              { icon: CalendarCheck, label: 'นัดชมโครงการ' },
+            ].map(({ icon: Icon, label }) => (
+              <li key={label} className="flex flex-col items-center gap-1 rounded-xl border border-white/[0.05] bg-white/[0.025] px-2 py-1.5 text-center">
+                <Icon size={15} strokeWidth={1.75} style={{ color: accentColor }} />
+                <span className="text-[11px] leading-tight text-white/70">{label}</span>
+              </li>
+            ))}
+          </ul>
         </div>
+
+        <RegisterFormDark projectName={projectName} projectSlug={projectSlug} accentColor={accentColor} />
+
+        {/* Number sits left so the floating CTA button in the corner never covers it. */}
+        <a
+          href={`tel:${phoneTel}`}
+          className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 transition-colors hover:border-white/20 hover:bg-white/[0.07]"
+        >
+          <span
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
+            style={{ backgroundColor: `${accentColor}26`, boxShadow: `inset 0 0 0 1px ${accentColor}66` }}
+          >
+            <Phone size={17} style={{ color: accentColor }} />
+          </span>
+          <span className="flex flex-col">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/55">Sales Gallery</span>
+            <span className="text-2xl font-light leading-tight tracking-wide tabular-nums text-white">{displayPhone}</span>
+          </span>
+        </a>
       </div>
     </div>
   );
@@ -79,7 +114,7 @@ export default function PromoHeroWrapper({
           />
         </div>
         <div className="flex-1" />
-        <div id="register" data-register-form="true" className="relative z-10 flex w-[clamp(390px,24vw,430px)] shrink-0 flex-col justify-center bg-[#171513]/95 px-[clamp(18px,1.5vw,24px)] py-8 shadow-[-24px_0_60px_rgba(0,0,0,0.35)] backdrop-blur-sm">
+        <div id="register" data-register-form="true" className="relative z-10 flex w-[clamp(390px,24vw,430px)] shrink-0 shadow-[-24px_0_60px_rgba(0,0,0,0.35)]">
           {FormPanel}
         </div>
       </section>
@@ -96,8 +131,8 @@ export default function PromoHeroWrapper({
             className="block h-auto w-full"
           />
         </div>
-        <div id="register-mobile" data-register-form="true" className="px-5 py-8">
-          <div className="mx-auto max-w-[430px]">
+        <div id="register-mobile" data-register-form="true" className="bg-[#14120f]">
+          <div className="mx-auto max-w-[520px]">
             {FormPanel}
           </div>
         </div>

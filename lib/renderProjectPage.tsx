@@ -230,8 +230,12 @@ export async function renderProjectPage(slug: string) {
             )}
             <div id="register" data-register-form="true" className="scroll-mt-24 w-full lg:w-1/3 bg-[#1a2d6b] p-8 md:p-12 lg:p-16 flex flex-col justify-center text-white border-l border-white/10">
               <div className="mb-8">
-                <h3 className="text-3xl font-black italic uppercase mb-2">Register Now</h3>
-                <p className="text-white/60 text-xs tracking-widest uppercase">ลงทะเบียนรับสิทธิพิเศษ {project.name}</p>
+                <div className="flex items-center gap-2.5">
+                  <span className="h-px w-6 bg-[#e53935]" />
+                  <p className="text-[10px] font-bold uppercase tracking-[0.32em] text-[#e53935]">Private Appointment</p>
+                </div>
+                <h3 className="mt-4 text-[34px] font-bold leading-[1.05] tracking-tight">Register Now</h3>
+                <p className="mt-2 text-base font-semibold text-white/85">{project.name}</p>
               </div>
               <RegisterFormDark projectName={project.name} />
             </div>
