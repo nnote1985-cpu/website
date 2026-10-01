@@ -30,11 +30,21 @@ export default function Journey() {
       const width = main.clientWidth;
       svg.current?.setAttribute('viewBox', `0 0 ${width} ${main.scrollHeight}`);
       const x = width < 700 ? 10 : Math.min(42, width * 0.025);
+
+      // Start path from the bottom of the hero section ("after BEYOND")
+      const heroEl = main.querySelector('.gallery-hero') as HTMLElement | null;
+      const heroH  = heroEl ? heroEl.offsetHeight : 0;
+
       const targets = TARGETS.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[];
       const ys = targets.map(el => el.getBoundingClientRect().top - box.top);
       if (!ys.length) return;
-      startY = ys[0] - 70; endY = ys[ys.length - 1] + 90;
-      let d = `M ${x} ${ys[0] - 70}`;
+
+      // Ink starts animating from hero bottom; ends at last section
+      startY = heroH;
+      endY   = ys[ys.length - 1] + 90;
+
+      // Path: straight down from hero bottom, then S-curve at each section marker
+      let d = `M ${x} ${heroH}`;
       for (let i = 0; i < ys.length; i++) {
         const y    = ys[i];
         const bend = i % 2 === 0 ? x + Math.min(width * 0.013, 24) : x - 6;
