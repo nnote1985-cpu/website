@@ -81,7 +81,7 @@ export default async function NewsPage() {
           </div>
         </section>
 
-        <section className="pb-16 bg-gray-50">
+        <section className="pt-4 md:pt-6 pb-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4">
             <NewsList items={published} categories={categories} />
           </div>

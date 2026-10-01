@@ -23,11 +23,11 @@ export default function NewsList({ items, categories }: { items: NewsItem[]; cat
   return (
     <>
       {categories.length > 1 ? (
-        <div className="relative -mt-7 md:-mt-8 mb-8 md:mb-10">
+        <div className="-mx-4 md:mx-0 mb-8 md:mb-10 border-b border-slate-200">
           <div
             role="tablist"
             aria-label="หมวดหมู่บทความ"
-            className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden bg-white rounded-2xl p-1.5 shadow-[0_14px_40px_rgba(15,30,74,0.12)] ring-1 ring-slate-200/70 w-full md:w-max max-w-full"
+            className="flex gap-6 md:gap-8 overflow-x-auto px-4 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {tabs.map((cat) => {
               const on = cat === active;
@@ -38,8 +38,10 @@ export default function NewsList({ items, categories }: { items: NewsItem[]; cat
                   role="tab"
                   aria-selected={on}
                   onClick={() => setActive(cat)}
-                  className={`shrink-0 px-4 md:px-5 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-colors ${
-                    on ? 'bg-[#1a2d6b] text-white shadow-sm' : 'text-slate-500 hover:text-[#1a2d6b] hover:bg-slate-50'
+                  className={`relative shrink-0 py-4 text-sm whitespace-nowrap transition-colors after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:rounded-full after:transition-colors ${
+                    on
+                      ? 'font-semibold text-[#1a2d6b] after:bg-[#f4511e]'
+                      : 'font-medium text-slate-400 hover:text-[#1a2d6b] after:bg-transparent'
                   }`}
                 >
                   {cat}
