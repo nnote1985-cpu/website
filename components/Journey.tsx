@@ -38,7 +38,7 @@ export default function Journey() {
       const box   = main.getBoundingClientRect();
       const width = main.clientWidth;
       svg.current?.setAttribute('viewBox', `0 0 ${width} ${main.scrollHeight}`);
-      const x = width < 700 ? 10 : Math.min(42, width * 0.025);
+      let x = width < 700 ? 10 : Math.min(42, width * 0.025);
 
       const heroEl = main.querySelector('.gallery-hero') as HTMLElement | null;
       const heroH  = heroEl ? heroEl.offsetHeight : 0;
@@ -50,10 +50,22 @@ export default function Journey() {
       if (!targets.length) return;
 
       startY = heroH - 70;
+      const heading = heroEl?.querySelector<HTMLElement>('.gallery-heading');
+      const wordmark = heading?.querySelector<HTMLElement>('h1');
+      if (width < 768 && heroEl && heading && wordmark) {
+        // Measure the final mobile wordmark layout, independent of the current
+        // sticky scroll position and the animated 28px → 20px bottom offset.
+        const animatedBottom = parseFloat(getComputedStyle(heroEl).getPropertyValue('--wordmark-bottom')) || 28;
+        const finalBottom = parseFloat(getComputedStyle(heading).bottom) - animatedBottom + 20;
+        const spaceBelowWordmark = heading.offsetHeight - wordmark.offsetTop - wordmark.offsetHeight;
+        const heroTop = heroEl.getBoundingClientRect().top - box.top;
+        startY = heroTop + heroH - finalBottom - spaceBelowWordmark * .78 + 12;
+        x = heading.offsetLeft - 24 + (wordmark.offsetLeft + 12) * .78;
+      }
       // Finish inside the final image, just before the footer.
       endY = main.scrollHeight - 32;
 
-      const pathStart = heroH - 70;
+      const pathStart = startY;
       let d = `M ${x} ${pathStart}`;
       let cursorY = pathStart;
       let hasFaqSweep = false;
@@ -143,6 +155,8 @@ export default function Journey() {
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
     const ro = new ResizeObserver(geometry);
     ro.observe(main);
+    const heading = main.querySelector('.gallery-heading');
+    if (heading) ro.observe(heading);
     SECTION_CURVES.forEach(({ id }) => {
       const section = document.getElementById(id);
       if (section) ro.observe(section);

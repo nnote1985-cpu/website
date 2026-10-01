@@ -53,10 +53,16 @@
   .calculator{padding:20px;border-radius:12px}
   .modes{width:100%;gap:18px;margin-bottom:24px}
   .mode{font-size:12px;flex:1;line-height:1.6}
-  .grid{grid-template-columns:minmax(0,1fr);gap:24px}
-  .result{grid-column:1;grid-row:auto;padding:24px}
-  .resultValue{font-size:40px}
-  .input,.select{font-size:16px}
+  .grid{grid-template-columns:minmax(0,1fr);gap:18px}
+  .result{grid-column:1;grid-row:auto;padding:18px}
+  .resultLabel{font-size:12px}
+  .resultValue{font-size:34px;margin-top:8px}
+  .resultValue span{font-size:12px;margin-top:2px}
+  .resultDetail{font-size:11px;margin:12px 0;padding-top:12px}
+  .resultActions{gap:4px}
+  .primaryAction,.secondaryAction{min-height:44px;padding:10px 8px;font-size:12px;gap:6px}
+  .secondaryAction{min-height:36px;padding-block:6px}
+  .input,.select{font-size:16px;min-height:50px}
   .input{padding-left:10px;padding-right:78px}
   .stepper button{width:32px}
   .label{font-size:12px}

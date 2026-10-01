@@ -31,7 +31,8 @@ export default function Header({ phones = ['082-526-5566', '02-059-9655'], line 
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isHeroPage, setIsHeroPage] = useState(false);
+  // Only the homepage renders the full-screen gallery hero.
+  const isHeroPage = pathname === '/';
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 
   useEffect(() => {
@@ -39,10 +40,6 @@ export default function Header({ phones = ['082-526-5566', '02-059-9655'], line 
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  useEffect(() => {
-    setIsHeroPage(!!document.querySelector('.gallery-hero'));
-  }, [pathname]);
 
   // 3. เงื่อนไขการซ่อน Navbar เมื่ออยู่หน้า Admin
   // ต้องเช็ค mounted ด้วยเพื่อให้ค่า pathname ฝั่ง Client เสถียร

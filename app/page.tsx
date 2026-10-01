@@ -25,15 +25,6 @@ export const metadata: Metadata = {
 };
 
 // --- Interfaces ---
-interface Settings {
-  heroTitle: string;
-  heroSubtitle: string;
-  heroDescription: string;
-  heroCTA: string;
-  heroCTAUrl: string;
-  heroImages?: string[];
-}
-
 interface Project {
   id: string;
   slug: string;
@@ -77,21 +68,16 @@ interface NewsItem {
 }
 
 export default async function HomePage() {
-  const [settingsRes, projectsRes, promotionsRes, newsRes, contact] = await Promise.all([
-    supabaseAdmin.from('settings').select('data').eq('id', 1).single(),
+  const [projectsRes, promotionsRes, newsRes, contact] = await Promise.all([
     supabaseAdmin.from('projects').select('*').eq('is_active', true).order('created_at', { ascending: false }),
     supabaseAdmin.from('promotions').select('*').eq('is_active', true),
     supabaseAdmin.from('news').select('*').eq('is_published', true).order('published_at', { ascending: false }).limit(3),
     getContactSettings(),
   ]);
 
-  const settings: Settings = settingsRes.data?.data || {};
   const allProjects: Project[] = (projectsRes.data || []).map((p) => ({ ...p, priceMin: p.price_min, priceMax: p.price_max, isFeatured: true }));
   const promotions: Promotion[] = (promotionsRes.data || []).map((p) => ({ ...p, isActive: p.is_active, validUntil: p.valid_until, ctaText: p.cta_text, ctaUrl: p.cta_url }));
   const latestNews: NewsItem[] = (newsRes.data || []).map((n) => ({ ...n, isPublished: n.is_published, publishedAt: n.published_at }));
-
-  const featuredProjects = allProjects.filter((p) => p.status !== 'sold-out').slice(0, 4);
-  const firstHeroImage = settings.heroImages?.[0];
 
   return (
     <>

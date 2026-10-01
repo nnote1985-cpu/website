@@ -97,6 +97,11 @@ header.hero-glass .bg-\[\#e53935\] { background-color: #e53935 !important; }
 
 @media(max-width:900px){.gallery-topline{top:110px}.gallery-heading h1{font-size:11vw}}
 @media(max-width:767px){.gallery-hero{height:215svh}.gallery-sticky{min-height:620px}.gallery-topline{top:105px;font-size:7px}.gallery-topline>span:last-child{display:none}.gallery-caption{top:44%;gap:15px;flex-wrap:wrap;gap:8px 12px}.gallery-caption-window{flex-basis:100%}.gallery-caption>a{margin-left:0;margin-right:auto;font-size:12px}.gallery-caption p{font-size:16px}.gallery-caption-content>div>span{font-size:9px}.gallery-count{font-size:12px}.gallery-heading h1{font-size:14vw;line-height:.85}.gallery-heading .gallery-expectation{font-size:22px;margin-top:15px}.gallery-footnote{left:8%;right:8%;bottom:18%;gap:14px}.gallery-footnote h2{font-size:23px}.gallery-footnote a{font-size:11px;padding-top:10px}.gallery-detail-arrow{width:30px;height:30px}.gallery-parallax{inset:-32% 0}}
+/* Keep the complete mobile wordmark above the persistent contact bar. */
+@media(max-width:767px){
+  .gallery-sticky{min-height:0}
+  .gallery-heading{bottom:calc(var(--wordmark-bottom,28px) + 84px + env(safe-area-inset-bottom,0px))}
+}
 @media(max-height:760px) and (min-width:768px){.gallery-caption{top:40%}.gallery-heading h1{font-size:min(10vw,19svh)}}
 @media(max-height:800px) and (min-width:768px){.gallery-footnote{gap:16px;bottom:3%}.gallery-footnote h2{font-size:26px}.gallery-footnote a{padding-top:10px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){.gallery-hero{height:100svh}.gallery-sticky{position:relative}.gallery-slide img,.gallery-parallax{transform:none!important}.gallery-footnote{display:none}}
