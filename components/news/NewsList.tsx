@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import NewsCard from '@/components/home/NewsCard';
 
 interface NewsItem {
@@ -19,12 +20,37 @@ export default function NewsList({ items, categories }: { items: NewsItem[]; cat
   const [active, setActive] = useState(ALL);
   const shown = active === ALL ? items : items.filter((n) => n.category === active);
   const tabs = [ALL, ...categories];
+  const railRef = useRef<HTMLDivElement>(null);
+  const [edges, setEdges] = useState({ left: false, right: false });
+
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const update = () => {
+      const max = rail.scrollWidth - rail.clientWidth;
+      setEdges({ left: rail.scrollLeft > 4, right: rail.scrollLeft < max - 4 });
+    };
+    update();
+    rail.addEventListener('scroll', update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(rail);
+    return () => {
+      rail.removeEventListener('scroll', update);
+      ro.disconnect();
+    };
+  }, []);
+
+  const nudge = (dir: 1 | -1) => {
+    const rail = railRef.current;
+    rail?.scrollBy({ left: dir * rail.clientWidth * 0.6, behavior: 'smooth' });
+  };
 
   return (
     <>
       {categories.length > 1 ? (
-        <div className="-mx-4 md:mx-0 mb-8 md:mb-10 border-b border-slate-200">
+        <div className="relative -mx-4 md:mx-0 mb-8 md:mb-10 border-b border-slate-200">
           <div
+            ref={railRef}
             role="tablist"
             aria-label="หมวดหมู่บทความ"
             className="flex gap-6 md:gap-8 overflow-x-auto px-4 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -49,6 +75,24 @@ export default function NewsList({ items, categories }: { items: NewsItem[]; cat
               );
             })}
           </div>
+          {(['left', 'right'] as const).map((side) => (
+            <div
+              key={side}
+              className={`absolute inset-y-0 ${side === 'left' ? 'left-0 bg-gradient-to-r pl-2 justify-start' : 'right-0 bg-gradient-to-l pr-2 justify-end'} w-16 flex items-center from-gray-50 from-40% to-transparent transition-opacity duration-200 ${
+                edges[side] ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <button
+                type="button"
+                tabIndex={-1}
+                aria-hidden
+                onClick={() => nudge(side === 'left' ? -1 : 1)}
+                className="grid place-items-center w-7 h-7 rounded-full bg-white text-[#1a2d6b] shadow-[0_2px_8px_rgba(15,30,74,0.15)] ring-1 ring-slate-200"
+              >
+                {side === 'left' ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+              </button>
+            </div>
+          ))}
         </div>
       ) : (
         <div className="h-12" />
