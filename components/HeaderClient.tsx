@@ -194,7 +194,7 @@ export default function Header({ phones = ['082-526-5566', '02-059-9655'], line 
               
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-900 hover:bg-slate-100 hover:text-[#e53935] transition-colors"
+                className="hero-menu-button lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-900 hover:bg-slate-100 hover:text-[#e53935] transition-colors"
                 aria-label="Toggle menu"
               >
                 {isOpen ? <X size={20} /> : <Menu size={20} />}

@@ -14,6 +14,13 @@ header.hero-glass :where(a, span, div, button, p, nav):where(:not(.hero-glass-pa
 header.hero-glass svg :where(path, line, circle, polyline, rect):where(:not(.hero-glass-panel *)) {
   stroke: white;
 }
+/* Hamburger on the hero: drop the light chip so the white icon stays visible. */
+header.hero-glass .hero-menu-button {
+  background-color: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.35);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
 /* Keep the ping dot red */
 header.hero-glass .bg-\[\#e53935\] { background-color: #e53935 !important; }
 
@@ -86,6 +93,8 @@ header.hero-glass .bg-\[\#e53935\] { background-color: #e53935 !important; }
 @keyframes gallery-rise{from{transform:scale(1.08) translateY(1.6%)}to{transform:scale(1.08) translateY(-1.6%)}}
 @keyframes gallery-fall{from{transform:scale(1.08) translateY(-1.6%)}to{transform:scale(1.08) translateY(1.6%)}}
 .gallery-slide.is-previous img{animation-play-state:paused}
+/* Keep the outgoing slide on its own layer so it is not re-rasterized (flashing the dark frame) when its entry animation is removed. */
+.gallery-slide:is(.is-current,.is-previous){will-change:opacity}
 
 @media(max-width:900px){.gallery-topline{top:110px}.gallery-heading h1{font-size:11vw}}
 @media(max-width:767px){.gallery-hero{height:215svh}.gallery-sticky{min-height:620px}.gallery-topline{top:105px;font-size:7px}.gallery-topline>span:last-child{display:none}.gallery-caption{top:44%;gap:15px;flex-wrap:wrap;gap:8px 12px}.gallery-caption-window{flex-basis:100%}.gallery-caption>a{margin-left:0;margin-right:auto;font-size:12px}.gallery-caption p{font-size:16px}.gallery-caption-content>div>span{font-size:9px}.gallery-count{font-size:12px}.gallery-heading h1{font-size:14vw;line-height:.85}.gallery-heading .gallery-expectation{font-size:22px;margin-top:15px}.gallery-footnote{left:8%;right:8%;bottom:18%;gap:14px}.gallery-footnote h2{font-size:23px}.gallery-footnote a{font-size:11px;padding-top:10px}.gallery-detail-arrow{width:30px;height:30px}.gallery-parallax{inset:-32% 0}}
