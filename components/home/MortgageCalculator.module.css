@@ -71,3 +71,5 @@
 /* Interest and term share one row on phones; only stack them on very narrow screens. */
 @media(max-width:339px){.grid>div:nth-child(2){grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.input,.select,.primaryAction,.secondaryAction{transition:none}}
+/* Year picker trigger: no stepper, so no reserved right padding. */
+.grid .input.yearTrigger.yearTrigger{padding-right:14px;cursor:pointer}
