@@ -667,7 +667,7 @@ export default function AdminProjectsPage() {
                     value={modal.project.phone || ''}
                     onChange={(e) => updateField('phone', e.target.value)}
                     className={inputClass}
-                    placeholder="เช่น 082-526-5566"
+                    placeholder="เช่น 099-198-2940"
                   />
                   <p className="text-xs text-gray-400 mt-1">แสดงใน Call Now และฟอร์มลงทะเบียนของหน้าโครงการนี้</p>
                 </div>

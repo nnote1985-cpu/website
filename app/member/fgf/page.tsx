@@ -124,7 +124,7 @@ export default function FgfPage() {
                 <div className="font-black text-lg mb-1">มีเพื่อนสนใจ?</div>
                 <div className="text-white/70 text-sm">ติดต่อทีมขายเพื่อลงทะเบียนแนะนำเพื่อนและรับรางวัล</div>
               </div>
-              <a href="tel:0825265566" className="flex items-center gap-2 bg-white text-[#1a2d6b] font-black px-5 py-3 rounded-xl hover:bg-slate-100 transition-colors w-fit">
+              <a href="tel:0991982940" className="flex items-center gap-2 bg-white text-[#1a2d6b] font-black px-5 py-3 rounded-xl hover:bg-slate-100 transition-colors w-fit">
                 <Phone size={16} /> โทรเลย
               </a>
             </div>

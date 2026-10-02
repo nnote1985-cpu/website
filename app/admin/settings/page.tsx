@@ -175,7 +175,7 @@ export default function AdminSettingsPage() {
                 value={Array.isArray(settings.phone) ? settings.phone.join(', ') : settings.phone}
                 onChange={(e) => update('phone', e.target.value.split(',').map((s) => s.trim()))}
                 className={inputClass}
-                placeholder="082-526-5566, 02-059-9655"
+                placeholder="099-198-2940"
               />
             </div>
             <div>

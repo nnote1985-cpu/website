@@ -10,7 +10,7 @@ export interface ContactSettings {
 }
 
 const DEFAULTS: ContactSettings = {
-  phone: ['082-526-5566', '02-059-9655', '099-198-2940'],
+  phone: ['099-198-2940'],
   email: 'info@asakan.co.th',
   address: '191 ถนนรามคำแหง แขวงสะพานสูง เขตสะพานสูง กรุงเทพฯ 10240',
   facebook: 'https://www.facebook.com/Asakandevelopment',

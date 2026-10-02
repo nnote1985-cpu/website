@@ -73,8 +73,8 @@ export default function InsurancePage() {
               <div className="font-black text-lg mb-1">มีคำถามเกี่ยวกับประกัน?</div>
               <div className="text-white/70 text-sm">ทีมงานพร้อมให้คำปรึกษาทุกวัน 9:00 - 18:00 น.</div>
             </div>
-            <a href="tel:0825265566" className="flex items-center gap-2 bg-white text-[#1a2d6b] font-black px-6 py-3 rounded-xl hover:bg-slate-100 transition-colors shrink-0">
-              <Phone size={18} /> 082-526-5566
+            <a href="tel:0991982940" className="flex items-center gap-2 bg-white text-[#1a2d6b] font-black px-6 py-3 rounded-xl hover:bg-slate-100 transition-colors shrink-0">
+              <Phone size={18} /> 099-198-2940
             </a>
           </div>
 

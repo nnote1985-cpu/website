@@ -4,7 +4,7 @@ import { ArrowUpRight } from 'lucide-react';
 import styles from './ServicesSection.module.css';
 
 const services = [
-  { title: 'ซื้อคอนโดมิเนียม', description: 'โครงการคุณภาพในทำเลศักยภาพ ราคาเริ่มต้น 1.21 ล้านบาท พร้อมส่วนกลางครบครัน', href: '/projects', action: 'ดูโครงการ' },
+  { title: 'ซื้อคอนโดมิเนียม', description: 'โครงการคุณภาพในทำเลศักยภาพ ราคาเริ่มต้น 1.39 ล้านบาท พร้อมส่วนกลางครบครัน', href: '/projects', action: 'ดูโครงการ' },
   { title: 'ASAKAN AssetCare+', description: 'บริการบริหารการปล่อยเช่าแบบครบวงจร ให้คุณมีรายได้ Passive Income โดยไม่ต้องกังวล', href: '/assetcare', action: 'เรียนรู้เพิ่มเติม' },
   { title: 'สมาชิก ASAKAN', description: 'สิทธิพิเศษสำหรับเจ้าของห้อง ประกันอุบัติเหตุ ส่วนลดซื้อห้องถัดไป และรางวัลแนะนำเพื่อน', href: '/member', action: 'สมัครสมาชิก' },
 ];

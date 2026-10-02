@@ -110,7 +110,7 @@ export default function AssetCarePage() {
             <p className="mb-8 text-white/65">ติดต่อทีมงานของเราเพื่อรับข้อมูลและเงื่อนไขบริการ</p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <Link href="/contact" className="bg-[#f4511e] px-8 py-4 font-bold text-white transition-colors hover:bg-[#d43e0e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">ติดต่อเรา</Link>
-              <a href="tel:0825265566" className="border border-white/25 px-8 py-4 font-bold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">โทร 082-526-5566</a>
+              <a href="tel:0991982940" className="border border-white/25 px-8 py-4 font-bold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">โทร 099-198-2940</a>
             </div>
           </div>
         </section>

@@ -51,7 +51,7 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
 
   const heroImageUrl = showPromo ? promoBanner : (project.heroImage || project.image);
   const mobilePromoUrl = project.promoBannerMobile || promoBanner;
-  const phone = project.phone || '0825265566';
+  const phone = project.phone || '0991982940';
   const phoneTel = phone.replace(/-/g, '');
   const startingPrice = project.priceMin
     ? `${(project.priceMin / 1000000).toFixed(2)} ล้าน`

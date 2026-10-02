@@ -48,7 +48,7 @@ export default async function ContactPage() {
       '@type': 'RealEstateAgent',
       name: 'ASAKAN',
       url: SITE_URL,
-      telephone: ['+66-82-526-5566', '+66-2-059-9655', '+66-99-198-2940'],
+      telephone: '+66-99-198-2940',
       email: 'info@asakan.co.th',
       address: {
         '@type': 'PostalAddress',

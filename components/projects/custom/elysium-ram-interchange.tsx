@@ -120,7 +120,7 @@ export default function CelineCustom({ project }: { project: CustomProject }) {
           </div>
           <div>
             <p className="text-[9px] md:text-[10px] font-bold text-white/30 uppercase tracking-widest">Sales Gallery</p>
-            <a href="tel:0825265566" className="text-base md:text-lg font-black text-white hover:text-[#cca464] transition-colors">082-526-5566</a>
+            <a href="tel:0991982940" className="text-base md:text-lg font-black text-white hover:text-[#cca464] transition-colors">099-198-2940</a>
           </div>
         </div>
       </div>

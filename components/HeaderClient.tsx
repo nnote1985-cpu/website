@@ -27,7 +27,7 @@ const NAV_LINKS = [
   { label: 'Contact', href: '/contact' },
 ];
 
-export default function Header({ phones = ['082-526-5566', '02-059-9655'], line = '@asakan' }: { phones?: string[]; line?: string }) {
+export default function Header({ phones = ['099-198-2940'], line = '@asakan' }: { phones?: string[]; line?: string }) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);

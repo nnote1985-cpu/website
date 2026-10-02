@@ -157,7 +157,7 @@ export default function PrivacyPolicyPage() {
             <div className="space-y-1.5 text-sm">
               <p><strong className="text-slate-800">บริษัท อัสสกาญจน์ จำกัด</strong></p>
               <p>ที่อยู่: 191 ถนนรามคำแหง แขวงสะพานสูง เขตสะพานสูง กรุงเทพมหานคร</p>
-              <p>โทรศัพท์: <a href="tel:020599655" className="text-[#1a2d6b] font-semibold hover:underline">02-059-9655</a></p>
+              <p>โทรศัพท์: <a href="tel:0991982940" className="text-[#1a2d6b] font-semibold hover:underline">099-198-2940</a></p>
               <p>เว็บไซต์: <a href="https://www.asakan.co.th" className="text-[#1a2d6b] font-semibold hover:underline">www.asakan.co.th</a></p>
             </div>
           </section>

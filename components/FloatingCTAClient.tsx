@@ -76,7 +76,7 @@ function MiniCalculator() {
   );
 }
 
-export default function FloatingCTA({ phone = '082-526-5566', line = '@asakan' }: { phone?: string; line?: string }) {
+export default function FloatingCTA({ phone = '099-198-2940', line = '@asakan' }: { phone?: string; line?: string }) {
   const lineHref = `https://line.me/ti/p/~${line.startsWith('@') ? line : '@' + line}`;
   const phoneHref = `tel:${phone.replace(/[^0-9]/g, '')}`;
   const [expanded, setExpanded] = useState(false);

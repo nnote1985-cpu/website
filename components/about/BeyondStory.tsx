@@ -15,16 +15,16 @@ const P = '/images/projects';
 // The Celine renders have a title strip along their top edge; scaling from the bottom crops it off.
 const cropTop = (src: string) => (src.includes('the-celine') ? ' origin-bottom scale-[1.12]' : '');
 
-const YEARS = 26; // PLACEHOLDER: the old page said 25+
+const YEARS = 26; // founded 2001, now in its 26th year
 
 const STATS = [
-  { value: `${YEARS}`, label: 'Years' }, // PLACEHOLDER
+  { value: '25+', label: 'Years' },
   { value: '10+', label: 'Projects' },
   { value: '4,000+', label: 'Homes created' },
 ];
 
 const MILESTONES = [
-  { year: '2000', title: 'ก่อตั้งบริษัท อัสสกาญจน์ จำกัด' },
+  { year: '2001', title: 'ก่อตั้งบริษัท อัสสกาญจน์ จำกัด' },
   { year: '2002', title: 'ส่งมอบคอนโดมิเนียมโครงการแรก' },
   { year: '2003', title: 'เริ่มพัฒนาโครงการติดถนนใหญ่และแนวรถไฟฟ้า' },
   { year: '2007', title: 'ส่งมอบห้องชุดครบ 1,000 ยูนิต' },

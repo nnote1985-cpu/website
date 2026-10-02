@@ -23,7 +23,7 @@ export default function PromoHeroWrapper({
   accentColor?: string;
 }) {
   const [hasError, setHasError] = useState(false);
-  const displayPhone = phone || '082-526-5566';
+  const displayPhone = phone || '099-198-2940';
   const phoneTel = displayPhone.replace(/-/g, '');
   const mobileImage = promoBannerMobile || promoBanner;
 

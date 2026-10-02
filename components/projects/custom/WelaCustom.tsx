@@ -15,7 +15,7 @@ interface CustomProject {
 }
 
 export default function WelaCustom({ project }: { project: CustomProject }) {
-  const phone = project.phone || '0825265566';
+  const phone = project.phone || '0991982940';
   const phoneTel = phone.replace(/-/g, '');
   // แยกคำเพื่อทำไฮไลท์สีแดงที่คำสุดท้าย
   const nameWords = project.name ? project.name.split(' ') : [];

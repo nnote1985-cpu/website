@@ -12,7 +12,7 @@ import { projectUrl } from '@/lib/projectUrl';
 
 export const metadata: Metadata = {
   title: 'โครงการทั้งหมด | ASAKAN คอนโดมิเนียมกรุงเทพฯ',
-  description: 'โครงการคอนโดมิเนียมของ ASAKAN ทั้งหมด Elysium Phahol-59, Elysium Ram Interchange, The Celine Bang Chan, Wela Ramkhamhaeng ราคาเริ่มต้น 1.21 ล้านบาท',
+  description: 'โครงการคอนโดมิเนียมของ ASAKAN ทั้งหมด Elysium Phahol-59, Elysium Ram Interchange, The Celine Bang Chan, Wela Ramkhamhaeng ราคาเริ่มต้น 1.39 ล้านบาท',
 };
 
 interface Project {
@@ -100,7 +100,7 @@ export default async function ProjectsPage({
         <PageHero
           eyebrow="Portfolio"
           title="โครงการของเรา"
-          subtitle="คอนโดมิเนียมคุณภาพในกรุงเทพฯ ราคาเริ่มต้น 1.21 ล้านบาท"
+          subtitle="คอนโดมิเนียมคุณภาพในกรุงเทพฯ ราคาเริ่มต้น 1.39 ล้านบาท"
         />
 
         <section className="py-16 bg-gray-50">
