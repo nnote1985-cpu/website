@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getSession } from '@/lib/auth';
+import { getProjectDetailAccess } from '@/lib/projectAccess';
 import { generateId } from '@/lib/utils';
 
 export async function GET() {
@@ -11,7 +12,8 @@ export async function GET() {
     .order('created_at', { ascending: false });
 
   if (error) return NextResponse.json([]);
-  return NextResponse.json(data);
+  const access = await getProjectDetailAccess();
+  return NextResponse.json(data.map(p => ({ ...p, details_enabled: access[p.id] !== false })));
 }
 
 export async function POST(req: NextRequest) {

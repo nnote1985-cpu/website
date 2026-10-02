@@ -1,3 +1,4 @@
+import { getProjectDetailAccess } from '@/lib/projectAccess';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { supabaseAdmin } from '@/lib/supabase';
@@ -47,8 +48,10 @@ export default async function ProjectsPage({
   const { q, status, location, price } = await searchParams;
 
   const { data } = await supabaseAdmin.from('projects').select('*').order('created_at', { ascending: false });
+  const access = await getProjectDetailAccess();
   let projects: Project[] = (data || []).map((p) => ({
     ...p,
+    details_enabled: access[p.id] !== false,
     priceMin: p.price_min,
     priceMax: p.price_max,
     isFeatured: true,

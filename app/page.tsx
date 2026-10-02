@@ -1,3 +1,4 @@
+import { getProjectDetailAccess } from '@/lib/projectAccess';
 import type { Metadata } from 'next';
 import FreedomSection from '@/components/home/FreedomSection';
 import ServicesSection from '@/components/home/ServicesSection';
@@ -75,7 +76,8 @@ export default async function HomePage() {
     getContactSettings(),
   ]);
 
-  const allProjects: Project[] = (projectsRes.data || []).map((p) => ({ ...p, priceMin: p.price_min, priceMax: p.price_max, isFeatured: true }));
+  const access = await getProjectDetailAccess();
+  const allProjects: Project[] = (projectsRes.data || []).map((p) => ({ ...p, details_enabled: access[p.id] !== false, priceMin: p.price_min, priceMax: p.price_max, isFeatured: true }));
   const promotions: Promotion[] = (promotionsRes.data || []).map((p) => ({ ...p, isActive: p.is_active, validUntil: p.valid_until, ctaText: p.cta_text, ctaUrl: p.cta_url }));
   const latestNews: NewsItem[] = (newsRes.data || []).map((n) => ({ ...n, isPublished: n.is_published, publishedAt: n.published_at }));
 

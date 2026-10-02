@@ -10,6 +10,7 @@ interface FacilityItem {
 }
 
 interface Project {
+  detailsEnabled: boolean;
   id: string;
   slug: string;
   name: string;
@@ -44,7 +45,7 @@ interface Project {
 }
 
 const EMPTY: Omit<Project, 'id'> = {
-  slug: '', name: '', status: 'active', type: 'Low-Rise Condominium',
+  detailsEnabled: true, slug: '', name: '', status: 'active', type: 'Low-Rise Condominium',
   floors: 8, units: 100, priceMin: 1200000, priceMax: 3000000,
   location: '', bts: '', concept: '', conceptArticle: '', conceptImage: '', description: '',
   features: [], facilities: [],
@@ -63,6 +64,7 @@ const STATUS_OPTIONS = [
 function mapProject(p: Record<string, unknown>): Project {
   return {
     id: p.id as string,
+    detailsEnabled: p.details_enabled !== false,
     slug: p.slug as string,
     name: p.name as string,
     status: (p.status as string) || 'active',
@@ -258,6 +260,28 @@ export default function AdminProjectsPage() {
     }
   }
 
+  const [toggling, setToggling] = useState<string | null>(null);
+  const [toggleError, setToggleError] = useState('');
+  async function toggleDetails(project: Project) {
+    setToggling(project.id);
+    setToggleError('');
+    try {
+      const res = await fetch(`/api/projects/${project.id}/detail-access`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled: !project.detailsEnabled }),
+      });
+      const responseText = await res.text();
+      let data;
+      try { data = JSON.parse(responseText); }
+      catch { throw new Error(`เซิร์ฟเวอร์ตอบกลับไม่สำเร็จ (HTTP ${res.status}) กรุณารีเฟรชแล้วลองใหม่`); }
+      if (res.status === 401) throw new Error('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');
+      if (!res.ok) throw new Error(data.error || 'บันทึกไม่สำเร็จ');
+      setProjects(current => current.map(p => p.id === project.id ? { ...p, detailsEnabled: data.enabled } : p));
+    } catch (error) {
+      setToggleError(error instanceof Error ? error.message : 'บันทึกไม่สำเร็จ กรุณาลองใหม่');
+    } finally { setToggling(null); }
+  }
+
   async function handleDelete(id: string) {
     if (!confirm('ลบโครงการนี้?')) return;
     await fetch(`/api/projects/${id}`, { method: 'DELETE' });
@@ -283,16 +307,19 @@ export default function AdminProjectsPage() {
         </button>
       </div>
 
+      <p className="text-sm text-gray-500 mb-4">ปิดหน้ารายละเอียด: การ์ดโครงการยังแสดง แต่ไม่สามารถเข้าชมรายละเอียดได้</p>
+      {toggleError && <p role="alert" className="text-red-600 mb-4">{toggleError}</p>}
       {loading ? (
         <div className="text-center text-gray-400 py-20">กำลังโหลด...</div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-sm overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">โครงการ</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden md:table-cell">สถานะ</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden lg:table-cell">ราคา</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500">หน้ารายละเอียด</th>
                 <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">จัดการ</th>
               </tr>
             </thead>
@@ -321,6 +348,12 @@ export default function AdminProjectsPage() {
                   </td>
                   <td className="px-4 py-4 hidden lg:table-cell text-sm text-gray-600">
                     {project.priceMin ? `${(project.priceMin / 1000000).toFixed(2)}M` : '-'} – {project.priceMax ? `${(project.priceMax / 1000000).toFixed(2)}M` : '-'}
+                  </td>
+                  <td className="px-4 py-4">
+                    <button type="button" role="switch" aria-checked={project.detailsEnabled} aria-label={`เปิดหน้ารายละเอียด ${project.name}`} disabled={toggling !== null} onClick={() => toggleDetails(project)} className="flex items-center gap-2 text-xs disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-500">
+                      <span className={`relative w-10 h-6 rounded-full transition-colors ${project.detailsEnabled ? 'bg-green-600' : 'bg-gray-300'}`}><span className={`absolute top-1 h-4 w-4 rounded-full bg-white transition-transform ${project.detailsEnabled ? 'translate-x-5' : 'translate-x-1'} left-0`} /></span>
+                      <span>{toggling === project.id ? 'กำลังบันทึก' : project.detailsEnabled ? 'เปิด' : 'ปิด'}</span>
+                    </button>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">

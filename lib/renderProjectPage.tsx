@@ -1,3 +1,4 @@
+import { getProjectDetailAccess } from '@/lib/projectAccess';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { supabaseAdmin } from '@/lib/supabase';
@@ -64,10 +65,10 @@ export async function getProjectMetadata(slug: string): Promise<Metadata> {
   const localProject = getLocalProject(slug);
   const { data } = await supabaseAdmin
     .from('projects')
-    .select('name, description, price_min, location, meta_title, meta_description, meta_keywords, image')
+    .select('id, name, description, price_min, location, meta_title, meta_description, meta_keywords, image')
     .eq('slug', slug)
     .single();
-  if (!data) return { title: 'Not Found' };
+  if (!data || (await getProjectDetailAccess())[data.id] === false) return { title: 'Not Found', robots: { index: false, follow: false } };
 
   const title = data.meta_title || `${data.name} | คอนโดมิเนียม ASAKAN`;
   const description =
@@ -92,7 +93,7 @@ export async function getProjectMetadata(slug: string): Promise<Metadata> {
 export async function renderProjectPage(slug: string) {
   const localProject = getLocalProject(slug);
   const { data } = await supabaseAdmin.from('projects').select('*').eq('slug', slug).single();
-  if (!data) notFound();
+  if (!data || (await getProjectDetailAccess())[data.id] === false) notFound();
 
   const project = {
     ...data,

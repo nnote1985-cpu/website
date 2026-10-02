@@ -1,12 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import Image from 'next/image';
 import { MapPin, Building2, Layers, ArrowRight, Home, Users } from 'lucide-react';
 import { getStatusLabel } from '@/lib/utils';
 import { projectUrl } from '@/lib/projectUrl';
 
 interface Project {
+  details_enabled?: boolean;
   id: string;
   slug: string;
   name: string;
@@ -23,6 +25,12 @@ interface Project {
   image: string;
 }
 
+function DetailLink({ project, children, ...props }: { project: Project; children: ReactNode; className?: string; 'aria-label'?: string }) {
+    return project.details_enabled === false
+      ? <div {...props} aria-disabled="true">{children}</div>
+      : <Link href={projectUrl(project.slug)} {...props}>{children}</Link>;
+  }
+
 export default function ProjectCard({ project }: { project: Project }) {
   const statusLabel = getStatusLabel(project.status);
   const locationText = project.bts || project.location;
@@ -31,7 +39,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     <article className="group flex flex-col bg-white rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.08)] transition-all duration-500 border border-slate-100">
 
       {/* --- 1. Image & Top Section (ลดความสูงลง) --- */}
-      <Link href={projectUrl(project.slug)} className="relative h-32 sm:h-44 lg:h-52 w-full bg-slate-100 overflow-hidden block">
+      <DetailLink project={project} className="relative h-32 sm:h-44 lg:h-52 w-full bg-slate-100 overflow-hidden block">
         {/* Placeholder Icon */}
         <div className="absolute inset-0 flex items-center justify-center text-slate-300">
           <Building2 size={28} strokeWidth={1} />
@@ -69,18 +77,18 @@ export default function ProjectCard({ project }: { project: Project }) {
             {project.concept || 'ASAKAN RESIDENCES'}
           </p>
         </div>
-      </Link>
+      </DetailLink>
 
       {/* --- 2. Content Section (กระชับพื้นที่) --- */}
       <div className="flex flex-col flex-1 p-3 sm:p-5">
         
         {/* Project Name */}
         <div className="mb-2 sm:mb-3">
-          <Link href={projectUrl(project.slug)}>
+          <DetailLink project={project}>
             <h3 className="font-black text-slate-900 text-sm sm:text-lg leading-tight group-hover:text-[#e53935] transition-colors line-clamp-2 min-h-[2.5rem] sm:min-h-0">
               {project.name}
             </h3>
-          </Link>
+          </DetailLink>
         </div>
 
         {/* Location */}
@@ -124,13 +132,12 @@ export default function ProjectCard({ project }: { project: Project }) {
           </div>
           
           {/* Elegant Arrow CTA (ย่อขนาดลงนิดนึง) */}
-          <Link
-            href={projectUrl(project.slug)}
+          <DetailLink project={project}
             className="flex shrink-0 items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-slate-200 text-slate-400 group-hover:bg-[#e53935] group-hover:border-[#e53935] group-hover:text-white transition-all duration-300"
             aria-label={`ดูรายละเอียดโครงการ ${project.name}`}
           >
-            <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
+            <ArrowRight aria-hidden="true" size={15} className="group-hover:translate-x-1 transition-transform" />
+          </DetailLink>
         </div>
       </div>
       
