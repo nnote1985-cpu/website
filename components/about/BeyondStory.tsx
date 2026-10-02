@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { Fragment, useEffect, useRef, useState, type CSSProperties } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, ArrowDown } from 'lucide-react';
@@ -20,16 +20,17 @@ const YEARS = 26; // PLACEHOLDER: the old page said 25+
 const STATS = [
   { value: `${YEARS}`, label: 'Years' }, // PLACEHOLDER
   { value: '10+', label: 'Projects' },
-  { value: '2,500+', label: 'Homes created' },
+  { value: '4,000+', label: 'Homes created' },
 ];
 
-// PLACEHOLDER: years and events need confirming
 const MILESTONES = [
   { year: '2000', title: 'ก่อตั้งบริษัท อัสสกาญจน์ จำกัด' },
-  { year: '2006', title: 'ส่งมอบคอนโดมิเนียมโครงการแรก' },
-  { year: '2013', title: 'เริ่มพัฒนาโครงการติดแนวรถไฟฟ้า' },
-  { year: '2019', title: 'ส่งมอบห้องชุดครบ 2,000 ยูนิต' },
-  { year: '2026', title: 'เปิดตัว Elysium Phahol 59' },
+  { year: '2002', title: 'ส่งมอบคอนโดมิเนียมโครงการแรก' },
+  { year: '2003', title: 'เริ่มพัฒนาโครงการติดถนนใหญ่และแนวรถไฟฟ้า' },
+  { year: '2007', title: 'ส่งมอบห้องชุดครบ 1,000 ยูนิต' },
+  { year: '2017', title: 'ส่งมอบห้องชุดครบ 2,500 ยูนิต' },
+  { year: '2024', title: 'ส่งมอบห้องชุดครบ 4,000 ยูนิต' },
+  { year: '2025', title: 'เปิดตัว Elysium Phahol 59' },
 ];
 
 const CHAPTERS = [
@@ -271,7 +272,7 @@ function Chapters() {
 function Journey() {
   const ref = useStageProgress<HTMLElement>();
   return (
-    <section ref={ref} className="relative h-[360svh] bg-[#0f1e4a] text-white" aria-label={`${YEARS} years of going beyond`}>
+    <section ref={ref} className="relative h-[460svh] bg-[#0f1e4a] text-white" aria-label={`${YEARS} years of going beyond`}>
       <div className={stage}>
         <div
           className="absolute inset-0 flex flex-col items-center justify-center will-change-transform"
@@ -298,7 +299,7 @@ function Journey() {
               style={{ transform: `translate3d(calc(${seg(0.44, 0.92)} * (100vw - 100% - 1.25rem)), 0, 0)` }}
             >
               {MILESTONES.map((m, i) => (
-                <li key={m.year} className="relative w-[72vw] shrink-0 pr-8 sm:w-[46vw] lg:w-[30vw]">
+                <li key={m.year} className="relative w-[64vw] shrink-0 pr-8 sm:w-[40vw] lg:w-[24vw]">
                   <div className="absolute left-0 right-0 top-[7px] h-px bg-white/20" />
                   <span className={`relative block h-[15px] w-[15px] rounded-full border-2 ${i === MILESTONES.length - 1 ? 'border-[#e53935] bg-[#e53935]' : 'border-white bg-[#0f1e4a]'}`} />
                   <div className="mt-8 text-[clamp(3rem,7vw,5.5rem)] font-bold leading-none tracking-[-0.04em] tabular-nums">{m.year}</div>
@@ -343,32 +344,36 @@ function Proof() {
         </Reveal>
       </div>
 
-      {/* Each project pins, and the next one slides over it */}
+      {/* Each project pins, holds while its copy reads, then the next one slides over it */}
       <div>
         {PROOFS.map((p, i) => (
-          <article key={p.name} className="sticky top-0 h-svh overflow-hidden">
-            <Image src={p.image} alt={`โครงการ ${p.name} ${p.place}`} fill sizes="100vw" className={`object-cover${cropTop(p.image) || ' scale-[1.03]'}`} />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050B14] via-[#050B14]/55 to-[#050B14]/25" />
-            <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-[max(6rem,14svh)] lg:px-10">
-              <div className="absolute right-5 top-28 text-sm font-bold tabular-nums text-white/60 lg:right-10">
-                0{i + 1} / 0{PROOFS.length}
+          <Fragment key={p.name}>
+            <article className="sticky top-0 h-svh overflow-hidden">
+              <Image src={p.image} alt={`โครงการ ${p.name} ${p.place}`} fill sizes="100vw" className={`object-cover${cropTop(p.image) || ' scale-[1.03]'}`} />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050B14] via-[#050B14]/55 to-[#050B14]/25" />
+              <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-[max(6rem,14svh)] lg:px-10">
+                <div className="absolute right-5 top-28 text-sm font-bold tabular-nums text-white/60 lg:right-10">
+                  0{i + 1} / 0{PROOFS.length}
+                </div>
+                <Reveal>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/60">{p.place}</p>
+                  <h3 className="mt-2 text-[clamp(3.5rem,11vw,9rem)] font-black leading-[0.9] tracking-[-0.045em]">{p.name}</h3>
+                </Reveal>
+                <Reveal delay={150} className="mt-10 grid gap-6 border-t border-white/20 pt-8 md:grid-cols-[1fr_1.6fr] md:gap-10">
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-white/50">Expectation</p>
+                    <p className="mt-3 text-xl text-white/65 line-through decoration-[#e53935] decoration-2 md:text-2xl md:decoration-[3px]">{p.expectation}</p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#e53935]">Beyond Expectation</p>
+                    <p className="mt-3 text-[clamp(2rem,4.5vw,3.75rem)] font-bold leading-[1.05] tracking-[-0.03em]">{p.beyond}</p>
+                  </div>
+                </Reveal>
               </div>
-              <Reveal>
-                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/60">{p.place}</p>
-                <h3 className="mt-2 text-[clamp(3.5rem,11vw,9rem)] font-black leading-[0.9] tracking-[-0.045em]">{p.name}</h3>
-              </Reveal>
-              <Reveal delay={150} className="mt-10 grid gap-6 border-t border-white/20 pt-8 md:grid-cols-[1fr_1.6fr] md:gap-10">
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-white/50">Expectation</p>
-                  <p className="mt-3 text-xl text-white/65 line-through decoration-[#e53935] decoration-2 md:text-2xl md:decoration-[3px]">{p.expectation}</p>
-                </div>
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#e53935]">Beyond Expectation</p>
-                  <p className="mt-3 text-[clamp(2rem,4.5vw,3.75rem)] font-bold leading-[1.05] tracking-[-0.03em]">{p.beyond}</p>
-                </div>
-              </Reveal>
-            </div>
-          </article>
+            </article>
+            {/* Empty scroll distance: the pinned card stays put until the next one arrives */}
+            <div aria-hidden="true" className="h-[90svh]" />
+          </Fragment>
         ))}
       </div>
     </section>
