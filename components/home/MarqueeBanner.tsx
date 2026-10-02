@@ -1,6 +1,6 @@
 const ITEMS = [
   '25 Years of Heritage',
-  '2,500+ Units Delivered',
+  '4,000+ Units Delivered',
   'Prime Bangkok Locations',
   'Curated by ASAKAN',
   'Freedom of Life',

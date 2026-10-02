@@ -69,7 +69,7 @@ const PROOFS = [
   {
     name: 'Elysium',
     place: 'Phahol 59',
-    price: 'เริ่มต้น 2.09 ล้านบาท',
+    price: 'เริ่มต้น 2.19 ล้านบาท',
     image: `${P}/elysium-phahol-59/hero.webp`,
     expectation: 'Live near BTS.',
     beyond: '30 metres away from BTS Green Line.',

@@ -130,7 +130,7 @@ export default async function HomePage() {
                 {/* ฝั่งขวา: รายการจุดเด่น */}
                 <div className="lg:col-span-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200">
                   {[
-                    { icon: <Home size={32} strokeWidth={1.5} />, title: '2,500+ Units Delivered', desc: 'ความไว้วางใจจากครอบครัวอัสสกาญจน์ที่ส่งมอบแล้วทั่วกรุงเทพฯ' },
+                    { icon: <Home size={32} strokeWidth={1.5} />, title: '4,000+ Units Delivered', desc: 'ความไว้วางใจจากครอบครัวอัสสกาญจน์ที่ส่งมอบแล้วทั่วกรุงเทพฯ' },
                     { icon: <Star size={32} strokeWidth={1.5} />, title: 'Premium Quality', desc: 'คัดสรรวัสดุมาตรฐานสากล พร้อมทีมงานตรวจรับมอบมืออาชีพ' },
                     { icon: <Shield size={32} strokeWidth={1.5} />, title: '25 Years Heritage', desc: 'รากฐานที่แข็งแกร่งและประสบการณ์ที่สั่งสมมายาวนานอย่างยั่งยืน' },
                     { icon: <TrendingUp size={32} strokeWidth={1.5} />, title: 'Prime Location', desc: 'เน้นทำเลศักยภาพใกล้รถไฟฟ้า เพื่อการอยู่อาศัยและการลงทุน' },

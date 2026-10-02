@@ -21,7 +21,7 @@ const FALLBACK_IMAGES = [
 
 const STATS = [
   { value: '25+', label: 'ปีประสบการณ์' },
-  { value: '2,500+', label: 'ยูนิตที่ส่งมอบ' },
+  { value: '4,000+', label: 'ยูนิตที่ส่งมอบ' },
   { value: '6', label: 'ทำเลกรุงเทพฯ' },
 ];
 

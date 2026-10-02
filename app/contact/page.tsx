@@ -51,7 +51,7 @@ export default async function ContactPage() {
       name: 'ASAKAN',
       url: SITE_URL,
       telephone: '+66-99-198-2940',
-      email: 'info@asakan.co.th',
+      email: 'asakanmkt@gmail.com',
       address: {
         '@type': 'PostalAddress',
         streetAddress: '191 ถนนรามคำแหง',

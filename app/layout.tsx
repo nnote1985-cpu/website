@@ -121,7 +121,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 addressCountry: 'TH',
               },
               telephone: '+66-99-198-2940',
-              email: 'info@asakan.co.th',
+              email: 'asakanmkt@gmail.com',
               sameAs: ['https://www.facebook.com/Asakandevelopment'],
               foundingDate: '2001',
               numberOfEmployees: { '@type': 'QuantitativeValue', value: 50 },
