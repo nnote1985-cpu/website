@@ -26,6 +26,8 @@ export default function FaqSection({ showHeading = true }: { showHeading?: boole
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
+                aria-expanded={open === i}
+                aria-controls={`faq-answer-${i}`}
                 className="w-full flex items-center justify-between px-6 py-5 text-left gap-4"
               >
                 <span className="font-bold text-[#1a2d6b] text-sm md:text-base leading-snug">{faq.q}</span>
@@ -34,11 +36,10 @@ export default function FaqSection({ showHeading = true }: { showHeading?: boole
                   className={`shrink-0 text-slate-400 transition-transform duration-300 ${open === i ? 'rotate-180 text-[#e53935]' : ''}`}
                 />
               </button>
-              {open === i && (
-                <div className="px-6 pb-5 text-sm md:text-base text-slate-600 leading-relaxed border-t border-slate-100 pt-4">
-                  {faq.a}
-                </div>
-              )}
+              {/* Always rendered so search engines and AI crawlers can read the answer */}
+              <div id={`faq-answer-${i}`} hidden={open !== i} className="px-6 pb-5 text-sm md:text-base text-slate-600 leading-relaxed border-t border-slate-100 pt-4">
+                {faq.a}
+              </div>
             </div>
           ))}
         </div>

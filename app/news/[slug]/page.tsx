@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!item) return { title: 'Not Found' };
 
   return {
-    title: `${item.title} | ASAKAN`,
+    title: item.title,
     description: item.excerpt,
     alternates: { canonical: `${SITE_URL}/news/${item.slug}` },
     openGraph: {

@@ -9,7 +9,8 @@ import PageHero from '@/components/PageHero';
 import { Gift, Shield, Percent, Users, Star, Headphones, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'สมาชิก ASAKAN Privilege | สิทธิพิเศษสำหรับเจ้าของห้อง',
+  title: { absolute: 'สมาชิก ASAKAN Privilege | สิทธิพิเศษสำหรับเจ้าของห้อง' },
+  alternates: { canonical: '/member' },
   description: 'ASAKAN Privilege Member Card สิทธิพิเศษสำหรับเจ้าของห้อง ประกันอุบัติเหตุ 500,000 บาท ส่วนลดซื้อห้องถัดไป 50,000 บาท รางวัลแนะนำเพื่อน',
 };
 

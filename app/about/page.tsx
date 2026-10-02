@@ -5,7 +5,8 @@ import Footer from '@/components/Footer';
 import BeyondStory from '@/components/about/BeyondStory';
 
 export const metadata: Metadata = {
-  title: 'เกี่ยวกับเรา | ASAKAN บริษัท อัสสกาญจน์',
+  title: { absolute: 'เกี่ยวกับเรา | ASAKAN บริษัท อัสสกาญจน์' },
+  alternates: { canonical: '/about' },
   description: 'ASAKAN บริษัท อัสสกาญจน์ จำกัด ผู้พัฒนาอสังหาริมทรัพย์ชั้นนำในกรุงเทพฯ กว่า 25 ปี ด้วยปรัชญา Beyond Expectation',
 };
 

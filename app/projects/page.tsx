@@ -11,7 +11,8 @@ import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
 import { projectUrl } from '@/lib/projectUrl';
 
 export const metadata: Metadata = {
-  title: 'โครงการทั้งหมด | ASAKAN คอนโดมิเนียมกรุงเทพฯ',
+  title: { absolute: 'โครงการทั้งหมด | ASAKAN คอนโดมิเนียมกรุงเทพฯ' },
+  alternates: { canonical: '/projects' },
   description: 'โครงการคอนโดมิเนียมของ ASAKAN ทั้งหมด Elysium Phahol-59, Elysium Ram Interchange, The Celine Bang Chan, Wela Ramkhamhaeng ราคาเริ่มต้น 1.39 ล้านบาท',
 };
 

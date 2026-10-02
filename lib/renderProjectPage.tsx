@@ -81,7 +81,7 @@ export async function getProjectMetadata(slug: string): Promise<Metadata> {
   const canonicalUrl = absoluteProjectUrl(slug);
 
   return {
-    title,
+    title: { absolute: title },
     description,
     keywords,
     alternates: { canonical: canonicalUrl },

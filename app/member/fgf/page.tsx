@@ -7,7 +7,8 @@ import Link from 'next/link';
 import { Users, CheckCircle, ArrowRight, Phone } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Friends Get Friends (FGF) | สมาชิก ASAKAN',
+  title: { absolute: 'Friends Get Friends (FGF) | สมาชิก ASAKAN' },
+  alternates: { canonical: '/member/fgf' },
   description: 'รับรางวัลมากกว่า 100,000 บาท เมื่อแนะนำเพื่อนให้ซื้อห้อง ASAKAN สิทธิพิเศษสมาชิก Privilege',
 };
 

@@ -76,8 +76,6 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: 'website',
       locale: 'th_TH',
-      alternateLocale: 'en_US',
-      url: 'https://www.asakan.co.th',
       siteName: settings.siteName,
       title: `${settings.siteName} | คอนโดมิเนียมคุณภาพ ราคาเข้าถึงได้`,
       description: settings.siteDescription,
@@ -89,7 +87,6 @@ export async function generateMetadata(): Promise<Metadata> {
       description: settings.siteDescription,
       images: [settings.ogImage],
     },
-    alternates: { canonical: 'https://www.asakan.co.th' },
   };
 }
 
@@ -113,7 +110,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               name: 'ASAKAN',
               alternateName: 'อัสสกาญจน์',
               url: 'https://www.asakan.co.th',
-              logo: 'https://www.asakan.co.th/logo.svg',
+              logo: 'https://www.asakan.co.th/logo.png',
               description: 'ผู้พัฒนาอสังหาริมทรัพย์ คอนโดมิเนียมคุณภาพในกรุงเทพฯ',
               address: {
                 '@type': 'PostalAddress',

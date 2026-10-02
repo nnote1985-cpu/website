@@ -9,9 +9,11 @@ import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
 import { getContactSettings, lineUrl, telHref } from '@/lib/getContactSettings';
 
 export const metadata: Metadata = {
-  title: 'ติดต่อเรา | ASAKAN สอบถามโครงการคอนโด',
+  title: { absolute: 'ติดต่อเรา | ASAKAN สอบถามโครงการคอนโด' },
+  alternates: { canonical: '/contact' },
   description: 'ติดต่อ ASAKAN สอบถามโครงการคอนโดมิเนียม ทีมงานพร้อมให้คำปรึกษาฟรี ไม่มีค่าใช้จ่าย',
   openGraph: {
+    url: '/contact',
     title: 'ติดต่อ ASAKAN | คำปรึกษาฟรี',
     description: 'ทีมงานพร้อมให้คำปรึกษา ส่งข้อความได้เลย',
   },

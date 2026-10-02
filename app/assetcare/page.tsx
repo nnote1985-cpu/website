@@ -6,7 +6,8 @@ import FloatingCTA from '@/components/FloatingCTA';
 import { ArrowRight, BarChart3, CheckSquare, FileText, Search, Wrench } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'ASAKAN AssetCare+ | บริหารการปล่อยเช่าครบวงจร',
+  title: { absolute: 'ASAKAN AssetCare+ | บริหารการปล่อยเช่าครบวงจร' },
+  alternates: { canonical: '/assetcare' },
   description: 'ASAKAN AssetCare+ บริการบริหารการปล่อยเช่าคอนโดครบวงจร ตั้งแต่หาผู้เช่า ทำสัญญา ดูแลห้อง จนถึงรายงานรายเดือน',
 };
 

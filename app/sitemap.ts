@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { supabaseAdmin } from '@/lib/supabase';
 import { projectUrl } from '@/lib/projectUrl';
+import { getProjectDetailAccess } from '@/lib/projectAccess';
 
 const BASE = 'https://www.asakan.co.th';
 
@@ -25,16 +26,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // หน้าอื่น
     { url: `${BASE}/assetcare`,          lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE}/faq`,                lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE}/policy`,            lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.3 },
     { url: `${BASE}/contact`,            lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.5 },
   ];
 
   // หน้าโครงการ — ดึง slug จาก Supabase
   const { data: projects } = await supabaseAdmin
     .from('projects')
-    .select('slug, created_at')
+    .select('id, slug, created_at')
     .eq('is_active', true);
 
-  const projectPages: MetadataRoute.Sitemap = (projects ?? []).map((p) => ({
+  // Detail pages switched off in admin return 404, so keep them out of the sitemap
+  const access = await getProjectDetailAccess();
+  const projectPages: MetadataRoute.Sitemap = (projects ?? []).filter((p) => access[p.id] !== false).map((p) => ({
     url: `${BASE}${projectUrl(p.slug)}`,
     lastModified: p.created_at ? new Date(p.created_at) : new Date(),
     changeFrequency: 'weekly' as const,

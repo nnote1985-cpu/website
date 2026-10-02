@@ -7,7 +7,8 @@ import Link from 'next/link';
 import { CheckCircle, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Discount Privilege | สมาชิก ASAKAN',
+  title: { absolute: 'Discount Privilege | สมาชิก ASAKAN' },
+  alternates: { canonical: '/member/discount' },
   description: 'ส่วนลดพิเศษ 50,000 บาท เมื่อซื้อห้องโครงการ ASAKAN ครั้งต่อไป สิทธิพิเศษเฉพาะสมาชิก',
 };
 

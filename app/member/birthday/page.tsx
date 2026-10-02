@@ -5,7 +5,8 @@ import MemberSubNav from '@/components/member/MemberSubNav';
 import { Gift, CalendarDays, Clock, Ban, Star, AlertCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Birthday Privilege | สมาชิก ASAKAN',
+  title: { absolute: 'Birthday Privilege | สมาชิก ASAKAN' },
+  alternates: { canonical: '/member/birthday' },
   description: 'รับของขวัญพิเศษจาก ASAKAN ในเดือนเกิดของคุณ สิทธิพิเศษเฉพาะสมาชิก ASAKAN Privilege',
 };
 

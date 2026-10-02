@@ -6,7 +6,8 @@ import MemberSubNav from '@/components/member/MemberSubNav';
 import { CheckCircle, Phone } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Insurance Privilege | สมาชิก ASAKAN',
+  title: { absolute: 'Insurance Privilege | สมาชิก ASAKAN' },
+  alternates: { canonical: '/member/insurance' },
   description: 'ประกันอุบัติเหตุสูงสุด 500,000 บาทต่อปี สิทธิพิเศษสำหรับสมาชิก ASAKAN Privilege',
 };
 

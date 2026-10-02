@@ -7,10 +7,12 @@ import { faqs } from '@/lib/faqs';
 import { JsonLd, breadcrumbJsonLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'คำถามที่พบบ่อย (FAQ) | ASAKAN อสังหาริมทรัพย์',
+  title: { absolute: 'คำถามที่พบบ่อย (FAQ) | ASAKAN อสังหาริมทรัพย์' },
+  alternates: { canonical: '/faq' },
   description: 'รวมคำถามที่พบบ่อยเกี่ยวกับ ASAKAN คอนโดมิเนียม ราคา ทำเล การขอสินเชื่อ และการลงทุนในอสังหาริมทรัพย์ กรุงเทพฯ',
   keywords: 'FAQ, คำถาม ASAKAN, คอนโดราคา, สินเชื่อคอนโด, ลงทุนคอนโด',
   openGraph: {
+    url: '/faq',
     title: 'คำถามที่พบบ่อย | ASAKAN',
     description: 'ทุกคำถามเกี่ยวกับคอนโด ASAKAN ตอบครบที่นี่',
   },

@@ -3,7 +3,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'นโยบายความเป็นส่วนตัว | ASAKAN',
+  title: { absolute: 'นโยบายความเป็นส่วนตัว | ASAKAN' },
+  alternates: { canonical: '/policy' },
   description: 'นโยบายความเป็นส่วนตัว บริษัท อัสสกาญจน์ จำกัด – การเก็บรวบรวม ใช้ และเปิดเผยข้อมูลส่วนบุคคลตาม PDPA',
 };
 

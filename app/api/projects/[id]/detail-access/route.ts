@@ -21,6 +21,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (saved?.length) {
       revalidatePath('/');
       revalidatePath('/projects');
+      revalidatePath('/sitemap.xml');
       revalidatePath(`/projects/${project.slug}`);
       revalidatePath(projectUrl(project.slug));
       return NextResponse.json({ enabled: body.enabled });

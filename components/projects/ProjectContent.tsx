@@ -154,6 +154,8 @@ function ProjectFAQ({ project }: { project: ProjectContentData }) {
                   <button
                     type="button"
                     onClick={() => setOpenIdx(openIdx === i ? null : i)}
+                    aria-expanded={openIdx === i}
+                    aria-controls={`project-faq-${i}`}
                     className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer hover:bg-[#faf8f5] transition-colors"
                   >
                     <span className="text-sm md:text-[15px] font-bold text-slate-700 pr-4 leading-snug">
@@ -164,11 +166,10 @@ function ProjectFAQ({ project }: { project: ProjectContentData }) {
                       className={`shrink-0 transition-transform duration-300 ${openIdx === i ? 'rotate-180 text-[#e53935]' : 'text-slate-300'}`}
                     />
                   </button>
-                  {openIdx === i && (
-                    <div className="px-6 pb-5 text-sm text-slate-600 leading-7 border-t border-[#e53935]/15 pt-4">
-                      <span className="text-[#1a2d6b] font-bold mr-2">A :</span>{faq.a}
-                    </div>
-                  )}
+                  {/* Always rendered so search engines and AI crawlers can read the answer */}
+                  <div id={`project-faq-${i}`} hidden={openIdx !== i} className="px-6 pb-5 text-sm text-slate-600 leading-7 border-t border-[#e53935]/15 pt-4">
+                    <span className="text-[#1a2d6b] font-bold mr-2">A :</span>{faq.a}
+                  </div>
                 </div>
               ))}
             </div>

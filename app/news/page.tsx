@@ -8,7 +8,8 @@ import FloatingCTA from '@/components/FloatingCTA';
 import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'ข่าวสาร & บทความ | ASAKAN อสังหาริมทรัพย์',
+  title: { absolute: 'ข่าวสาร & บทความ | ASAKAN อสังหาริมทรัพย์' },
+  alternates: { canonical: '/news' },
   description: 'ข่าวสารล่าสุด บทความวิเคราะห์ตลาดอสังหาริมทรัพย์ เคล็ดลับการซื้อคอนโด และข้อมูลสินเชื่อบ้าน จาก ASAKAN',
 };
 

@@ -8,7 +8,8 @@ import PageHero from '@/components/PageHero';
 import { Clock, ChevronRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'โปรโมชั่น | ASAKAN ข้อเสนอพิเศษ',
+  title: { absolute: 'โปรโมชั่น | ASAKAN ข้อเสนอพิเศษ' },
+  alternates: { canonical: '/promotion' },
   description: 'โปรโมชั่นพิเศษจาก ASAKAN ราคาพิเศษ ส่วนลด และสิทธิพิเศษสำหรับผู้จองคอนโดในช่วงเวลาจำกัด',
 };
 
