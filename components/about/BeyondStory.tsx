@@ -249,11 +249,11 @@ function Chapters() {
                 </div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-slate-400">Chapter 0{i + 1}</p>
                 <h3 className="mt-3 text-[clamp(2.75rem,6vw,5rem)] font-bold leading-none tracking-[-0.035em]">
-                  <span className="text-slate-300">Beyond</span>
+                  <span className="text-[#e53935]">Beyond</span>
                   <br />
                   {c.key}
                 </h3>
-                <p className="mt-8 text-lg text-slate-400 line-through decoration-slate-300 md:text-xl">{c.not}</p>
+                <p className="mt-8 text-lg text-slate-500 line-through decoration-[#e53935] decoration-2 md:text-xl md:decoration-[3px]">{c.not}</p>
                 <p className="mt-2 text-2xl font-bold leading-snug md:text-3xl">{c.but}</p>
               </Reveal>
             </div>
@@ -360,7 +360,7 @@ function Proof() {
               <Reveal delay={150} className="mt-10 grid gap-6 border-t border-white/20 pt-8 md:grid-cols-[1fr_1.6fr] md:gap-10">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-white/50">Expectation</p>
-                  <p className="mt-3 text-xl text-white/55 line-through decoration-white/35 md:text-2xl">{p.expectation}</p>
+                  <p className="mt-3 text-xl text-white/65 line-through decoration-[#e53935] decoration-2 md:text-2xl md:decoration-[3px]">{p.expectation}</p>
                 </div>
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#e53935]">Beyond Expectation</p>
