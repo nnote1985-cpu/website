@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { LEGACY_PATTERN_REDIRECTS, LEGACY_REDIRECTS } from "./lib/legacyRedirects";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
@@ -18,6 +19,25 @@ if (supabaseUrl) {
   });
 }
 
+// Thai paths can arrive percent-encoded in either case (WordPress linked them lowercase-encoded),
+// so each source is registered in every form. Next strips the trailing slash before these run.
+function legacyRedirects() {
+  const seen = new Set<string>();
+  const rules: { source: string; destination: string; permanent: true }[] = [];
+  for (const [path, destination] of LEGACY_REDIRECTS) {
+    const encoded = encodeURI(path);
+    for (const base of [path, encoded, encoded.toLowerCase()]) {
+      if (seen.has(base)) continue;
+      seen.add(base);
+      rules.push({ source: base, destination, permanent: true });
+    }
+  }
+  for (const [source, destination] of LEGACY_PATTERN_REDIRECTS) {
+    rules.push({ source, destination, permanent: true });
+  }
+  return rules;
+}
+
 const nextConfig: NextConfig = {
   async redirects() {
     return [
@@ -31,6 +51,7 @@ const nextConfig: NextConfig = {
         destination: '/theceline',
         permanent: true,
       },
+      ...legacyRedirects(),
     ];
   },
   images: {
