@@ -1,0 +1,103 @@
+.privileges { padding: 48px 24px 28px; background: #f7f9fc; color: #1a2d6b; }
+.layout { max-width: 1120px; margin: auto; }
+.eyebrow { color: #c72e2b; font-size: 11px; font-weight: 800; letter-spacing: .2em; margin: 0 0 12px; }
+.intro { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 28px; }
+.intro h2 { font-size: clamp(28px, 3vw, 36px); line-height: 1.5; font-weight: 700; scroll-margin-top: 110px; }
+.intro h2 span { margin-left: .3em; }
+.description { color: #536580; font-size: 13px; line-height: 1.9; margin-bottom: 4px; }
+.benefits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.benefit { padding: 24px 26px 0; border: 1px solid #dce4f0; border-radius: 12px; background: white; display: flex; flex-direction: column; transition: border-color .2s, transform .2s; }
+a.benefit:hover { border-color: #1a2d6b; transform: translateY(-3px); }
+.benefit:focus-visible, .actions a:focus-visible { outline: 3px solid #e53935; outline-offset: 4px; }
+.cardHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.icon { width: 44px; height: 44px; display: grid; place-items: center; background: #fdf0ef; border-radius: 10px; color: #c72e2b; }
+.benefit h3 { font-size: 21px; font-weight: 700; line-height: 1.5; }
+.english { font-size: 10px; color: #61718b; margin-top: 3px; letter-spacing: .03em; }
+.highlight { min-height: 95px; display: flex; align-content: center; align-items: baseline; flex-wrap: wrap; gap: 0 7px; padding: 18px 0 10px; }
+.qualifier { flex-basis: 100%; font-size: 11px; color: #536580; }
+.amount { font-size: 36px; line-height: 1.35; font-weight: 700; letter-spacing: -.025em; }
+.unit { font-size: 11px; }
+.perk { font-size: 21px; font-weight: 600; }
+.cardDescription { font-size: 13px; line-height: 1.8; color: #536580; margin: 0 0 20px; }
+.cardFooter { margin-top: auto; border-top: 1px solid #e7ecf3; min-height: 56px; display: flex; align-items: center; }
+.detail { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 12px; font-weight: 600; color: #c32b2b; }
+.detail svg { transition: transform .2s; }
+.benefit:hover .detail svg { transform: translateX(4px); }
+.upcoming { background: #f0f4f9; }
+.upcoming .icon { color: #526888; background: #e3eaf4; }
+.soon { color: #526079; font-size: 10px; font-weight: 600; padding: 4px 10px; border: 1px solid #cad4e3; border-radius: 20px; }
+.pending { color: #526079; font-size: 12px; }
+.terms { color: #536580; font-size: 11px; margin-top: 18px; line-height: 1.8; }
+.join { max-width: 1168px; margin: auto; padding: 48px 24px; display: flex; align-items: center; justify-content: space-between; gap: 28px; color: #1a2d6b; }
+.join .eyebrow { margin-bottom: 10px; }
+.join h2 { font-size: clamp(22px, 2vw, 28px); font-weight: 700; line-height: 1.6; }
+.join p:not(.eyebrow) { font-size: 13px; color: #536580; margin-top: 8px; }
+.actions { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+.primary { display: inline-flex; align-items: center; justify-content: center; gap: 22px; padding: 14px 22px; border-radius: 6px; background: #1a2d6b; color: white; font-size: 13px; font-weight: 600; }
+.primary:hover { background: #0f1e4a; }
+.secondary { font-size: 13px; padding: 12px 0; text-decoration: underline; text-underline-offset: 5px; }
+
+
+@media (max-width: 960px) { .intro { align-items: start; flex-direction: column; gap: 10px; } .benefits { grid-template-columns: repeat(2,minmax(0,1fr)); } .join { flex-wrap: wrap; } }
+@media (max-width: 600px) {
+ .privileges { padding: 30px 20px 24px; }
+ .intro h2 { font-size: 27px; }
+ .intro h2 span { display: block; margin-left: 0; }
+ .description { font-size: 12px; }
+ .benefits { grid-template-columns: 1fr; gap: 14px; }
+ .benefit { padding: 20px 22px 0; }
+ .cardHeader { margin-bottom: 12px; }
+ .highlight { min-height: 76px; padding-top: 12px; }
+ .cardDescription { margin-bottom: 16px; }
+ .join { padding: 30px 20px; gap: 20px; }
+ .actions { flex-wrap: wrap; gap: 20px; }
+}
+@media (prefers-reduced-motion: reduce) { .benefit, .detail svg { transition: none; transform: none !important; } }
+
+/* Illustrated member benefits */
+.membership { max-width: 1120px; margin: auto; padding: 32px 24px; display: flex; align-items: center; justify-content: center; gap: 46px; color: #1a2d6b; }
+.membership img { width: 230px; height: auto; border-radius: 12px; transform: rotate(-5deg); }
+.membership h2 { font-size: 26px; font-weight: 700; line-height: 1.5; }
+.membership p:not(.eyebrow) { margin-top: 10px; font-size: 13px; color: #536580; line-height: 1.85; }
+.privileges { background: white; padding-top: 28px; }
+.intro { display: block; text-align: center; }
+.intro h2 { font-size: 30px; }
+.description { margin-top: 10px; }
+.description br { display: none; }
+.benefit { position: relative; isolation: isolate; overflow: hidden; padding: 20px; min-height: 260px; border-color: var(--edge); background: var(--surface); }
+.tone0 { --surface: #f7f0ff; --edge: #ebdcfa; --accent: #8140aa; }
+.tone1 { --surface: #eef5ff; --edge: #dce9fc; --accent: #2864b5; }
+.tone2 { --surface: #fff1f2; --edge: #f8dde1; --accent: #c23e50; }
+.tone3 { --surface: #edfaf4; --edge: #d7eee3; --accent: #207555; }
+.tone4 { --surface: #faf5ed; --edge: #ece1d0; --accent: #8a652a; }
+.tone5 { --surface: #f0f3f7; --edge: #dfe5ee; --accent: #506078; }
+.copy { position: relative; z-index: 1; width: 64%; display: flex; flex-direction: column; flex: 1; }
+.art { position: absolute; width: 40%; height: auto; right: -1%; top: 58px; pointer-events: none; transition: transform .3s; }
+a.benefit:hover .art { transform: translateY(-5px) rotate(3deg); }
+.cardHeader { margin-bottom: 10px; gap: 6px; }
+.icon, .upcoming .icon { width: 36px; height: 36px; color: var(--accent); background: white; }
+.benefit h3 { font-size: 19px; line-height: 1.5; }
+.english { display: none; }
+.highlight { min-height: 0; padding: 8px 0 6px; gap: 0 4px; }
+.amount { font-size: 27px; }
+.perk { font-size: 14px; color: var(--accent); }
+.qualifier { font-size: 10px; }
+.cardDescription { font-size: 12px; line-height: 1.7; margin-bottom: 12px; }
+.cardFooter { border: 0; min-height: 32px; }
+.detail { width: auto; gap: 10px; color: var(--accent); font-size: 11px; }
+.detail svg { background: white; border-radius: 50%; padding: 5px; width: 28px; height: 28px; flex-shrink: 0; }
+.soon { padding: 3px 7px; font-size: 9px; color: var(--accent); border-color: var(--edge); background: #ffffffaa; white-space: nowrap; }
+.pending { font-size: 10px; }
+@media (max-width: 1100px) and (min-width: 961px) { .benefit { padding: 16px; } .benefit h3 { font-size: 17px; } }
+@media (max-width: 600px) {
+ .membership { padding: 28px 20px 14px; flex-direction: column; gap: 22px; text-align: center; }
+ .membership img { width: 200px; }
+ .membership h2 { font-size: 23px; }
+ .membership .eyebrow { font-size: 10px; }
+ .intro h2 { font-size: 26px; }
+ .intro h2 span { display: inline; margin-left: .2em; }
+ .benefit { min-height: 245px; padding: 20px; }
+ .art { width: 40%; right: -1%; }
+ .copy { width: 64%; }
+}
+@media (prefers-reduced-motion: reduce) { .art { transition: none; transform: none !important; } }

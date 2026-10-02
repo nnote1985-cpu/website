@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import PageHero from '@/components/PageHero';
 import MemberSubNav from '@/components/member/MemberSubNav';
 import Link from 'next/link';
-import { Percent, CheckCircle, ArrowRight } from 'lucide-react';
+import { CheckCircle, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Discount Privilege | สมาชิก ASAKAN',
@@ -24,25 +25,11 @@ export default function DiscountPage() {
       <main className="pt-20 min-h-screen bg-[#f8f9fa]">
         <MemberSubNav active="Discount" />
 
-        {/* Hero */}
-        <section className="py-16 md:py-20 text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a0f0f 0%, #6b1a1a 50%, #e53935 130%)' }}>
-          <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, white 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
-          <div className="absolute -right-10 top-0 w-72 h-72 rounded-full bg-white opacity-5 blur-3xl" />
-          <div className="relative max-w-3xl mx-auto px-4 text-center">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-sm font-semibold mb-6">
-              <Percent size={16} className="text-yellow-300" /> Discount Privilege
-            </div>
-            <h1 className="text-4xl md:text-5xl font-black mb-4 leading-tight">
-              ส่วนลดพิเศษ<br />
-              <span className="text-yellow-300 text-5xl md:text-7xl">50,000</span>
-              <span className="text-3xl md:text-4xl"> บาท</span>
-            </h1>
-            <p className="text-white/70 text-base md:text-lg leading-relaxed">
-              เมื่อซื้อห้องโครงการ ASAKAN ครั้งต่อไป<br className="hidden md:block" />
-              สิทธิ์พิเศษสำหรับสมาชิก ASAKAN Privilege เท่านั้น
-            </p>
-          </div>
-        </section>
+        <PageHero
+          eyebrow="Discount Privilege"
+          title={<>ส่วนลดซื้อห้องถัดไป<br /><span className="text-[#f4511e]">50,000 บาท</span></>}
+          subtitle="เมื่อซื้อห้องโครงการ ASAKAN ครั้งต่อไป สิทธิพิเศษสำหรับสมาชิก ASAKAN Privilege เท่านั้น"
+        />
 
         <section className="py-12 max-w-5xl mx-auto px-4">
           {/* Highlight */}

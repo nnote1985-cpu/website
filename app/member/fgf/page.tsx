@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import PageHero from '@/components/PageHero';
 import MemberSubNav from '@/components/member/MemberSubNav';
 import Link from 'next/link';
 import { Users, CheckCircle, ArrowRight, Phone } from 'lucide-react';
@@ -17,25 +18,11 @@ export default function FgfPage() {
       <main className="pt-20 min-h-screen bg-[#f8f9fa]">
         <MemberSubNav active="FGF" />
 
-        {/* Hero */}
-        <section className="py-16 md:py-20 text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0a2a1a 0%, #0f4a2a 50%, #1a7a40 130%)' }}>
-          <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, white 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
-          <div className="absolute -left-20 -bottom-10 w-80 h-80 rounded-full bg-green-400 opacity-10 blur-3xl" />
-          <div className="relative max-w-3xl mx-auto px-4 text-center">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-sm font-semibold mb-6">
-              <Users size={16} className="text-green-300" /> Friends Get Friends
-            </div>
-            <h1 className="text-4xl md:text-5xl font-black mb-4 leading-tight">
-              แนะนำเพื่อน<br />
-              <span className="text-green-300">รับมากกว่า</span>{' '}
-              <span className="text-yellow-300 text-5xl md:text-7xl">100,000</span>
-              <span className="text-3xl md:text-4xl"> บาท</span>
-            </h1>
-            <p className="text-white/70 text-base md:text-lg leading-relaxed">
-              เมื่อเพื่อนที่คุณแนะนำซื้อห้อง ASAKAN สำเร็จ คุณจะได้รับรางวัลทันที
-            </p>
-          </div>
-        </section>
+        <PageHero
+          eyebrow="Friends Get Friends"
+          title={<>แนะนำเพื่อน<br /><span className="text-[#f4511e]">รับมากกว่า 100,000 บาท</span></>}
+          subtitle="เมื่อเพื่อนที่คุณแนะนำซื้อห้อง ASAKAN สำเร็จ คุณจะได้รับรางวัลทันที"
+        />
 
         <section className="py-12 max-w-5xl mx-auto px-4">
           {/* Reward highlight */}

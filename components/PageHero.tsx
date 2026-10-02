@@ -22,7 +22,7 @@ export default function PageHero({ eyebrow, title, subtitle, meta, children }: P
       />
       <BrandPattern className="-z-10" />
       <ParticleField className="-z-10" />
-      <div className="max-w-7xl mx-auto px-6 md:px-4 pt-14 pb-14 md:pt-24 md:pb-24">
+      <div className="max-w-7xl mx-auto min-h-[400px] md:min-h-[440px] flex flex-col justify-center px-6 md:px-4 py-10 md:py-16">
         {eyebrow && (
           <div className="flex items-center gap-3 mb-5">
             <span className="h-px w-10 bg-orange-400" />

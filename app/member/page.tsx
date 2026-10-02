@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import styles from './member.module.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingCTA from '@/components/FloatingCTA';
 import PageHero from '@/components/PageHero';
-import { Gift, Shield, Percent, Users, Star, ArrowRight } from 'lucide-react';
+import { Gift, Shield, Percent, Users, Star, Headphones, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'สมาชิก ASAKAN Privilege | สิทธิพิเศษสำหรับเจ้าของห้อง',
@@ -12,48 +14,12 @@ export const metadata: Metadata = {
 };
 
 const benefits = [
-  {
-    icon: <Gift size={28} />,
-    title: 'Birthday Gifts',
-    desc: 'รับของขวัญพิเศษจาก ASAKAN ทุกปีในวันเกิดของคุณ',
-    href: '/member/birthday',
-    color: 'bg-purple-100 text-purple-600',
-  },
-  {
-    icon: <Shield size={28} />,
-    title: 'ประกันอุบัติเหตุ',
-    desc: 'คุ้มครองอุบัติเหตุสูงสุด 500,000 บาทต่อปี สำหรับสมาชิกและครอบครัว',
-    href: '/member/insurance',
-    color: 'bg-blue-100 text-blue-600',
-  },
-  {
-    icon: <Percent size={28} />,
-    title: 'ส่วนลดซื้อห้องถัดไป',
-    desc: 'ส่วนลดพิเศษ 50,000 บาท เมื่อซื้อห้องโครงการ ASAKAN ครั้งต่อไป',
-    href: '/member/discount',
-    color: 'bg-red-100 text-[#e53935]',
-  },
-  {
-    icon: <Users size={28} />,
-    title: 'Friends Get Friends',
-    desc: 'รับรางวัลมากกว่า 100,000 บาท เมื่อแนะนำเพื่อนให้ซื้อห้อง ASAKAN',
-    href: '/member/fgf',
-    color: 'bg-green-100 text-green-600',
-  },
-  {
-    icon: <Star size={28} />,
-    title: 'สิทธิพิเศษ VIP',
-    desc: 'เข้าร่วมกิจกรรมพิเศษ ทริปท่องเที่ยว และอีเวนต์เอ็กซ์คลูซีฟ',
-    href: undefined,
-    color: 'bg-yellow-100 text-yellow-600',
-  },
-  {
-    icon: <ArrowRight size={28} />,
-    title: 'บริการพิเศษ',
-    desc: 'ช่องทางติดต่อ VIP ตอบสนองรวดเร็ว และบริการดูแลหลังการขาย',
-    href: undefined,
-    color: 'bg-orange-100 text-[#f4511e]',
-  },
+  { icon: Gift, title: 'ของขวัญวันเกิด', label: 'Birthday Gifts', highlight: 'ของขวัญพิเศษทุกปี', desc: 'รับของขวัญจาก ASAKAN ในช่วงวันเกิดของคุณ สำหรับสมาชิก Privilege', href: '/member/birthday', action: 'ดูวิธีรับของขวัญ' },
+  { icon: Shield, title: 'ประกันอุบัติเหตุ', label: 'Accident Protection', highlight: '500,000', unit: 'บาท / ปี', qualifier: 'คุ้มครองสูงสุด', desc: 'ความคุ้มครองอุบัติเหตุสำหรับสมาชิกและครอบครัว', href: '/member/insurance', action: 'ดูความคุ้มครอง' },
+  { icon: Percent, title: 'ส่วนลดซื้อห้องถัดไป', label: 'Next Home Discount', highlight: '50,000', unit: 'บาท', qualifier: 'ส่วนลดพิเศษ', desc: 'เมื่อซื้อห้องในโครงการ ASAKAN ครั้งต่อไป', href: '/member/discount', action: 'ดูเงื่อนไขส่วนลด' },
+  { icon: Users, title: 'รางวัลแนะนำเพื่อน', label: 'Friends Get Friends', highlight: '100,000', unit: 'บาท', qualifier: 'รับรางวัลมากกว่า', desc: 'เมื่อแนะนำเพื่อนให้ซื้อห้องในโครงการ ASAKAN', href: '/member/fgf', action: 'ดูวิธีแนะนำเพื่อน' },
+  { icon: Star, title: 'สิทธิพิเศษ VIP', label: 'Exclusive Experiences', highlight: 'กิจกรรมเฉพาะสมาชิก', desc: 'ทริปท่องเที่ยวและอีเวนต์เอ็กซ์คลูซีฟ ให้คุณได้ร่วมช่วงเวลาพิเศษกับ ASAKAN' },
+  { icon: Headphones, title: 'บริการพิเศษ', label: 'Member Services', highlight: 'ดูแลหลังการขาย', desc: 'ช่องทางติดต่อ VIP พร้อมบริการดูแลสมาชิกและตอบสนองอย่างรวดเร็ว' },
 ];
 
 export default function MemberPage() {
@@ -74,81 +40,57 @@ export default function MemberPage() {
           subtitle="บัตรสมาชิก ASAKAN Privilege เพื่อสิทธิพิเศษเฉพาะคุณ ที่มากกว่าแค่การอยู่อาศัย"
         />
 
-        <section className="py-20 bg-white">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="text-center mb-14">
-              <p className="section-subtitle mb-2">สิทธิประโยชน์</p>
-              <h2 className="section-title">สิทธิพิเศษของคุณ</h2>
+        <section className={styles.membership} aria-labelledby="membership-title">
+          <Image src="/member-card.png" alt="บัตรสมาชิก ASAKAN Privilege" width={488} height={307} sizes="(max-width: 600px) 210px, 260px" />
+          <div><p className={styles.eyebrow}>ASAKAN PRIVILEGE</p><h2 id="membership-title">บัตรเดียว…ให้ทุกวันพิเศษขึ้น</h2><p>สิทธิพิเศษสำหรับสมาชิก ตั้งแต่วันสำคัญของคุณ<br />ไปจนถึงการดูแลบ้านและครอบครัว</p></div>
+        </section>
+
+        <section className={styles.privileges} aria-labelledby="privileges-title">
+          <div className={styles.layout}>
+            <div className={styles.intro}>
+              <div><p className={styles.eyebrow}>ASAKAN MEMBER PRIVILEGES</p>
+              <h2 id="privileges-title">6 สิทธิพิเศษ<span>สำหรับสมาชิก</span></h2></div>
+              <p className={styles.description}>ดูสิทธิ์ที่คุณได้รับ พร้อมรายละเอียดและวิธีใช้สิทธิ์<br />เฉพาะสมาชิก ASAKAN Privilege</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {benefits.map((b) =>
-                b.href ? (
-                  <Link
-                    key={b.title}
-                    href={b.href}
-                    className="group bg-gray-50 rounded-2xl p-7 border border-gray-100 hover:border-[#e53935] hover:shadow-md transition-all duration-300"
-                  >
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 ${b.color}`}>
-                      {b.icon}
-                    </div>
-                    <h3 className="font-bold text-[#1a2d6b] text-lg mb-2 group-hover:text-[#e53935] transition-colors">{b.title}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-4">{b.desc}</p>
-                    <span className="inline-flex items-center gap-1 text-xs font-bold text-[#e53935] opacity-0 group-hover:opacity-100 transition-opacity">
-                      ดูรายละเอียด <ArrowRight size={12} />
-                    </span>
-                  </Link>
-                ) : (
-                  <div key={b.title} className="bg-gray-100 rounded-2xl p-7 border border-gray-200 opacity-60 cursor-not-allowed select-none">
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 ${b.color} grayscale`}>
-                      {b.icon}
-                    </div>
-                    <h3 className="font-bold text-gray-400 text-lg mb-2 flex items-center gap-2">
-                      {b.title}
-                      <span className="text-[10px] font-bold uppercase tracking-widest bg-gray-300 text-gray-500 px-2 py-0.5 rounded-full">Coming Soon</span>
-                    </h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">{b.desc}</p>
+            <div className={styles.benefits}>
+              {benefits.map((benefit, index) => {
+                const Icon = benefit.icon;
+                const content = <>
+                  <Image src={`/images/member/benefit-${index + 1}.png`} alt="" width={300} height={300} sizes="160px" className={styles.art} />
+                  <div className={styles.copy}>
+                  <div className={styles.cardHeader}>
+                    <span className={styles.icon}><Icon size={25} strokeWidth={1.6} aria-hidden="true" /></span>
+                    {!benefit.href && <span className={styles.soon}>เร็ว ๆ นี้</span>}
                   </div>
-                )
-              )}
+                  <h3>{benefit.title}</h3>
+                  <span className={styles.english}>{benefit.label}</span>
+                  <div className={styles.highlight}>
+                    {benefit.qualifier && <span className={styles.qualifier}>{benefit.qualifier}</span>}
+                    <strong className={benefit.unit ? styles.amount : styles.perk}>{benefit.highlight}</strong>
+                    {benefit.unit && <span className={styles.unit}>{benefit.unit}</span>}
+                  </div>
+                  <p className={styles.cardDescription}>{benefit.desc}</p>
+                  <div className={styles.cardFooter}>
+                    {benefit.href ? <span className={styles.detail}>{benefit.action}<ArrowRight size={18} aria-hidden="true" /></span> : <span className={styles.pending}>เตรียมเปิดให้บริการ</span>}
+                  </div>
+                  </div>
+                </>;
+                return benefit.href ? <Link href={benefit.href} key={benefit.title} className={`${styles.benefit} ${styles[`tone${index}`]}`}>{content}</Link> : <article key={benefit.title} className={`${styles.benefit} ${styles.upcoming} ${styles[`tone${index}`]}`}>{content}</article>;
+              })}
             </div>
+            <p className={styles.terms}>สิทธิประโยชน์เป็นไปตามเงื่อนไขของแต่ละรายการ โปรดดูรายละเอียดก่อนใช้สิทธิ์</p>
           </div>
         </section>
 
-        {/* Member Card Visual */}
-        <section className="py-20 bg-gray-50">
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 className="section-title mb-4">บัตรสมาชิก ASAKAN Privilege</h2>
-            <p className="text-gray-500 text-sm mb-10">
-              Privilege Card
-            </p>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/member-card.png"
-              alt="บัตรสมาชิก ASAKAN Privilege"
-              className="max-w-sm mx-auto w-full rounded-3xl shadow-2xl"
-            />
+        <section className={styles.join} aria-labelledby="join-title">
+          <div>
+            <p className={styles.eyebrow}>BECOME A MEMBER</p>
+            <h2 id="join-title">เริ่มต้นสิทธิพิเศษ ด้วยบ้านที่ใช่</h2>
+            <p>ซื้อห้องกับเรา และรับสิทธิ์สมาชิก ASAKAN Privilege</p>
           </div>
-        </section>
-
-        {/* CTA */}
-        <section className="py-16 bg-slate-800">
-          <div className="max-w-3xl mx-auto px-4 text-center text-white">
-            <h2 className="text-3xl font-bold mb-4">เป็นเจ้าของห้อง ASAKAN แล้วหรือยัง?</h2>
-            <p className="text-white/90 mb-8">ซื้อห้องกับเรา และรับสิทธิ์สมาชิก Privilege ทันที!</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/projects"
-                className="bg-white text-slate-800 font-bold px-8 py-4 rounded-xl hover:bg-gray-100"
-              >
-                ดูโครงการ
-              </Link>
-              <Link
-                href="/contact"
-                className="bg-white/20 border border-white/30 text-white font-bold px-8 py-4 rounded-xl hover:bg-white/30"
-              >
-                ติดต่อสอบถาม
-              </Link>
-            </div>
+          <div className={styles.actions}>
+            <Link href="/projects" className={styles.primary}>ดูโครงการ <ArrowRight size={18} aria-hidden="true" /></Link>
+            <Link href="/contact" className={styles.secondary}>ติดต่อสอบถาม</Link>
           </div>
         </section>
       </main>

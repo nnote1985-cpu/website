@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import PageHero from '@/components/PageHero';
 import MemberSubNav from '@/components/member/MemberSubNav';
-import { Shield, CheckCircle, Phone } from 'lucide-react';
+import { CheckCircle, Phone } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Insurance Privilege | สมาชิก ASAKAN',
@@ -23,23 +24,11 @@ export default function InsurancePage() {
       <main className="pt-20 min-h-screen bg-[#f8f9fa]">
         <MemberSubNav active="Insurance" />
 
-        {/* Hero */}
-        <section className="py-16 md:py-20 text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f1e4a 0%, #1a3a6b 60%, #0f2d4a 100%)' }}>
-          <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, white 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
-          <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-blue-400 opacity-10 blur-3xl" />
-          <div className="relative max-w-3xl mx-auto px-4 text-center">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-sm font-semibold mb-6">
-              <Shield size={16} className="text-blue-300" /> Insurance Privilege
-            </div>
-            <h1 className="text-4xl md:text-5xl font-black mb-4 leading-tight">
-              ประกัน<span className="text-blue-300">อุบัติเหตุ</span><br />500,000 บาท
-            </h1>
-            <p className="text-white/70 text-base md:text-lg leading-relaxed">
-              สมาชิก ASAKAN Privilege ได้รับความคุ้มครองอุบัติเหตุสูงสุด 500,000 บาทต่อปี<br className="hidden md:block" />
-              โดยบริษัทชั้นนำที่ได้รับการรับรอง
-            </p>
-          </div>
-        </section>
+        <PageHero
+          eyebrow="Insurance Privilege"
+          title={<>ประกันอุบัติเหตุ<br /><span className="text-[#f4511e]">500,000 บาท</span></>}
+          subtitle="สมาชิก ASAKAN Privilege ได้รับความคุ้มครองอุบัติเหตุสูงสุด 500,000 บาทต่อปี โดยบริษัทชั้นนำที่ได้รับการรับรอง"
+        />
 
         <section className="py-12 max-w-5xl mx-auto px-4">
           {/* Coverage table */}
