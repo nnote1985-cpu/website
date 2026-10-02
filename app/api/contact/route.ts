@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
 
     const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || '';
     const clientUserAgent = req.headers.get('user-agent') || '';
-    const referer = req.headers.get('referer') || 'https://asakan.co.th';
+    const referer = req.headers.get('referer') || 'https://www.asakan.co.th';
     const cookieHeader = req.headers.get('cookie') || '';
     const fbp = cookieHeader.match(/(?:^|;\s*)_fbp=([^;]+)/)?.[1] || undefined;
     const fbc = cookieHeader.match(/(?:^|;\s*)_fbc=([^;]+)/)?.[1] || undefined;
