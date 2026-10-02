@@ -61,6 +61,7 @@ const PROOFS = [
   {
     name: 'WELA',
     place: 'Ramkhamhaeng',
+    price: 'เริ่มต้น 1.39 ล้านบาท',
     image: `${P}/wela-ramkhamhaeng/gallery/perspective/3.webp`,
     expectation: 'Close to the city.',
     beyond: '0 metres from MRT.',
@@ -68,13 +69,15 @@ const PROOFS = [
   {
     name: 'Elysium',
     place: 'Phahol 59',
+    price: 'เริ่มต้น 2.09 ล้านบาท',
     image: `${P}/elysium-phahol-59/hero.webp`,
     expectation: 'Live near BTS.',
-    beyond: '30 metres away.', // PLACEHOLDER
+    beyond: '30 metres away from BTS Green Line.',
   },
   {
     name: 'The Celine',
     place: 'Bang Chan',
+    price: 'เริ่มต้น 1.42 ล้านบาท',
     image: `${P}/the-celine-bang-chan/gallery/perspective/1.webp`,
     expectation: 'Steps from the MRT.',
     beyond: '150 metres to MRT Bang Chan.',
@@ -358,6 +361,7 @@ function Proof() {
                 <Reveal>
                   <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/60">{p.place}</p>
                   <h3 className="mt-2 text-[clamp(3.5rem,11vw,9rem)] font-black leading-[0.9] tracking-[-0.045em]">{p.name}</h3>
+                  <p className="mt-3 text-sm font-semibold text-white/75 md:text-base">{p.price}</p>
                 </Reveal>
                 <Reveal delay={150} className="mt-10 grid gap-6 border-t border-white/20 pt-8 md:grid-cols-[1fr_1.6fr] md:gap-10">
                   <div>
