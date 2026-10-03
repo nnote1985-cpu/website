@@ -46,8 +46,8 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
   const [years, setYears] = useState(40);
 
   const [monthlyIncome, setMonthlyIncome] = useState(30000);
-  const [maxInterest, setMaxInterest] = useState(3);
-  const [maxYears, setMaxYears] = useState(40);
+  const [maxInterest, setMaxInterest] = useState(4.5);
+  const [maxYears, setMaxYears] = useState(30);
 
   function calcMonthly(loan: number, rate: number, yr: number) {
     const r = rate / 100 / 12;
@@ -234,7 +234,7 @@ export default function MortgageCalculator({ projects = [] }: MortgageCalculator
                   <StepperNumberInput
                     id="mortgage-max-interest"
                     value={maxInterest}
-                    min={0}
+                    min={1}
                     max={15}
                     step={0.1}
                     inputClassName={inputCls}
