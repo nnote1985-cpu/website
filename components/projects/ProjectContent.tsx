@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import NextImage from 'next/image';
 import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, Play, ChevronDown, HelpCircle, Layers, TrainFront, DoorOpen, LandPlot, Car, Tag, ArrowRight } from 'lucide-react';
 import { Montserrat } from 'next/font/google';
-import CollapsibleSection from '@/components/home/CollapsibleSection';
+import './project-editorial.css';
 
 const mont = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
 
@@ -127,9 +127,9 @@ function ProjectFAQ({ project }: { project: ProjectContentData }) {
   };
 
   return (
-    <section id="faq" className="bg-[#faf8f5] border-t border-[#e53935]/15">
+    <section id="faq" data-editorial-section="05" className="bg-[#faf8f5] border-t border-[#e53935]/15">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <CollapsibleSection label="คำถามที่พบบ่อย (FAQ)" alwaysCollapsible>
+      <div className="pd-faq-content">
         <div className="py-16 md:py-20 max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex flex-col lg:flex-row gap-12">
             {/* หัวข้อ */}
@@ -175,12 +175,24 @@ function ProjectFAQ({ project }: { project: ProjectContentData }) {
             </div>
           </div>
         </div>
-      </CollapsibleSection>
+      </div>
     </section>
   );
 }
 
 export default function ProjectContent({ project }: { project: ProjectContentData }) {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [chapter, setChapter] = useState('info');
+  useEffect(() => {
+    const sections = contentRef.current?.querySelectorAll<HTMLElement>('section[id]');
+    if (!sections) return;
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) if (entry.isIntersecting) setChapter(entry.target.id);
+    }, { rootMargin: '-20% 0px -55% 0px', threshold: 0 });
+    sections.forEach(section => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   // ==========================================
   // 📍 STATE สำหรับ GALLERY (เพิ่ม Tab หมวดหมู่)
   // ==========================================
@@ -456,14 +468,33 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   }, [roomTypeDropdownOpen, planDropdownOpen]);
 
   return (
-    <div className="bg-white">
+    <div className="project-editorial" ref={contentRef}>
       
+      <nav className="pd-chapters" aria-label="ส่วนต่าง ๆ ของโครงการ">
+        <span className="pd-chapters-name">{project.name}</span>
+        <div>
+          {[
+            { id: 'info', label: 'ข้อมูลโครงการ', show: true },
+            { id: 'gallery', label: 'แกลเลอรี', show: true },
+            { id: 'plans', label: 'แบบแปลน', show: Boolean(project.roomPlans?.length || project.floorPlans?.length) },
+            { id: 'video', label: 'วิดีโอ', show: videos.length > 0 },
+            { id: 'faq', label: 'คำถามที่พบบ่อย', show: true },
+            { id: 'location', label: 'ทำเลที่ตั้ง', show: Boolean(project.googleMapUrl) },
+          ].filter(item => item.show).map((item, index) => (
+            <a key={item.id} href={`#${item.id}`} aria-current={chapter === item.id ? 'location' : undefined}>
+              <span>{String(index + 1).padStart(2, '0')}</span>{item.label}
+            </a>
+          ))}
+        </div>
+      </nav>
+
       {/* ==========================================
           📍 FULLSCREEN MODAL สำหรับ GALLERY
       ========================================== */}
       {isGalleryFullscreen && (
         <div className="fixed inset-0 z-[70] bg-black/95 flex flex-col items-center justify-center p-4 backdrop-blur-xl animate-in fade-in duration-300">
           <button 
+            aria-label="ปิดภาพเต็มจอ"
             onClick={() => setIsGalleryFullscreen(false)} 
             className="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-white transition-colors bg-white/10 hover:bg-[#e53935] p-3 rounded-full z-50"
           >
@@ -546,6 +577,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       {isPlanFullscreen && (
         <div className="fixed inset-0 z-[70] bg-white/95 flex flex-col items-center justify-center p-4 backdrop-blur-xl animate-in fade-in duration-300">
           <button 
+            aria-label="ปิดแบบแปลนเต็มจอ"
             onClick={() => setIsPlanFullscreen(false)} 
             className="absolute top-4 right-4 md:top-8 md:right-8 text-slate-400 hover:text-white transition-colors bg-slate-200 hover:bg-[#e53935] p-3 rounded-full z-50 shadow-sm"
           >
@@ -593,9 +625,9 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       {/* =========================================
           PROJECT INFO
       ========================================= */}
-      <section id="info" className="py-16 md:py-24 bg-[#faf8f5] border-b border-[#e53935]/15">
+      <section id="info" data-editorial-section="01" className="py-16 md:py-24 bg-[#faf8f5] border-b border-[#e53935]/15">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+          <div className="pd-info-heading flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
             <div>
               <span className={`text-[10px] font-semibold tracking-[0.35em] uppercase text-[#e53935]`}>
                 ข้อมูลโครงการ
@@ -609,7 +641,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               </p>
             </div>
 
-            <div className="inline-flex w-fit max-w-full self-center overflow-x-auto rounded-full border bg-white p-1.5 shadow-sm no-scrollbar md:p-2 lg:self-auto">
+            <div className="pd-info-tabs inline-flex w-fit max-w-full self-center overflow-x-auto rounded-full border bg-white p-1.5 shadow-sm no-scrollbar md:p-2 lg:self-auto">
               {[
                 { key: 'concept', label: 'แนวคิดโครงการ' },
                 { key: 'factsheet', label: 'Factsheet' },
@@ -617,6 +649,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               ].map((tab) => (
                 <button
                   key={tab.key}
+                  aria-pressed={infoTab === tab.key}
                   onClick={() => setInfoTab(tab.key as 'concept' | 'factsheet' | 'facilities')}
                   className={`min-w-fit rounded-full px-5 py-3 md:px-7 md:py-3.5 text-xs md:text-base font-black transition-all whitespace-nowrap ${
                     infoTab === tab.key
@@ -631,10 +664,10 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           </div>
 
           {infoTab === 'concept' && (
-            <div className="overflow-hidden rounded-2xl bg-[#1a2d6b] text-white shadow-lg">
+            <div className="pd-concept overflow-hidden rounded-2xl bg-[#1a2d6b] text-white shadow-lg">
               <div className="flex flex-col lg:flex-row min-h-0">
                 {/* รูป — ซ้าย */}
-                <div className="relative w-full lg:w-1/2 aspect-[4/3] lg:aspect-auto lg:min-h-[420px] bg-[#0f1e4a] shrink-0">
+                <div className="pd-concept-image relative w-full lg:w-1/2 aspect-[4/3] lg:aspect-auto lg:min-h-[420px] bg-[#0f1e4a] shrink-0">
                   {project.conceptImage ? (
                     <NextImage
                       src={project.conceptImage}
@@ -652,7 +685,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 </div>
 
                 {/* ข้อความ — ขวา */}
-                <div className="flex flex-col justify-center px-8 py-10 lg:px-12 lg:py-14 lg:w-1/2">
+                <div className="pd-concept-copy flex flex-col justify-center px-8 py-10 lg:px-12 lg:py-14 lg:w-1/2">
                   <div className="mb-5 w-10 h-[2px] bg-[#e53935]" />
                   <p className={`${mont.className} text-[10px] font-semibold uppercase tracking-[0.3em] text-[#e53935] mb-3`}>
                     Concept
@@ -669,7 +702,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           )}
 
           {infoTab === 'factsheet' && (
-            <div className="space-y-4">
+            <div className="pd-facts space-y-4">
               {/* Facts: one continuous panel with hairline dividers */}
               <dl className="grid grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[#1a2d6b]/[0.08] bg-[#1a2d6b]/[0.07] shadow-[0_1px_2px_rgba(26,45,107,0.04),0_16px_40px_rgba(26,45,107,0.06)]">
                 {projectFacts.map(({ label, value, icon: Icon, highlight }) => (
@@ -766,7 +799,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           )}
 
           {infoTab === 'facilities' && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="pd-facilities grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-4 bg-[#1a2d6b] text-white rounded-2xl p-7 md:p-8 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#e53935] via-[#e8c98a] to-[#e53935]" />
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#e53935]/15 border border-[#e53935]/25 mb-6">
@@ -808,8 +841,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       {/* =========================================
           📍 GALLERY SECTION (แยกหมวดหมู่)
       ========================================= */}
-      <section id="gallery" className="py-24 bg-white border-b border-[#e53935]/10">
-        <div className="max-w-7xl mx-auto px-4 text-center mb-10">
+      <section id="gallery" data-editorial-section="02" className="py-24 bg-white border-b border-[#e53935]/10">
+        <div className="pd-gallery-heading max-w-7xl mx-auto px-4 text-center mb-10">
           <p className={`text-[10px] font-semibold tracking-[0.35em] uppercase text-[#e53935] mb-3`}>
             Photo Gallery
           </p>
@@ -821,20 +854,23 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           {/* 📍 แถบเลือกหมวดหมู่ Perspective / Facility / Room */}
           {/* แก้ไข Logic การแสดงผล Tab: ตรวจสอบข้อมูล gallery ให้ถูกต้องสำหรับทุกโครงการ */}
           {project.gallery && !Array.isArray(project.gallery) && typeof project.gallery === 'object' && (
-            <div className="mx-auto grid w-full max-w-[340px] grid-cols-3 gap-1 rounded-[22px] border bg-white p-1.5 shadow-sm sm:inline-flex sm:w-auto sm:max-w-full sm:gap-1.5 sm:rounded-full sm:p-2 sm:overflow-x-auto sm:no-scrollbar">
+            <div className="pd-gallery-tabs mx-auto grid w-full max-w-[340px] grid-cols-3 gap-1 rounded-[22px] border bg-white p-1.5 shadow-sm sm:inline-flex sm:w-auto sm:max-w-full sm:gap-1.5 sm:rounded-full sm:p-2 sm:overflow-x-auto sm:no-scrollbar">
               <button
+                aria-pressed={activeGalleryTab === 'perspective'}
                 onClick={() => { setActiveGalleryTab('perspective'); setActiveGalleryGroup(0); setActiveImg(0); }}
                 className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'perspective' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Sparkles size={14} /> <span className="hidden sm:inline">Perspective</span><span className="sm:hidden">View</span>
               </button>
               <button
+                aria-pressed={activeGalleryTab === 'facility'}
                 onClick={() => { setActiveGalleryTab('facility'); setActiveGalleryGroup(0); setActiveImg(0); }}
                 className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'facility' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Building2 size={14} /> Facility
               </button>
               <button
+                aria-pressed={activeGalleryTab === 'room'}
                 onClick={() => { setActiveGalleryTab('room'); setActiveGalleryGroup(0); setActiveImg(0); }}
                 className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
@@ -861,9 +897,9 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           )}
         </div>
 
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="pd-gallery-media max-w-6xl mx-auto px-4">
           <div
-            className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-slate-100 mb-6 shadow-xl border group"
+            className="pd-gallery-stage relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-slate-100 mb-6 shadow-xl border group"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onGalleryTouchEnd}
@@ -879,7 +915,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               key={`main-${currentImage}-${safeActiveImg}`}
               src={failedImages.has(currentImage) ? fallbackImage : currentImage}
               fill
-              sizes="(min-width: 1024px) 960px, 100vw"
+              sizes="(min-width: 1440px) 1320px, 94vw"
               onError={() => handleImageError(currentImage)}
               onLoad={() => setLoadedGalleryImages((prev) => {
                 if (prev.has(currentImage)) return prev;
@@ -891,7 +927,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               className={`w-full h-full object-cover cursor-pointer animate-in fade-in duration-300 ${
                 slideDirection === 'right' ? 'slide-in-from-right-10' : 'slide-in-from-left-10'
               }`}
-              alt="Gallery Main"
+              alt={`${project.name} — ${activeGalleryTab} ${safeActiveImg + 1}`}
             />
 
             {/* Prev button */}
@@ -966,9 +1002,9 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           📍 PLANS SECTION
       ========================================= */}
       {((project.floorPlans?.length ?? 0) > 0 || (project.roomPlans?.length ?? 0) > 0) && (
-        <section id="plans" className="py-16 md:py-24 bg-white border-b border-slate-100">
+        <section id="plans" data-editorial-section="03" className="py-16 md:py-24 bg-white border-b border-slate-100">
           <div className="container mx-auto px-4 md:px-8">
-            <div className="text-center mb-12">
+            <div className="pd-plans-heading text-center mb-12">
               <div className="flex items-center justify-center gap-3 mb-4 text-[#1a2d6b]">
                 <LayoutDashboard size={36} />
                 <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tight">แบบแปลน</h2>
@@ -995,7 +1031,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               </div>
             </div>
 
-            <div className="max-w-6xl mx-auto">
+            <div className="pd-plan-workspace max-w-6xl mx-auto">
               <div className="md:hidden mb-8">
                 <div ref={planDropdownRef} className="relative z-20">
                   <button
@@ -1109,7 +1145,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               </div>
 
               <div 
-                className="relative flex justify-center items-center cursor-pointer group min-h-[400px] md:min-h-[60vh] w-full"
+                className="pd-plan-image relative flex justify-center items-center cursor-pointer group min-h-[400px] md:min-h-[60vh] w-full"
                 onClick={() => setIsPlanFullscreen(true)}
               >
                 {currentPlanImage && !planImageLoaded && (
@@ -1166,7 +1202,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           📍 3. VIDEO SECTION
       ========================================= */}
       {videos.length > 0 && (
-        <section id="video" className="py-16 md:py-24 bg-[#0f1e4a]">
+        <section id="video" data-editorial-section="04" className="py-16 md:py-24 bg-[#0f1e4a]">
           <div className="max-w-6xl mx-auto px-4">
             {/* Section title */}
             <div className="mb-8 md:mb-10">
@@ -1249,9 +1285,9 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           📍 4. LOCATION & MAP SECTION
       ========================================= */}
       {project.googleMapUrl && (
-        <section id="location" className="py-16 md:py-24 bg-white">
+        <section id="location" data-editorial-section="06" className="py-16 md:py-24 bg-white">
           <div className="container mx-auto px-6 md:px-12">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 text-[#1a2d6b]">
+            <div className="pd-location-copy flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 text-[#1a2d6b]">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <MapPin size={32} />
@@ -1272,7 +1308,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               </a>
             </div>
 
-            <div className="w-full h-[400px] md:h-[600px] bg-slate-100 rounded-[2rem] overflow-hidden shadow-inner border border-slate-200 relative group">
+            <div className="pd-location-map w-full h-[400px] md:h-[600px] bg-slate-100 rounded-[2rem] overflow-hidden shadow-inner border border-slate-200 relative group">
                {project.googleMapUrl.includes('embed') ? (
                  <iframe 
                     src={project.googleMapUrl} 
