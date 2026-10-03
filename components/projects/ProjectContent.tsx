@@ -823,6 +823,19 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           </div>
           <div className="w-12 h-[2px] bg-[#e53935] mx-auto mb-8" />
 
+        </div>
+        <div className="pd-gallery-toolbar">
+          <div className="pd-gallery-actions">
+            <button aria-label="ภาพก่อนหน้า" onClick={handleGalleryPrev}><ChevronLeft size={18} /></button>
+            <button aria-label="ภาพถัดไป" onClick={handleGalleryNext}><ChevronRight size={18} /></button>
+            <button aria-label="ขยายภาพ" onClick={() => setIsGalleryFullscreen(true)}><Maximize2 size={18} /></button>
+          </div>
+          <label className="pd-gallery-picker">
+            <span>เลือกรูป</span>
+            <select aria-label="เลือกรูปในแกลเลอรี" value={safeActiveImg} onChange={event => setActiveImg(Number(event.target.value))}>
+              {validGallery.map((_, index) => <option key={index} value={index}>{index + 1} / {validGallery.length}</option>)}
+            </select>
+          </label>
           {/* 📍 แถบเลือกหมวดหมู่ Perspective / Facility / Room */}
           {/* แก้ไข Logic การแสดงผล Tab: ตรวจสอบข้อมูล gallery ให้ถูกต้องสำหรับทุกโครงการ */}
           {project.gallery && !Array.isArray(project.gallery) && typeof project.gallery === 'object' && (
