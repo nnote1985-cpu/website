@@ -130,7 +130,7 @@ export default async function ProjectsPage({
                     {!isFiltered && <h2 className="text-2xl font-bold text-[#1a2d6b] mb-8">โครงการเปิดขาย</h2>}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
                       {active.map((project) => (
-                        <ProjectCard key={project.id} project={project} />
+                        <ProjectCard key={project.id} project={project} flip />
                       ))}
                     </div>
                   </>
@@ -141,7 +141,7 @@ export default async function ProjectsPage({
                     {!isFiltered && <h2 className="text-2xl font-bold text-gray-500 mb-8">โครงการที่ขายหมดแล้ว</h2>}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                       {soldOut.map((project) => (
-                        <ProjectCard key={project.id} project={project} />
+                        <ProjectCard key={project.id} project={project} flip />
                       ))}
                     </div>
                   </>
