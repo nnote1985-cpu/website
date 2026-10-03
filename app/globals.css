@@ -213,3 +213,32 @@ body {
 /* About page: reveal on scroll (class added by components/about/AboutMotion.tsx) */
 .about-reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.22,.61,.36,1), transform .9s cubic-bezier(.22,.61,.36,1); }
 .about-reveal.is-in { opacity: 1; transform: none; }
+
+/* การ์ดโครงการแบบพลิก (components/home/ProjectCard.tsx) */
+.pfc-inner {
+  transform-style: preserve-3d;
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pfc[data-flipped] .pfc-inner { transform: rotateY(180deg); }
+.pfc-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.pfc-back { transform: rotateY(180deg); }
+.pfc-sheen {
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.14) 48%, transparent 66%);
+  transform: translateX(-120%);
+}
+.pfc[data-flipped] .pfc-sheen {
+  transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.35s;
+  transform: translateX(120%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pfc-inner, .pfc[data-flipped] .pfc-inner { transform: none; transition: none; }
+  .pfc-back { transform: none; }
+  .pfc-face { transition: opacity 0.25s ease; }
+  .pfc-back { opacity: 0; }
+  .pfc[data-flipped] .pfc-back { opacity: 1; }
+  .pfc[data-flipped] .pfc-front { opacity: 0; }
+  .pfc-sheen { display: none; }
+}
