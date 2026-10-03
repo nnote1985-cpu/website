@@ -86,7 +86,7 @@ export default async function HomePage() {
   return (
     <>
       <PointerTrail />
-      <Header />
+      <Header hero />
       <FloatingCTA />
 
       <main className="bg-white relative isolate">

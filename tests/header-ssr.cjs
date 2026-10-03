@@ -1,0 +1,11 @@
+const fs=require('fs'),path=require('path'),Module=require('module'),ts=require('typescript'),assert=require('assert/strict');
+const React=require('react'),{renderToStaticMarkup}=require('react-dom/server');
+const original=Module._load;let pathname=null;
+Module._load=function(id,parent,main){if(id==='next/navigation')return {usePathname:()=>pathname};return original.call(this,id,parent,main)};
+require.extensions['.tsx']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true}}).outputText,f);
+const Header=require('../components/HeaderClient.tsx').default;
+const render=props=>renderToStaticMarkup(React.createElement(Header,props));
+let html=render({hero:true});assert(html.includes('hero-glass'));assert(!html.includes('bg-slate-50 border-b'));
+pathname='/about';html=render({});assert(!/<header[^>]*hero-glass/.test(html));assert(html.includes('bg-slate-50 border-b'));
+pathname='/admin';assert.equal(render({}),'');
+console.log('PASS homepage transparent SSR without pathname, ordinary page strip, admin hidden');

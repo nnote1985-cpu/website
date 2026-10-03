@@ -1,7 +1,7 @@
 import { getContactSettings } from '@/lib/getContactSettings';
 import HeaderClient from './HeaderClient';
 
-export default async function Header() {
+export default async function Header({ hero = false }: { hero?: boolean }) {
   const contact = await getContactSettings();
-  return <HeaderClient phones={contact.phone} line={contact.line} />;
+  return <HeaderClient phones={contact.phone} line={contact.line} hero={hero} />;
 }

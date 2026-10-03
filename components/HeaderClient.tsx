@@ -27,19 +27,20 @@ const NAV_LINKS = [
   { label: 'Contact', href: '/contact' },
 ];
 
-export default function Header({ phones = ['099-198-2940'], line = '@asakan' }: { phones?: string[]; line?: string }) {
+export default function Header({ phones = ['099-198-2940'], line = '@asakan', hero = false }: { phones?: string[]; line?: string; hero?: boolean }) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   // Only the homepage renders the full-screen gallery hero.
-  const isHeroPage = pathname === '/';
+  const isHeroPage = hero || pathname === '/';
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [pathname]);
 
   // 3. เงื่อนไขการซ่อน Navbar เมื่ออยู่หน้า Admin
   // ต้องเช็ค mounted ด้วยเพื่อให้ค่า pathname ฝั่ง Client เสถียร
@@ -51,8 +52,8 @@ export default function Header({ phones = ['099-198-2940'], line = '@asakan' }: 
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-[100] transition-colors duration-700 ${heroTransparent ? 'hero-glass' : ''}`}>
-      {/* 1. Top bar - hidden when scrolled or hero transparent */}
-      <div
+      {/* The fullscreen homepage has no announcement strip, including before hydration. */}
+      {!isHeroPage && <div
         className={`transition-all duration-500 bg-slate-50 border-b border-slate-200/50 text-[11px] font-bold tracking-widest hidden md:block ${
           scrolled || heroTransparent ? 'h-0 overflow-hidden opacity-0 border-transparent' : 'py-2.5 opacity-100'
         }`}
@@ -77,7 +78,7 @@ export default function Header({ phones = ['099-198-2940'], line = '@asakan' }: 
           </div>
 
         </div>
-      </div>
+      </div>}
 
       {/* 2. Main Header */}
       <div
