@@ -181,18 +181,6 @@ function ProjectFAQ({ project }: { project: ProjectContentData }) {
 }
 
 export default function ProjectContent({ project }: { project: ProjectContentData }) {
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [chapter, setChapter] = useState('info');
-  useEffect(() => {
-    const sections = contentRef.current?.querySelectorAll<HTMLElement>('section[id]');
-    if (!sections) return;
-    const observer = new IntersectionObserver(entries => {
-      for (const entry of entries) if (entry.isIntersecting) setChapter(entry.target.id);
-    }, { rootMargin: '-20% 0px -55% 0px', threshold: 0 });
-    sections.forEach(section => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
   // ==========================================
   // 📍 STATE สำหรับ GALLERY (เพิ่ม Tab หมวดหมู่)
   // ==========================================
@@ -468,25 +456,9 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   }, [roomTypeDropdownOpen, planDropdownOpen]);
 
   return (
-    <div className="project-editorial" ref={contentRef}>
+    <div className="project-editorial">
       
-      <nav className="pd-chapters" aria-label="ส่วนต่าง ๆ ของโครงการ">
-        <span className="pd-chapters-name">{project.name}</span>
-        <div>
-          {[
-            { id: 'info', label: 'ข้อมูลโครงการ', show: true },
-            { id: 'gallery', label: 'แกลเลอรี', show: true },
-            { id: 'plans', label: 'แบบแปลน', show: Boolean(project.roomPlans?.length || project.floorPlans?.length) },
-            { id: 'video', label: 'วิดีโอ', show: videos.length > 0 },
-            { id: 'faq', label: 'คำถามที่พบบ่อย', show: true },
-            { id: 'location', label: 'ทำเลที่ตั้ง', show: Boolean(project.googleMapUrl) },
-          ].filter(item => item.show).map((item, index) => (
-            <a key={item.id} href={`#${item.id}`} aria-current={chapter === item.id ? 'location' : undefined}>
-              <span>{String(index + 1).padStart(2, '0')}</span>{item.label}
-            </a>
-          ))}
-        </div>
-      </nav>
+
 
       {/* ==========================================
           📍 FULLSCREEN MODAL สำหรับ GALLERY

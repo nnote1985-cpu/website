@@ -3,6 +3,16 @@
 import { useState, useEffect } from 'react';
 import { Phone, ChevronLeft, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import './project-navbar.css';
+
+const chapters = [
+  { id: 'info', label: 'ข้อมูลโครงการ' },
+  { id: 'gallery', label: 'แกลเลอรี' },
+  { id: 'plans', label: 'แบบแปลน' },
+  { id: 'video', label: 'วิดีโอ' },
+  { id: 'faq', label: 'คำถามที่พบบ่อย' },
+  { id: 'location', label: 'ทำเลที่ตั้ง' },
+];
 
 const FbIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -20,6 +30,7 @@ interface ProjectNavbarData {
 export default function ProjectNavbar({ project }: { project: ProjectNavbarData }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [visibleChapters, setVisibleChapters] = useState(chapters);
 
   const phone = project.phone || '0991982940';
   const phoneTel = phone.replace(/-/g, '');
@@ -35,38 +46,45 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
   };
 
   useEffect(() => {
-    const sections = ['gallery', 'plans', 'location'];
-
+    const available = chapters.filter(item => document.getElementById(item.id));
+    setVisibleChapters(available);
     const handleScroll = () => {
-      const scrollY = window.scrollY + 140;
-      for (const sec of sections) {
-        const el = document.getElementById(sec);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollY >= top && scrollY < top + height) {
-            setActiveSection(sec);
-            break;
-          }
-        }
+      let active = '';
+      for (const item of available) {
+        const rect = document.getElementById(item.id)?.getBoundingClientRect();
+        if (rect && rect.top <= 180 && rect.bottom > 100) active = item.id;
       }
+      setActiveSection(active);
     };
-
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [project.name]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [isMobileMenuOpen]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-2xl border-b border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
+    <nav aria-label="เมนูโครงการ" className="project-navbar fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-2xl border-b border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300">
+      <div className="project-navbar-inner mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
 
         {/* Mobile left */}
-        <div className="flex md:hidden items-center gap-3 flex-1 min-w-0 pr-2">
+        <div className="flex xl:hidden items-center gap-3 flex-1 min-w-0 pr-2">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
             aria-expanded={isMobileMenuOpen}
+            aria-controls="project-mobile-menu"
             className="p-1 -ml-1 text-[#1a2d6b] hover:bg-slate-100 rounded-lg shrink-0"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -77,7 +95,7 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
         </div>
 
         {/* Desktop left */}
-        <div className="hidden md:flex items-center gap-5">
+        <div className="project-navbar-brand hidden xl:flex items-center gap-3">
           <Link
             href="/"
             className="group flex items-center gap-1.5 bg-slate-100 hover:bg-[#1a2d6b] text-slate-600 hover:text-white px-4 py-2 rounded-full transition-all duration-300 shadow-sm border border-slate-200 hover:border-[#1a2d6b] hover:-translate-y-[1px]"
@@ -92,19 +110,16 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
         </div>
 
         {/* Desktop nav links */}
-        <div className="hidden lg:flex items-center gap-8">
-          {[
-            { id: 'gallery', label: 'Gallery' },
-            { id: 'plans', label: 'Plans' },
-            { id: 'location', label: 'Location' },
-          ].map((item) => (
+        <div className="project-navbar-links hidden xl:flex items-center">
+          {visibleChapters.map((item, index) => (
             <a
               key={item.id}
               href={`#${item.id}`}
+              aria-current={activeSection === item.id ? 'location' : undefined}
               className="group relative text-[11px] font-bold uppercase tracking-widest transition-all"
             >
               <span className={activeSection === item.id ? 'text-[#e53935]' : 'text-slate-500 group-hover:text-[#e53935]'}>
-                {item.label}
+                <small className="project-chapter-number">{String(index + 1).padStart(2, '0')}</small>{item.label}
               </span>
               <span className={`absolute left-0 -bottom-1 h-[2px] bg-[#e53935] transition-all duration-300 ${activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'}`} />
             </a>
@@ -117,6 +132,7 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
           {/* Tel — icon + "TEL" label, subdued style */}
           <a
             href={`tel:${phoneTel}`}
+            aria-label="โทรหาโครงการ"
             className="flex items-center gap-1.5 text-slate-500 hover:text-[#1a2d6b] px-3 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-colors hover:bg-slate-100"
           >
             <Phone size={13} />
@@ -149,22 +165,19 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
 
       {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-16 left-0 right-0 bg-white border-b border-slate-200 shadow-2xl py-4 px-6 flex flex-col gap-4">
+        <div id="project-mobile-menu" className="project-navbar-menu xl:hidden absolute top-16 md:top-20 left-0 right-0 bg-white border-b border-slate-200 shadow-2xl py-4 px-6 flex flex-col gap-4">
           <Link href="/" className="flex items-center gap-2 text-sm font-black text-slate-600 uppercase hover:text-[#e53935] pb-3 border-b">
             <ChevronLeft size={16} /> Home
           </Link>
-          {[
-            { id: 'gallery', label: 'Gallery' },
-            { id: 'plans', label: 'Plans' },
-            { id: 'location', label: 'Location' },
-          ].map((item) => (
+          {visibleChapters.map((item, index) => (
             <a
               key={item.id}
               href={`#${item.id}`}
+              aria-current={activeSection === item.id ? 'location' : undefined}
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-sm font-black text-slate-600 uppercase hover:text-[#e53935] py-2 border-b"
             >
-              {item.label}
+              <small className="project-chapter-number">{String(index + 1).padStart(2, '0')}</small>{item.label}
             </a>
           ))}
           {facebookUrl && (

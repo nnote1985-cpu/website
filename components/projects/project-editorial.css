@@ -1,17 +1,17 @@
 /* Scoped to the content below the project hero. Hero, registration and footer stay untouched. */
 .project-editorial{--pd-paper:#f7f5f0;--pd-ink:#152849;--pd-muted:#627084;--pd-line:#d9d8d0;--pd-accent:#a27950;background:var(--pd-paper);color:var(--pd-ink)}
-.project-editorial>section{position:relative;padding:100px max(24px,4vw);border:0;scroll-margin-top:160px}
+.project-editorial>section{position:relative;padding:100px max(24px,4vw);border:0;scroll-margin-top:100px}
 .project-editorial>section>div:not(.pd-faq-content){max-width:1320px;padding-left:0;padding-right:0}
 .project-editorial>section h2{font-size:clamp(32px,4.2vw,64px);font-weight:500;letter-spacing:-.055em;line-height:1.12;text-transform:none;font-style:normal}
 .project-editorial>section:before{content:attr(data-editorial-section);position:absolute;top:32px;right:max(24px,4vw);font:500 12px/1.2 sans-serif;letter-spacing:.18em;color:var(--pd-accent)}
 .project-editorial button,.project-editorial a{touch-action:manipulation}
 .project-editorial :is(button,a):focus-visible{outline:2px solid var(--pd-accent);outline-offset:5px}
-.pd-chapters{position:sticky;top:80px;z-index:35;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 max(24px,4vw);background:rgba(247,245,240,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--pd-line);min-height:68px}
-.pd-chapters-name{max-width:240px;font-size:11px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pd-chapters>div{display:flex;overflow:auto;gap:26px;scrollbar-width:none}
-.pd-chapters a{display:flex;gap:9px;align-items:center;white-space:nowrap;padding:23px 0 20px;font-size:12px;border-bottom:2px solid transparent;color:var(--pd-muted);transition:color .2s,border-color .2s}
-.pd-chapters a>span{font-size:9px;color:var(--pd-accent)}
-.pd-chapters a[aria-current],.pd-chapters a:hover{color:var(--pd-ink);border-color:var(--pd-accent)}
+
+
+
+
+
+
 .project-editorial #info{background:var(--pd-paper);padding-top:80px}
 .pd-info-heading{align-items:flex-end;margin-bottom:52px}
 .pd-info-heading>div:first-child>span{color:var(--pd-accent);letter-spacing:.22em;font-size:11px}
@@ -89,7 +89,7 @@
 .pd-location-copy>a{border-radius:2px;background:var(--pd-ink);box-shadow:none;font-weight:500;font-size:13px;min-height:48px}
 .pd-location-map{height:540px;border-radius:2px;border:1px solid #ced1cd;box-shadow:none}
 @media(min-width:1024px){.pd-plan-workspace{display:grid;grid-template-columns:240px 1fr;gap:36px;align-items:start}.pd-plan-workspace>div.hidden{display:flex;flex-direction:column;align-items:stretch}.pd-plan-workspace>div.hidden>div{justify-content:flex-start}.pd-plan-image{min-height:540px}}
-@media(max-width:1023px){.pd-chapters-name{display:none}.pd-chapters>div{width:100%;justify-content:space-between;gap:24px}.pd-concept .pd-concept-image{width:100%;min-height:0;aspect-ratio:4/3}.pd-concept .pd-concept-copy{width:100%;padding:40px 0 0}.pd-info-tabs{align-self:flex-start}.pd-gallery-heading{display:block}.pd-gallery-tabs{margin-top:24px}.project-editorial #location>.container{grid-template-columns:1fr;gap:36px}.pd-location-map{height:450px}.pd-plans-heading{display:block}.pd-plans-heading>div:last-child{margin-top:24px}}
-@media(max-width:767px){.pd-chapters{top:64px;min-height:58px;padding:0 20px}.pd-chapters a{padding:18px 0;font-size:11px}.pd-chapters a>span{display:none}.project-editorial>section{padding:64px 22px;scroll-margin-top:135px}.project-editorial>section:before{top:22px;right:22px;font-size:10px}.pd-info-heading{margin-bottom:28px;gap:24px}.pd-info-heading h2{font-size:34px!important}.pd-info-tabs{width:100%;display:flex}.pd-info-tabs button{flex:1;padding:15px 10px;font-size:12px}.pd-concept .pd-concept-copy{padding-top:30px}.pd-concept-copy h3{font-size:34px}.pd-concept-copy>p:last-child{font-size:14px;line-height:1.9;margin-top:20px}.pd-gallery-tabs{display:grid;width:100%;max-width:none}.pd-gallery-tabs button{padding:12px 10px!important}.pd-gallery-stage>button{width:40px;height:40px}.pd-gallery-media .pd-gallery-stage{aspect-ratio:4/3}.pd-gallery-media>div:last-child>div{width:88px}.pd-plan-workspace{padding:16px}.pd-plan-image{min-height:280px!important}.pd-location-map{height:360px}.pd-facts>dl>div{padding:22px 16px}.pd-facts dd{font-size:15px}}
+@media(max-width:1023px){.pd-concept .pd-concept-image{width:100%;min-height:0;aspect-ratio:4/3}.pd-concept .pd-concept-copy{width:100%;padding:40px 0 0}.pd-info-tabs{align-self:flex-start}.pd-gallery-heading{display:block}.pd-gallery-tabs{margin-top:24px}.project-editorial #location>.container{grid-template-columns:1fr;gap:36px}.pd-location-map{height:450px}.pd-plans-heading{display:block}.pd-plans-heading>div:last-child{margin-top:24px}}
+@media(max-width:767px){.project-editorial>section{padding:64px 22px;scroll-margin-top:85px}.project-editorial>section:before{top:22px;right:22px;font-size:10px}.pd-info-heading{margin-bottom:28px;gap:24px}.pd-info-heading h2{font-size:34px!important}.pd-info-tabs{width:100%;display:flex}.pd-info-tabs button{flex:1;padding:15px 10px;font-size:12px}.pd-concept .pd-concept-copy{padding-top:30px}.pd-concept-copy h3{font-size:34px}.pd-concept-copy>p:last-child{font-size:14px;line-height:1.9;margin-top:20px}.pd-gallery-tabs{display:grid;width:100%;max-width:none}.pd-gallery-tabs button{padding:12px 10px!important}.pd-gallery-stage>button{width:40px;height:40px}.pd-gallery-media .pd-gallery-stage{aspect-ratio:4/3}.pd-gallery-media>div:last-child>div{width:88px}.pd-plan-workspace{padding:16px}.pd-plan-image{min-height:280px!important}.pd-location-map{height:360px}.pd-facts>dl>div{padding:22px 16px}.pd-facts dd{font-size:15px}}
 @media(prefers-reduced-motion:reduce){.project-editorial *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 @media(min-width:1024px){.pd-plan-workspace>div.hidden>div.space-y-4>div:first-child{grid-template-columns:1fr}.pd-plan-workspace>div.hidden>div.space-y-4>div:first-child button{text-align:left;padding:16px}.pd-plan-workspace>div.hidden>div.space-y-4>div:last-child{padding:16px 8px;gap:8px}.pd-plan-workspace>div.hidden>div.space-y-4>div:last-child button{padding:10px 14px}}
