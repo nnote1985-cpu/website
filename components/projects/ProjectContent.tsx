@@ -824,6 +824,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           <div className="w-12 h-[2px] bg-[#e53935] mx-auto mb-8" />
 
         </div>
+        <div className="pd-gallery-workspace">
         <div className="pd-gallery-toolbar">
           <div className="pd-gallery-actions">
             <button aria-label="ภาพก่อนหน้า" onClick={handleGalleryPrev}><ChevronLeft size={18} /></button>
@@ -980,6 +981,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 กำลังเตรียมรูปภาพเพิ่มเติมในหมวดนี้...
             </div>
           )}
+        </div>
         </div>
       </section>
 
