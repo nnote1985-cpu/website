@@ -34,13 +34,19 @@ const Celine = load('projects/custom/CelineCustom.tsx');
 const Wela = load('projects/custom/WelaCustom.tsx');
 const Promo = load('projects/PromoHeroWrapper.tsx');
 const project = { name: 'ASAKAN Test Residence', image: '/hero.webp', promoBanner: '/promo.webp' };
-function check(label, element, expected) {
+function check(label, element, expected, artworkHeading = false) {
   const html = renderToStaticMarkup(element);
   const headings = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
   assert.equal(headings.length, 1, `${label}: exactly one H1`);
   const text = headings[0][1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   assert.equal(text, expected, label);
-  assert.ok(!/sr-only|hidden/.test(headings[0][0].split('>')[0]), `${label}: visible heading`);
+  if (artworkHeading) {
+    assert.match(headings[0][0], /class="sr-only"/, `${label}: no extra layout row`);
+    assert.ok(!html.includes('border-b border-stone-200 bg-[#faf8f5] px-6 py-5'), `${label}: no heading banner`);
+    assert.ok(!/aria-hidden|display:\s*none/.test(headings[0][0]), `${label}: accessible heading`);
+  } else {
+    assert.ok(!/sr-only|hidden/.test(headings[0][0].split('>')[0]), `${label}: visible heading`);
+  }
   console.log(`PASS ${label}`);
 }
 try {
@@ -49,12 +55,12 @@ try {
     const fallback = React.createElement(Component, { project: { ...project, promoBanner: undefined } });
     check(`${name} standard`, fallback, project.name);
     if (name === 'Elysium') {
-      check('Elysium promo', React.createElement(Component, { project }), project.name);
+      check('Elysium promo', React.createElement(Component, { project }), project.name, true);
       brokenPromo = true;
       check('Elysium broken promo fallback', React.createElement(Component, { project }), project.name);
       brokenPromo = false;
     } else {
-      check(`${name} promo`, React.createElement(Promo, { promoBanner: '/promo.webp', projectName: project.name, fallbackHero: fallback }), project.name);
+      check(`${name} promo`, React.createElement(Promo, { promoBanner: '/promo.webp', projectName: project.name, fallbackHero: fallback }), project.name, true);
       check(`${name} missing promo fallback`, React.createElement(Promo, { projectName: project.name, fallbackHero: fallback }), project.name);
     }
   }
