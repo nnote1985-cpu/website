@@ -1,4 +1,4 @@
-.project-navbar { background: rgba(247,245,240,.96); border-color: #d9d8d0; box-shadow: none; }
+.project-navbar { background: rgba(255,255,255,.96); border-color: #e2e6eb; box-shadow: none; }
 .project-navbar-inner { max-width: 1800px; gap: 20px; }
 .project-navbar-brand { min-width: 0; max-width: 310px; }
 .project-navbar-brand > span { font-size: 13px; font-weight: 600; }
@@ -10,8 +10,8 @@
 .project-navbar-links > a:hover > span:first-child { color: #152849; }
 .project-navbar-links > a > span:last-child { bottom: 0; height: 2px; background: #a27950; }
 .project-chapter-number { margin-right: 8px; color: #a27950; font-size: 10px; font-weight: 400; }
-.project-navbar-menu { max-height: calc(100dvh - 80px); overflow-y: auto; background: #f7f5f0; }
-.project-navbar-menu > a { font-weight: 500; border-color: #d9d8d0; }
+.project-navbar-menu { max-height: calc(100dvh - 80px); overflow-y: auto; background: #ffffff; }
+.project-navbar-menu > a { font-weight: 500; border-color: #e2e6eb; }
 .project-navbar-menu > a[aria-current] { color: #a27950; }
 .project-navbar :is(a,button):focus-visible { outline: 2px solid #a27950; outline-offset: 3px; }
 @media (min-width:1280px) and (max-width:1439px) {
