@@ -44,10 +44,10 @@ export default function CelineCustom({ project }: { project: CustomProject }) {
           </div>
           
           <div className="space-y-2 md:space-y-4">
-            <h2 className="text-4xl md:text-6xl lg:text-7xl text-white leading-[1.1] drop-shadow-xl font-serif font-bold">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl text-white leading-[1.1] drop-shadow-xl font-serif font-bold">
               {firstPart} <br />
               <span className="text-[#cca464]">{lastWord}</span>
-            </h2>
+            </h1>
             <p className="text-lg md:text-2xl lg:text-3xl font-light text-white/50 uppercase tracking-[0.2em]">
               {project.concept}
             </p>

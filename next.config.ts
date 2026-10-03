@@ -56,6 +56,7 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns,
+    qualities: [75, 90],
   },
   // Optimize for SEO - generate static pages where possible
   experimental: {

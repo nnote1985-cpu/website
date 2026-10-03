@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import Image from 'next/image';
 import initialSlides from '@/public/hero/slides.json';
 
 type Slide = typeof initialSlides[number];
@@ -24,6 +25,8 @@ export default function HeroExperience() {
   const elapsed = useRef(0);
   const [slides, setSlides] = useState<Slide[]>(initialSlides);
   const [current, setCurrent] = useState({ index: 0, previous: -1 });
+  const [ready, setReady] = useState<string[]>([]);
+  const [pending, setPending] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
   const [away, setAway] = useState(false);
@@ -31,10 +34,17 @@ export default function HeroExperience() {
   const [hidden, setHidden] = useState(false);
 
   const select = (index: number) => {
+    setPending(index);
+  };
+
+  // Keep the current frame visible while a manually selected image downloads.
+  useEffect(() => {
+    if (pending === null || !slides[pending] || !ready.includes(slides[pending].src)) return;
     elapsed.current = 0;
     root.current?.style.setProperty('--slide-progress', '0');
-    setCurrent(old => old.index === index ? old : { index, previous: old.index });
-  };
+    setCurrent(old => old.index === pending ? old : { index: pending, previous: old.index });
+    setPending(null);
+  }, [pending, ready, slides]);
 
   // Refresh slides from JSON at runtime (allows CMS updates without redeploy)
   useEffect(() => {
@@ -145,7 +155,7 @@ export default function HeroExperience() {
   }, [reduced]);
 
   // Slideshow auto-advance
-  const stopped = paused || reduced || away || hidden;
+  const stopped = paused || reduced || away || hidden || pending !== null;
   useEffect(() => {
     if (stopped) return;
     let raf = 0, last = performance.now();
@@ -156,8 +166,7 @@ export default function HeroExperience() {
       root.current?.style.setProperty('--slide-progress', String(Math.min(1, elapsed.current / 6000)));
       // Wait until the next image is decoded; switching to one that is still
       // loading made the transition run over an empty slide and then pop in.
-      const next = root.current?.querySelectorAll<HTMLImageElement>('.gallery-slide img')[(current.index + 1) % slides.length];
-      if (elapsed.current >= 6000 && next && !(next.complete && next.naturalWidth)) {
+      if (elapsed.current >= 6000 && !ready.includes(slides[(current.index + 1) % slides.length].src)) {
         raf = requestAnimationFrame(tick);
         return;
       }
@@ -171,7 +180,7 @@ export default function HeroExperience() {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [stopped, current.index, slides.length]);
+  }, [stopped, current.index, slides, ready]);
 
   const slide = slides[current.index] || slides[0];
 
@@ -199,14 +208,31 @@ export default function HeroExperience() {
                 aria-hidden={i !== current.index}
                 style={{ '--focus': s.focus, '--fx': (parseFloat(s.focus) || 50) / 100 } as CSSProperties}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={s.src} alt={s.alt} fetchPriority={i === 0 ? 'high' : 'low'} decoding="async" />
+                {(i === current.index || i === current.previous || i === pending ||
+                  (!stopped && ready.includes(slides[current.index].src) && i === (current.index + 1) % slides.length)) && (
+                  <Image
+                    src={s.src}
+                    alt={s.alt}
+                    width={3840}
+                    height={2160}
+                    sizes="(max-width: 767px) 292svh, max(100vw, 271vh)"
+                    quality={90}
+                    preload={i === 0}
+                    loading={i === 0 ? undefined : 'eager'}
+                    onLoad={async event => {
+                      const img = event.currentTarget;
+                      try { await img.decode(); } catch { /* onLoad already confirms a usable image. */ }
+                      if (img.naturalWidth) setReady(old => old.includes(s.src) ? old : [...old, s.src]);
+                    }}
+                    onError={() => { setPaused(true); setPending(null); }}
+                  />
+                )}
               </div>
             ))}
           </div>
           <div className="gallery-shade" />
           <div className="gallery-topline">
-            <span>SPACES FOR EVERY SIDE OF YOU</span>
+            <h1 className="gallery-site-title">ASAKAN คอนโดมิเนียมในกรุงเทพฯ</h1>
             <span>ASAKAN · BANGKOK</span>
           </div>
           <div
@@ -255,7 +281,7 @@ export default function HeroExperience() {
         </div>
 
         <div className="gallery-heading">
-          <h1>BEYOND</h1>
+          <div className="gallery-wordmark">BEYOND</div>
           <p className="gallery-expectation">Expectation</p>
         </div>
 

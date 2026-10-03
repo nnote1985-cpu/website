@@ -14,7 +14,8 @@ import FloatingCTA from '@/components/FloatingCTA';
 import PointerTrail from '@/components/PointerTrail';
 import Journey from '@/components/Journey';
 import CollapsibleSection from '@/components/home/CollapsibleSection';
-import { DeferredMortgageCalculator, DeferredPromoBanner } from '@/components/home/DeferredHomeClient';
+import PromoBanner from '@/components/home/PromoBanner';
+import { DeferredMortgageCalculator } from '@/components/home/DeferredHomeClient';
 import ProjectsWithSearch from '@/components/home/ProjectsWithSearch';
 
 export const revalidate = 3600;
@@ -84,7 +85,6 @@ export default async function HomePage() {
 
   return (
     <>
-      <link rel="preload" as="image" href="/hero/perspective1.webp" fetchPriority="high" />
       <PointerTrail />
       <Header />
       <FloatingCTA />
@@ -98,7 +98,7 @@ export default async function HomePage() {
 
         {/* 3. PROMOTION BANNER - แถบโปรโมชั่น */}
         {promotions.filter((p) => p.isActive).length > 0 && (
-          <DeferredPromoBanner promos={promotions.filter((p) => p.isActive)} />
+          <PromoBanner promos={promotions.filter((p) => p.isActive)} />
         )}
 
         {/* 3+4. SEARCH + PROJECTS - live filter */}

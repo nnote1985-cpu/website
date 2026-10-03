@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Phone, MapPin, TrainFront, Building2, Home } from 'lucide-react';
 import { Montserrat } from 'next/font/google';
 import RegisterForm from '@/components/projects/RegisterForm';
+import PromoProjectHeading from '@/components/projects/PromoProjectHeading';
 
 const mont = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
 // Cormorant Garamond is loaded as a plain stylesheet: next/font/google fails to resolve
@@ -108,6 +109,7 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
 
   return (
     <>
+      {showPromo && <PromoProjectHeading name={project.name} />}
       {/* ===== MOBILE: promo บน + ฟอร์มล่าง ===== */}
       {showPromo && (
         <div className="xl:hidden flex flex-col bg-[#faf8f5]">

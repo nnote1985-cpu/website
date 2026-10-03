@@ -48,11 +48,11 @@ export default function WelaCustom({ project }: { project: CustomProject }) {
           </div>
           
           <div className="space-y-2 md:space-y-4">
-            <h2 className="text-4xl md:text-6xl lg:text-7xl text-white leading-[1.1] drop-shadow-xl font-bold tracking-tight uppercase">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl text-white leading-[1.1] drop-shadow-xl font-bold tracking-tight uppercase">
               {firstPart} <br />
               {/* 🟥 10% สีแดง (Accent) */}
               <span className="text-[#e53935]">{lastWord}</span>
-            </h2>
+            </h1>
             <p className="text-lg md:text-2xl lg:text-3xl font-light text-white/70 uppercase tracking-[0.2em]">
               {project.concept}
             </p>

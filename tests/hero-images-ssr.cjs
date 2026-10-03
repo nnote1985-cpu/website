@@ -1,0 +1,14 @@
+const fs=require('fs'),path=require('path'),Module=require('module'),ts=require('typescript'),assert=require('assert/strict');
+const React=require('react'),{renderToStaticMarkup}=require('react-dom/server');
+const original=Module._load,root=path.resolve(__dirname,'..');
+Module._load=function(id,parent,main){return original.call(this,id.startsWith('@/')?path.join(root,id.slice(2)):id,parent,main)};
+require.extensions['.tsx']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true}}).outputText,f);
+const Hero=require('../components/home/HeroExperience.tsx').default;
+const {ImageConfigContext}=require('next/dist/shared/lib/image-config-context.shared-runtime');
+const {imageConfigDefault}=require('next/dist/shared/lib/image-config');
+const html=renderToStaticMarkup(React.createElement(ImageConfigContext.Provider,{value:{...imageConfigDefault,qualities:[75,90]}},React.createElement(Hero)));
+assert.equal((html.match(/<img /g)||[]).length,1);
+assert(html.includes('srcSet=')&&html.includes('imageSrcSet='));
+assert(html.includes('292svh'));
+assert(!html.includes('src="/hero/perspective1.webp"'));
+console.log('PASS server HTML: one hero image, responsive srcset and matching preload, parallax coverage sizes');

@@ -3,19 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ComponentType, ReactNode } from 'react';
 
-type Promotion = {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  project: string;
-  discount: string;
-  validUntil: string;
-  ctaText: string;
-  ctaUrl: string;
-  isActive: boolean;
-};
-
 type Project = {
   id: string;
   slug: string;
@@ -65,19 +52,6 @@ function useDeferredImport<TProps>(
 
 function DeferredShell({ children, className = '' }: { children?: ReactNode; className?: string }) {
   return <div className={className}>{children}</div>;
-}
-
-export function DeferredPromoBanner({ promos }: { promos: Promotion[] }) {
-  const { ref, Component } = useDeferredImport<{ promos: Promotion[] }>(
-    () => import('@/components/home/PromoBanner'),
-    '900px'
-  );
-
-  return (
-    <div ref={ref}>
-      {Component ? <Component promos={promos} /> : <DeferredShell className="h-[140px] bg-white sm:h-[110px] md:h-[88px]" />}
-    </div>
-  );
 }
 
 export function DeferredSearchSection({ projects }: { projects: Project[] }) {

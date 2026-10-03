@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Phone, Tag, Gift, CalendarCheck } from 'lucide-react';
 import RegisterFormDark from '@/components/projects/RegisterFormDark';
+import PromoProjectHeading from '@/components/projects/PromoProjectHeading';
 
 export default function PromoHeroWrapper({
   promoBanner,
@@ -101,6 +102,7 @@ export default function PromoHeroWrapper({
 
   return (
     <>
+      <PromoProjectHeading name={projectName} />
       <section className="relative hidden min-h-[calc(100vh-80px)] bg-[#101010] xl:flex">
         <div className="absolute inset-0 bg-black">
           <Image
