@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <Header />
+      <Header hero />
       <FloatingCTA />
       <main className="overflow-x-clip">
         <BeyondStory />

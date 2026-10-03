@@ -31,7 +31,7 @@ export default function Header({ phones = ['099-198-2940'], line = '@asakan', he
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  // Only the homepage renders the full-screen gallery hero.
+  // Fullscreen hero pages opt in from the server for a transparent first render.
   const isHeroPage = hero || pathname === '/';
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 
@@ -52,7 +52,7 @@ export default function Header({ phones = ['099-198-2940'], line = '@asakan', he
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-[100] transition-colors duration-700 ${heroTransparent ? 'hero-glass' : ''}`}>
-      {/* The fullscreen homepage has no announcement strip, including before hydration. */}
+      {/* Fullscreen hero pages have no announcement strip, including before hydration. */}
       {!isHeroPage && <div
         className={`transition-all duration-500 bg-slate-50 border-b border-slate-200/50 text-[11px] font-bold tracking-widest hidden md:block ${
           scrolled || heroTransparent ? 'h-0 overflow-hidden opacity-0 border-transparent' : 'py-2.5 opacity-100'

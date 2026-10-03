@@ -6,6 +6,8 @@ require.extensions['.tsx']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(
 const Header=require('../components/HeaderClient.tsx').default;
 const render=props=>renderToStaticMarkup(React.createElement(Header,props));
 let html=render({hero:true});assert(html.includes('hero-glass'));assert(!html.includes('bg-slate-50 border-b'));
-pathname='/about';html=render({});assert(!/<header[^>]*hero-glass/.test(html));assert(html.includes('bg-slate-50 border-b'));
+pathname='/about';html=render({hero:true});assert(/<header[^>]*hero-glass/.test(html));assert(!html.includes('bg-slate-50 border-b'));
+assert(fs.readFileSync(path.resolve(__dirname,'../app/about/page.tsx'),'utf8').includes('<Header hero />'));
+pathname='/contact';html=render({});assert(!/<header[^>]*hero-glass/.test(html));assert(html.includes('bg-slate-50 border-b'));
 pathname='/admin';assert.equal(render({}),'');
 console.log('PASS homepage transparent SSR without pathname, ordinary page strip, admin hidden');
