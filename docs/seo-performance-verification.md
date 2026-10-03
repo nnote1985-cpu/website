@@ -30,3 +30,7 @@ Initial image traffic reduced about 60%; on-screen frame dimensions matched exac
 Browser checks passed for manual jumps, reduced motion, automatic advance through the first three slides, limited image mounting and absence of client exceptions. Screenshots were checked for desktop and mobile framing. Automated checks: `node tests/headings.cjs`, `node tests/promotions-ssr.cjs`, `node tests/sitemap.cjs`, `node tests/hero-images-ssr.cjs`, `npx tsc --noEmit`, `git diff --check`.
 
 Full application production build was not verified locally because database environment configuration is unavailable. After deployment, run a full-page mobile Lighthouse test and check Search Console/CrUX field LCP, INP and CLS before drawing SEO conclusions about animation.
+
+## Deployment repair (2026-10-03)
+
+Vercel build f1c365e failed while prerendering sitemap.xml: Cannot generate news sitemap. The public news API returns published_at/created_at without updated_at. Added the missing-column fallback for legacy news tables (42703/PGRST204), retaining published news URLs. Sitemap now uses force-dynamic so database availability cannot fail the site build. Other database errors still return an error instead of a misleading partial sitemap. Unit tests cover both missing-column codes; a Next production fixture build confirms sitemap.xml is dynamic and its runtime response includes legacy news and projects. Full deployment status must still be checked on Vercel.

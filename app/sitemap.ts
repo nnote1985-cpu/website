@@ -3,6 +3,10 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { projectUrl } from '@/lib/projectUrl';
 import { getProjectDetailAccess } from '@/lib/projectAccess';
 
+// CMS availability must not decide whether the rest of the site can deploy.
+// Generate at request time; real database failures return an error, not a partial sitemap.
+export const dynamic = 'force-dynamic';
+
 // Omit dates when the CMS has no reliable content-modification timestamp.
 function modified(value: unknown): { lastModified?: Date } {
   if (typeof value !== 'string' || !value.trim()) return {};
@@ -63,12 +67,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // หน้าข่าว — ดึง slug จาก Supabase
-  const { data: news, error: newsError } = await supabaseAdmin
+  let newsResult = await supabaseAdmin
     .from('news')
     .select('slug, published_at, updated_at')
     .eq('is_published', true);
 
-  if (newsError) throw new Error('Cannot generate news sitemap');
+  // Legacy news tables have published_at but no updated_at column.
+  if (newsResult.error?.code === '42703' || newsResult.error?.code === 'PGRST204') {
+    const fallback = await supabaseAdmin.from('news').select('slug, published_at').eq('is_published', true);
+    if (fallback.error) throw new Error(`Cannot generate news sitemap (${fallback.error.code})`);
+    newsResult = { ...fallback, data: fallback.data?.map(n => ({ ...n, updated_at: null })) ?? null };
+  }
+  if (newsResult.error) throw new Error(`Cannot generate news sitemap (${newsResult.error.code})`);
+  const news = newsResult.data;
   const newsPages: MetadataRoute.Sitemap = (news ?? []).map((n) => ({
     url: `${BASE}/news/${n.slug}`,
     ...modified(n.updated_at || n.published_at),
