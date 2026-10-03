@@ -97,3 +97,37 @@
 .pd-facilities h3{font-size:26px}
 .pd-facilities>div:last-child>div{gap:12px}
 .pd-facts>div button{background:#fff}
+
+/* Refined information layouts: lighter hierarchy, restrained detail. */
+.pd-info-heading { padding-bottom: 28px; border-bottom: 1px solid var(--pd-line); }
+.pd-info-tabs { border-bottom: 0; }
+.pd-info-tabs button { padding: 14px 18px; }
+.pd-concept .pd-concept-image { border-radius: 4px; }
+.pd-concept-copy h3 { max-width: 390px; line-height: 1.22; }
+.pd-concept-copy > p:last-child { max-width: 410px; }
+.pd-facts > dl { background: #e8ecf1; border: 1px solid #e8ecf1; border-radius: 4px; }
+.pd-facts > dl > div { padding: 26px; }
+.pd-facts > dl > div > svg { color: #a27950; }
+.pd-facts > dl > div:last-child > svg { color: #d2b592; }
+.pd-facts > div { padding: 24px 0; border: 0; }
+.pd-facts > div .hidden.sm\:grid > button { border-radius: 3px; box-shadow: none; }
+.pd-facilities { gap: 48px; align-items: start; }
+.pd-facilities > div:first-child { padding: 28px 28px 28px 0; background: transparent; color: var(--pd-ink); box-shadow: none; border-radius: 0; border-top: 2px solid var(--pd-accent); }
+.pd-facilities > div:first-child > div { display: none; }
+.pd-facilities h3 { font-size: 32px; font-weight: 500; letter-spacing: -.035em; }
+.pd-facilities > div:first-child > p { color: var(--pd-muted); font-size: 14px; line-height: 1.95; max-width: 300px; margin-top: 20px; }
+.pd-facilities > div:last-child > div { gap: 0 28px; }
+.pd-facilities > div:last-child > div > div { min-height: 86px; padding: 18px 0; gap: 16px; transform: none; box-shadow: none; border-bottom: 1px solid #e8ecf1; }
+.pd-facilities > div:last-child > div > div:hover { background: #f8fafc; }
+.pd-facilities > div:last-child > div > div > div:first-child { width: 44px; height: 44px; background: #f8fafc; border: 0; border-radius: 50%; }
+.pd-facilities > div:last-child > div > div > div:last-child { font-size: 13px; font-weight: 500; color: var(--pd-ink); line-height: 1.6; }
+@media(max-width:1023px) {
+  .pd-facilities { gap: 20px; }
+  .pd-facilities > div:first-child { padding: 24px 0; }
+  .pd-facilities > div:first-child > p { max-width: 540px; }
+}
+@media(max-width:767px) {
+  .pd-info-heading { padding-bottom: 16px; }
+  .pd-facilities h3 { font-size: 28px; }
+  .pd-facilities > div:last-child > div > div { min-height: 72px; padding: 12px 0; }
+}
