@@ -227,7 +227,7 @@ function BackFace({ project, onClose, closeRef }: { project: Project; onClose: (
             </Link>
           ) : (
             <div aria-disabled="true" className="w-full rounded-lg border border-white/20 px-3 py-2 text-center text-[11px] font-bold text-white/60 sm:py-2.5 sm:text-[13px]">
-              {project.status === 'sold-out' ? 'ขายหมดแล้ว' : 'เร็วๆ นี้'}
+              {project.status === 'sold-out' ? 'Sold Out' : 'เร็วๆ นี้'}
             </div>
           )}
         </div>
