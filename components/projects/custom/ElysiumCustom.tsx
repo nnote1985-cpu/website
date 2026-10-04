@@ -127,13 +127,25 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
       )}
 
       {/* ===== DESKTOP: background เต็มจอ + ฟอร์ม float ขวา ===== */}
-      <section className={`relative min-h-[calc(100svh-80px)] overflow-hidden bg-[#06112f] font-sans ${showPromo ? 'hidden xl:flex' : 'flex'} items-stretch`}>
+      {/* With a promo the hero is exactly one screen tall; the register card floats over the artwork. */}
+      <section className={`relative overflow-hidden bg-[#06112f] font-sans ${showPromo ? 'hidden xl:flex h-[calc(100svh-80px)]' : 'flex min-h-[calc(100svh-80px)]'} items-stretch`}>
+        {showPromo && (
+          <Image
+            src={heroImageUrl || '/logo.png'}
+            alt=""
+            aria-hidden
+            fill
+            sizes="100vw"
+            className="scale-110 object-cover opacity-70 blur-2xl"
+          />
+        )}
         <Image
           src={heroImageUrl || '/logo.png'}
           alt={project.name}
           fill
           sizes="100vw"
-          className="object-cover"
+          // Promo artwork carries text, so it is shown whole; the blurred copy fills any leftover space.
+          className={showPromo ? 'object-contain' : 'object-cover'}
           priority
         />
 
@@ -146,7 +158,7 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
 
         <div className="relative z-10 grid w-full grid-cols-1 xl:grid-cols-[minmax(0,1fr)_430px] gap-8 px-6 py-8 md:px-10 lg:px-14 xl:py-10 [@media(max-height:800px)]:xl:py-6 items-center">
           {/* Left: text content */}
-          <div className="flex min-h-[44vh] flex-col justify-end xl:min-h-[calc(100svh-160px)]">
+          <div className={`flex flex-col justify-end ${showPromo ? '' : 'min-h-[44vh] xl:min-h-[calc(100svh-160px)]'}`}>
             {!showPromo && (
               <div className="max-w-4xl text-white">
                 {/* Badge */}
