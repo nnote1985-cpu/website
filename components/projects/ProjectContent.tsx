@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import NextImage from 'next/image';
-import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, Play, ChevronDown, HelpCircle, Layers, TrainFront, DoorOpen, LandPlot, Car, Tag, ArrowRight } from 'lucide-react';
+import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, Image as ImageIcon, Building2, Home, Sparkles, Play, ChevronDown, Layers, TrainFront, DoorOpen, LandPlot, Car, Tag, ArrowRight } from 'lucide-react';
 import { projectFont, projectThaiFont } from './projectFonts';
 import './project-editorial.css';
 import { ProjectSurroundings, ProjectProgress } from './ProjectSurroundings';
@@ -136,15 +136,11 @@ function ProjectFAQ({ project }: { project: ProjectContentData }) {
           <div className="flex flex-col lg:flex-row gap-12">
             {/* หัวข้อ */}
             <div className="lg:w-1/3 shrink-0">
-              <div className="flex items-center gap-2 mb-3">
-                <HelpCircle size={20} className="text-[#e53935]" />
-                <span className={`text-[10px] font-semibold tracking-[0.3em] uppercase text-[#e53935]`}>FAQ</span>
-              </div>
+              <span className="pd-faq-eyebrow">FAQ</span>
               <h2 className={`text-3xl md:text-4xl font-semibold text-[#1a2d6b] leading-tight`}>
                 คำถามที่พบบ่อย
               </h2>
-              <div className="w-8 h-[2px] bg-[#e53935] mt-4 mb-4" />
-              <p className="text-sm text-slate-500 leading-relaxed">
+              <p className="mt-4 text-sm text-slate-500 leading-relaxed">
                 รวมคำถามที่ลูกค้าถามบ่อยเกี่ยวกับ {project.name}
               </p>
             </div>
@@ -304,6 +300,15 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       ?.map((plan, index) => ({ plan, index }))
       .filter(({ plan }) => group.sizes.includes(plan.type.replace('sqm', '').trim())) || [],
   })).filter((group) => group.plans.length > 0);
+  // Room names that do not follow the size list (e.g. "A - 25 ตร.ม.") would otherwise leave no choices.
+  const groupedPlanCount = roomPlanGroups.reduce((total, group) => total + group.plans.length, 0);
+  if (groupedPlanCount < (project.roomPlans?.length ?? 0)) {
+    roomPlanGroups.splice(0, roomPlanGroups.length, {
+      label: 'ทุกแบบห้อง',
+      sizes: [],
+      plans: project.roomPlans?.map((plan, index) => ({ plan, index })) || [],
+    });
+  }
   const safeActiveRoomPlanGroupIndex = activeRoomPlanGroupIndex >= roomPlanGroups.length ? 0 : activeRoomPlanGroupIndex;
   const activeRoomPlanGroup = roomPlanGroups[safeActiveRoomPlanGroupIndex];
 
@@ -693,7 +698,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   <div
                     key={label}
                     className={`group flex flex-col sm:flex-row items-start gap-3 p-5 md:p-6 transition-colors ${
-                      highlight ? 'bg-[#1a2d6b] text-white' : 'bg-white hover:bg-[#faf8f5]'
+                      highlight ? 'pd-fact-highlight bg-[#1a2d6b] text-white' : 'bg-white hover:bg-[#faf8f5]'
                     }`}
                   >
                     <Icon size={18} strokeWidth={1.75} className={`mt-0.5 shrink-0 ${highlight ? 'text-white/80' : 'text-[#e53935]'}`} />
@@ -761,7 +766,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                       ดูแปลนห้องนี้
                     </button>
                   </div>
-                  <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                  <div className="pd-room-grid hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
                     {project.roomPlans?.map((plan: RoomPlan, i: number) => (
                       <button
                         type="button"
@@ -838,11 +843,6 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           <div className="w-12 h-[2px] bg-[#e53935] mx-auto mb-8" />
 
         </div>
-          <div className="pd-gallery-actions">
-            <button aria-label="ภาพก่อนหน้า" onClick={handleGalleryPrev}><ChevronLeft size={18} /></button>
-            <button aria-label="ภาพถัดไป" onClick={handleGalleryNext}><ChevronRight size={18} /></button>
-            <button aria-label="ขยายภาพ" onClick={() => setIsGalleryFullscreen(true)}><Maximize2 size={18} /></button>
-          </div>
           <label className="pd-gallery-picker">
             <span>เลือกรูป</span>
             <select aria-label="เลือกรูปในแกลเลอรี" value={safeActiveImg} onChange={event => setActiveImg(Number(event.target.value))}>
@@ -1032,7 +1032,6 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           <div className="container mx-auto px-4 md:px-8">
             <div className="pd-plans-heading text-center mb-12">
               <div className="flex items-center justify-center gap-3 mb-4 text-[#1a2d6b]">
-                <LayoutDashboard size={36} />
                 <div><span className="pd-plans-eyebrow">DESIGNED FOR LIVING</span><h2 className="text-4xl md:text-5xl font-semibold uppercase tracking-tight">Plans</h2></div>
               </div>
               <p className="text-slate-500 mb-10 text-lg">สัมผัสการออกแบบพื้นที่ใช้สอยที่ตอบโจทย์ชีวิตคนเมือง</p>
@@ -1112,39 +1111,38 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 </div>
               </div>
 
-              <div className="hidden md:block mb-10 md:mb-12">
-                {activeTab === 'room' && (
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-4 gap-2 rounded-3xl border border-slate-200 bg-white p-2 shadow-sm">
-                    {roomPlanGroups.map((group) => (
-                      <button
-                        type="button"
-                        key={group.label}
-                        onClick={() => {
-                          const groupIndex = roomPlanGroups.findIndex((item) => item.label === group.label);
-                          setActiveRoomPlanGroupIndex(groupIndex);
-                          setActivePlanIndex(group.plans[0]?.index || 0);
-                        }}
-                        className={`rounded-2xl px-4 py-3 text-center text-xs lg:text-sm font-semibold uppercase tracking-[0.12em] transition-all ${
-                          safeActiveRoomPlanGroupIndex === roomPlanGroups.findIndex((item) => item.label === group.label)
-                            ? 'bg-[#1a2d6b] text-white shadow-lg shadow-[#1a2d6b]/20'
-                            : 'text-[#1a2d6b]/60 hover:bg-slate-50 hover:text-[#1a2d6b]'
-                        }`}
-                      >
-                          {group.label}
-                      </button>
-                    ))}
-                    </div>
-                    <div className="flex min-h-16 flex-wrap items-center justify-center gap-3 rounded-3xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-                      {activeRoomPlanGroup?.plans.map(({ plan, index }) => (
+              <div className="pd-plan-controls hidden md:flex mb-10 lg:mb-0">
+                {activeTab === 'room' && roomPlanGroups.length > 1 && (
+                  <div>
+                    <p className="pd-plan-label">ประเภทห้อง</p>
+                    <div className="pd-plan-groups">
+                      {roomPlanGroups.map((group, groupIndex) => (
                         <button
+                          type="button"
+                          key={group.label}
+                          aria-pressed={safeActiveRoomPlanGroupIndex === groupIndex}
+                          onClick={() => {
+                            setActiveRoomPlanGroupIndex(groupIndex);
+                            setActivePlanIndex(group.plans[0]?.index || 0);
+                          }}
+                        >
+                          {group.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'room' && activeRoomPlanGroup && (
+                  <div>
+                    <p className="pd-plan-label">เลือกแบบห้อง</p>
+                    <div className="pd-plan-options">
+                      {activeRoomPlanGroup.plans.map(({ plan, index }) => (
+                        <button
+                          type="button"
                           key={`room-btn-${index}`}
+                          aria-pressed={activePlanIndex === index}
                           onClick={() => setActivePlanIndex(index)}
-                          className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
-                            activePlanIndex === index 
-                              ? 'bg-[#e53935] text-white shadow-lg shadow-[#e53935]/30 scale-105' 
-                              : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-[#1a2d6b]'
-                          }`}
                         >
                           {plan.type}
                         </button>
@@ -1153,21 +1151,23 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   </div>
                 )}
 
-                <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-                {activeTab === 'floor' && project.floorPlans?.map((_, idx: number) => (
-                  <button
-                    key={`floor-btn-${idx}`}
-                    onClick={() => setActivePlanIndex(idx)}
-                    className={`px-4 py-2 md:px-6 md:py-2.5 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 ${
-                      activePlanIndex === idx 
-                        ? 'bg-[#e53935] text-white shadow-lg shadow-[#e53935]/30 scale-105' 
-                        : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-[#1a2d6b]'
-                    }`}
-                  >
-                    Plan {idx + 1}
-                  </button>
-                ))}
-                </div>
+                {activeTab === 'floor' && (
+                  <div>
+                    <p className="pd-plan-label">เลือกแปลน</p>
+                    <div className="pd-plan-options">
+                      {project.floorPlans?.map((_, idx: number) => (
+                        <button
+                          type="button"
+                          key={`floor-btn-${idx}`}
+                          aria-pressed={activePlanIndex === idx}
+                          onClick={() => setActivePlanIndex(idx)}
+                        >
+                          Plan {idx + 1}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div 
@@ -1278,10 +1278,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           <div className="container mx-auto px-6 md:px-12">
             <div className="pd-location-copy flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 text-[#1a2d6b]">
               <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <MapPin size={32} />
-                  <h2 className={`text-3xl md:text-4xl font-semibold uppercase tracking-tight`}>Location</h2>
-                </div>
+                <span className="pd-location-eyebrow">GETTING HERE</span>
+                <h2 className="mb-4">Location</h2>
                 <p className="text-lg text-slate-500 max-w-2xl">
                   {project.location} {project.bts ? `(${project.bts})` : ''}
                 </p>

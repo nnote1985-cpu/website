@@ -10,7 +10,9 @@ const chapters = [
   { id: 'info', label: 'ข้อมูลโครงการ' },
   { id: 'gallery', label: 'แกลเลอรี' },
   { id: 'plans', label: 'แบบแปลน' },
+  { id: 'neighborhood', label: 'สถานที่ใกล้เคียง' },
   { id: 'video', label: 'วิดีโอ' },
+  { id: 'progress', label: 'ความคืบหน้า' },
   { id: 'faq', label: 'คำถามที่พบบ่อย' },
   { id: 'location', label: 'ทำเลที่ตั้ง' },
 ];

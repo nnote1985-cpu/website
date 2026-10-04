@@ -3,7 +3,7 @@
 .pd-section-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:48px;margin-bottom:38px}
 .pd-section-heading>div{max-width:740px;min-width:0}
 .pd-section-heading>div>span{display:block;font-size:10px;letter-spacing:.2em;color:#e53935;font-weight:500;margin-bottom:16px}
-.project-editorial .pd-section-heading h2{font-size:clamp(25px,2.1vw,34px);font-weight:400;line-height:1.5;letter-spacing:-.015em;margin:0;text-wrap:pretty;overflow-wrap:anywhere}
+.project-editorial .pd-section-heading h2{font-size:var(--pd-h2);font-weight:500;line-height:1.3;letter-spacing:-.035em;margin:0;text-wrap:pretty;overflow-wrap:anywhere}
 .pd-section-heading>p{max-width:360px;flex:0 1 32%;color:#627084;font-size:14px;line-height:1.9;white-space:pre-line}
 .pd-nearby-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #b8c2cf;border-bottom:1px solid #b8c2cf;padding:32px 0;gap:0}
 .pd-nearby-card{padding:0 28px;border-right:1px solid #b8c2cf;min-width:0}
