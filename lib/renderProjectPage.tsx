@@ -1,5 +1,5 @@
 import { getProjectDetailAccess } from '@/lib/projectAccess';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import Image from 'next/image';
 import { supabaseAdmin } from '@/lib/supabase';
 import Footer from '@/components/Footer';
@@ -94,7 +94,9 @@ export async function getProjectMetadata(slug: string): Promise<Metadata> {
 export async function renderProjectPage(slug: string) {
   const localProject = getLocalProject(slug);
   const { data } = await supabaseAdmin.from('projects').select('*').eq('slug', slug).single();
-  if (!data || (await getProjectDetailAccess())[data.id] === false) notFound();
+  if (!data) notFound();
+  // ปกติ proxy พาไป Coming Soon ก่อนถึงตรงนี้แล้ว อันนี้กันไว้เผื่อ cache ของ proxy ยังไม่อัปเดต
+  if ((await getProjectDetailAccess())[data.id] === false) redirect(`/coming-soon?project=${encodeURIComponent(slug)}`);
 
   const project = {
     ...data,

@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
 
-export default function ContactForm() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+export default function ContactForm({ initialMessage = '' }: { initialMessage?: string }) {
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: initialMessage });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   async function handleSubmit(e: React.FormEvent) {
@@ -19,7 +19,7 @@ export default function ContactForm() {
       if (res.ok) {
         const resData = await res.json();
         setStatus('success');
-        setForm({ name: '', email: '', phone: '', message: '' });
+        setForm({ name: '', email: '', phone: '', message: initialMessage });
         // Fire Facebook Pixel lead event
         if (typeof window !== 'undefined' && typeof (window as Window & { fbq?: (...args: unknown[]) => void }).fbq === 'function') {
           (window as Window & { fbq: (...args: unknown[]) => void }).fbq(
