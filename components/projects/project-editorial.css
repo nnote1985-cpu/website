@@ -210,8 +210,13 @@
 /* The Gallery title shares the photograph's top edge in the left column. */
 .pd-gallery-toolbar .pd-gallery-heading{order:-2;display:flex;flex-direction:column;align-items:flex-start;gap:12px;width:100%;padding:0;margin:0 0 12px;text-align:left}
 .pd-gallery-toolbar .pd-gallery-heading>div{margin:0;justify-content:flex-start}
-.pd-gallery-toolbar .pd-gallery-heading>div:has(h2){order:-1}
+.pd-gallery-toolbar .pd-gallery-heading>div:has(h2){order:0}
 .pd-gallery-toolbar .pd-gallery-heading h2{font-size:clamp(30px,2.6vw,40px);line-height:1;margin:0;letter-spacing:-.04em}
 .pd-gallery-toolbar .pd-gallery-heading>p{margin:0;font-size:9px;letter-spacing:.18em}
 .pd-gallery-toolbar .pd-gallery-heading>div:last-child{display:none}
 @media(max-width:1023px){.pd-gallery-toolbar .pd-gallery-heading{flex-basis:100%;margin-bottom:8px}}
+
+/* Match the red eyebrow / main heading hierarchy across sections. */
+.project-editorial #gallery .pd-gallery-heading>p,
+.pd-plans-eyebrow{display:block;color:#e53935;font-size:10px;font-weight:500;letter-spacing:.2em;line-height:1.5;margin:0 0 16px}
+.pd-plans-heading h2{margin:0}
