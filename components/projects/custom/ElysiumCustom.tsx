@@ -70,21 +70,21 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#D9BE85] to-transparent" />
       <div className="pointer-events-none absolute -top-24 -right-24 h-56 w-56 rounded-full bg-[#C2A363]/10 blur-3xl" />
 
-      <div className="relative px-7 pt-7 pb-6">
-        <div className="mb-5 text-center">
+      <div className="relative px-7 pt-7 pb-6 [@media(max-height:800px)]:pt-5 [@media(max-height:800px)]:pb-4">
+        <div className="mb-5 text-center [@media(max-height:800px)]:mb-3">
           <p className={`${mont.className} text-[10px] font-semibold uppercase tracking-[0.45em] text-[#C2A363]`}>
             Private Appointment
           </p>
           <link rel="stylesheet" href={SERIF_HREF} precedence="default" />
-          <h3 className="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-[40px] font-medium italic leading-none text-white">
+          <h3 className="mt-2 font-['Cormorant_Garamond',Georgia,serif] text-[40px] font-medium italic leading-none text-white [@media(max-height:800px)]:text-[32px]">
             Register Now
           </h3>
-          <div className="mx-auto mt-3 flex items-center justify-center gap-2">
+          <div className="mx-auto mt-3 flex items-center justify-center gap-2 [@media(max-height:800px)]:hidden">
             <span className="h-px w-8 bg-[#C2A363]/50" />
             <span className="h-1 w-1 rotate-45 bg-[#C2A363]" />
             <span className="h-px w-8 bg-[#C2A363]/50" />
           </div>
-          <p className="mt-3 text-[13px] leading-relaxed text-white/75">
+          <p className="mt-3 text-[13px] leading-relaxed text-white/75 [@media(max-height:800px)]:mt-2">
             รับข้อมูล ราคา และสิทธิพิเศษของ {project.name}
           </p>
         </div>
@@ -94,7 +94,7 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
 
       <a
         href={`tel:${phoneTel}`}
-        className="group relative flex items-center justify-between gap-3 border-t border-[#C2A363]/20 px-7 py-4 transition-colors hover:bg-white/[0.03]"
+        className="group relative flex items-center justify-between gap-3 border-t border-[#C2A363]/20 px-7 py-4 [@media(max-height:800px)]:py-3 transition-colors hover:bg-white/[0.03]"
       >
         <span className="flex items-center gap-3">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#C2A363]/50 text-[#C2A363]">
@@ -127,7 +127,7 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
       )}
 
       {/* ===== DESKTOP: background เต็มจอ + ฟอร์ม float ขวา ===== */}
-      <section className={`relative min-h-[calc(100vh-80px)] overflow-hidden bg-[#06112f] font-sans ${showPromo ? 'hidden xl:flex' : 'flex'} items-stretch`}>
+      <section className={`relative min-h-[calc(100svh-80px)] overflow-hidden bg-[#06112f] font-sans ${showPromo ? 'hidden xl:flex' : 'flex'} items-stretch`}>
         <Image
           src={heroImageUrl || '/logo.png'}
           alt={project.name}
@@ -144,9 +144,9 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
           </>
         )}
 
-        <div className="relative z-10 grid w-full grid-cols-1 xl:grid-cols-[minmax(0,1fr)_430px] gap-8 px-6 py-8 md:px-10 lg:px-14 xl:py-10 items-center">
+        <div className="relative z-10 grid w-full grid-cols-1 xl:grid-cols-[minmax(0,1fr)_430px] gap-8 px-6 py-8 md:px-10 lg:px-14 xl:py-10 [@media(max-height:800px)]:xl:py-6 items-center">
           {/* Left: text content */}
-          <div className="flex min-h-[44vh] flex-col justify-end xl:min-h-[calc(100vh-160px)]">
+          <div className="flex min-h-[44vh] flex-col justify-end xl:min-h-[calc(100svh-160px)]">
             {!showPromo && (
               <div className="max-w-4xl text-white">
                 {/* Badge */}
