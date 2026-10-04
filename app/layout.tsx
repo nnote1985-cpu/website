@@ -43,7 +43,9 @@ const defaultSettings: SiteSettings = {
 async function getSettings(): Promise<SiteSettings> {
   try {
     const { data } = await supabaseAdmin.from('settings').select('data').eq('id', 1).single();
-    return (data?.data as SiteSettings) || defaultSettings;
+    // Saved settings may not carry every key (the admin form has no ogImage field), so keep defaults underneath
+    const saved = (data?.data ?? {}) as Partial<SiteSettings>;
+    return { ...defaultSettings, ...Object.fromEntries(Object.entries(saved).filter(([, v]) => v !== '' && v != null)) };
   } catch {
     return defaultSettings;
   }

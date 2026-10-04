@@ -7,14 +7,14 @@ import Footer from '@/components/Footer';
 import ProjectCard from '@/components/home/ProjectCard';
 import FloatingCTA from '@/components/FloatingCTA';
 import PageHero from '@/components/PageHero';
-import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
+import { JsonLd, SITE_URL, breadcrumbJsonLd, pageMetadata } from '@/lib/seo';
 import { projectUrl } from '@/lib/projectUrl';
 
-export const metadata: Metadata = {
-  title: { absolute: 'โครงการทั้งหมด | ASAKAN คอนโดมิเนียมกรุงเทพฯ' },
-  alternates: { canonical: '/projects' },
+export const metadata: Metadata = pageMetadata({
+  title: 'โครงการทั้งหมด | ASAKAN คอนโดมิเนียมกรุงเทพฯ',
   description: 'โครงการคอนโดมิเนียมของ ASAKAN ทั้งหมด Elysium Phahol-59, Elysium Ram Interchange, The Celine Bang Chan, Wela Ramkhamhaeng ราคาเริ่มต้น 1.39 ล้านบาท',
-};
+  path: '/projects',
+});
 
 interface Project {
   id: string;

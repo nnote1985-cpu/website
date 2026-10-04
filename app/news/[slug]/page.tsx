@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import { formatDate } from '@/lib/utils';
 import FloatingCTA from '@/components/FloatingCTA';
 import { Calendar, Tag, ArrowLeft } from 'lucide-react';
-import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
+import { JsonLd, SITE_URL, breadcrumbJsonLd, pageMetadata } from '@/lib/seo';
 
 export const revalidate = 3600;
 
@@ -37,19 +37,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { data: item } = await supabaseAdmin.from('news').select('*').eq('slug', slug).single();
   if (!item) return { title: 'Not Found' };
 
-  return {
-    title: item.title,
+  const meta = pageMetadata({
+    title: `${item.title} | ASAKAN`,
     description: item.excerpt,
-    alternates: { canonical: `${SITE_URL}/news/${item.slug}` },
-    openGraph: {
-      title: item.title,
-      description: item.excerpt,
-      url: `${SITE_URL}/news/${item.slug}`,
-      images: item.image ? [{ url: item.image }] : [],
-      type: 'article',
-      publishedTime: item.published_at,
-    },
-  };
+    path: `/news/${item.slug}`,
+    ogTitle: item.title,
+    image: item.image ? { url: item.image, alt: item.title } : null,
+    type: 'article',
+  });
+  return { ...meta, openGraph: { ...meta.openGraph, type: 'article', publishedTime: item.published_at } };
 }
 
 export default async function NewsDetailPage({ params }: { params: Promise<{ slug: string }> }) {

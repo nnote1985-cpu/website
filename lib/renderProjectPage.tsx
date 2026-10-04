@@ -15,6 +15,7 @@ import FloatingProjectCTA from '@/components/projects/FloatingProjectCTA';
 import PromoHeroWrapper from '@/components/projects/PromoHeroWrapper';
 import type { Metadata } from 'next';
 import { absoluteProjectUrl } from '@/lib/projectUrl';
+import { pageMetadata } from '@/lib/seo';
 import projectsData from '@/data/projects.json';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -83,16 +84,16 @@ export async function getProjectMetadata(slug: string): Promise<Metadata> {
       : `${data.name} คอนโดมิเนียมคุณภาพจาก ASAKAN ย่าน${data.location || ''} ราคาเริ่มต้น ${data.price_min ? (data.price_min / 1000000).toFixed(2) + ' ล้านบาท' : ''}`);
   const keywords =
     data.meta_keywords || `${data.name}, ASAKAN, คอนโด, คอนโดมิเนียม, ${data.location || ''}, อสังหาริมทรัพย์`;
-  const canonicalUrl = absoluteProjectUrl(slug);
+  const cover = preferSupabaseAsset(data.image, localProject?.image);
 
-  return {
-    title: { absolute: title },
+  // Share cards use the project's own cover; the brand card only covers a project without one
+  return pageMetadata({
+    title,
     description,
     keywords,
-    alternates: { canonical: canonicalUrl },
-    openGraph: { title, description, url: canonicalUrl, images: preferSupabaseAsset(data.image, localProject?.image) ? [{ url: preferSupabaseAsset(data.image, localProject?.image) as string }] : [], type: 'website' },
-    twitter: { card: 'summary_large_image', title, description, images: preferSupabaseAsset(data.image, localProject?.image) ? [preferSupabaseAsset(data.image, localProject?.image) as string] : [] },
-  };
+    path: absoluteProjectUrl(slug),
+    image: cover ? { url: cover, alt: data.name } : null,
+  });
 }
 
 export async function renderProjectPage(slug: string) {

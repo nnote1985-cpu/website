@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './member.module.css';
@@ -8,11 +9,11 @@ import FloatingCTA from '@/components/FloatingCTA';
 import PageHero from '@/components/PageHero';
 import { Gift, Shield, Percent, Users, Star, Headphones, ArrowRight } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: { absolute: 'สมาชิก ASAKAN Privilege | สิทธิพิเศษสำหรับเจ้าของห้อง' },
-  alternates: { canonical: '/member' },
+export const metadata: Metadata = pageMetadata({
+  title: 'สมาชิก ASAKAN Privilege | สิทธิพิเศษสำหรับเจ้าของห้อง',
   description: 'ASAKAN Privilege Member Card สิทธิพิเศษสำหรับเจ้าของห้อง ประกันอุบัติเหตุ 500,000 บาท ส่วนลดซื้อห้องถัดไป 50,000 บาท รางวัลแนะนำเพื่อน',
-};
+  path: '/member',
+});
 
 const benefits = [
   { icon: Gift, title: 'ของขวัญวันเกิด', label: 'Birthday Gifts', highlight: 'ของขวัญพิเศษทุกปี', desc: 'รับของขวัญจาก ASAKAN ในช่วงวันเกิดของคุณ สำหรับสมาชิก Privilege', href: '/member/birthday', action: 'ดูวิธีรับของขวัญ' },

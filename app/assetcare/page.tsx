@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingCTA from '@/components/FloatingCTA';
 import { ArrowRight, BarChart3, CheckSquare, FileText, Search, Wrench } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: { absolute: 'ASAKAN AssetCare+ | บริหารการปล่อยเช่าครบวงจร' },
-  alternates: { canonical: '/assetcare' },
+export const metadata: Metadata = pageMetadata({
+  title: 'ASAKAN AssetCare+ | บริหารการปล่อยเช่าครบวงจร',
   description: 'ASAKAN AssetCare+ บริการบริหารการปล่อยเช่าคอนโดครบวงจร ตั้งแต่หาผู้เช่า ทำสัญญา ดูแลห้อง จนถึงรายงานรายเดือน',
-};
+  path: '/assetcare',
+});
 
 const services = [
   { icon: <Search size={25} />, title: 'วิเคราะห์ราคาตลาด', desc: 'วางราคาเช่าที่เหมาะกับทำเลและสภาวะตลาด เพื่อช่วยให้ทรัพย์สินสร้างรายได้อย่างเต็มศักยภาพ' },

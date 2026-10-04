@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import MemberSubNav from '@/components/member/MemberSubNav';
 import BrandPattern from '@/components/BrandPattern';
 import { Gift, CalendarDays, Clock, Ban, Star, AlertCircle } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: { absolute: 'Birthday Privilege | สมาชิก ASAKAN' },
-  alternates: { canonical: '/member/birthday' },
+export const metadata: Metadata = pageMetadata({
+  title: 'Birthday Privilege | สมาชิก ASAKAN',
   description: 'รับของขวัญพิเศษจาก ASAKAN ในเดือนเกิดของคุณ สิทธิพิเศษเฉพาะสมาชิก ASAKAN Privilege',
-};
+  path: '/member/birthday',
+});
 
 const highlights = [
   {

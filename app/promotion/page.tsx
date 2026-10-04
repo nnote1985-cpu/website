@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { supabaseAdmin } from '@/lib/supabase';
 import Header from '@/components/Header';
@@ -7,11 +8,11 @@ import FloatingCTA from '@/components/FloatingCTA';
 import PageHero from '@/components/PageHero';
 import { Clock, ChevronRight } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: { absolute: 'โปรโมชั่น | ASAKAN ข้อเสนอพิเศษ' },
-  alternates: { canonical: '/promotion' },
+export const metadata: Metadata = pageMetadata({
+  title: 'โปรโมชั่น | ASAKAN ข้อเสนอพิเศษ',
   description: 'โปรโมชั่นพิเศษจาก ASAKAN ราคาพิเศษ ส่วนลด และสิทธิพิเศษสำหรับผู้จองคอนโดในช่วงเวลาจำกัด',
-};
+  path: '/promotion',
+});
 
 interface Promotion {
   id: string;

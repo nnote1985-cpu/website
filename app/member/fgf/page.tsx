@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
@@ -6,11 +7,11 @@ import MemberSubNav from '@/components/member/MemberSubNav';
 import Link from 'next/link';
 import { Users, CheckCircle, ArrowRight, Phone } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: { absolute: 'Friends Get Friends (FGF) | สมาชิก ASAKAN' },
-  alternates: { canonical: '/member/fgf' },
+export const metadata: Metadata = pageMetadata({
+  title: 'Friends Get Friends (FGF) | สมาชิก ASAKAN',
   description: 'รับรางวัลมากกว่า 100,000 บาท เมื่อแนะนำเพื่อนให้ซื้อห้อง ASAKAN สิทธิพิเศษสมาชิก Privilege',
-};
+  path: '/member/fgf',
+});
 
 export default function FgfPage() {
   return (

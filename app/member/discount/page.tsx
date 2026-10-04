@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
@@ -6,11 +7,11 @@ import MemberSubNav from '@/components/member/MemberSubNav';
 import Link from 'next/link';
 import { CheckCircle, ArrowRight } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: { absolute: 'Discount Privilege | สมาชิก ASAKAN' },
-  alternates: { canonical: '/member/discount' },
+export const metadata: Metadata = pageMetadata({
+  title: 'Discount Privilege | สมาชิก ASAKAN',
   description: 'ส่วนลดพิเศษ 50,000 บาท เมื่อซื้อห้องโครงการ ASAKAN ครั้งต่อไป สิทธิพิเศษเฉพาะสมาชิก',
-};
+  path: '/member/discount',
+});
 
 const projects = [
   { name: 'Asakan Elysium Phahol-59', href: '/elysium59' },

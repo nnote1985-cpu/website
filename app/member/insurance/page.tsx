@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import MemberSubNav from '@/components/member/MemberSubNav';
 import { CheckCircle, Phone } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: { absolute: 'Insurance Privilege | สมาชิก ASAKAN' },
-  alternates: { canonical: '/member/insurance' },
+export const metadata: Metadata = pageMetadata({
+  title: 'Insurance Privilege | สมาชิก ASAKAN',
   description: 'ประกันอุบัติเหตุสูงสุด 500,000 บาทต่อปี สิทธิพิเศษสำหรับสมาชิก ASAKAN Privilege',
-};
+  path: '/member/insurance',
+});
 
 const coverages = [
   { label: 'เสียชีวิตจากอุบัติเหตุ', amount: '500,000 บาท' },

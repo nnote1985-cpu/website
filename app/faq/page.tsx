@@ -4,19 +4,16 @@ import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import FaqSection from '@/components/home/FaqSection';
 import { faqs } from '@/lib/faqs';
-import { JsonLd, breadcrumbJsonLd } from '@/lib/seo';
+import { JsonLd, breadcrumbJsonLd, pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: { absolute: 'คำถามที่พบบ่อย (FAQ) | ASAKAN อสังหาริมทรัพย์' },
-  alternates: { canonical: '/faq' },
+export const metadata: Metadata = pageMetadata({
+  title: 'คำถามที่พบบ่อย (FAQ) | ASAKAN อสังหาริมทรัพย์',
   description: 'รวมคำถามที่พบบ่อยเกี่ยวกับ ASAKAN คอนโดมิเนียม ราคา ทำเล การขอสินเชื่อ และการลงทุนในอสังหาริมทรัพย์ กรุงเทพฯ',
+  path: '/faq',
   keywords: 'FAQ, คำถาม ASAKAN, คอนโดราคา, สินเชื่อคอนโด, ลงทุนคอนโด',
-  openGraph: {
-    url: '/faq',
-    title: 'คำถามที่พบบ่อย | ASAKAN',
-    description: 'ทุกคำถามเกี่ยวกับคอนโด ASAKAN ตอบครบที่นี่',
-  },
-};
+  ogTitle: 'คำถามที่พบบ่อย | ASAKAN',
+  ogDescription: 'ทุกคำถามเกี่ยวกับคอนโด ASAKAN ตอบครบที่นี่',
+});
 
 export default function FaqPage() {
   const faqJsonLd = {

@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-export const metadata: Metadata = {
-  title: { absolute: 'นโยบายความเป็นส่วนตัว | ASAKAN' },
-  alternates: { canonical: '/policy' },
+export const metadata: Metadata = pageMetadata({
+  title: 'นโยบายความเป็นส่วนตัว | ASAKAN',
   description: 'นโยบายความเป็นส่วนตัว บริษัท อัสสกาญจน์ จำกัด – การเก็บรวบรวม ใช้ และเปิดเผยข้อมูลส่วนบุคคลตาม PDPA',
-};
+  path: '/policy',
+});
 
 export default function PrivacyPolicyPage() {
   return (

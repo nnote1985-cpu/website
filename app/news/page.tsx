@@ -5,13 +5,13 @@ import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import NewsList from '@/components/news/NewsList';
 import FloatingCTA from '@/components/FloatingCTA';
-import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
+import { JsonLd, SITE_URL, breadcrumbJsonLd, pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: { absolute: 'ข่าวสาร & บทความ | ASAKAN อสังหาริมทรัพย์' },
-  alternates: { canonical: '/news' },
+export const metadata: Metadata = pageMetadata({
+  title: 'ข่าวสาร & บทความ | ASAKAN อสังหาริมทรัพย์',
   description: 'ข่าวสารล่าสุด บทความวิเคราะห์ตลาดอสังหาริมทรัพย์ เคล็ดลับการซื้อคอนโด และข้อมูลสินเชื่อบ้าน จาก ASAKAN',
-};
+  path: '/news',
+});
 
 interface NewsItem {
   id: string;

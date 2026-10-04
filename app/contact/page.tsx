@@ -5,19 +5,16 @@ import ContactForm from '@/components/ContactForm';
 import FloatingCTA from '@/components/FloatingCTA';
 import PageHero from '@/components/PageHero';
 import { Phone, Mail, MapPin } from 'lucide-react';
-import { JsonLd, SITE_URL, breadcrumbJsonLd } from '@/lib/seo';
+import { JsonLd, SITE_URL, breadcrumbJsonLd, pageMetadata } from '@/lib/seo';
 import { getContactSettings, lineUrl, telHref } from '@/lib/getContactSettings';
 
-export const metadata: Metadata = {
-  title: { absolute: 'ติดต่อเรา | ASAKAN สอบถามโครงการคอนโด' },
-  alternates: { canonical: '/contact' },
+export const metadata: Metadata = pageMetadata({
+  title: 'ติดต่อเรา | ASAKAN สอบถามโครงการคอนโด',
   description: 'ติดต่อ ASAKAN สอบถามโครงการคอนโดมิเนียม ทีมงานพร้อมให้คำปรึกษาฟรี ไม่มีค่าใช้จ่าย',
-  openGraph: {
-    url: '/contact',
-    title: 'ติดต่อ ASAKAN | คำปรึกษาฟรี',
-    description: 'ทีมงานพร้อมให้คำปรึกษา ส่งข้อความได้เลย',
-  },
-};
+  path: '/contact',
+  ogTitle: 'ติดต่อ ASAKAN | คำปรึกษาฟรี',
+  ogDescription: 'ทีมงานพร้อมให้คำปรึกษา ส่งข้อความได้เลย',
+});
 
 export default async function ContactPage() {
   const contact = await getContactSettings();

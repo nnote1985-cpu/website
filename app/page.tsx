@@ -1,5 +1,6 @@
 import { getProjectDetailAccess } from '@/lib/projectAccess';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import FreedomSection from '@/components/home/FreedomSection';
 import ServicesSection from '@/components/home/ServicesSection';
 import Link from 'next/link';
@@ -20,12 +21,12 @@ import ProjectsWithSearch from '@/components/home/ProjectsWithSearch';
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: { absolute: 'ASAKAN | คอนโดมิเนียมคุณภาพ ราคาเข้าถึงได้ กรุงเทพฯ' },
-  alternates: { canonical: '/' },
+export const metadata: Metadata = pageMetadata({
+  title: 'ASAKAN | คอนโดมิเนียมคุณภาพ ราคาเข้าถึงได้ กรุงเทพฯ',
   description: 'ASAKAN ผู้พัฒนาอสังหาริมทรัพย์ชั้นนำ กว่า 25 ปี คอนโดมิเนียมคุณภาพสูง ราคาเริ่มต้น 1.39 ล้านบาท ย่านรามคำแหง พหลโยธิน กรุงเทพฯ',
+  path: '/',
   keywords: 'ASAKAN, คอนโด, คอนโดมิเนียม, รามคำแหง, พหลโยธิน, กรุงเทพ, อสังหาริมทรัพย์, ราคาถูก',
-};
+});
 
 // --- Interfaces ---
 interface Project {
