@@ -1,5 +1,6 @@
 import { getProjectDetailAccess } from '@/lib/projectAccess';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
+import ComingSoon from '@/components/projects/ComingSoon';
 import Image from 'next/image';
 import { supabaseAdmin } from '@/lib/supabase';
 import Footer from '@/components/Footer';
@@ -69,7 +70,10 @@ export async function getProjectMetadata(slug: string): Promise<Metadata> {
     .select('id, name, description, price_min, location, meta_title, meta_description, meta_keywords, image')
     .eq('slug', slug)
     .single();
-  if (!data || (await getProjectDetailAccess())[data.id] === false) return { title: 'Not Found', robots: { index: false, follow: false } };
+  if (!data) return { title: 'Not Found', robots: { index: false, follow: false } };
+  if ((await getProjectDetailAccess())[data.id] === false) {
+    return { title: { absolute: `${data.name} | เร็วๆ นี้ | ASAKAN` }, robots: { index: false, follow: true } };
+  }
 
   const title = data.meta_title || `${data.name} | คอนโดมิเนียม ASAKAN`;
   const description =
@@ -95,8 +99,8 @@ export async function renderProjectPage(slug: string) {
   const localProject = getLocalProject(slug);
   const { data } = await supabaseAdmin.from('projects').select('*').eq('slug', slug).single();
   if (!data) notFound();
-  // ปกติ proxy พาไป Coming Soon ก่อนถึงตรงนี้แล้ว อันนี้กันไว้เผื่อ cache ของ proxy ยังไม่อัปเดต
-  if ((await getProjectDetailAccess())[data.id] === false) redirect(`/coming-soon?project=${encodeURIComponent(slug)}`);
+  // แอดมินปิดหน้ารายละเอียดไว้ → แสดง Coming Soon ที่ URL เดิม เปิดโครงการเมื่อไรก็กลับเป็นหน้าจริงเอง
+  if ((await getProjectDetailAccess())[data.id] === false) return <ComingSoon projectName={data.name} />;
 
   const project = {
     ...data,

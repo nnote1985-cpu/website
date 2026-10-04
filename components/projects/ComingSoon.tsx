@@ -1,37 +1,13 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 import { ArrowLeft, MessageCircle, Phone } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import ContactForm from '@/components/ContactForm';
-import { supabaseAdmin } from '@/lib/supabase';
-import { getProjectDetailAccess } from '@/lib/projectAccess';
-import { projectUrl } from '@/lib/projectUrl';
 import { getContactSettings, lineUrl, telHref } from '@/lib/getContactSettings';
 
-export const metadata: Metadata = {
-  title: { absolute: 'เร็วๆ นี้ | ASAKAN' },
-  description: 'โครงการนี้กำลังเตรียมเปิดตัว ลงทะเบียนเพื่อรับข่าวสารก่อนใคร',
-  robots: { index: false, follow: true },
-};
-
-// หน้าปลายทางของโครงการที่แอดมินปิดหน้ารายละเอียดไว้ (proxy.ts ส่งมาพร้อม ?project=slug)
-export default async function ComingSoonPage({ searchParams }: { searchParams: Promise<{ project?: string | string[] }> }) {
-  const { project: projectParam } = await searchParams;
-  const slug = typeof projectParam === 'string' ? projectParam : undefined;
-
-  let projectName: string | null = null;
-  if (slug) {
-    const { data } = await supabaseAdmin.from('projects').select('id, name').eq('slug', slug).maybeSingle();
-    if (data) {
-      // โครงการเปิดแสดงแล้ว (ลิงก์เก่าค้างอยู่) → พากลับไปหน้าโครงการเลย
-      if ((await getProjectDetailAccess())[data.id] !== false) redirect(projectUrl(slug));
-      projectName = data.name as string;
-    }
-  }
-
+// แสดงแทนหน้ารายละเอียดโครงการที่แอดมินปิดไว้ ที่ URL เดิมของโครงการ (ไม่ redirect)
+export default async function ComingSoon({ projectName }: { projectName: string }) {
   const contact = await getContactSettings();
 
   return (
@@ -40,12 +16,8 @@ export default async function ComingSoonPage({ searchParams }: { searchParams: P
       <main className="pt-20">
         <PageHero
           eyebrow="Coming Soon"
-          title={projectName ?? 'เร็วๆ นี้'}
-          subtitle={
-            projectName
-              ? 'โครงการนี้กำลังเตรียมเปิดตัว ลงทะเบียนไว้ แล้วเราจะแจ้งรายละเอียดและสิทธิพิเศษให้คุณก่อนใคร'
-              : 'หน้านี้กำลังเตรียมเปิดตัว ลงทะเบียนไว้ แล้วเราจะแจ้งข่าวให้คุณก่อนใคร'
-          }
+          title={projectName}
+          subtitle="โครงการนี้กำลังเตรียมเปิดตัว ลงทะเบียนไว้ แล้วเราจะแจ้งรายละเอียดและสิทธิพิเศษให้คุณก่อนใคร"
         >
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <a
@@ -69,7 +41,7 @@ export default async function ComingSoonPage({ searchParams }: { searchParams: P
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-bold text-[#1a2d6b] mb-3">รับข่าวสารก่อนใคร</h2>
               <p className="text-gray-600 leading-relaxed mb-8">
-                {projectName ? `ฝากชื่อไว้ ทีมงานจะติดต่อกลับเมื่อ ${projectName} พร้อมเปิดให้ชม` : 'ฝากชื่อไว้ ทีมงานจะติดต่อกลับโดยเร็ว'}
+                ฝากชื่อไว้ ทีมงานจะติดต่อกลับเมื่อ {projectName} พร้อมเปิดให้ชม
               </p>
               <div className="space-y-3">
                 <a
@@ -95,7 +67,7 @@ export default async function ComingSoonPage({ searchParams }: { searchParams: P
               </div>
             </div>
             <div className="lg:col-span-3 bg-white rounded-2xl shadow-sm p-6 md:p-8">
-              <ContactForm initialMessage={projectName ? `สนใจโครงการ ${projectName} ขอรับข่าวสารเมื่อเปิดตัว` : ''} />
+              <ContactForm initialMessage={`สนใจโครงการ ${projectName} ขอรับข่าวสารเมื่อเปิดตัว`} />
             </div>
           </div>
         </section>
