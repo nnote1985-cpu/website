@@ -136,6 +136,7 @@
       "/images/projects/elysium-phahol-59/plans/floorplan/fl11.webp",
       "/images/projects/elysium-phahol-59/plans/floorplan/fl12.webp"
     ],
+    "floorPlanNames": ["Master Plan", "B1 Floor", "B2 Floor", "2nd Floor", "Typical Floor", "5th Floor", "8th Floor", "11th Floor", "12nd & 14th Floor"],
     "roomPlans": [
       {
         "type": "22 sqm",
