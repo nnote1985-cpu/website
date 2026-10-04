@@ -138,7 +138,7 @@ const stage = 'sticky top-0 h-svh overflow-hidden';
 function Opening() {
   const ref = useStageProgress<HTMLElement>();
   return (
-    <section ref={ref} className="relative h-[300svh] bg-[#050B14] text-white" aria-label="ASAKAN Beyond Expectations">
+    <section ref={ref} className="relative h-[340svh] bg-[#050B14] text-white" aria-label="ASAKAN Beyond Expectations">
       <div className={stage}>
         <div className="absolute inset-0 will-change-transform" style={{ transform: `scale(calc(1.18 - ${seg(0, 1)} * 0.18))` }}>
           <Image src={`${P}/wela-ramkhamhaeng/gallery/perspective/1.webp`} alt="" fill preload sizes="100vw" className="object-cover" />
@@ -147,7 +147,7 @@ function Opening() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#050B14] via-transparent to-[#050B14]/60" />
 
         {/* BEYOND breaks out of the EXPECTATIONS frame */}
-        <div className="absolute inset-0 flex items-center justify-center px-4" style={{ opacity: `calc(1 - ${seg(0.66, 0.76)})` }} aria-hidden="true">
+        <div className="absolute inset-0 flex items-center justify-center px-4" style={{ opacity: `calc(1 - ${seg(0.62, 0.72)})` }} aria-hidden="true">
           <div className="relative px-[4vw] pb-[3vw] pt-[2.5vw] text-center">
             <span className="absolute inset-x-0 top-0 h-px origin-left bg-white/70" style={{ transform: `scaleX(${seg(0.1, 0.28)})` }} />
             <span className="absolute inset-x-0 bottom-0 h-px origin-right bg-white/70" style={{ transform: `scaleX(${seg(0.1, 0.28)})` }} />
@@ -168,7 +168,7 @@ function Opening() {
           </div>
         </div>
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center" style={rise(0.74, 0.9, '30px')}>
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center" style={rise(0.72, 0.84, '30px')}>
           <p className="text-[11px] font-bold uppercase tracking-[0.4em] text-white/70">ASAKAN</p>
           <h1 className="mt-4 text-[clamp(2.6rem,8vw,6rem)] font-bold leading-[1.02] tracking-[-0.03em]">
             Beyond <span className="whitespace-nowrap">Expectations</span>
@@ -280,8 +280,8 @@ function Journey() {
         <div
           className="absolute inset-0 flex flex-col items-center justify-center will-change-transform"
           style={{
-            opacity: `calc(1 - ${seg(0.3, 0.42)})`,
-            transform: `translate3d(0, calc(${seg(0.22, 0.42)} * -12svh), 0) scale(calc(1 - ${seg(0.22, 0.42)} * 0.35))`,
+            opacity: `calc(1 - ${seg(0.28, 0.38)})`,
+            transform: `translate3d(0, calc(${seg(0.22, 0.38)} * -12svh), 0) scale(calc(1 - ${seg(0.22, 0.38)} * 0.35))`,
           }}
         >
           <div className="text-[min(64vw,68svh)] font-black leading-[0.8] tracking-[-0.07em]">
@@ -292,7 +292,7 @@ function Journey() {
           </p>
         </div>
 
-        <div className="absolute inset-0 flex flex-col justify-center" style={fadeIn(0.36, 0.46)}>
+        <div className="absolute inset-0 flex flex-col justify-center" style={fadeIn(0.4, 0.48)}>
           <div className="mx-auto w-full max-w-7xl px-5 lg:px-10">
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/60">03 — Our Journey</p>
           </div>
@@ -396,13 +396,13 @@ function BeyondBuildings() {
         <div className={stage}>
           <div
             className="absolute inset-0 will-change-transform"
-            style={{ transform: `scale(calc(1 + ${seg(0, 0.5)} * 1.4))`, transformOrigin: '50% 38%', opacity: `calc(1 - ${seg(0.4, 0.55)})` }}
+            style={{ transform: `scale(calc(1 + ${seg(0, 0.5)} * 0.6))`, transformOrigin: '50% 38%', opacity: `calc(1 - ${seg(0.44, 0.52)})` }}
           >
             <Image src={`${P}/elysium-phahol-59/gallery/perspective/perspective11.webp`} alt="" fill sizes="100vw" className="object-cover" />
           </div>
           <div
             className="absolute inset-0 will-change-transform"
-            style={{ transform: `scale(calc(1.25 - ${seg(0.4, 1)} * 0.25))`, opacity: seg(0.4, 0.55) }}
+            style={{ transform: `scale(calc(1.15 - ${seg(0.44, 1)} * 0.15))`, opacity: seg(0.44, 0.52) }}
           >
             <Image src={`${P}/elysium-phahol-59/gallery/room/43 sqm/1.webp`} alt="" fill sizes="100vw" className="object-cover" />
           </div>
@@ -427,23 +427,33 @@ function BeyondBuildings() {
         </div>
       </section>
 
-      <section className="bg-white py-28 text-[#0f1e4a] md:py-40">
-        <div className="mx-auto max-w-7xl px-5 lg:px-10">
-          {['Beyond buildings.', 'Beyond square metres.', 'Beyond expectations.'].map((line, i) => (
-            <Reveal key={line} delay={i * 140}>
-              <p className={`text-[clamp(2.4rem,7.5vw,6.5rem)] font-bold leading-[1.08] tracking-[-0.035em] ${i < 2 ? 'text-slate-300' : ''}`}>
-                {line}
-              </p>
-            </Reveal>
-          ))}
-          <Reveal delay={450}>
-            <p className="mt-12 max-w-xl text-lg leading-[1.85] text-slate-600 md:text-xl">
-              สุดท้าย ASAKAN ไม่ได้วัดความสำเร็จจากจำนวนอาคาร แต่วัดจากชีวิตที่เกิดขึ้นภายในพื้นที่เหล่านั้น
-            </p>
-          </Reveal>
-        </div>
-      </section>
+      <Closing />
     </>
+  );
+}
+
+/** Pinned so each line gets read before the dark finale takes over. */
+function Closing() {
+  const ref = useStageProgress<HTMLElement>();
+  return (
+    <section ref={ref} className="relative h-[220svh] bg-white text-[#0f1e4a]" aria-label="Beyond expectations">
+      <div className={`${stage} flex items-center`}>
+        <div className="mx-auto w-full max-w-7xl px-5 lg:px-10">
+          {['Beyond buildings.', 'Beyond square metres.', 'Beyond expectations.'].map((line, i) => (
+            <p
+              key={line}
+              className={`text-[clamp(2.4rem,7.5vw,6.5rem)] font-bold leading-[1.08] tracking-[-0.035em] ${i < 2 ? 'text-slate-300' : ''}`}
+              style={i ? rise(i * 0.12 - 0.1, i * 0.12, '0.5em') : undefined}
+            >
+              {line}
+            </p>
+          ))}
+          <p className="mt-12 max-w-xl text-lg leading-[1.85] text-slate-600 md:text-xl" style={rise(0.28, 0.38, '20px')}>
+            สุดท้าย ASAKAN ไม่ได้วัดความสำเร็จจากจำนวนอาคาร แต่วัดจากชีวิตที่เกิดขึ้นภายในพื้นที่เหล่านั้น
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -454,23 +464,23 @@ function BeyondBuildings() {
 function Next() {
   const ref = useStageProgress<HTMLElement>();
   return (
-    <section ref={ref} className="relative h-[320svh] bg-[#050B14] text-white" aria-label="What's beyond next">
+    <section ref={ref} className="relative h-[440svh] bg-[#050B14] text-white" aria-label="What's beyond next">
       <div className={stage}>
         <div
           className="absolute inset-0 will-change-transform"
-          style={{ opacity: `calc(${seg(0.3, 0.6)} * 0.6)`, transform: `scale(calc(1.2 - ${seg(0.3, 1)} * 0.2))` }}
+          style={{ opacity: `calc(${seg(0.2, 0.4)} * 0.6)`, transform: `scale(calc(1.2 - ${seg(0.2, 1)} * 0.2))` }}
         >
           <Image src={`${P}/elysium-phahol-59/gallery/perspective/perspective10.webp`} alt="" fill sizes="100vw" className="object-cover" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#050B14] via-[#050B14]/40 to-[#050B14]/70" />
 
         {/* "here." drifts off screen */}
-        <div className="pointer-events-none absolute inset-0 flex items-center px-5 lg:px-10" style={{ opacity: `calc(1 - ${seg(0.28, 0.36)})` }}>
+        <div className="pointer-events-none absolute inset-0 flex items-center px-5 lg:px-10" style={{ opacity: `calc(1 - ${seg(0.2, 0.26)})` }}>
           <p className="mx-auto w-full max-w-7xl text-[clamp(2.4rem,7vw,6rem)] font-bold leading-tight tracking-[-0.035em]">
             {YEARS} years brought us{' '}
             <span
               className="inline-block text-[#e53935] will-change-transform"
-              style={{ transform: `translate3d(calc(${seg(0.08, 0.34)} * 110vw), 0, 0)` }}
+              style={{ transform: `translate3d(calc(${seg(0.04, 0.24)} * 110vw), 0, 0)` }}
             >
               here.
             </span>
@@ -479,14 +489,14 @@ function Next() {
 
         <div
           className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center text-[clamp(3.25rem,13vw,11rem)] font-black uppercase leading-[0.9] tracking-[-0.05em]"
-          style={{ opacity: `calc(${seg(0.36, 0.46)} - ${seg(0.66, 0.74)})` }}
+          style={{ opacity: `calc(${seg(0.26, 0.34)} - ${seg(0.68, 0.74)})` }}
         >
-          <span style={rise(0.36, 0.46, '0.3em')}>What&apos;s</span>
-          <span className="text-transparent [-webkit-text-stroke:1.5px_white]" style={rise(0.4, 0.5, '0.3em')}>Beyond</span>
-          <span style={rise(0.44, 0.54, '0.3em')}>Next?</span>
+          <span style={rise(0.26, 0.34, '0.3em')}>What&apos;s</span>
+          <span className="text-transparent [-webkit-text-stroke:1.5px_white]" style={rise(0.29, 0.37, '0.3em')}>Beyond</span>
+          <span style={rise(0.32, 0.4, '0.3em')}>Next?</span>
         </div>
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center" style={rise(0.74, 0.88, '30px')}>
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center" style={rise(0.76, 0.86, '30px')}>
           <p className="text-[clamp(3rem,10vw,7.5rem)] font-black leading-none tracking-[-0.04em]">ASAKAN</p>
           <p className="mt-4 text-xs font-bold uppercase tracking-[0.45em] text-white/75 md:text-sm">Beyond Expectations</p>
           <Link
