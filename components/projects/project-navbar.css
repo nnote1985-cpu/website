@@ -8,12 +8,12 @@
 .project-navbar-links > a > span:first-child { color: #627084; }
 .project-navbar-links > a[aria-current] > span:first-child,
 .project-navbar-links > a:hover > span:first-child { color: #152849; }
-.project-navbar-links > a > span:last-child { bottom: 0; height: 2px; background: #a27950; }
-.project-chapter-number { margin-right: 8px; color: #a27950; font-size: 10px; font-weight: 400; }
+.project-navbar-links > a > span:last-child { bottom: 0; height: 2px; background: #e53935; }
+.project-chapter-number { margin-right: 8px; color: #e53935; font-size: 10px; font-weight: 400; }
 .project-navbar-menu { max-height: calc(100dvh - 80px); overflow-y: auto; background: #ffffff; }
 .project-navbar-menu > a { font-weight: 500; border-color: #e2e6eb; }
-.project-navbar-menu > a[aria-current] { color: #a27950; }
-.project-navbar :is(a,button):focus-visible { outline: 2px solid #a27950; outline-offset: 3px; }
+.project-navbar-menu > a[aria-current] { color: #e53935; }
+.project-navbar :is(a,button):focus-visible { outline: 2px solid #e53935; outline-offset: 3px; }
 @media (min-width:1280px) and (max-width:1439px) {
   .project-navbar-brand { max-width: 245px; }
   .project-navbar-links { gap: 14px; }
