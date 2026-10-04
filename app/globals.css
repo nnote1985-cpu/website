@@ -260,3 +260,15 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .img-shimmer, .img-shimmer-dark { animation: none; }
 }
+
+/* Faint ASAKAN "A" in the middle of image skeletons, so the box reads as a loading image */
+.skeleton-mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='42,6 55,6 31,94 18,94' fill='%231a2d6b' fill-opacity='.12'/><polygon points='55,6 65,6 86,94 73,94' fill='%231a2d6b' fill-opacity='.12'/><line x1='24' y1='93' x2='30' y2='72' stroke='%23f4511e' stroke-opacity='.7' stroke-width='4' stroke-linecap='round'/></svg>") center / auto min(30%, 72px) no-repeat;
+}
+.img-shimmer-dark.skeleton-mark::after {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='42,6 55,6 31,94 18,94' fill='%23ffffff' fill-opacity='.16'/><polygon points='55,6 65,6 86,94 73,94' fill='%23ffffff' fill-opacity='.16'/><line x1='24' y1='93' x2='30' y2='72' stroke='%23f4511e' stroke-opacity='.7' stroke-width='4' stroke-linecap='round'/></svg>");
+}

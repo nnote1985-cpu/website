@@ -10,7 +10,7 @@ export default function ProjectPageSkeleton() {
 
       {/* Desktop: full-screen hero with the register panel on the right */}
       <div className="hidden h-[calc(100svh-80px)] xl:flex">
-        <div className="img-shimmer-dark flex-1" />
+        <div className="img-shimmer-dark skeleton-mark relative flex-1" />
         <div className="flex w-[clamp(390px,24vw,430px)] flex-col gap-5 bg-[#14120f] px-8 py-10">
           <span className="img-shimmer-dark h-3 w-40 rounded" />
           <span className="img-shimmer-dark h-8 w-56 rounded" />
@@ -22,7 +22,7 @@ export default function ProjectPageSkeleton() {
 
       {/* Mobile: promo artwork, then the form */}
       <div className="xl:hidden">
-        <div className="img-shimmer aspect-[1080/1600] w-full" />
+        <div className="img-shimmer skeleton-mark relative aspect-[1080/1600] w-full" />
         <div className="space-y-4 bg-[#14120f] px-6 py-8">
           <span className="img-shimmer-dark block h-7 w-48 rounded" />
           {[0, 1, 2].map((i) => <span key={i} className="img-shimmer-dark block h-10 w-full rounded" />)}

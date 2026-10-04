@@ -938,7 +938,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           >
             {/* Main image — click center to fullscreen */}
             {!galleryImageLoaded && (
-              <div aria-hidden className="img-shimmer-dark absolute inset-0 z-10" />
+              <div aria-hidden className="img-shimmer-dark skeleton-mark absolute inset-0 z-10" />
             )}
             <NextImage
               key={`main-${currentImage}-${safeActiveImg}`}
@@ -1205,7 +1205,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 onClick={() => setIsPlanFullscreen(true)}
               >
                 {currentPlanImage && !planImageLoaded && (
-                  <div aria-hidden className="img-shimmer absolute inset-4 md:inset-6 rounded-xl" />
+                  <div aria-hidden className="img-shimmer skeleton-mark absolute inset-4 md:inset-6 rounded-xl" />
                 )}
                 {activeTab === 'room' && project.roomPlans?.[activePlanIndex] && (
                   <NextImage

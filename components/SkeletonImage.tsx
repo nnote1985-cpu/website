@@ -23,7 +23,7 @@ export default function SkeletonImage({
   };
   return (
     <>
-      {!loaded && <span aria-hidden className={`pointer-events-none absolute inset-0 ${shimmerClass(tone)}`} />}
+      {!loaded && <span aria-hidden className={`skeleton-mark pointer-events-none absolute inset-0 ${shimmerClass(tone)}`} />}
       {/* eslint-disable-next-line jsx-a11y/alt-text -- alt comes from props */}
       <Image
         {...props}
@@ -48,7 +48,7 @@ export function SkeletonImg({
   }, []);
   return (
     <span className="relative block">
-      {!loaded && <span aria-hidden className={`pointer-events-none absolute inset-0 ${shimmerClass(tone)}`} />}
+      {!loaded && <span aria-hidden className={`skeleton-mark pointer-events-none absolute inset-0 ${shimmerClass(tone)}`} />}
       {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
       <img
         {...props}
