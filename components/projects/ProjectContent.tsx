@@ -1236,17 +1236,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               <span>PROJECT FILMS</span>
               <h2>Video</h2>
             </header>
-            <div className="pd-video-player">
-              <iframe
-                key={activeVideo}
-                src={videos[activeVideo].url.replace('www.youtube.com', 'www.youtube-nocookie.com')}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title={videos[activeVideo].title || `${project.name} Video`}
-              />
-            </div>
             {videos.length > 1 && (
-              <div className="pd-video-list" aria-label="เลือกวิดีโอ">
+              <div className="pd-video-picker"><p>เลือกวิดีโอ <span>{videos.length} คลิป</span></p><div className="pd-video-list" aria-label="เลือกวิดีโอ">
                 {videos.map((video, index) => (
                   <button key={index} type="button" aria-pressed={activeVideo === index}
                     onClick={() => setActiveVideo(index)}>
@@ -1257,8 +1248,18 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                     <span className="pd-video-play"><Play size={14} /></span>
                   </button>
                 ))}
-              </div>
+              </div></div>
             )}
+            <div className="pd-video-player">
+              <iframe
+                key={activeVideo}
+                src={videos[activeVideo].url.replace('www.youtube.com', 'www.youtube-nocookie.com')}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title={videos[activeVideo].title || `${project.name} Video`}
+              />
+            </div>
+
           </div>
         </section>
       )}
