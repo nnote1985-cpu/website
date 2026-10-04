@@ -187,6 +187,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   const [activeGalleryTab, setActiveGalleryTab] = useState<GalleryTab>('perspective');
   const [activeGalleryGroup, setActiveGalleryGroup] = useState(0);
   const [activeImg, setActiveImg] = useState(0);
+  const [galleryRatio, setGalleryRatio] = useState(16 / 9);
   const [isGalleryFullscreen, setIsGalleryFullscreen] = useState(false);
   const [roomTypeDropdownOpen, setRoomTypeDropdownOpen] = useState(false);
   const [planDropdownOpen, setPlanDropdownOpen] = useState(false);
@@ -865,10 +866,12 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             </div>
           )}
           {currentGalleryGroups.length > 0 && (
-            <div className="mt-5 flex justify-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+            <div className="pd-room-sizes">
+              <p>{activeGalleryTab === 'room' ? 'เลือกขนาดห้อง' : 'เลือกชุดภาพ'}</p>
               {currentGalleryGroups.map((group, index) => (
                 <button
                   key={group.label}
+                  aria-pressed={safeActiveGalleryGroup === index}
                   onClick={() => { setActiveGalleryGroup(index); setActiveImg(0); }}
                   className={`shrink-0 rounded-full border px-4 py-2 text-xs font-bold transition-all ${
                     safeActiveGalleryGroup === index
@@ -883,8 +886,9 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           )}
         </div>
 
-        <div className="pd-gallery-media max-w-6xl mx-auto px-4">
+        <div className="pd-gallery-media max-w-6xl mx-auto px-4" style={{ width: `min(100%, calc((100svh - 180px) * ${galleryRatio}))` }}>
           <div
+            style={{ aspectRatio: galleryRatio }}
             className="pd-gallery-stage relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-slate-100 mb-6 shadow-xl border group"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
@@ -903,12 +907,12 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               fill
               sizes="(min-width: 1440px) 1320px, 94vw"
               onError={() => handleImageError(currentImage)}
-              onLoad={() => setLoadedGalleryImages((prev) => {
+              onLoad={(event) => { setGalleryRatio(event.currentTarget.naturalWidth / event.currentTarget.naturalHeight); setLoadedGalleryImages((prev) => {
                 if (prev.has(currentImage)) return prev;
                 const next = new Set(prev);
                 next.add(currentImage);
                 return next;
-              })}
+              }); }}
               onClick={() => setIsGalleryFullscreen(true)}
               className={`w-full h-full object-cover cursor-pointer animate-in fade-in duration-300 ${
                 slideDirection === 'right' ? 'slide-in-from-right-10' : 'slide-in-from-left-10'
