@@ -187,7 +187,6 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   const [activeGalleryTab, setActiveGalleryTab] = useState<GalleryTab>('perspective');
   const [activeGalleryGroup, setActiveGalleryGroup] = useState(0);
   const [activeImg, setActiveImg] = useState(0);
-  const [galleryRatio, setGalleryRatio] = useState(16 / 9);
   const [isGalleryFullscreen, setIsGalleryFullscreen] = useState(false);
   const [roomTypeDropdownOpen, setRoomTypeDropdownOpen] = useState(false);
   const [planDropdownOpen, setPlanDropdownOpen] = useState(false);
@@ -896,9 +895,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           )}
         </div>
 
-        <div className="pd-gallery-media max-w-6xl mx-auto px-4" style={{ width: `min(100%, calc((100svh - 180px) * ${galleryRatio}))` }}>
+        <div className="pd-gallery-media max-w-6xl mx-auto px-4">
           <div
-            style={{ aspectRatio: galleryRatio }}
             className="pd-gallery-stage relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-slate-100 mb-6 shadow-xl border group"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
@@ -917,7 +915,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               fill
               sizes="(min-width: 1440px) 1320px, 94vw"
               onError={() => handleImageError(currentImage)}
-              onLoad={(event) => { setGalleryRatio(event.currentTarget.naturalWidth / event.currentTarget.naturalHeight); setLoadedGalleryImages((prev) => {
+              onLoad={() => { setLoadedGalleryImages((prev) => {
                 if (prev.has(currentImage)) return prev;
                 const next = new Set(prev);
                 next.add(currentImage);

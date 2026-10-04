@@ -161,7 +161,7 @@
 .pd-gallery-workspace .pd-gallery-toolbar>div.mt-5{flex-wrap:wrap;overflow:visible;gap:8px}
 .pd-gallery-workspace .pd-gallery-media{min-width:0;width:100%;padding:0}
 .pd-gallery-workspace .pd-gallery-stage{background:#111e30}
-.pd-gallery-workspace .pd-gallery-stage img{object-fit:contain}
+.pd-gallery-workspace .pd-gallery-stage img{object-fit:contain;object-position:center}
 @media(max-width:1023px){
  .pd-gallery-workspace{display:block}
  .pd-gallery-workspace .pd-gallery-toolbar{position:static;flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:18px}
@@ -172,10 +172,13 @@
  .pd-gallery-workspace .pd-gallery-actions button{width:36px;height:36px}
 }
 
-@media(min-width:1024px){.pd-gallery-workspace .pd-gallery-stage{aspect-ratio:auto;height:min(620px,calc(100svh - 180px))}}
+
 
 .pd-gallery-workspace .pd-gallery-media{margin-left:0;margin-right:0}
-.pd-gallery-workspace .pd-gallery-stage{height:auto}
+/* Reserve the same image area for every slide, including while loading. */
+.pd-gallery-workspace .pd-gallery-stage{height:auto;aspect-ratio:16/9}
+@media(min-width:1024px){.pd-gallery-workspace .pd-gallery-stage{aspect-ratio:auto;height:clamp(360px,calc(100svh - 260px),680px)}}
+@media(max-width:767px){.pd-gallery-workspace .pd-gallery-stage{aspect-ratio:4/3}}
 .pd-gallery-workspace .pd-room-sizes{order:-1;display:flex;flex-wrap:wrap;gap:8px;padding:16px 0;border-top:1px solid #ffffff25;border-bottom:1px solid #ffffff25;width:100%}
 .pd-room-sizes p{width:100%;font-size:12px;color:#c3cbd8;margin-bottom:4px}
 .pd-room-sizes button{border-radius:3px;background:transparent;border:1px solid #ffffff30;color:#c3cbd8;font-weight:500;box-shadow:none;padding:10px 12px}
