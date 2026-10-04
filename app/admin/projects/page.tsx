@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import ProjectSectionsEditor from '@/components/admin/ProjectSectionsEditor';
+import { normalizeProjectSections, type ProjectSections, progressEmbed } from '@/lib/projectSections';
 import { Plus, Edit, Trash2, X, Save, Building2 } from 'lucide-react';
 
 interface FacilityItem {
@@ -10,6 +12,7 @@ interface FacilityItem {
 }
 
 interface Project {
+  projectSections: ProjectSections;
   detailsEnabled: boolean;
   id: string;
   slug: string;
@@ -45,6 +48,7 @@ interface Project {
 }
 
 const EMPTY: Omit<Project, 'id'> = {
+  projectSections: normalizeProjectSections(null),
   detailsEnabled: true, slug: '', name: '', status: 'active', type: 'Low-Rise Condominium',
   floors: 8, units: 100, priceMin: 1200000, priceMax: 3000000,
   location: '', bts: '', concept: '', conceptArticle: '', conceptImage: '', description: '',
@@ -64,6 +68,7 @@ const STATUS_OPTIONS = [
 function mapProject(p: Record<string, unknown>): Project {
   return {
     id: p.id as string,
+    projectSections: normalizeProjectSections(p.project_sections),
     detailsEnabled: p.details_enabled !== false,
     slug: p.slug as string,
     name: p.name as string,
@@ -230,6 +235,8 @@ export default function AdminProjectsPage() {
 
   async function handleSave() {
     if (!modal.project) return;
+    if (modal.project.projectSections?.progressEnabled && !modal.project.projectSections.progressDate) { alert('กรุณาระบุเดือนที่อัปเดตความคืบหน้า'); return; }
+    if (modal.project.projectSections?.progressVideo && !progressEmbed(modal.project.projectSections.progressVideo)) { alert('กรุณาใช้ลิงก์วิดีโอ YouTube ที่ถูกต้อง'); return; }
     setSaving(true);
     try {
       const { id, ...body } = modal.project as Project;
@@ -618,6 +625,7 @@ export default function AdminProjectsPage() {
                   labelClass={labelClass}
                 />
 
+                <ProjectSectionsEditor value={modal.project.projectSections || normalizeProjectSections(null)} onChange={v => updateField('projectSections', v)} />
                 {/* ── SEO ── */}
                 <div className="col-span-2 pt-2 border-t border-gray-100">
                   <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">SEO Meta Tags</p>

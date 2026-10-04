@@ -5,6 +5,7 @@ import NextImage from 'next/image';
 import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, Play, ChevronDown, HelpCircle, Layers, TrainFront, DoorOpen, LandPlot, Car, Tag, ArrowRight } from 'lucide-react';
 import { projectFont, projectThaiFont } from './projectFonts';
 import './project-editorial.css';
+import { ProjectSurroundings, ProjectProgress } from './ProjectSurroundings';
 
 
 
@@ -27,6 +28,7 @@ type GalleryTabData = string[] | GalleryGroup[];
 type GalleryData = string[] | Partial<Record<GalleryTab, GalleryTabData>>;
 
 interface ProjectContentData {
+  projectSections?: unknown;
   name: string;
   image?: string;
   gallery?: GalleryData;
@@ -1303,7 +1305,9 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       {/* =========================================
           📍 FAQ SECTION
       ========================================= */}
+      <ProjectProgress value={project.projectSections} />
       <ProjectFAQ project={project} />
+      <ProjectSurroundings value={project.projectSections} />
 
       {/* =========================================
           📍 4. LOCATION & MAP SECTION

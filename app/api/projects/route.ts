@@ -1,3 +1,4 @@
+import { normalizeProjectSections } from '@/lib/projectSections';
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/supabase';
@@ -25,6 +26,7 @@ export async function POST(req: NextRequest) {
     const newProject = {
       id: body.id || generateId(),
       slug: body.slug,
+    ...(body.projectSections !== undefined ? { project_sections: normalizeProjectSections(body.projectSections) } : {}),
       name: body.name,
       name_en: body.nameEn || body.name_en,
       status: body.status,
@@ -70,6 +72,7 @@ export async function POST(req: NextRequest) {
     const { data, error } = await supabaseAdmin.from('projects').insert(newProject).select().single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     revalidatePath(`/projects/${data.slug}`);
+    revalidatePath(`/${data.slug}`);
     revalidatePath('/');
     return NextResponse.json(data, { status: 201 });
   } catch (error) {

@@ -97,6 +97,7 @@ export async function renderProjectPage(slug: string) {
 
   const project = {
     ...data,
+    projectSections: data.project_sections,
     image: preferSupabaseAsset(data.image, localProject?.image),
     nameEn: data.name_en,
     priceMin: data.price_min,
