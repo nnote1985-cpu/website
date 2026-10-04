@@ -1033,7 +1033,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             <div className="pd-plans-heading text-center mb-12">
               <div className="flex items-center justify-center gap-3 mb-4 text-[#1a2d6b]">
                 <LayoutDashboard size={36} />
-                <div><span className="pd-plans-eyebrow">DESIGNED FOR LIVING</span><h2 className="text-4xl md:text-5xl font-semibold uppercase tracking-tight">แบบแปลน</h2></div>
+                <div><span className="pd-plans-eyebrow">DESIGNED FOR LIVING</span><h2 className="text-4xl md:text-5xl font-semibold uppercase tracking-tight">Plans</h2></div>
               </div>
               <p className="text-slate-500 mb-10 text-lg">สัมผัสการออกแบบพื้นที่ใช้สอยที่ตอบโจทย์ชีวิตคนเมือง</p>
               
