@@ -197,9 +197,18 @@
 
 @media(min-width:1024px){
  .pd-gallery-workspace .pd-gallery-toolbar{position:static;overflow-y:auto}
- .pd-gallery-workspace .pd-gallery-picker{margin-top:auto}
+ .pd-gallery-workspace .pd-gallery-picker{margin-top:0}
  .pd-gallery-workspace .pd-gallery-actions{flex-shrink:0}
 }
 @media(max-width:1023px){
  .pd-gallery-workspace .pd-gallery-toolbar{height:auto!important}
 }
+
+/* The Gallery title shares the photograph's top edge in the left column. */
+.pd-gallery-toolbar .pd-gallery-heading{order:-2;display:flex;flex-direction:column;align-items:flex-start;gap:12px;width:100%;padding:0;margin:0 0 12px;text-align:left}
+.pd-gallery-toolbar .pd-gallery-heading>div{margin:0;justify-content:flex-start}
+.pd-gallery-toolbar .pd-gallery-heading>div:has(h2){order:-1}
+.pd-gallery-toolbar .pd-gallery-heading h2{font-size:clamp(30px,2.6vw,40px);line-height:1;margin:0;letter-spacing:-.04em}
+.pd-gallery-toolbar .pd-gallery-heading>p{margin:0;font-size:9px;letter-spacing:.18em}
+.pd-gallery-toolbar .pd-gallery-heading>div:last-child{display:none}
+@media(max-width:1023px){.pd-gallery-toolbar .pd-gallery-heading{flex-basis:100%;margin-bottom:8px}}

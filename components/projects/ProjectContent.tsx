@@ -252,15 +252,6 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   const hasGallery = validGallery.length > 0;
   const validGalleryLength = validGallery.length;
   const safeActiveImg = activeImg >= validGallery.length ? 0 : activeImg;
-  const galleryStageRef = useRef<HTMLDivElement>(null);
-  const [galleryStageHeight, setGalleryStageHeight] = useState<number>();
-  useEffect(() => {
-    const stage = galleryStageRef.current;
-    if (!stage) return;
-    const observer = new ResizeObserver(() => setGalleryStageHeight(stage.getBoundingClientRect().height));
-    observer.observe(stage);
-    return () => observer.disconnect();
-  }, []);
   const thumbnailRail = useRef<HTMLDivElement>(null);
   const thumbnailDrag = useRef({ startX: 0, scrollLeft: 0, active: false, moved: false });
   useEffect(() => {
@@ -834,6 +825,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           📍 GALLERY SECTION (แยกหมวดหมู่)
       ========================================= */}
       <section id="gallery" data-editorial-section="02" className="py-24 bg-white border-b border-[#e53935]/10">
+        <div className="pd-gallery-workspace">
+        <div className="pd-gallery-toolbar">
         <div className="pd-gallery-heading max-w-7xl mx-auto px-4 text-center mb-10">
           <p className={`text-[10px] font-semibold tracking-[0.35em] uppercase text-[#e53935] mb-3`}>
             Photo Gallery
@@ -844,8 +837,6 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           <div className="w-12 h-[2px] bg-[#e53935] mx-auto mb-8" />
 
         </div>
-        <div className="pd-gallery-workspace">
-        <div className="pd-gallery-toolbar" style={{ height: galleryStageHeight }}>
           <div className="pd-gallery-actions">
             <button aria-label="ภาพก่อนหน้า" onClick={handleGalleryPrev}><ChevronLeft size={18} /></button>
             <button aria-label="ภาพถัดไป" onClick={handleGalleryNext}><ChevronRight size={18} /></button>
@@ -907,7 +898,6 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
 
         <div className="pd-gallery-media max-w-6xl mx-auto px-4" style={{ width: `min(100%, calc((100svh - 180px) * ${galleryRatio}))` }}>
           <div
-            ref={galleryStageRef}
             style={{ aspectRatio: galleryRatio }}
             className="pd-gallery-stage relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-slate-100 mb-6 shadow-xl border group"
             onTouchStart={onTouchStart}
