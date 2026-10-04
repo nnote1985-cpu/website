@@ -1227,6 +1227,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       {/* =========================================
           📍 3. VIDEO SECTION
       ========================================= */}
+      <ProjectSurroundings value={project.projectSections} />
+
       {videos.length > 0 && (
         <section id="video" data-editorial-section="04" className="py-16 md:py-24 bg-[#0f1e4a]">
           <div className="max-w-6xl mx-auto px-4">
@@ -1307,7 +1309,6 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       ========================================= */}
       <ProjectProgress value={project.projectSections} />
       <ProjectFAQ project={project} />
-      <ProjectSurroundings value={project.projectSections} />
 
       {/* =========================================
           📍 4. LOCATION & MAP SECTION
