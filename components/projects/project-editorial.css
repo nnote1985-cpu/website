@@ -187,10 +187,19 @@
 
 .pd-thumbnail-rail{position:relative;justify-content:flex-start;cursor:grab;user-select:none;touch-action:pan-x pan-y;scrollbar-width:thin;scrollbar-color:#64748b transparent}.pd-thumbnail-rail:active{cursor:grabbing}.pd-thumbnail-rail img{-webkit-user-drag:none;user-select:none}
 
-/* Consistent project typography: Latin Montserrat, Thai Anuphan. */
+/* Consistent project typography: Latin Montserrat, Thai Kanit. */
 .project-editorial { font-weight: 400; }
 .project-editorial :is(button,input,select,textarea) { font-family: inherit; }
 .project-editorial > section h2 { font-weight: 600; letter-spacing: -.035em; line-height: 1.3; }
 .project-editorial .pd-concept-copy h3 { font-weight: 600; letter-spacing: -.035em; }
 .project-editorial .pd-facilities h3 { font-weight: 600; }
 .project-editorial > section::before { font-family: inherit; }
+
+@media(min-width:1024px){
+ .pd-gallery-workspace .pd-gallery-toolbar{position:static;overflow-y:auto}
+ .pd-gallery-workspace .pd-gallery-picker{margin-top:auto}
+ .pd-gallery-workspace .pd-gallery-actions{flex-shrink:0}
+}
+@media(max-width:1023px){
+ .pd-gallery-workspace .pd-gallery-toolbar{height:auto!important}
+}
