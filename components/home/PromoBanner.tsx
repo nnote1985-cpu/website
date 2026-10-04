@@ -56,7 +56,7 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
                 key={promo.id}
                 aria-hidden={enhanced && !isActive ? true : undefined}
                 style={{ gridArea: '1 / 1' }}
-                className={`promo-slide flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6 pt-2.5 ${promos.length > 1 ? 'pb-7 md:pb-4' : 'pb-2.5'} transition-opacity duration-[1500ms] motion-reduce:transition-none ease-in-out ${
+                className={`promo-slide flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6 pt-2.5 ${promos.length > 1 ? 'pb-5 md:pb-4' : 'pb-2.5'} transition-opacity duration-[1500ms] motion-reduce:transition-none ease-in-out ${
                   isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
                 }`}
               >
@@ -69,14 +69,7 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
                     </span>
                   </div>
                   <h2 className="text-lg md:text-xl font-bold tracking-tight">{promo.title}</h2>
-                  <div className="flex flex-wrap items-baseline justify-center md:justify-start gap-x-3 mt-0.5 text-xs">
-                    <p className="text-slate-500 hidden md:block">{promo.subtitle}</p>
-                    {(promo.description || promo.validUntil) && <details className="text-slate-600 open:basis-full" onToggle={event => { if (event.currentTarget.open) setPaused(true); }}>
-                      <summary className="cursor-pointer underline underline-offset-4" tabIndex={!enhanced || isActive ? 0 : -1}>รายละเอียดและเงื่อนไข</summary>
-                      {promo.description && <p className="mt-2 whitespace-pre-line leading-relaxed">{promo.description}</p>}
-                      {promo.validUntil && <p className="mt-1">ระยะเวลาโปรโมชัน: {promo.validUntil}</p>}
-                    </details>}
-                  </div>
+                  <p className="text-slate-500 text-xs mt-0.5 hidden md:block">{promo.subtitle}</p>
                 </div>
 
                 {/* Right: price + CTA */}
@@ -103,7 +96,7 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
 
         {/* Dot navigation, overlaid on the strip's bottom padding so it adds no height */}
         {promos.length > 1 && (
-          <div className="promo-navigation absolute inset-x-0 bottom-1 z-20 flex items-center justify-center gap-1.5">
+          <div className="promo-navigation absolute inset-x-0 bottom-2 z-20 flex items-center justify-center gap-1.5">
             {promos.map((_, i) => (
               <button
                 key={i}
@@ -115,7 +108,6 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
                 aria-pressed={i === currentIndex}
               />
             ))}
-            <button type="button" onClick={() => setPaused(!paused)} className="ml-3 px-2 py-0.5 text-[11px] text-slate-600 underline underline-offset-4">{paused ? 'เล่นอัตโนมัติ' : 'หยุดสไลด์'}</button>
           </div>
         )}
       </div>
