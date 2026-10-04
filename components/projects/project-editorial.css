@@ -244,3 +244,8 @@
 .pd-video-picker .pd-video-list button[aria-pressed=true]{border-color:var(--pd-accent);background:#fff6f5}
 .pd-video-picker .pd-video-label small{margin-top:3px}
 @media(max-width:767px){.pd-video-body{width:100%}.pd-video-picker .pd-video-list{gap:8px}.pd-video-picker .pd-video-list button{padding:10px 12px}.pd-video-label{font-size:13px}}
+
+/* Section content fades up once on first view (classes added by ProjectContent). */
+.pd-reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease-out,transform .6s ease-out}
+.pd-reveal.pd-revealed{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.pd-reveal{opacity:1;transform:none;transition:none}}

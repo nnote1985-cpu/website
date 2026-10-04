@@ -472,8 +472,29 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
     return () => document.removeEventListener('pointerdown', handlePointerDown);
   }, [roomTypeDropdownOpen, planDropdownOpen]);
 
+  // Each section's content fades up once when it scrolls into view. Classes are added here,
+  // so content stays visible without JavaScript and for reduced-motion users.
+  const editorialRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const root = editorialRef.current;
+    if (!root || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const targets = Array.from(root.querySelectorAll<HTMLElement>(':scope > section > div'));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('pd-revealed');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+    targets.forEach((target) => {
+      target.classList.add('pd-reveal');
+      observer.observe(target);
+    });
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className={`${projectThaiFont.variable} ${projectFont.className} project-editorial`}>
+    <div ref={editorialRef} className={`${projectThaiFont.variable} ${projectFont.className} project-editorial`}>
       
 
 
