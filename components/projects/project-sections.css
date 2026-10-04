@@ -5,14 +5,14 @@
 .pd-section-heading>div>span{display:block;font-size:10px;letter-spacing:.2em;color:#e53935;font-weight:500;margin-bottom:16px}
 .project-editorial .pd-section-heading h2{font-size:clamp(25px,2.1vw,34px);font-weight:400;line-height:1.5;letter-spacing:-.015em;margin:0;text-wrap:pretty;overflow-wrap:anywhere}
 .pd-section-heading>p{max-width:360px;flex:0 1 32%;color:#627084;font-size:14px;line-height:1.9;white-space:pre-line}
-.pd-nearby-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #dce2e9;border-bottom:1px solid #dce2e9;padding:32px 0;gap:0}
-.pd-nearby-card{padding:0 28px;border-right:1px solid #e2e6eb;min-width:0}
+.pd-nearby-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #b8c2cf;border-bottom:1px solid #b8c2cf;padding:32px 0;gap:0}
+.pd-nearby-card{padding:0 28px;border-right:1px solid #b8c2cf;min-width:0}
 .pd-nearby-card:first-child{padding-left:0}.pd-nearby-card:last-child{border-right:0;padding-right:0}
 .pd-nearby-card header{display:flex;gap:12px;align-items:center;margin-bottom:26px}
 .pd-nearby-card header svg{color:#e53935;flex-shrink:0;width:21px;height:21px;stroke-width:1.5}
 .pd-nearby-card h3{font-size:16px;font-weight:400;margin:0}
 .pd-nearby-card header>span{margin-left:auto;font-size:10px;color:#9ca7b6}
-.pd-nearby-card dl{margin:0}.pd-nearby-card dl>div{display:flex;flex-direction:column;gap:8px;padding:16px 0;border-top:1px solid #eef0f3;font-size:14px;line-height:1.6}
+.pd-nearby-card dl{margin:0}.pd-nearby-card dl>div{display:flex;flex-direction:column;gap:8px;padding:16px 0;border-top:1px solid #c7cfda;font-size:14px;line-height:1.6}
 .pd-nearby-card dl>div:first-child{border-top:0;padding-top:0}.pd-nearby-card dl>div:last-child{padding-bottom:0}
 .pd-nearby-card dd{margin:0;font-size:20px;font-weight:400;color:#152849}.pd-nearby-card dt{color:#627084;overflow-wrap:anywhere}
 .project-editorial #progress{border-top:0;background:#f6f7f9}
@@ -29,7 +29,7 @@
 .pd-progress-details progress::-webkit-progress-bar{background:#e2e6eb}.pd-progress-details progress::-webkit-progress-value{background:#152849}.pd-progress-details progress::-moz-progress-bar{background:#152849}
 .pd-progress-film>div{aspect-ratio:16/9;background:#152849;border-radius:4px;overflow:hidden}.pd-progress-film iframe{width:100%;height:100%;border:0}.pd-progress-film p{display:flex;justify-content:space-between;margin:16px 0 0;font-size:12px;color:#627084}
 .pd-progress-no-video{display:block}.pd-progress-no-video .pd-progress-summary{display:grid;grid-template-columns:240px minmax(0,1fr);gap:64px;align-items:center;padding:24px 0 12px}
-.pd-progress-no-video .pd-progress-total{justify-self:center}.pd-progress-no-video .pd-progress-details{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 40px;padding-left:40px;border-left:1px solid #e2e6eb}
+.pd-progress-no-video .pd-progress-total{justify-self:center}.pd-progress-no-video .pd-progress-details{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 40px;padding-left:40px;border-left:1px solid #b8c2cf}
 @media(max-width:1100px){.pd-nearby-grid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px}.pd-nearby-card:nth-child(2n){border-right:0;padding-right:0}.pd-nearby-card:nth-child(2n+1){padding-left:0}.pd-progress-grid{gap:32px}.pd-progress-no-video .pd-progress-summary{grid-template-columns:200px minmax(0,1fr);gap:24px}.pd-progress-no-video .pd-progress-details{padding-left:24px;gap:24px}}
 @media(max-width:767px){.pd-section-heading{display:block;margin-bottom:28px}.pd-section-heading>p{margin-top:20px;max-width:none}.pd-progress-grid{grid-template-columns:1fr}.pd-progress-summary{align-items:center}.pd-progress-no-video .pd-progress-summary{display:flex;padding-top:0;gap:30px}.pd-progress-no-video .pd-progress-details{border:0;padding:0;grid-template-columns:1fr}.pd-progress-total{width:170px;height:170px}.pd-progress-total strong{font-size:40px}.pd-nearby-card{padding:0 16px}.pd-nearby-card header{gap:8px;margin-bottom:18px}.pd-nearby-card h3{font-size:15px}.pd-nearby-card header>span{display:none}.pd-nearby-card dd{font-size:18px}.pd-nearby-card dt{font-size:13px}}
 @media(max-width:380px){.pd-nearby-grid{grid-template-columns:1fr}.pd-nearby-card{padding:0;border-right:0}}
