@@ -35,7 +35,7 @@ export default function PromoHeroWrapper({
   // Full-height dark column: tinted glow in the project colour, heading block, boxed form, contact card.
   const FormPanel = (
     <div
-      className="relative isolate flex h-full w-full flex-col overflow-hidden bg-[#0C1120]"
+      className="relative isolate flex min-h-full w-full flex-col overflow-hidden bg-[#0C1120]"
       style={{
         // Deep brand-navy gradient with soft glows in the project colour: clean, no muddy tint, strong text contrast.
         backgroundImage: [
@@ -83,7 +83,7 @@ export default function PromoHeroWrapper({
         {/* Number sits left so the floating CTA button in the corner never covers it. */}
         <a
           href={`tel:${phoneTel}`}
-          className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-[clamp(8px,1.3vh,12px)] transition-colors hover:border-white/20 hover:bg-white/[0.07]"
+          className="group flex items-center gap-4 rounded-2xl border [@media(min-width:1280px)_and_(max-height:720px)]:hidden border-white/10 bg-white/[0.04] px-4 py-[clamp(8px,1.3vh,12px)] transition-colors hover:border-white/20 hover:bg-white/[0.07]"
         >
           <span
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
@@ -103,8 +103,17 @@ export default function PromoHeroWrapper({
   return (
     <>
       <PromoProjectHeading name={projectName} />
-      <section className="relative hidden min-h-[calc(100vh-80px)] bg-[#101010] xl:flex">
+      {/* Exactly one screen tall; the banner is shown whole and the register panel sits over its right edge. */}
+      <section className="relative hidden h-[calc(100svh-80px)] overflow-hidden bg-[#101010] xl:flex">
         <div className="absolute inset-0 bg-black">
+          <Image
+            src={promoBanner}
+            alt=""
+            aria-hidden
+            fill
+            sizes="100vw"
+            className="scale-110 object-cover opacity-70 blur-2xl"
+          />
           <Image
             src={promoBanner}
             alt={`Promotion for ${projectName}`}
@@ -112,11 +121,11 @@ export default function PromoHeroWrapper({
             priority
             sizes="100vw"
             onError={() => setHasError(true)}
-            className="object-cover"
+            className="object-contain"
           />
         </div>
         <div className="flex-1" />
-        <div id="register" data-register-form="true" className="relative z-10 flex w-[clamp(390px,24vw,430px)] shrink-0 shadow-[-24px_0_60px_rgba(0,0,0,0.35)]">
+        <div id="register" data-register-form="true" className="relative z-10 flex w-[clamp(390px,24vw,430px)] shrink-0 overflow-y-auto shadow-[-24px_0_60px_rgba(0,0,0,0.35)]">
           {FormPanel}
         </div>
       </section>
