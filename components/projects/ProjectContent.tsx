@@ -252,6 +252,16 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   const hasGallery = validGallery.length > 0;
   const validGalleryLength = validGallery.length;
   const safeActiveImg = activeImg >= validGallery.length ? 0 : activeImg;
+  const thumbnailRail = useRef<HTMLDivElement>(null);
+  const thumbnailDrag = useRef({ startX: 0, scrollLeft: 0, active: false, moved: false });
+  useEffect(() => {
+    const rail = thumbnailRail.current;
+    const item = rail?.children[safeActiveImg] as HTMLElement | undefined;
+    if (!rail || !item) return;
+    const target = item.offsetLeft - (rail.clientWidth - item.clientWidth) / 2;
+    rail.scrollTo({ left: Math.max(0, target), behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+  }, [safeActiveImg, activeGalleryTab, safeActiveGalleryGroup]);
+
   const fallbackImage = project.image || '/logo.png';
   
   // ถ้าไม่มีรูปในหมวดนั้นเลย ให้เอารูปหน้าปก (project.image) มาแสดงแก้ขัด
@@ -960,7 +970,32 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           </div>
 
           {hasGallery ? (
-            <div className="flex justify-center md:justify-start lg:justify-center gap-3 overflow-x-auto pb-4 no-scrollbar snap-x">
+            <div ref={thumbnailRail} className="pd-thumbnail-rail flex gap-3 overflow-x-auto pb-4"
+              onPointerDown={event => {
+                if (event.pointerType !== 'mouse' || event.button !== 0) return;
+                thumbnailDrag.current = { startX: event.clientX, scrollLeft: event.currentTarget.scrollLeft, active: true, moved: false };
+              }}
+              onPointerMove={event => {
+                const drag = thumbnailDrag.current;
+                if (!drag.active) return;
+                const delta = event.clientX - drag.startX;
+                if (Math.abs(delta) > 5) {
+                  drag.moved = true;
+                  event.currentTarget.setPointerCapture(event.pointerId);
+                  event.currentTarget.scrollLeft = drag.scrollLeft - delta;
+                }
+              }}
+              onPointerUp={() => { thumbnailDrag.current.active = false; }}
+              onPointerCancel={() => { thumbnailDrag.current.active = false; }}
+              onLostPointerCapture={() => { thumbnailDrag.current.active = false; }}
+              onPointerLeave={() => { thumbnailDrag.current.active = false; }}
+              onDragStart={event => event.preventDefault()}
+              onClickCapture={event => {
+                if (thumbnailDrag.current.moved) {
+                  event.preventDefault(); event.stopPropagation(); thumbnailDrag.current.moved = false;
+                }
+              }}>
+
               {validGallery.map((img: string, i: number) => (
                 <div 
                   // 📍 แก้ไข Key ที่ Thumbnail: บังคับ Re-render เมื่อสลับหมวด

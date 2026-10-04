@@ -184,3 +184,5 @@
 .pd-gallery-workspace .pd-gallery-media>div:last-child>div{transform:none;border-color:transparent}
 .pd-gallery-workspace .pd-gallery-media>div:last-child>div.opacity-100{border-color:#e53935}
 @media(max-width:1023px){.pd-gallery-workspace .pd-gallery-media{width:100%!important}.pd-gallery-workspace .pd-room-sizes{order:0}}
+
+.pd-thumbnail-rail{position:relative;justify-content:flex-start;cursor:grab;user-select:none;touch-action:pan-x pan-y;scrollbar-width:thin;scrollbar-color:#64748b transparent}.pd-thumbnail-rail:active{cursor:grabbing}.pd-thumbnail-rail img{-webkit-user-drag:none;user-select:none}
