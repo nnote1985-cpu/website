@@ -1232,12 +1232,13 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       {videos.length > 0 && (
         <section id="video" data-editorial-section="04" className="pd-video-section">
           <div className="max-w-6xl mx-auto px-4">
-            <header className="pd-video-heading">
-              <span>PROJECT FILMS</span>
-              <h2>Video</h2>
+            <div className="pd-video-body">
+            <header className="pd-section-heading pd-video-heading">
+              <div><span>PROJECT FILMS</span><h2>Video</h2></div>
+              {videos.length > 1 && <p>{videos.length} คลิป · เลือกชมได้ด้านล่าง</p>}
             </header>
             {videos.length > 1 && (
-              <div className="pd-video-picker"><p>เลือกวิดีโอ <span>{videos.length} คลิป</span></p><div className="pd-video-list" aria-label="เลือกวิดีโอ">
+              <div className="pd-video-picker"><div className="pd-video-list" aria-label="เลือกวิดีโอ">
                 {videos.map((video, index) => (
                   <button key={index} type="button" aria-pressed={activeVideo === index}
                     onClick={() => setActiveVideo(index)}>
@@ -1258,6 +1259,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 allowFullScreen
                 title={videos[activeVideo].title || `${project.name} Video`}
               />
+            </div>
             </div>
 
           </div>
