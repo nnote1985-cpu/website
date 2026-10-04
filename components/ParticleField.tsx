@@ -9,7 +9,8 @@ import { useEffect, useRef } from 'react';
  * และแสดงเป็นภาพนิ่งเมื่อผู้ใช้ตั้งค่าลดการเคลื่อนไหว
  */
 
-const CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&+'.split('');
+// สุ่มจากตัวอักษรของ ASAKAN และ BEYOND EXPECTATION รวมตัวเลข ตัวที่ซ้ำในคำจึงออกบ่อยกว่า
+const CHARS = ('ASAKAN' + 'BEYONDEXPECTATION' + '0123456789').split('');
 const LINK = 110;
 const REACH = 150;
 
