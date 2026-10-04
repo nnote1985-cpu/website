@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Phone, ChevronLeft, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import './project-navbar.css';
+import { projectFont } from './projectFonts';
 
 const chapters = [
   { id: 'info', label: 'ข้อมูลโครงการ' },
@@ -75,7 +76,7 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
   }, [isMobileMenuOpen]);
 
   return (
-    <nav aria-label="เมนูโครงการ" className="project-navbar fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-2xl border-b border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300">
+    <nav aria-label="เมนูโครงการ" className={`${projectFont.className} project-navbar fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-2xl border-b border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300`}>
       <div className="project-navbar-inner mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
 
         {/* Mobile left */}
@@ -89,7 +90,7 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
-          <span className="font-black text-[#1a2d6b] text-sm uppercase truncate">
+          <span className="font-semibold text-[#1a2d6b] text-sm uppercase truncate">
             {project.name}
           </span>
         </div>
@@ -101,10 +102,10 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
             className="group flex items-center gap-1.5 bg-slate-100 hover:bg-[#1a2d6b] text-slate-600 hover:text-white px-4 py-2 rounded-full transition-all duration-300 shadow-sm border border-slate-200 hover:border-[#1a2d6b] hover:-translate-y-[1px]"
           >
             <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-            <span className="text-xs font-black tracking-widest uppercase">Home</span>
+            <span className="text-xs font-semibold tracking-widest uppercase">Home</span>
           </Link>
           <div className="h-6 w-px bg-slate-300" />
-          <span className="font-black text-[#1a2d6b] text-lg tracking-tight uppercase truncate">
+          <span className="font-semibold text-[#1a2d6b] text-lg tracking-tight uppercase truncate">
             {project.name}
           </span>
         </div>
@@ -116,7 +117,7 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
               key={item.id}
               href={`#${item.id}`}
               aria-current={activeSection === item.id ? 'location' : undefined}
-              className="group relative text-[11px] font-bold uppercase tracking-widest transition-all"
+              className="group relative text-[11px] font-medium uppercase tracking-widest transition-all"
             >
               <span className={activeSection === item.id ? 'text-[#e53935]' : 'text-slate-500 group-hover:text-[#e53935]'}>
                 <small className="project-chapter-number">{String(index + 1).padStart(2, '0')}</small>{item.label}
@@ -133,7 +134,7 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
           <a
             href={`tel:${phoneTel}`}
             aria-label="โทรหาโครงการ"
-            className="flex items-center gap-1.5 text-slate-500 hover:text-[#1a2d6b] px-3 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-colors hover:bg-slate-100"
+            className="flex items-center gap-1.5 text-slate-500 hover:text-[#1a2d6b] px-3 py-2 rounded-full text-[10px] font-medium uppercase tracking-widest transition-colors hover:bg-slate-100"
           >
             <Phone size={13} />
             <span className="hidden md:inline">Tel</span>
@@ -156,7 +157,7 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
           <button
             type="button"
             onClick={scrollToRegister}
-            className="bg-[#e53935] text-white px-5 md:px-7 py-2 md:py-2.5 rounded-full text-[10px] md:text-xs font-black tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-500/30 active:scale-95 hover:-translate-y-[1px]"
+            className="bg-[#e53935] text-white px-5 md:px-7 py-2 md:py-2.5 rounded-full text-[10px] md:text-xs font-semibold tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-500/30 active:scale-95 hover:-translate-y-[1px]"
           >
             REGISTER
           </button>
@@ -166,7 +167,7 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
       {/* Mobile menu */}
       {isMobileMenuOpen && (
         <div id="project-mobile-menu" className="project-navbar-menu xl:hidden absolute top-16 md:top-20 left-0 right-0 bg-white border-b border-slate-200 shadow-2xl py-4 px-6 flex flex-col gap-4">
-          <Link href="/" className="flex items-center gap-2 text-sm font-black text-slate-600 uppercase hover:text-[#e53935] pb-3 border-b">
+          <Link href="/" className="flex items-center gap-2 text-sm font-semibold text-slate-600 uppercase hover:text-[#e53935] pb-3 border-b">
             <ChevronLeft size={16} /> Home
           </Link>
           {visibleChapters.map((item, index) => (
@@ -175,7 +176,7 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
               href={`#${item.id}`}
               aria-current={activeSection === item.id ? 'location' : undefined}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-sm font-black text-slate-600 uppercase hover:text-[#e53935] py-2 border-b"
+              className="text-sm font-semibold text-slate-600 uppercase hover:text-[#e53935] py-2 border-b"
             >
               <small className="project-chapter-number">{String(index + 1).padStart(2, '0')}</small>{item.label}
             </a>
@@ -185,7 +186,7 @@ export default function ProjectNavbar({ project }: { project: ProjectNavbarData 
               href={facebookUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm font-black text-[#1877F2] uppercase py-2"
+              className="flex items-center gap-2 text-sm font-semibold text-[#1877F2] uppercase py-2"
             >
               <FbIcon /> Facebook Page
             </a>

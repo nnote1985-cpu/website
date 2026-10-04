@@ -3,10 +3,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import NextImage from 'next/image';
 import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, LayoutDashboard, Image as ImageIcon, Building2, Home, Sparkles, Play, ChevronDown, HelpCircle, Layers, TrainFront, DoorOpen, LandPlot, Car, Tag, ArrowRight } from 'lucide-react';
-import { Montserrat } from 'next/font/google';
+import { projectFont } from './projectFonts';
 import './project-editorial.css';
 
-const mont = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
+
 
 interface RoomPlan {
   type: string;
@@ -136,9 +136,9 @@ function ProjectFAQ({ project }: { project: ProjectContentData }) {
             <div className="lg:w-1/3 shrink-0">
               <div className="flex items-center gap-2 mb-3">
                 <HelpCircle size={20} className="text-[#e53935]" />
-                <span className={`${mont.className} text-[10px] font-semibold tracking-[0.3em] uppercase text-[#e53935]`}>FAQ</span>
+                <span className={`text-[10px] font-semibold tracking-[0.3em] uppercase text-[#e53935]`}>FAQ</span>
               </div>
-              <h2 className={`text-3xl md:text-4xl font-bold text-[#1a2d6b] leading-tight`}>
+              <h2 className={`text-3xl md:text-4xl font-semibold text-[#1a2d6b] leading-tight`}>
                 คำถามที่พบบ่อย
               </h2>
               <div className="w-8 h-[2px] bg-[#e53935] mt-4 mb-4" />
@@ -158,8 +158,8 @@ function ProjectFAQ({ project }: { project: ProjectContentData }) {
                     aria-controls={`project-faq-${i}`}
                     className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer hover:bg-[#faf8f5] transition-colors"
                   >
-                    <span className="text-sm md:text-[15px] font-bold text-slate-700 pr-4 leading-snug">
-                      <span className="text-[#e53935] mr-2 font-black">Q :</span>{faq.q}
+                    <span className="text-sm md:text-[15px] font-semibold text-slate-700 pr-4 leading-snug">
+                      <span className="text-[#e53935] mr-2 font-semibold">Q :</span>{faq.q}
                     </span>
                     <ChevronDown
                       size={18}
@@ -168,7 +168,7 @@ function ProjectFAQ({ project }: { project: ProjectContentData }) {
                   </button>
                   {/* Always rendered so search engines and AI crawlers can read the answer */}
                   <div id={`project-faq-${i}`} hidden={openIdx !== i} className="px-6 pb-5 text-sm text-slate-600 leading-7 border-t border-[#e53935]/15 pt-4">
-                    <span className="text-[#1a2d6b] font-bold mr-2">A :</span>{faq.a}
+                    <span className="text-[#1a2d6b] font-semibold mr-2">A :</span>{faq.a}
                   </div>
                 </div>
               ))}
@@ -467,7 +467,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   }, [roomTypeDropdownOpen, planDropdownOpen]);
 
   return (
-    <div className="project-editorial">
+    <div className={`${projectFont.className} project-editorial`}>
       
 
 
@@ -599,7 +599,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             )}
           </div>
 
-          <div className="absolute bottom-6 md:bottom-10 bg-white/80 shadow-lg border border-slate-200 text-slate-800 px-6 py-3 rounded-full font-bold tracking-widest uppercase text-sm backdrop-blur-md">
+          <div className="absolute bottom-6 md:bottom-10 bg-white/80 shadow-lg border border-slate-200 text-slate-800 px-6 py-3 rounded-full font-semibold tracking-widest uppercase text-sm backdrop-blur-md">
             {activeTab === 'room' ? project.roomPlans?.[activePlanIndex]?.type : `Floor Plan ${activePlanIndex + 1}`}
           </div>
         </div>
@@ -616,7 +616,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 ข้อมูลโครงการ
               </span>
               <div className="w-8 h-[2px] bg-[#e53935] mt-2 mb-3" />
-              <h2 className={`${mont.className} text-3xl md:text-5xl font-bold text-[#1a2d6b] tracking-tight`}>
+              <h2 className={`text-3xl md:text-5xl font-semibold text-[#1a2d6b] tracking-tight`}>
                 Project Information
               </h2>
               <p className="mt-3 max-w-2xl text-sm md:text-base text-slate-500 leading-relaxed">
@@ -634,7 +634,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   key={tab.key}
                   aria-pressed={infoTab === tab.key}
                   onClick={() => setInfoTab(tab.key as 'concept' | 'factsheet' | 'facilities')}
-                  className={`min-w-fit rounded-full px-5 py-3 md:px-7 md:py-3.5 text-xs md:text-base font-black transition-all whitespace-nowrap ${
+                  className={`min-w-fit rounded-full px-5 py-3 md:px-7 md:py-3.5 text-xs md:text-base font-semibold transition-all whitespace-nowrap ${
                     infoTab === tab.key
                       ? 'bg-[#1a2d6b] text-white shadow-md'
                       : 'text-slate-500 hover:text-[#1a2d6b]'
@@ -660,7 +660,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                       className="object-cover opacity-90"
                     />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-sm font-bold tracking-[0.2em] text-white/30">
+                    <div className="flex h-full items-center justify-center text-sm font-semibold tracking-[0.2em] text-white/30">
                       CONCEPT IMAGE
                     </div>
                   )}
@@ -670,10 +670,10 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 {/* ข้อความ — ขวา */}
                 <div className="pd-concept-copy flex flex-col justify-center px-8 py-10 lg:px-12 lg:py-14 lg:w-1/2">
                   <div className="mb-5 w-10 h-[2px] bg-[#e53935]" />
-                  <p className={`${mont.className} text-[10px] font-semibold uppercase tracking-[0.3em] text-[#e53935] mb-3`}>
+                  <p className={`text-[10px] font-semibold uppercase tracking-[0.3em] text-[#e53935] mb-3`}>
                     Concept
                   </p>
-                  <h3 className={`text-2xl md:text-3xl font-bold leading-tight text-white`}>
+                  <h3 className={`text-2xl md:text-3xl font-semibold leading-tight text-white`}>
                     {project.concept || project.name}
                   </h3>
                   <p className="mt-5 text-sm md:text-base leading-8 text-white/70 whitespace-pre-line">
@@ -698,7 +698,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                     <Icon size={18} strokeWidth={1.75} className={`mt-0.5 shrink-0 ${highlight ? 'text-white/80' : 'text-[#e53935]'}`} />
                     <div className="min-w-0">
                       <dt className={`mb-1 text-xs font-medium ${highlight ? 'text-white/60' : 'text-slate-500'}`}>{label}</dt>
-                      <dd className={`break-words text-sm md:text-base font-bold leading-snug ${highlight ? 'text-white' : 'text-[#1a2d6b]'}`}>{value}</dd>
+                      <dd className={`break-words text-sm md:text-base font-semibold leading-snug ${highlight ? 'text-white' : 'text-[#1a2d6b]'}`}>{value}</dd>
                     </div>
                   </div>
                 ))}
@@ -712,7 +712,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                         <Home size={18} strokeWidth={1.75} />
                       </span>
                       <div>
-                        <h3 className={`${mont.className} text-lg font-bold text-[#1a2d6b] leading-tight`}>Room Types</h3>
+                        <h3 className={`text-lg font-semibold text-[#1a2d6b] leading-tight`}>Room Types</h3>
                         <p className="text-xs text-slate-500">{project.roomPlans?.length} แบบห้อง · กดเพื่อดูแปลน</p>
                       </div>
                     </div>
@@ -722,7 +722,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                       <button
                         type="button"
                         onClick={() => setRoomTypeDropdownOpen((open) => !open)}
-                        className="flex w-full items-center justify-between rounded-2xl border border-[#e53935]/25 bg-[#faf8f5] px-4 py-4 text-left text-sm font-bold text-[#1a2d6b] shadow-sm transition-colors focus:border-[#e53935] focus:outline-none focus:ring-4 focus:ring-[#e53935]/10"
+                        className="flex w-full items-center justify-between rounded-2xl border border-[#e53935]/25 bg-[#faf8f5] px-4 py-4 text-left text-sm font-semibold text-[#1a2d6b] shadow-sm transition-colors focus:border-[#e53935] focus:outline-none focus:ring-4 focus:ring-[#e53935]/10"
                       >
                         {project.roomPlans?.[activePlanIndex]?.type || project.roomPlans?.[0]?.type}
                         <ChevronDown size={18} className={`text-[#e53935] transition-transform ${roomTypeDropdownOpen ? 'rotate-180' : ''}`} />
@@ -734,7 +734,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                               type="button"
                               key={`room-select-${i}`}
                               onClick={() => jumpToRoomPlan(i)}
-                              className={`flex w-full items-center justify-between rounded-xl px-3.5 py-3 text-left text-sm font-bold transition-colors ${
+                              className={`flex w-full items-center justify-between rounded-xl px-3.5 py-3 text-left text-sm font-semibold transition-colors ${
                                 activePlanIndex === i
                                   ? 'bg-[#e53935] text-white shadow-sm'
                                   : 'text-[#1a2d6b] hover:bg-[#faf8f5]'
@@ -755,7 +755,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                     <button
                       type="button"
                       onClick={() => jumpToRoomPlan(activePlanIndex)}
-                      className="w-full rounded-2xl bg-[#e53935] px-4 py-3 text-sm font-bold text-white shadow-lg shadow-[#e53935]/20"
+                      className="w-full rounded-2xl bg-[#e53935] px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-[#e53935]/20"
                     >
                       ดูแปลนห้องนี้
                     </button>
@@ -788,7 +788,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#e53935]/15 border border-[#e53935]/25 mb-6">
                   <Building2 size={24} className="text-[#e53935]" />
                 </div>
-                <h3 className={`${mont.className} text-2xl md:text-3xl font-bold leading-tight`}>Facilities</h3>
+                <h3 className={`text-2xl md:text-3xl font-semibold leading-tight`}>Facilities</h3>
                 <p className="mt-4 text-sm leading-7 text-white/60">
                   พื้นที่ส่วนกลางและบริการประจำโครงการ ออกแบบให้รองรับการพักผ่อน การดูแลสุขภาพ และชีวิตประจำวันได้ครบในที่เดียว
                 </p>
@@ -806,7 +806,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                             <Sparkles size={18} className="text-[#e53935]" />
                           )}
                         </div>
-                        <div className="text-sm font-bold text-slate-700">{facility.name}</div>
+                        <div className="text-sm font-semibold text-slate-700">{facility.name}</div>
                       </div>
                     ))}
                   </div>
@@ -830,7 +830,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             Photo Gallery
           </p>
           <div className="flex items-center justify-center gap-3 mb-4 text-[#1a2d6b]">
-            <h2 className={`${mont.className} text-4xl md:text-5xl font-bold uppercase tracking-tight`}>Gallery</h2>
+            <h2 className={`text-4xl md:text-5xl font-semibold uppercase tracking-tight`}>Gallery</h2>
           </div>
           <div className="w-12 h-[2px] bg-[#e53935] mx-auto mb-8" />
 
@@ -855,21 +855,21 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               <button
                 aria-pressed={activeGalleryTab === 'perspective'}
                 onClick={() => { setActiveGalleryTab('perspective'); setActiveGalleryGroup(0); setActiveImg(0); }}
-                className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'perspective' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
+                className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-semibold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'perspective' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Sparkles size={14} /> <span className="hidden sm:inline">Perspective</span><span className="sm:hidden">View</span>
               </button>
               <button
                 aria-pressed={activeGalleryTab === 'facility'}
                 onClick={() => { setActiveGalleryTab('facility'); setActiveGalleryGroup(0); setActiveImg(0); }}
-                className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'facility' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
+                className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-semibold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'facility' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Building2 size={14} /> Facility
               </button>
               <button
                 aria-pressed={activeGalleryTab === 'room'}
                 onClick={() => { setActiveGalleryTab('room'); setActiveGalleryGroup(0); setActiveImg(0); }}
-                className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-bold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
+                className={`flex min-w-0 items-center justify-center gap-1 px-2 py-3 rounded-2xl sm:gap-2 sm:px-8 sm:py-3.5 sm:rounded-full text-[10px] sm:text-sm font-semibold uppercase transition-all whitespace-nowrap ${activeGalleryTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
               >
                 <Home size={14} /> Room
               </button>
@@ -883,7 +883,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   key={group.label}
                   aria-pressed={safeActiveGalleryGroup === index}
                   onClick={() => { setActiveGalleryGroup(index); setActiveImg(0); }}
-                  className={`shrink-0 rounded-full border px-4 py-2 text-xs font-bold transition-all ${
+                  className={`shrink-0 rounded-full border px-4 py-2 text-xs font-semibold transition-all ${
                     safeActiveGalleryGroup === index
                       ? 'border-[#e53935] bg-[#e53935] text-white shadow-md shadow-[#e53935]/20'
                       : 'border-slate-200 bg-white text-slate-500 hover:border-[#1a2d6b]/30 hover:text-[#1a2d6b]'
@@ -954,7 +954,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
 
             {/* Image counter */}
             {validGallery.length > 1 && (
-              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
                 {safeActiveImg + 1} / {validGallery.length}
               </div>
             )}
@@ -1033,7 +1033,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             <div className="pd-plans-heading text-center mb-12">
               <div className="flex items-center justify-center gap-3 mb-4 text-[#1a2d6b]">
                 <LayoutDashboard size={36} />
-                <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tight">แบบแปลน</h2>
+                <h2 className="text-4xl md:text-5xl font-semibold italic uppercase tracking-tight">แบบแปลน</h2>
               </div>
               <p className="text-slate-500 mb-10 text-lg">สัมผัสการออกแบบพื้นที่ใช้สอยที่ตอบโจทย์ชีวิตคนเมือง</p>
               
@@ -1041,7 +1041,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 {(project.roomPlans?.length ?? 0) > 0 && (
                   <button 
                     onClick={() => { setActiveTab('room'); setActivePlanIndex(0); setPlanDropdownOpen(false); }}
-                    className={`px-8 py-3 rounded-full text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
+                    className={`px-8 py-3 rounded-full text-xs font-semibold tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'room' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
                   >
                     Room Plans
                   </button>
@@ -1049,7 +1049,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 {(project.floorPlans?.length ?? 0) > 0 && (
                   <button 
                     onClick={() => { setActiveTab('floor'); setActivePlanIndex(0); setPlanDropdownOpen(false); }}
-                    className={`px-8 py-3 rounded-full text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'floor' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
+                    className={`px-8 py-3 rounded-full text-xs font-semibold tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'floor' ? 'bg-[#1a2d6b] text-white shadow-md' : 'text-slate-500 hover:text-[#1a2d6b]'}`}
                   >
                     Floor & Master 
                   </button>
@@ -1063,7 +1063,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   <button
                     type="button"
                     onClick={() => setPlanDropdownOpen((open) => !open)}
-                    className="flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-4 text-left text-sm font-bold text-[#1a2d6b] shadow-sm outline-none transition-colors focus:border-[#e53935] focus:ring-4 focus:ring-[#e53935]/10"
+                    className="flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-4 text-left text-sm font-semibold text-[#1a2d6b] shadow-sm outline-none transition-colors focus:border-[#e53935] focus:ring-4 focus:ring-[#e53935]/10"
                   >
                     {activeTab === 'room'
                       ? project.roomPlans?.[activePlanIndex]?.type
@@ -1077,7 +1077,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                           type="button"
                           key={`mobile-room-plan-${idx}`}
                           onClick={() => selectPlanIndex(idx)}
-                          className={`flex w-full items-center justify-between rounded-xl px-3.5 py-3 text-left text-sm font-bold transition-colors ${
+                          className={`flex w-full items-center justify-between rounded-xl px-3.5 py-3 text-left text-sm font-semibold transition-colors ${
                             activePlanIndex === idx
                               ? 'bg-[#e53935] text-white shadow-sm'
                               : 'text-[#1a2d6b] hover:bg-[#faf8f5]'
@@ -1092,7 +1092,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                           type="button"
                           key={`mobile-floor-plan-${idx}`}
                           onClick={() => selectPlanIndex(idx)}
-                          className={`flex w-full items-center justify-between rounded-xl px-3.5 py-3 text-left text-sm font-bold transition-colors ${
+                          className={`flex w-full items-center justify-between rounded-xl px-3.5 py-3 text-left text-sm font-semibold transition-colors ${
                             activePlanIndex === idx
                               ? 'bg-[#e53935] text-white shadow-sm'
                               : 'text-[#1a2d6b] hover:bg-[#faf8f5]'
@@ -1125,7 +1125,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                           setActiveRoomPlanGroupIndex(groupIndex);
                           setActivePlanIndex(group.plans[0]?.index || 0);
                         }}
-                        className={`rounded-2xl px-4 py-3 text-center text-xs lg:text-sm font-black uppercase tracking-[0.12em] transition-all ${
+                        className={`rounded-2xl px-4 py-3 text-center text-xs lg:text-sm font-semibold uppercase tracking-[0.12em] transition-all ${
                           safeActiveRoomPlanGroupIndex === roomPlanGroups.findIndex((item) => item.label === group.label)
                             ? 'bg-[#1a2d6b] text-white shadow-lg shadow-[#1a2d6b]/20'
                             : 'text-[#1a2d6b]/60 hover:bg-slate-50 hover:text-[#1a2d6b]'
@@ -1140,7 +1140,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                         <button
                           key={`room-btn-${index}`}
                           onClick={() => setActivePlanIndex(index)}
-                          className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
+                          className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
                             activePlanIndex === index 
                               ? 'bg-[#e53935] text-white shadow-lg shadow-[#e53935]/30 scale-105' 
                               : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-[#1a2d6b]'
@@ -1158,7 +1158,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   <button
                     key={`floor-btn-${idx}`}
                     onClick={() => setActivePlanIndex(idx)}
-                    className={`px-4 py-2 md:px-6 md:py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 ${
+                    className={`px-4 py-2 md:px-6 md:py-2.5 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 ${
                       activePlanIndex === idx 
                         ? 'bg-[#e53935] text-white shadow-lg shadow-[#e53935]/30 scale-105' 
                         : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-[#1a2d6b]'
@@ -1234,9 +1234,9 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
             <div className="mb-8 md:mb-10">
               <div className="flex items-center gap-2.5 mb-2">
                 <div className="w-1 h-5 bg-[#e53935] rounded-full" />
-                <span className={`${mont.className} text-[10px] font-semibold tracking-[0.3em] uppercase text-[#e53935]`}>Project</span>
+                <span className={`text-[10px] font-semibold tracking-[0.3em] uppercase text-[#e53935]`}>Project</span>
               </div>
-              <h2 className={`${mont.className} text-3xl md:text-4xl font-black text-white uppercase tracking-tight`}>Video</h2>
+              <h2 className={`text-3xl md:text-4xl font-semibold text-white uppercase tracking-tight`}>Video</h2>
             </div>
 
             {/* Player + Playlist */}
@@ -1260,7 +1260,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 <div className="w-full lg:w-72 shrink-0 flex flex-col">
                   {/* Header */}
                   <div className="bg-[#1a2d6b] px-5 py-3.5 flex items-center justify-between shrink-0">
-                    <span className={`${mont.className} text-white font-bold text-sm uppercase tracking-widest`}>Playlist</span>
+                    <span className={`text-white font-semibold text-sm uppercase tracking-widest`}>Playlist</span>
                     <span className="text-white/50 text-xs font-medium">{videos.length} Videos</span>
                   </div>
                   {/* Items */}
@@ -1283,7 +1283,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                           }`}>
                             {isActive
                               ? <Play size={12} fill="white" className="text-white ml-0.5" />
-                              : <span className="text-slate-400 text-xs font-bold">{i + 1}</span>
+                              : <span className="text-slate-400 text-xs font-semibold">{i + 1}</span>
                             }
                           </div>
                           <p className={`text-sm line-clamp-2 flex-1 transition-colors ${
@@ -1317,7 +1317,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <MapPin size={32} />
-                  <h2 className={`${mont.className} text-3xl md:text-4xl font-black uppercase tracking-tight`}>Location</h2>
+                  <h2 className={`text-3xl md:text-4xl font-semibold uppercase tracking-tight`}>Location</h2>
                 </div>
                 <p className="text-lg text-slate-500 max-w-2xl">
                   {project.location} {project.bts ? `(${project.bts})` : ''}
@@ -1328,7 +1328,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 href={project.googleMapUrl.replace('/embed', '')}
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 bg-[#1a2d6b] text-white px-6 py-3 rounded-full font-bold hover:bg-[#e53935] transition-colors whitespace-nowrap shadow-lg shadow-blue-900/20 active:scale-95"
+                className="inline-flex items-center gap-2 bg-[#1a2d6b] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#e53935] transition-colors whitespace-nowrap shadow-lg shadow-blue-900/20 active:scale-95"
               >
                 ดูแผนที่ Google Maps <ChevronRight size={18} />
               </a>
@@ -1350,7 +1350,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                     <a 
                       href={project.googleMapUrl} 
                       target="_blank" 
-                      className="text-[#e53935] font-bold underline"
+                      className="text-[#e53935] font-semibold underline"
                     >
                       คลิกเพื่อดูแผนที่บน Google Maps
                     </a>
