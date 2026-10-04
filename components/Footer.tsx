@@ -20,7 +20,7 @@ export default async function Footer() {
             </div>
           </div>
           <p className="text-slate-500 text-sm leading-relaxed mb-4">
-            ผู้พัฒนาอสังหาริมทรัพย์คุณภาพ กว่า 21 ปี <br />
+            ผู้พัฒนาอสังหาริมทรัพย์คุณภาพ กว่า 25 ปี <br />
             <em className="text-[#e53935]">&quot;Your happiness is our hope&quot;</em>
           </p>
           <div className="flex gap-3">
