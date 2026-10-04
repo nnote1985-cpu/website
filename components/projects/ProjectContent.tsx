@@ -50,6 +50,7 @@ interface ProjectContentData {
   projectArea?: string;
   roomPlans?: RoomPlan[];
   floorPlans?: string[];
+  floorPlanNames?: string[];
   type?: string;
   units?: number | string;
   videoUrl?: string;
@@ -266,6 +267,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   
   // ถ้าไม่มีรูปในหมวดนั้นเลย ให้เอารูปหน้าปก (project.image) มาแสดงแก้ขัด
   const currentImage = hasGallery ? validGallery[safeActiveImg] : fallbackImage;
+  const floorPlanName = (idx: number, prefix = 'Plan') =>
+    project.floorPlanNames?.[idx] || `${prefix} ${idx + 1}`;
   const currentPlanImage = activeTab === 'room'
     ? project.roomPlans?.[activePlanIndex]?.image
     : project.floorPlans?.[activePlanIndex];
@@ -634,7 +637,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           </div>
 
           <div className="absolute bottom-6 md:bottom-10 bg-white/80 shadow-lg border border-slate-200 text-slate-800 px-6 py-3 rounded-full font-semibold tracking-widest uppercase text-sm backdrop-blur-md">
-            {activeTab === 'room' ? project.roomPlans?.[activePlanIndex]?.type : `Floor Plan ${activePlanIndex + 1}`}
+            {activeTab === 'room' ? project.roomPlans?.[activePlanIndex]?.type : floorPlanName(activePlanIndex, 'Floor Plan')}
           </div>
         </div>
       )}
@@ -1093,7 +1096,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   >
                     {activeTab === 'room'
                       ? project.roomPlans?.[activePlanIndex]?.type
-                      : `Plan ${activePlanIndex + 1}`}
+                      : floorPlanName(activePlanIndex)}
                     <ChevronDown size={18} className={`text-[#e53935] transition-transform ${planDropdownOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {planDropdownOpen && (
@@ -1124,7 +1127,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                               : 'text-[#1a2d6b] hover:bg-[#faf8f5]'
                           }`}
                         >
-                          Plan {idx + 1}
+                          {floorPlanName(idx)}
                           {activePlanIndex === idx && <span className="text-xs text-white/80">เลือกอยู่</span>}
                         </button>
                       ))}
@@ -1189,7 +1192,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                           aria-pressed={activePlanIndex === idx}
                           onClick={() => setActivePlanIndex(idx)}
                         >
-                          Plan {idx + 1}
+                          {floorPlanName(idx)}
                         </button>
                       ))}
                     </div>
@@ -1225,7 +1228,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   <NextImage
                     key={`floor-img-${activePlanIndex}`}
                     src={project.floorPlans[activePlanIndex]} 
-                    alt={`Floor Plan ${activePlanIndex + 1}`}
+                    alt={floorPlanName(activePlanIndex, 'Floor Plan')}
                     width={1400}
                     height={1000}
                     onLoad={() => setLoadedPlanImages((prev) => {

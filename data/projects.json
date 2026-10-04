@@ -477,6 +477,7 @@
       "/images/projects/wela-ramkhamhaeng/plans/floorplan/F2.webp",
       "/images/projects/wela-ramkhamhaeng/plans/floorplan/FL3-8.webp"
     ],
+    "floorPlanNames": ["Master Plan", "Ground Floor", "2nd Floor", "3rd - 8th Floor"],
     "roomPlans": [
       { "type": "22 ตร.ม.", "image": "/images/projects/wela-ramkhamhaeng/plans/roomplan/22sqm.webp" },
       { "type": "29 ตร.ม.", "image": "/images/projects/wela-ramkhamhaeng/plans/roomplan/29sqm.webp" },

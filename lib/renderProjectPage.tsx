@@ -25,6 +25,7 @@ type LocalProject = {
   promoBanner?: string;
   gallery?: unknown;
   floorPlans?: string[];
+  floorPlanNames?: string[];
   roomPlans?: unknown;
 };
 
@@ -119,6 +120,7 @@ export async function renderProjectPage(slug: string) {
     facilities: data.facilities || [],
     gallery: localProject?.gallery || data.gallery,
     floorPlans: localProject?.floorPlans || data.floor_plans,
+    floorPlanNames: localProject?.floorPlans ? localProject.floorPlanNames : undefined,
     roomPlans: localProject?.roomPlans || data.room_plans,
     googleMapUrl: data.google_map_url,
     isFeatured: true,
