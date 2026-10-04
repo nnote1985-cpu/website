@@ -1230,76 +1230,35 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
       <ProjectSurroundings value={project.projectSections} />
 
       {videos.length > 0 && (
-        <section id="video" data-editorial-section="04" className="py-16 md:py-24 bg-[#0f1e4a]">
+        <section id="video" data-editorial-section="04" className="pd-video-section">
           <div className="max-w-6xl mx-auto px-4">
-            {/* Section title */}
-            <div className="mb-8 md:mb-10">
-              <div className="flex items-center gap-2.5 mb-2">
-                <div className="w-1 h-5 bg-[#e53935] rounded-full" />
-                <span className={`text-[10px] font-semibold tracking-[0.3em] uppercase text-[#e53935]`}>Project</span>
-              </div>
-              <h2 className={`text-3xl md:text-4xl font-semibold text-white uppercase tracking-tight`}>Video</h2>
+            <header className="pd-video-heading">
+              <span>PROJECT FILMS</span>
+              <h2>Video</h2>
+            </header>
+            <div className="pd-video-player">
+              <iframe
+                key={activeVideo}
+                src={videos[activeVideo].url.replace('www.youtube.com', 'www.youtube-nocookie.com')}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title={videos[activeVideo].title || `${project.name} Video`}
+              />
             </div>
-
-            {/* Player + Playlist */}
-            <div className={`flex overflow-hidden rounded-2xl shadow-2xl ${videos.length > 1 ? 'flex-col lg:flex-row lg:items-stretch' : ''}`}>
-              {/* Player */}
-              <div className={`${videos.length > 1 ? 'lg:flex-1' : 'w-full'} bg-black shrink-0`}>
-                <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
-                  <iframe
-                    key={activeVideo}
-                    src={videos[activeVideo].url.replace('www.youtube.com', 'www.youtube-nocookie.com')}
-                    className="absolute inset-0 w-full h-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    title={videos[activeVideo].title || `${project.name} Video`}
-                  />
-                </div>
+            {videos.length > 1 && (
+              <div className="pd-video-list" aria-label="เลือกวิดีโอ">
+                {videos.map((video, index) => (
+                  <button key={index} type="button" aria-pressed={activeVideo === index}
+                    onClick={() => setActiveVideo(index)}>
+                    <span className="pd-video-number">{String(index + 1).padStart(2, '0')}</span>
+                    <span className="pd-video-label"><span>{video.title || `Video ${index + 1}`}</span>
+                      <small>{activeVideo === index ? 'เลือกอยู่' : 'เลือกชมวิดีโอ'}</small>
+                    </span>
+                    <span className="pd-video-play"><Play size={14} /></span>
+                  </button>
+                ))}
               </div>
-
-              {/* Playlist — only when multiple videos */}
-              {videos.length > 1 && (
-                <div className="w-full lg:w-72 shrink-0 flex flex-col">
-                  {/* Header */}
-                  <div className="bg-[#1a2d6b] px-5 py-3.5 flex items-center justify-between shrink-0">
-                    <span className={`text-white font-semibold text-sm uppercase tracking-widest`}>Playlist</span>
-                    <span className="text-white/50 text-xs font-medium">{videos.length} Videos</span>
-                  </div>
-                  {/* Items */}
-                  <div className="bg-white flex-1 flex flex-col divide-y divide-slate-100 overflow-y-auto">
-                    {videos.map((v, i) => {
-                      const isActive = i === activeVideo;
-                      return (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => setActiveVideo(i)}
-                          className={`flex items-center gap-3 px-5 py-4 text-left transition-colors w-full border-l-[3px] cursor-pointer ${
-                            isActive
-                              ? 'bg-slate-50 border-[#e53935]'
-                              : 'border-transparent hover:bg-slate-50 hover:border-slate-200'
-                          }`}
-                        >
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${
-                            isActive ? 'bg-[#e53935]' : 'bg-slate-100'
-                          }`}>
-                            {isActive
-                              ? <Play size={12} fill="white" className="text-white ml-0.5" />
-                              : <span className="text-slate-400 text-xs font-semibold">{i + 1}</span>
-                            }
-                          </div>
-                          <p className={`text-sm line-clamp-2 flex-1 transition-colors ${
-                            isActive ? 'text-[#1a2d6b] font-semibold' : 'text-slate-600 font-medium'
-                          }`}>
-                            {v.title || `Video ${i + 1}`}
-                          </p>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </section>
       )}
