@@ -1,6 +1,6 @@
 /* Scoped to the content below the project hero. Hero, registration and footer stay untouched. */
 .project-editorial{--pd-paper:#ffffff;--pd-ink:#152849;--pd-muted:#627084;--pd-line:#e2e6eb;--pd-accent:#e53935;background:var(--pd-paper);color:var(--pd-ink)}
-.project-editorial>section{position:relative;padding:76px max(24px,4vw);border:0;scroll-margin-top:100px}
+.project-editorial>section{position:relative;padding:64px max(24px,4vw);border:0;scroll-margin-top:100px}
 .project-editorial>section>div:not(.pd-faq-content){max-width:1320px;padding-left:0;padding-right:0}
 .project-editorial>section h2{font-size:clamp(28px,3.4vw,48px);font-weight:500;letter-spacing:-.055em;line-height:1.12;text-transform:none;font-style:normal}
 .project-editorial>section:before{content:attr(data-editorial-section);position:absolute;top:32px;right:max(24px,4vw);font:500 12px/1.2 sans-serif;letter-spacing:.18em;color:var(--pd-accent)}
@@ -12,7 +12,7 @@
 
 
 
-.project-editorial #info{background:var(--pd-paper);padding-top:60px}
+.project-editorial #info{background:var(--pd-paper);padding-top:64px}
 .pd-info-heading{align-items:flex-end;margin-bottom:36px}
 .pd-info-heading>div:first-child>span{color:var(--pd-accent);letter-spacing:.22em;font-size:11px}
 .pd-info-heading>div:first-child>div{display:none}
@@ -40,7 +40,7 @@
 .pd-facts>div{margin-top:36px;border-radius:0;box-shadow:none;border-color:var(--pd-line)}
 .pd-facilities>div:first-child{background:var(--pd-ink);border-radius:2px;padding:30px}
 .pd-facilities>div:last-child>div>div{border-radius:0;border:0;border-bottom:1px solid var(--pd-line);box-shadow:none;background:transparent;padding:16px 12px}
-.project-editorial #gallery{background:#111e30;color:#ffffff;padding-bottom:72px}
+.project-editorial #gallery{background:#111e30;color:#ffffff;padding-bottom:64px}
 .pd-gallery-heading{text-align:left;display:grid;grid-template-columns:1fr auto;align-items:end;gap:0 24px;margin-bottom:32px}
 .pd-gallery-heading>p{grid-column:1/-1;color:#ffffff;letter-spacing:.2em}
 .pd-gallery-heading>div:nth-child(2){justify-content:flex-start;margin:0;color:#ffffff}
@@ -77,7 +77,7 @@
 .pd-faq-content button{padding:24px 0;gap:20px}
 .pd-faq-content button>span{font-weight:500;line-height:1.8}
 .pd-faq-content button>span>span{color:var(--pd-accent);font-weight:400}
-.project-editorial #location{background:#ffffff}
+.project-editorial #location{background:#f6f7f9}
 .project-editorial #location>.container{display:grid;grid-template-columns:1fr 1.65fr;gap:7%;align-items:center;max-width:1320px}
 .pd-location-copy{display:flex;flex-direction:column;align-items:flex-start;gap:32px;margin:0}
 .pd-location-copy h2{font-size:clamp(34px,4vw,56px)!important}

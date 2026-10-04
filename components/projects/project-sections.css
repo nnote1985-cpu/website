@@ -1,5 +1,5 @@
 /* Shared editorial sections: compact headings, quiet borders, selective red accents. */
-.project-editorial #neighborhood,.project-editorial #progress{padding-top:64px;padding-bottom:64px;background:#fff}
+.project-editorial #neighborhood,.project-editorial #progress{padding-top:64px;padding-bottom:64px;background:#f6f7f9}
 .pd-section-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:48px;margin-bottom:38px}
 .pd-section-heading>div{max-width:740px;min-width:0}
 .pd-section-heading>div>span{display:block;font-size:10px;letter-spacing:.2em;color:#e53935;font-weight:500;margin-bottom:16px}
@@ -15,7 +15,7 @@
 .pd-nearby-card dl{margin:0}.pd-nearby-card dl>div{display:flex;flex-direction:column;gap:8px;padding:16px 0;border-top:1px solid #eef0f3;font-size:14px;line-height:1.6}
 .pd-nearby-card dl>div:first-child{border-top:0;padding-top:0}.pd-nearby-card dl>div:last-child{padding-bottom:0}
 .pd-nearby-card dd{margin:0;font-size:20px;font-weight:400;color:#152849}.pd-nearby-card dt{color:#627084;overflow-wrap:anywhere}
-.project-editorial #progress{border-top:1px solid #e2e6eb;background:#fafbfc}
+.project-editorial #progress{border-top:0;background:#f6f7f9}
 .pd-progress .pd-section-heading>p{flex:none;font-size:12px;border-left:2px solid #e53935;padding-left:14px}.pd-progress time{display:block;font-size:15px;color:#152849;margin-top:3px}
 .pd-progress-grid{display:grid;grid-template-columns:minmax(280px,.8fr) minmax(0,1.2fr);gap:56px;align-items:center}
 .pd-progress-summary{display:flex;flex-direction:column;gap:30px;min-width:0}
