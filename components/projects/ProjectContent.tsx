@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import NextImage from 'next/image';
+import NextImage, { getImageProps } from 'next/image';
 import SkeletonImage from '@/components/SkeletonImage';
 import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, Image as ImageIcon, Building2, Home, Sparkles, Play, ChevronDown, Layers, TrainFront, DoorOpen, LandPlot, Car, Tag, ArrowRight } from 'lucide-react';
 import { projectFont, projectThaiFont } from './projectFonts';
 import './project-editorial.css';
 import { ProjectSurroundings, ProjectProgress } from './ProjectSurroundings';
+
+const GALLERY_STAGE_SIZES = '(min-width: 1440px) 1320px, 94vw';
 
 
 
@@ -427,29 +429,33 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
   };
 
   useEffect(() => {
-    const imagesToPreload = uniqueImages([
-      ...galleryPreloadKey.split('|'),
-      ...planPreloadKey.split('|'),
-    ]);
-    const preloaders = imagesToPreload.map((src) => {
+    // Warm the exact optimized URLs the visible <NextImage> will request. Preloading the raw src
+    // marked slides as loaded while their optimized copy was still downloading, so the skeleton
+    // never showed and the stage stayed blank.
+    const preload = (
+      src: string,
+      opts: { fill: true; sizes: string } | { width: number; height: number },
+      markLoaded: typeof setLoadedGalleryImages,
+    ) => {
+      const { props } = getImageProps({ src, alt: '', ...opts });
       const img = new window.Image();
-      img.src = src;
-      img.onload = () => {
-        setLoadedGalleryImages((prev) => {
-          if (prev.has(src)) return prev;
-          const next = new Set(prev);
-          next.add(src);
-          return next;
-        });
-        setLoadedPlanImages((prev) => {
-          if (prev.has(src)) return prev;
-          const next = new Set(prev);
-          next.add(src);
-          return next;
-        });
-      };
+      if (props.sizes) img.sizes = props.sizes;
+      if (props.srcSet) img.srcset = props.srcSet;
+      img.src = props.src;
+      img.onload = () => markLoaded((prev) => {
+        if (prev.has(src)) return prev;
+        const next = new Set(prev);
+        next.add(src);
+        return next;
+      });
       return img;
-    });
+    };
+    const preloaders = [
+      ...uniqueImages(galleryPreloadKey.split('|')).map((src) =>
+        preload(src, { fill: true, sizes: GALLERY_STAGE_SIZES }, setLoadedGalleryImages)),
+      ...uniqueImages(planPreloadKey.split('|')).map((src) =>
+        preload(src, { width: 1400, height: 1000 }, setLoadedPlanImages)),
+    ];
 
     return () => {
       preloaders.forEach((img) => {
@@ -929,13 +935,13 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           >
             {/* Main image — click center to fullscreen */}
             {!galleryImageLoaded && (
-              <div aria-hidden className="img-shimmer absolute inset-0 z-10" />
+              <div aria-hidden className="img-shimmer-dark absolute inset-0 z-10" />
             )}
             <NextImage
               key={`main-${currentImage}-${safeActiveImg}`}
               src={failedImages.has(currentImage) ? fallbackImage : currentImage}
               fill
-              sizes="(min-width: 1440px) 1320px, 94vw"
+              sizes={GALLERY_STAGE_SIZES}
               onError={() => handleImageError(currentImage)}
               onLoad={() => { setLoadedGalleryImages((prev) => {
                 if (prev.has(currentImage)) return prev;
@@ -1024,6 +1030,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   className={`relative w-28 md:w-40 aspect-video shrink-0 rounded-xl overflow-hidden cursor-pointer border-[3px] transition-all duration-300 snap-center ${safeActiveImg === i ? 'border-[#e53935] scale-100 opacity-100 shadow-md' : 'border-transparent scale-95 opacity-60 hover:opacity-100 hover:scale-100'}`}
                 >
                   <SkeletonImage
+  tone="dark"
   src={failedImages.has(img) ? fallbackImage : img}
   fill
   sizes="160px"
