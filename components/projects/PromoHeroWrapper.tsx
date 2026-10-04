@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import SkeletonImage, { SkeletonImg } from '@/components/SkeletonImage';
 import { Phone, Tag, Gift, CalendarCheck } from 'lucide-react';
 import RegisterFormDark from '@/components/projects/RegisterFormDark';
 import PromoProjectHeading from '@/components/projects/PromoProjectHeading';
@@ -114,7 +115,8 @@ export default function PromoHeroWrapper({
             sizes="100vw"
             className="scale-110 object-cover opacity-70 blur-2xl"
           />
-          <Image
+          <SkeletonImage
+            tone="dark"
             src={promoBanner}
             alt={`Promotion for ${projectName}`}
             fill
@@ -132,8 +134,7 @@ export default function PromoHeroWrapper({
 
       <section className="bg-[#faf8f5] xl:hidden">
         <div className="w-full bg-white">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <SkeletonImg
             src={mobileImage}
             alt={`Promotion for ${projectName}`}
             width={1080}

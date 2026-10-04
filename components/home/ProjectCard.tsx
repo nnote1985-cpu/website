@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import Image from 'next/image';
+import SkeletonImage from '@/components/SkeletonImage';
 import { MapPin, Building2, Layers, ArrowRight, Home, Users, RotateCcw, Plus } from 'lucide-react';
 import BrandPattern from '@/components/BrandPattern';
 import { getStatusLabel } from '@/lib/utils';
@@ -41,14 +41,14 @@ function FrontFace({ project }: { project: Project }) {
 
       {/* --- 1. Image & Top Section (ลดความสูงลง) --- */}
       <DetailLink project={project} className="relative h-32 sm:h-44 lg:h-52 w-full bg-slate-100 overflow-hidden block">
-        {/* Placeholder Icon */}
-        <div className="absolute inset-0 flex items-center justify-center text-slate-300">
-          <Building2 size={28} strokeWidth={1} />
-        </div>
-        
-        {/* Actual Image */}
+        {/* Placeholder icon when there is no image; a shimmer while the image loads */}
+        {!project.image && (
+          <div className="absolute inset-0 flex items-center justify-center text-slate-300">
+            <Building2 size={28} strokeWidth={1} />
+          </div>
+        )}
         {project.image && (
-          <Image
+          <SkeletonImage
             src={project.image}
             alt={project.name}
             fill

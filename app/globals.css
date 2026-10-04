@@ -242,3 +242,21 @@ body {
   .pfc[data-flipped] .pfc-front { opacity: 0; }
   .pfc-sheen { display: none; }
 }
+
+/* Image loading skeleton: a soft sheen over a neutral base, shown until the image has loaded */
+@keyframes img-shimmer { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+.img-shimmer {
+  background-color: #eef1f6;
+  background-image: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.75) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: img-shimmer 1.6s ease-in-out infinite;
+}
+.img-shimmer-dark {
+  background-color: #0f1e4a;
+  background-image: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.07) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: img-shimmer 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .img-shimmer, .img-shimmer-dark { animation: none; }
+}

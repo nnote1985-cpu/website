@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import SkeletonImage, { SkeletonImg } from '@/components/SkeletonImage';
 import { Phone, MapPin, TrainFront, Building2, Home } from 'lucide-react';
 import { Montserrat } from 'next/font/google';
 import RegisterForm from '@/components/projects/RegisterForm';
@@ -114,8 +115,7 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
       {showPromo && (
         <div className="xl:hidden flex flex-col bg-[#faf8f5]">
           <div className="w-full">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={mobilePromoUrl || heroImageUrl || '/logo.png'} alt="โปรโมชั่น" width={1080} height={1600} className="w-full h-auto block" fetchPriority="high" />
+            <SkeletonImg src={mobilePromoUrl || heroImageUrl || '/logo.png'} alt="โปรโมชั่น" width={1080} height={1600} className="w-full h-auto block" fetchPriority="high" />
           </div>
 
           <div id="register-mobile" data-register-form="true" className="scroll-mt-24 bg-gradient-to-b from-[#faf8f5] to-[#efe9df] px-4 pt-8 pb-10">
@@ -139,7 +139,8 @@ export default function ElysiumCustom({ project }: { project: CustomProject }) {
             className="scale-110 object-cover opacity-70 blur-2xl"
           />
         )}
-        <Image
+        <SkeletonImage
+          tone="dark"
           src={heroImageUrl || '/logo.png'}
           alt={project.name}
           fill

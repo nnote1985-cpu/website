@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import NextImage from 'next/image';
+import SkeletonImage from '@/components/SkeletonImage';
 import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, Image as ImageIcon, Building2, Home, Sparkles, Play, ChevronDown, Layers, TrainFront, DoorOpen, LandPlot, Car, Tag, ArrowRight } from 'lucide-react';
 import { projectFont, projectThaiFont } from './projectFonts';
 import './project-editorial.css';
@@ -679,7 +680,8 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 {/* รูป — ซ้าย */}
                 <div className="pd-concept-image relative w-full lg:w-1/2 aspect-[4/3] lg:aspect-auto lg:min-h-[420px] bg-[#0f1e4a] shrink-0">
                   {project.conceptImage ? (
-                    <NextImage
+                    <SkeletonImage
+                      tone="dark"
                       src={project.conceptImage}
                       alt={`${project.name} concept`}
                       fill
@@ -927,10 +929,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
           >
             {/* Main image — click center to fullscreen */}
             {!galleryImageLoaded && (
-              <div className="absolute inset-0 z-10 overflow-hidden bg-slate-100">
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-100 via-white to-slate-100 animate-pulse" />
-                <div className="absolute inset-x-8 bottom-8 h-2 rounded-full bg-slate-200/80" />
-              </div>
+              <div aria-hidden className="img-shimmer absolute inset-0 z-10" />
             )}
             <NextImage
               key={`main-${currentImage}-${safeActiveImg}`}
@@ -1024,7 +1023,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                   onClick={() => setActiveImg(i)} 
                   className={`relative w-28 md:w-40 aspect-video shrink-0 rounded-xl overflow-hidden cursor-pointer border-[3px] transition-all duration-300 snap-center ${safeActiveImg === i ? 'border-[#e53935] scale-100 opacity-100 shadow-md' : 'border-transparent scale-95 opacity-60 hover:opacity-100 hover:scale-100'}`}
                 >
-                  <NextImage
+                  <SkeletonImage
   src={failedImages.has(img) ? fallbackImage : img}
   fill
   sizes="160px"
@@ -1196,9 +1195,7 @@ export default function ProjectContent({ project }: { project: ProjectContentDat
                 onClick={() => setIsPlanFullscreen(true)}
               >
                 {currentPlanImage && !planImageLoaded && (
-                  <div className="absolute top-6 left-1/2 h-2 w-32 -translate-x-1/2 overflow-hidden rounded-full bg-slate-100">
-                    <div className="h-full w-full animate-pulse rounded-full bg-slate-200" />
-                  </div>
+                  <div aria-hidden className="img-shimmer absolute inset-4 md:inset-6 rounded-xl" />
                 )}
                 {activeTab === 'room' && project.roomPlans?.[activePlanIndex] && (
                   <NextImage
