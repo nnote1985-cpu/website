@@ -56,7 +56,7 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
                 key={promo.id}
                 aria-hidden={enhanced && !isActive ? true : undefined}
                 style={{ gridArea: '1 / 1' }}
-                className={`promo-slide flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6 pt-3 ${promos.length > 1 ? 'pb-7 md:pb-5' : 'pb-3'} transition-opacity duration-[1500ms] motion-reduce:transition-none ease-in-out ${
+                className={`promo-slide flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6 pt-2.5 ${promos.length > 1 ? 'pb-7 md:pb-4' : 'pb-2.5'} transition-opacity duration-[1500ms] motion-reduce:transition-none ease-in-out ${
                   isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
                 }`}
               >
@@ -70,7 +70,7 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
                   </div>
                   <h2 className="text-lg md:text-xl font-bold tracking-tight">{promo.title}</h2>
                   <div className="flex flex-wrap items-baseline justify-center md:justify-start gap-x-3 mt-0.5 text-xs">
-                    <p className="text-slate-500">{promo.subtitle}</p>
+                    <p className="text-slate-500 hidden md:block">{promo.subtitle}</p>
                     {(promo.description || promo.validUntil) && <details className="text-slate-600 open:basis-full" onToggle={event => { if (event.currentTarget.open) setPaused(true); }}>
                       <summary className="cursor-pointer underline underline-offset-4" tabIndex={!enhanced || isActive ? 0 : -1}>รายละเอียดและเงื่อนไข</summary>
                       {promo.description && <p className="mt-2 whitespace-pre-line leading-relaxed">{promo.description}</p>}
@@ -81,7 +81,7 @@ export default function PromoBanner({ promos }: { promos: Promotion[] }) {
 
                 {/* Right: price + CTA */}
                 <div className="flex items-center gap-4 md:gap-6 shrink-0">
-                  <div className="text-right border-r border-slate-200 pr-5 md:pr-6">
+                  <div className="hidden sm:block text-right border-r border-slate-200 pr-5 md:pr-6">
                     <span className="text-[9px] font-semibold text-slate-600 uppercase tracking-[0.2em] block mb-0.5">
                       Starting From
                     </span>
