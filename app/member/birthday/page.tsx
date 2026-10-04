@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import MemberSubNav from '@/components/member/MemberSubNav';
+import BrandPattern from '@/components/BrandPattern';
 import { Gift, CalendarDays, Clock, Ban, Star, AlertCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -103,24 +104,44 @@ export default function BirthdayPage() {
         </section>
 
         {/* Form section */}
-        <section className="max-w-3xl mx-auto px-4 py-12">
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+        <section id="birthday-form" className="max-w-5xl mx-auto px-4 py-12 md:py-16 scroll-mt-24">
+          <div className="grid md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] rounded-3xl overflow-hidden bg-white border border-slate-100 shadow-[0_24px_60px_-28px_rgba(26,45,107,0.45)]">
             {/* Form header */}
-            <div
-              className="px-8 py-6 flex items-center gap-4"
-              style={{ background: 'linear-gradient(135deg, #2d1b6b 0%, #1a0a2e 100%)' }}
-            >
-              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center shrink-0">
-                <Gift size={22} className="text-yellow-300" />
+            <div className="relative overflow-hidden bg-gradient-to-br from-[#1a2d6b] via-[#152849] to-[#0f1e4a] px-6 py-8 md:px-9 md:py-11 text-white md:flex md:flex-col">
+              <BrandPattern className="!opacity-30 md:!opacity-40" />
+              <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-[#f4511e] via-[#e53935] to-transparent" />
+
+              <div className="relative flex md:flex-col items-center md:items-start gap-4 md:gap-6">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[#f4511e] shadow-lg shadow-[#f4511e]/30 flex items-center justify-center shrink-0">
+                  <Gift size={24} className="text-white" />
+                </div>
+                <div>
+                  <div className="hidden md:block text-[11px] font-bold uppercase tracking-[0.2em] text-[#ffb59c] mb-2">
+                    ASAKAN Privilege · Birthday
+                  </div>
+                  <h2 className="font-black text-xl md:text-[26px] leading-snug">ลงทะเบียนรับของขวัญ<span className="whitespace-nowrap">วันเกิด</span></h2>
+                  <p className="text-white/70 text-sm leading-relaxed mt-1.5 md:mt-3 md:mb-10">กรอกข้อมูลให้ครบ ทีมงานจะติดต่อยืนยันสิทธิ์ภายใน 3 วันทำการ</p>
+                </div>
               </div>
-              <div>
-                <h2 className="text-white font-black text-lg">ลงทะเบียนรับของขวัญวันเกิด</h2>
-                <p className="text-white/50 text-xs mt-0.5">กรอกข้อมูลให้ครบ ทีมงานจะติดต่อยืนยันสิทธิ์ภายใน 3 วันทำการ</p>
+
+              <div className="relative mt-6 md:mt-auto flex items-start gap-3 rounded-2xl bg-white/[0.07] border border-white/10 backdrop-blur-sm px-4 py-3.5">
+                <Clock size={18} className="text-[#ff8a65] shrink-0 mt-0.5" />
+                <p className="text-[13px] leading-relaxed text-white/80">
+                  <span className="font-bold text-white">ลงทะเบียนล่วงหน้า</span> อย่างน้อย 15 วัน ก่อนวันที่ต้องการรับ
+                </p>
               </div>
+
+              <a
+                href="#birthday-terms"
+                className="relative mt-4 hidden md:inline-flex items-center gap-1.5 text-[13px] font-bold text-white/70 hover:text-white transition-colors"
+              >
+                <AlertCircle size={15} />
+                อ่านเงื่อนไขและข้อกำหนด
+              </a>
             </div>
 
             {/* iFrame */}
-            <div className="p-4 md:p-6 bg-slate-50">
+            <div className="p-3 sm:p-5 md:p-8 bg-white">
               <iframe
                 src="https://asakancrm.pages.dev/embed/birthday-form"
                 style={{ width: '100%', height: '750px', border: 'none', background: 'transparent' }}
@@ -131,7 +152,7 @@ export default function BirthdayPage() {
         </section>
 
         {/* Terms */}
-        <section className="max-w-3xl mx-auto px-4 pb-16">
+        <section id="birthday-terms" className="max-w-3xl mx-auto px-4 pb-16 scroll-mt-24">
           <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
             <div className="px-6 py-5 border-b border-slate-100 flex items-center gap-3">
               <AlertCircle size={18} className="text-amber-500" />
