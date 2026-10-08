@@ -79,6 +79,10 @@ export const LEGACY_REDIRECTS: [source: string, destination: string][] = [
   ['/insurance', '/member/insurance'],
   ['/friends', '/member/fgf'],
   ['/member/Booking/Booking.php', '/member'],
+
+  // Found in Search Console 404 report (Oct 2026)
+  ['/package', '/'],
+  ['/cdn-cgi/l/email-protection', '/contact'],
 ];
 
 // Whole groups of old URLs
@@ -90,4 +94,11 @@ export const LEGACY_PATTERN_REDIRECTS: [source: string, destination: string][] =
   ['/:id(\\d+-[^/]*)/show-product/:rest*', SOLD_OUT],
   ['/:id(\\d+-[^/]*)/show-gallery/:rest*', SOLD_OUT],
   ['/:page(gift-[^/]*|voucher-[^/]*)', '/member'],
+  // WordPress REST API / upload paths still being crawled
+  ['/wp-json/:path*', '/'],
+  ['/wp-content/uploads/:path*', '/'],
+  ['/wp-admin/:path*', '/'],
+  // brand feed URLs (e.g. /brand/asakan-tower/feed/)
+  ['/brand/:slug/feed', '/projects'],
+  ['/brand/:slug/feed/:path*', '/projects'],
 ];
