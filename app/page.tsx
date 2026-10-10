@@ -86,7 +86,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <PointerTrail />
+      {/* <PointerTrail /> */}
       <Header hero />
       <FloatingCTA />
 
