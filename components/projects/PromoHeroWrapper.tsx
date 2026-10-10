@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import SkeletonImage, { SkeletonImg } from '@/components/SkeletonImage';
-import { Phone, Tag, Gift, CalendarCheck } from 'lucide-react';
+import { Tag, Gift, CalendarCheck } from 'lucide-react';
 import RegisterFormDark from '@/components/projects/RegisterFormDark';
 import PromoProjectHeading from '@/components/projects/PromoProjectHeading';
 
@@ -13,7 +13,6 @@ export default function PromoHeroWrapper({
   fallbackHero,
   projectName,
   projectSlug,
-  phone,
   accentColor = '#e53935',
 }: {
   promoBanner?: string;
@@ -25,8 +24,6 @@ export default function PromoHeroWrapper({
   accentColor?: string;
 }) {
   const [hasError, setHasError] = useState(false);
-  const displayPhone = phone || '099-198-2940';
-  const phoneTel = displayPhone.replace(/-/g, '');
   const mobileImage = promoBannerMobile || promoBanner;
 
   if (!promoBanner || hasError) {
@@ -81,22 +78,6 @@ export default function PromoHeroWrapper({
 
         <RegisterFormDark projectName={projectName} projectSlug={projectSlug} accentColor={accentColor} />
 
-        {/* Number sits left so the floating CTA button in the corner never covers it. */}
-        <a
-          href={`tel:${phoneTel}`}
-          className="group flex items-center gap-4 rounded-2xl border [@media(min-width:1280px)_and_(max-height:720px)]:hidden border-white/10 bg-white/[0.04] px-4 py-[clamp(8px,1.3vh,12px)] transition-colors hover:border-white/20 hover:bg-white/[0.07]"
-        >
-          <span
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
-            style={{ backgroundColor: `${accentColor}26`, boxShadow: `inset 0 0 0 1px ${accentColor}66` }}
-          >
-            <Phone size={17} style={{ color: accentColor }} />
-          </span>
-          <span className="flex flex-col">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/55">Sales Gallery</span>
-            <span className="text-2xl font-light leading-tight tracking-wide tabular-nums text-white">{displayPhone}</span>
-          </span>
-        </a>
       </div>
     </div>
   );
