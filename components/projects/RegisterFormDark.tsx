@@ -18,7 +18,7 @@ declare global {
 const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
 
 const labelClass = 'block text-[11px] font-semibold tracking-[0.04em] text-white/65 transition-colors group-focus-within:text-white';
-const inputClass = 'w-full h-10 bg-transparent outline-none text-base text-white placeholder:text-white/50';
+const inputClass = 'w-full h-10 pt-1 bg-transparent outline-none text-base text-white placeholder:text-white/50';
 
 // One numbered step: the badge lights up in the accent colour on focus and shows a tick once the field is filled.
 function Step({ n, filled, last, accent, onAccent, children }: {
@@ -39,7 +39,7 @@ function Step({ n, filled, last, accent, onAccent, children }: {
           <span className="mt-1 w-px flex-1 transition-colors duration-300" style={{ backgroundColor: filled ? accent : 'rgba(255,255,255,0.1)' }} />
         )}
       </div>
-      <div className="mb-[clamp(14px,2.4vh,28px)] flex-1 border-b border-white/15 pb-1 transition-colors group-focus-within:border-[var(--accent)]">
+      <div className="mb-[clamp(24px,4vh,44px)] flex-1 border-b border-white/15 pb-2 transition-colors group-focus-within:border-[var(--accent)]">
         {children}
       </div>
     </div>
