@@ -45,7 +45,7 @@ export default function PromoHeroWrapper({
     >
       <div className="absolute inset-y-0 left-0 w-[3px]" style={{ background: `linear-gradient(180deg, ${accentColor}, transparent 70%)` }} />
 
-      <div className="relative flex flex-1 flex-col justify-between gap-[clamp(14px,2.6vh,28px)] px-7 pt-[clamp(18px,3.4vh,32px)] pb-[clamp(14px,2.4vh,24px)] xl:px-9">
+      <div className="relative flex flex-1 flex-col gap-[clamp(14px,2.6vh,28px)] px-7 pt-[clamp(18px,3.4vh,32px)] pb-[clamp(14px,2.4vh,24px)] xl:px-9">
         {/* Header: inviting headline, project name, and three things signing up gets you. */}
         <div>
           <div className="flex items-center gap-2.5">
